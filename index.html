@@ -210,7 +210,7 @@
     const CHAT_ID = "6230119080";
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKOiqQR4FFLkXLOKBjyKB_JcOW-BqvfEQAAcoOOKZy86a1G6cOWIapo0zsbSMNW0dm/exec"; 
 
-    let bookedData = [];
+    let bookedSlots = [];
 
     const hoursNormal = [
         '۱۱:۰۰ ظهر', '۱۱:۳۰ ظهر', '۱۲:۰۰ ظهر', '۱۲:۳۰ بعد از ظهر',
@@ -242,6 +242,15 @@
 
     const persianMonths = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
     const daysName = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
+
+    async function fetchBookedSlots() {
+        try {
+            let res = await fetch(GOOGLE_SCRIPT_URL);
+            bookedSlots = await res.json();
+        } catch(e) {
+            console.log("Error fetching booked slots", e);
+        }
+    }
 
     function initDates() {
         const dateSelect = document.getElementById('dateSelect');
@@ -312,14 +321,23 @@
 
         list.forEach(h => {
             let opt = document.createElement('option');
-            opt.value = h;
-            opt.textContent = h;
+            let isAlreadyBooked = Array.isArray(bookedSlots) && bookedSlots.some(item => item.date === selectedDate && item.time === h);
+
+            if (isAlreadyBooked) {
+                opt.value = "";
+                opt.textContent = `${h} (❌ رزرو شده)`;
+                opt.disabled = true;
+            } else {
+                opt.value = h;
+                opt.textContent = h;
+            }
             timeSelect.appendChild(opt);
         });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
         initDates();
+        await fetchBookedSlots();
         document.getElementById('mainCategory').addEventListener('change', toggleCategory);
         document.getElementById('dateSelect').addEventListener('change', updateTimeSlots);
         document.getElementById('bookingForm').addEventListener('submit', handleFormSubmit);
@@ -348,12 +366,18 @@
         const timeVal = document.getElementById('timeSelect').value;
         const codeVal = codeInput.value.trim();
 
+        if (!timeVal) {
+            alert('لطفاً یک ساعت معتبر و غیر رزرو شده را انتخاب کنید.');
+            btn.disabled = false;
+            btn.innerText = 'ثبت نهایی و ارسال نوبت';
+            return;
+        }
+
         let service = mainCat;
         if (subCat) service += ` (${subCat})`;
 
-        // ارسال به گوگل شیت بدون قفل شدن
         try {
-            fetch(GOOGLE_SCRIPT_URL, {
+            await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
