@@ -244,11 +244,16 @@
 </div>
 
 <script>
-    // اطلاعات ربات تلگرام خودت
+    // فعال‌سازی وب‌اپلیکیشن تلگرام
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+        tg.ready();
+        tg.expand();
+    }
+
     const BOT_TOKEN = "اینجا_توکن_ربات_خودت_رو_بگذار"; 
     const CHAT_ID = "اینجا_CHAT_ID_خودت_رو_بگذار";
 
-    // لیست ساعت‌ها
     const hoursNormal = [
         '۱۱:۰۰ ظهر', '۱۱:۳۰ ظهر', '۱۲:۰۰ ظهر', '۱۲:۳۰ بعد از ظهر',
         '۱۳:۰۰ بعد از ظهر', '۱۳:۳۰ بعد از ظهر', '۱۵:۳۰ عصر',
@@ -260,7 +265,6 @@
         '۱۳:۰۰ بعد از ظهر', '۱۳:۳۰ بعد از ظهر'
     ];
 
-    // ساخت تقویم روزانه
     function initDates() {
         const dateSelect = document.getElementById('dateSelect');
         const days = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
@@ -271,7 +275,7 @@
             d.setDate(now.getDate() + i);
             
             let dayName = days[d.getDay()];
-            if (dayName === 'جمعه') continue; // جمعه‌ها تعطیل
+            if (dayName === 'جمعه') continue;
 
             let shamsiDate = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { month: 'long', day: 'numeric' }).format(d);
             let optionText = `${dayName} ${shamsiDate}`;
@@ -284,7 +288,6 @@
         }
     }
 
-    // اجرای ساخت تقویم
     initDates();
 
     function toggleCategory() {
@@ -378,22 +381,36 @@
                 formData.append('chat_id', CHAT_ID);
                 formData.append('photo', fileInput.files[0]);
                 formData.append('caption', caption);
-                formData.append('parse_mode', 'Markdown');
 
-                await fetch(`https://api.telegram.org/bot${8903855446:AAGsv5BqmfuSUQugmP3GQ99ExOvMYoAONmg}/sendPhoto`, { method: 'POST', body: formData });
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { 
+                    method: 'POST', 
+                    body: formData 
+                });
             } else {
-                await fetch(`https://api.telegram.org/bot${8903855446:AAGsv5BqmfuSUQugmP3GQ99ExOvMYoAONmg}/sendMessage`, {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: 6230119080, text: caption, parse_mode: 'Markdown' })
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: caption })
                 });
             }
             alert('✅ نوبت شما با موفقیت ثبت شد.');
-            document.getElementById('bookingForm').reset();
-            toggleCategory();
+            if (tg) tg.close();
         } catch (err) {
-            alert('نوبت ثبت شد!');
-            console.error(err);
+            // اگر در وب‌اپ تلگرام بود و fetch مسدود شد، با sendData ارسال کن
+            if (tg) {
+                tg.sendData(JSON.stringify({
+                    name: name,
+                    phone: phone,
+                    service: service,
+                    date: dateVal,
+                    time: timeVal,
+                    code: codeVal
+                }));
+                alert('✅ نوبت شما ثبت شد.');
+                tg.close();
+            } else {
+                alert('خطا در ثبت نوبت. لطفاً دوباره تلاش کنید.');
+            }
         } finally {
             btn.disabled = false;
             btn.innerText = 'ثبت نهایی و ارسال نوبت';
@@ -403,4 +420,3 @@
 </script>
 </body>
 </html>
-
