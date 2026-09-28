@@ -817,11 +817,70 @@ document
 /* =====================================================
    ثبت نهایی
 ===================================================== */
+window.addEventListener('message', function(event) {
 
+    if (
+        !event.data ||
+        event.data.type !== 'BOOKING_RESULT'
+    ) {
+        return;
+    }
+
+    const btn =
+        document.getElementById('submitBtn');
+
+    if (event.data.success) {
+
+        alert(
+            '✅ نوبت شما با موفقیت ثبت شد و اطلاعات برای ادمین ارسال شد.'
+        );
+
+        document
+            .getElementById('bookingForm')
+            .reset();
+
+        toggleCategory();
+
+        bookedSlots.push({
+            date: event.data.date || '',
+            time: event.data.time || ''
+        });
+
+        updateTimeSlots();
+
+        if (tg) {
+            tg.close();
+        }
+
+    } else {
+
+        alert(
+            '❌ ' +
+            (
+                event.data.message ||
+                'خطا در ثبت نوبت'
+            )
+        );
+    }
+
+    const frame =
+        document.getElementById(
+            'bookingSubmitFrame'
+        );
+
+    if (frame) {
+        frame.remove();
+    }
+
+    btn.disabled = false;
+
+    btn.innerText =
+        'ثبت نهایی و ارسال نوبت';
+
+});
 async function handleFormSubmit(e) {
 
     e.preventDefault();
-
 
     const fileInput =
         document.getElementById(
@@ -832,7 +891,6 @@ async function handleFormSubmit(e) {
         document.getElementById(
             'receiptCode'
         );
-
 
     if (
         fileInput.files.length === 0 &&
@@ -846,58 +904,48 @@ async function handleFormSubmit(e) {
         return;
     }
 
-
     const btn =
         document.getElementById(
             'submitBtn'
         );
-
 
     btn.disabled = true;
 
     btn.innerText =
         'در حال بررسی و ثبت...';
 
-
     const name =
         document.getElementById(
             'fullName'
         ).value.trim();
-
 
     const phone =
         document.getElementById(
             'phone'
         ).value.trim();
 
-
     const mainCat =
         document.getElementById(
             'mainCategory'
         ).value;
-
 
     const subCat =
         document.getElementById(
             'subCategory'
         ).value;
 
-
     const dateVal =
         document.getElementById(
             'dateSelect'
         ).value;
-
 
     const timeVal =
         document.getElementById(
             'timeSelect'
         ).value;
 
-
     const codeVal =
         codeInput.value.trim();
-
 
     if (!timeVal) {
 
@@ -913,6 +961,217 @@ async function handleFormSubmit(e) {
         return;
     }
 
+
+    /* -----------------------------------------------
+       بررسی دوباره ساعت
+    ------------------------------------------------ */
+
+    const checkOK =
+        await fetchBookedSlots();
+
+    if (
+        checkOK &&
+        isSlotBooked(
+            dateVal,
+            timeVal
+        )
+    ) {
+
+        alert(
+            '❌ این ساعت همین الان توسط شخص دیگری رزرو شده است. لطفاً ساعت دیگری انتخاب کنید.'
+        );
+
+        updateTimeSlots();
+
+        btn.disabled = false;
+
+        btn.innerText =
+            'ثبت نهایی و ارسال نوبت';
+
+        return;
+    }
+
+
+    /* -----------------------------------------------
+       نام کامل خدمت
+    ------------------------------------------------ */
+
+    let service =
+        mainCat;
+
+    if (subCat) {
+
+        service +=
+             (${subCat});
+    }
+
+
+    /* -----------------------------------------------
+       آماده‌سازی فیش
+    ------------------------------------------------ */
+
+    let receiptDataUrl = '';
+
+    let receiptName = '';
+
+    let receiptMimeType = '';
+
+    if (
+        fileInput.files.length > 0
+    ) {
+
+        const file =
+            fileInput.files[0];
+
+        receiptDataUrl =
+            await fileToDataURL(file);
+
+        receiptName =
+            file.name;
+
+        receiptMimeType =
+            file.type ||
+            'image/jpeg';
+    }
+
+
+    /* -----------------------------------------------
+       ساخت فرم مخفی
+       بدون fetch و بدون مشکل CORS
+    ------------------------------------------------ */
+
+    try {
+
+        const frame =
+            document.createElement(
+                'iframe'
+            );
+
+        frame.name =
+            'bookingSubmitFrame';
+
+        frame.id =
+            'bookingSubmitFrame';
+
+        frame.style.display =
+            'none';
+
+        document.body.appendChild(
+            frame
+        );
+
+
+        const form =
+            document.createElement(
+                'form'
+            );
+
+        form.method =
+            'POST';
+
+        form.action =
+            POST_URL;
+
+        form.target =
+            'bookingSubmitFrame';
+
+        form.style.display =
+            'none';
+
+
+        /* -------------------------------------------
+           اطلاعات مشتری
+        ------------------------------------------- */
+
+        const fields = {
+
+            name:
+                name,
+
+            mobile:
+                phone,
+
+            service:
+                service,
+
+            date:
+                dateVal,
+
+            time:
+                timeVal,
+
+            trackingCode:
+                codeVal,receiptDataUrl:
+                receiptDataUrl,
+
+            receiptName:
+                receiptName,
+
+            receiptMimeType:
+                receiptMimeType
+
+        };
+
+
+        Object.keys(fields)
+            .forEach(function(key) {
+
+                const input =
+                    document.createElement(
+                        'input'
+                    );
+
+                input.type =
+                    'hidden';
+
+                input.name =
+                    key;
+
+                input.value =
+                    fields[key] || '';
+
+                form.appendChild(
+                    input
+                );
+
+            });
+
+
+        document.body.appendChild(
+            form
+        );
+
+
+        /* -------------------------------------------
+           ارسال فرم
+        ------------------------------------------- */
+
+        form.submit();
+
+
+        /*
+          پاسخ Apps Script از طریق
+          postMessage دریافت می‌شود.
+        */
+
+    } catch (error) {
+
+        console.log(
+            'Booking error:',
+            error
+        );
+
+        alert(
+            '❌ خطا در ارسال اطلاعات. لطفاً دوباره تلاش کنید.'
+        );
+
+        btn.disabled = false;
+
+        btn.innerText =
+            'ثبت نهایی و ارسال نوبت';
+    }
+
+}
 
     /* -----------------------------------------------
        بررسی دوباره ساعت از سرور
@@ -1015,19 +1274,7 @@ async function handleFormSubmit(e) {
         };
 
 
-        const response =
-    await fetch(
-        POST_URL,
-        {
-            method: 'POST',
-            body: JSON.stringify(payload)
-        }
-    );
-
-
-        const result =
-            await response.json();
-
+   
 
         /* -------------------------------------------
            ساعت توسط سرور گرفته شده
