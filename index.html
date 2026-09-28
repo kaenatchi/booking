@@ -116,7 +116,7 @@
 
 <div class="container">
     <div class="welcome-box">
-🌺🍃 دوست عزیز، به سامانه دریافت نوبت کائنات‌چی خوش اومدید.<br><br>
+        🌺🍃 دوست عزیز، به سامانه دریافت نوبت کائنات‌چی خوش اومدید.<br><br>
         لطفاً نام و شماره موبایل خودتون رو وارد کرده و از لیست خدمات زیر، خدمت موردنظر، روز و ساعت نوبت خودتون رو انتخاب کنید.<br><br>
         در ادامه، فیش واریزی رو بارگذاری کنید و نوبت خودتون رو ثبت کنید. 🧾💚<br><br>
         ممنون که کائنات‌چی رو انتخاب کردید 🌿✨
@@ -193,7 +193,8 @@
             <div style="text-align: center; margin: 4px 0; font-size: 11px; color: #727a6c;">یا</div>
             <input type="text" id="receiptCode" placeholder="کد پیگیری / ۴ رقم آخر کارت">
         </div>
-<button type="submit" class="btn" id="submitBtn">ثبت نهایی و ارسال نوبت</button>
+
+        <button type="submit" class="btn" id="submitBtn">ثبت نهایی و ارسال نوبت</button>
     </form>
 
     <div class="footer-rights">
@@ -211,7 +212,7 @@
     // ⚠️ لینک گوگل اسکریپت خودت رو دقیقاً بین دو کوتیشن زیر قرار بده:
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKOiqQR4FFLkXLOKBjyKB_JcOW-BqvfEQAAcoOOKZy86a1G6cOWIapo0zsbSMNW0dm/exec"; 
 
-    let bookedData = []; // ذخیره نوبت‌های پر شده
+    let bookedData = [];
 
     const hoursNormal = [
         '۱۱:۰۰ ظهر', '۱۱:۳۰ ظهر', '۱۲:۰۰ ظهر', '۱۲:۳۰ بعد از ظهر',
@@ -268,7 +269,7 @@
             if (dayName === 'جمعه') continue;
 
             let j = toJalaali(d.getFullYear(), d.getMonth() + 1, d.getDate());
-            let optionText = ${dayName} ${j.jd} ${persianMonths[j.jm - 1]};
+            let optionText = `${dayName} ${j.jd} ${persianMonths[j.jm - 1]}`;
 
             let opt = document.createElement('option');
             opt.value = optionText;
@@ -278,9 +279,9 @@
         }
     }
 
-    // فراخوانی اولیه
-    loadBookedSlots();
+    // فراخوانی ساخت تاریخ‌ها بدون وابستگی به شبکه
     initDates();
+    loadBookedSlots();
 
     function toggleCategory() {
         const cat = document.getElementById('mainCategory').value;
@@ -305,7 +306,7 @@
     }
 
     function updateTimeSlots() {
-const dateSelect = document.getElementById('dateSelect');
+        const dateSelect = document.getElementById('dateSelect');
         const timeSelect = document.getElementById('timeSelect');
         const selectedOpt = dateSelect.options[dateSelect.selectedIndex];
         const selectedDate = dateSelect.value;
@@ -327,14 +328,12 @@ const dateSelect = document.getElementById('dateSelect');
 
         list.forEach(h => {
             let opt = document.createElement('option');
-            
-            // بررسی اینکه آیا این ساعت قبلاً رزرو شده یا نه
-            let isBooked = bookedData.some(item => item.date === selectedDate && item.time === h);
+            let isBooked = Array.isArray(bookedData) && bookedData.some(item => item.date === selectedDate && item.time === h);
 
             if (isBooked) {
                 opt.value = "";
-                opt.textContent = ${h} (❌ رزرو شده);
-                opt.disabled = true; // غیرفعال کردن انتخاب
+                opt.textContent = `${h} (❌ رزرو شده)`;
+                opt.disabled = true;
             } else {
                 opt.value = h;
                 opt.textContent = h;
@@ -367,9 +366,8 @@ const dateSelect = document.getElementById('dateSelect');
         const codeVal = codeInput.value.trim();
 
         let service = mainCat;
-        if (subCat) service +=  (${subCat});
+        if (subCat) service += ` (${subCat})`;
 
-        // ۱. ابتدا ارسال و ثبت در گوگل شیت
         if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "https://script.google.com/macros/s/AKfycbzKOiqQR4FFLkXLOKBjyKB_JcOW-BqvfEQAAcoOOKZy86a1G6cOWIapo0zsbSMNW0dm/exec") {
             try {
                 let sheetRes = await fetch(GOOGLE_SCRIPT_URL, {
@@ -398,19 +396,19 @@ const dateSelect = document.getElementById('dateSelect');
             }
         }
 
-        // ۲. ارسال پیام به تلگرام شما
-        let caption = 📌 **ثبت نوبت جدید کائنات‌چی**\n\n +
-                      👤 **نام:** ${name}\n +
-                      📞 **شماره تماس:** ${phone}\n +
-                      🔮 **خدمت:** ${service}\n +
-                      📅 **تاریخ:** ${dateVal}\n +
-                      ⏰ **ساعت:** ${timeVal}\n;
+        let caption = `📌 **ثبت نوبت جدید کائنات‌چی**\n\n` +
+                      `👤 **نام:** ${name}\n` +
+                      `📞 **شماره تماس:** ${phone}\n` +
+                      `🔮 **خدمت:** ${service}\n` +
+                      `📅 **تاریخ:** ${dateVal}\n` +
+                      `⏰ **ساعت:** ${timeVal}\n`;
 
-        if (codeVal) caption += 🧾 **کد پیگیری:** ${codeVal}\n;
+        if (codeVal) caption += `🧾 **کد پیگیری:** ${codeVal}\n`;
 
         try {
             let res;
-            if (fileInput.files.length > 0) {const formData = new FormData();
+            if (fileInput.files.length > 0) {
+                const formData = new FormData();
                 formData.append('chat_id', CHAT_ID);
                 formData.append('photo', fileInput.files[0]);
                 formData.append('caption', caption);
