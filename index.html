@@ -7,13 +7,12 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            /* پالت رنگی زیتونی و استخوانی شیک */
-            --primary: #3a4435;         /* سبز زیتونی/یشمی */
+            --primary: #3a4435;
             --primary-light: #525e4c;   
-            --bg: #ece9e2;              /* پس‌زمینه کرم/استخوانی */
-            --card: #f6f4ee;           /* باکس‌های روشن داخلی */
-            --text: #2c3328;            /* متن تیره متناسب */
-            --border: #d8d3c7;         /* خطوط کادر */
+            --bg: #ece9e2;
+            --card: #f6f4ee;
+            --text: #2c3328;
+            --border: #d8d3c7;
             --radius: 16px;
         }
 
@@ -50,27 +49,11 @@
             margin-bottom: 18px;
         }
 
-        .form-group {
-            margin-bottom: 14px;
-        }
+        .form-group { margin-bottom: 14px; }
+        label { display: block; font-size: 12.5px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+        .required::after { content: " *"; color: #b3392c; }
 
-        label {
-            display: block;
-            font-size: 12.5px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: var(--text);
-        }
-
-        .required::after {
-            content: " *";
-            color: #b3392c;
-        }
-
-        input[type="text"],
-        input[type="tel"],
-        input[type="file"],
-        select {
+        input[type="text"], input[type="tel"], input[type="file"], select {
             width: 100%;
             padding: 11px 12px;
             border: 1.5px solid var(--border);
@@ -111,68 +94,29 @@
             box-shadow: 0 4px 14px rgba(58, 68, 53, 0.2);
         }
 
-        .card-box p {
-            margin: 0 0 6px 0;
-            font-size: 11.5px;
-            opacity: 0.95;
-        }
-
+        .card-box p { margin: 0 0 6px 0; font-size: 11.5px; opacity: 0.95; }
         .card-number {
-            font-size: 16px;
-            font-weight: bold;
-            letter-spacing: 1.5px;
-            text-align: center;
-            margin: 8px 0;
-            background: rgba(255, 255, 255, 0.12);
-            padding: 7px;
-            border-radius: 8px;
-            direction: ltr;
+            font-size: 16px; font-weight: bold; letter-spacing: 1.5px; text-align: center;
+            margin: 8px 0; background: rgba(255, 255, 255, 0.12); padding: 7px;
+            border-radius: 8px; direction: ltr;
         }
-
-        .card-holder {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11.5px;
-            font-weight: 600;
-            margin-top: 6px;
-        }
+        .card-holder { display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 600; margin-top: 6px; }
 
         .btn {
-            width: 100%;
-            background: var(--primary);
-            color: #f6f4ee;
-            border: none;
-            padding: 13px;
-            border-radius: 11px;
-            font-size: 14.5px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(58, 68, 53, 0.25);
-            transition: all 0.2s ease;
+            width: 100%; background: var(--primary); color: #f6f4ee; border: none; padding: 13px;
+            border-radius: 11px; font-size: 14.5px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(58, 68, 53, 0.25); transition: all 0.2s ease;
         }
 
-        .btn:disabled {
-            background: #9fa598;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-
-        /* فوتر حقوق کائنات‌چی */
-        .footer-rights {
-            text-align: center;
-            font-size: 11px;
-            color: #707869;
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 1px solid var(--border);
-        }
+        .btn:disabled { background: #9fa598; box-shadow: none; cursor: not-allowed; }
+        .footer-rights { text-align: center; font-size: 11px; color: #707869; margin-top: 20px; padding-top: 10px; border-top: 1px solid var(--border); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="welcome-box">
-        🌺🍃 دوست عزیز، به سامانه دریافت نوبت کائنات‌چی خوش اومدید.<br><br>
+🌺🍃 دوست عزیز، به سامانه دریافت نوبت کائنات‌چی خوش اومدید.<br><br>
         لطفاً نام و شماره موبایل خودتون رو وارد کرده و از لیست خدمات زیر، خدمت موردنظر، روز و ساعت نوبت خودتون رو انتخاب کنید.<br><br>
         در ادامه، فیش واریزی رو بارگذاری کنید و نوبت خودتون رو ثبت کنید. 🧾💚<br><br>
         ممنون که کائنات‌چی رو انتخاب کردید 🌿✨
@@ -249,8 +193,7 @@
             <div style="text-align: center; margin: 4px 0; font-size: 11px; color: #727a6c;">یا</div>
             <input type="text" id="receiptCode" placeholder="کد پیگیری / ۴ رقم آخر کارت">
         </div>
-
-        <button type="submit" class="btn" id="submitBtn">ثبت نهایی و ارسال نوبت</button>
+<button type="submit" class="btn" id="submitBtn">ثبت نهایی و ارسال نوبت</button>
     </form>
 
     <div class="footer-rights">
@@ -260,13 +203,15 @@
 
 <script>
     const tg = window.Telegram?.WebApp;
-    if (tg) {
-        tg.ready();
-        tg.expand();
-    }
+    if (tg) { tg.ready(); tg.expand(); }
 
     const BOT_TOKEN = "8903855446:AAGsv5BqmfuSUQugmP3GQ99ExOvMYoAONmg"; 
     const CHAT_ID = "6230119080";
+    
+    // ⚠️ لینک گوگل اسکریپت خودت رو دقیقاً بین دو کوتیشن زیر قرار بده:
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKOiqQR4FFLkXLOKBjyKB_JcOW-BqvfEQAAcoOOKZy86a1G6cOWIapo0zsbSMNW0dm/exec"; 
+
+    let bookedData = []; // ذخیره نوبت‌های پر شده
 
     const hoursNormal = [
         '۱۱:۰۰ ظهر', '۱۱:۳۰ ظهر', '۱۲:۰۰ ظهر', '۱۲:۳۰ بعد از ظهر',
@@ -299,6 +244,16 @@
     const persianMonths = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
     const daysName = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
 
+    async function loadBookedSlots() {
+        if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "https://script.google.com/macros/s/AKfycbzKOiqQR4FFLkXLOKBjyKB_JcOW-BqvfEQAAcoOOKZy86a1G6cOWIapo0zsbSMNW0dm/exec") return;
+        try {
+            let res = await fetch(GOOGLE_SCRIPT_URL);
+            bookedData = await res.json();
+        } catch(e) {
+            console.log("Error loading booked slots", e);
+        }
+    }
+
     function initDates() {
         const dateSelect = document.getElementById('dateSelect');
         const now = new Date();
@@ -313,7 +268,7 @@
             if (dayName === 'جمعه') continue;
 
             let j = toJalaali(d.getFullYear(), d.getMonth() + 1, d.getDate());
-            let optionText = `${dayName} ${j.jd} ${persianMonths[j.jm - 1]}`;
+            let optionText = ${dayName} ${j.jd} ${persianMonths[j.jm - 1]};
 
             let opt = document.createElement('option');
             opt.value = optionText;
@@ -323,6 +278,8 @@
         }
     }
 
+    // فراخوانی اولیه
+    loadBookedSlots();
     initDates();
 
     function toggleCategory() {
@@ -348,13 +305,14 @@
     }
 
     function updateTimeSlots() {
-        const dateSelect = document.getElementById('dateSelect');
+const dateSelect = document.getElementById('dateSelect');
         const timeSelect = document.getElementById('timeSelect');
         const selectedOpt = dateSelect.options[dateSelect.selectedIndex];
+        const selectedDate = dateSelect.value;
 
         timeSelect.innerHTML = '';
 
-        if (!dateSelect.value) {
+        if (!selectedDate) {
             timeSelect.innerHTML = '<option value="">ابتدا روز را انتخاب کنید</option>';
             return;
         }
@@ -369,8 +327,18 @@
 
         list.forEach(h => {
             let opt = document.createElement('option');
-            opt.value = h;
-            opt.textContent = h;
+            
+            // بررسی اینکه آیا این ساعت قبلاً رزرو شده یا نه
+            let isBooked = bookedData.some(item => item.date === selectedDate && item.time === h);
+
+            if (isBooked) {
+                opt.value = "";
+                opt.textContent = ${h} (❌ رزرو شده);
+                opt.disabled = true; // غیرفعال کردن انتخاب
+            } else {
+                opt.value = h;
+                opt.textContent = h;
+            }
             timeSelect.appendChild(opt);
         });
     }
@@ -399,21 +367,50 @@
         const codeVal = codeInput.value.trim();
 
         let service = mainCat;
-        if (subCat) service += ` (${subCat})`;
+        if (subCat) service +=  (${subCat});
 
-        let caption = `📌 **ثبت نوبت جدید کائنات‌چی**\n\n` +
-                      `👤 **نام:** ${name}\n` +
-                      `📞 **شماره تماس:** ${phone}\n` +
-                      `🔮 **خدمت:** ${service}\n` +
-                      `📅 **تاریخ:** ${dateVal}\n` +
-                      `⏰ **ساعت:** ${timeVal}\n`;
+        // ۱. ابتدا ارسال و ثبت در گوگل شیت
+        if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "https://script.google.com/macros/s/AKfycbzKOiqQR4FFLkXLOKBjyKB_JcOW-BqvfEQAAcoOOKZy86a1G6cOWIapo0zsbSMNW0dm/exec") {
+            try {
+                let sheetRes = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        date: dateVal,
+                        time: timeVal,
+                        name: name,
+                        phone: phone,
+                        service: service,
+                        code: codeVal
+                    })
+                });
+                let sheetData = await sheetRes.json();
+                
+                if (sheetData.status === "EXISTS") {
+                    alert('⚠️ متاسفانه این ساعت همین چند لحظه پیش توسط شخص دیگری رزرو شد! لطفاً ساعت دیگری را انتخاب کنید.');
+                    btn.disabled = false;
+                    btn.innerText = 'ثبت نهایی و ارسال نوبت';
+                    await loadBookedSlots();
+                    updateTimeSlots();
+                    return false;
+                }
+            } catch(e) {
+                console.log("Sheet save error", e);
+            }
+        }
 
-        if (codeVal) caption += `🧾 **کد پیگیری:** ${codeVal}\n`;
+        // ۲. ارسال پیام به تلگرام شما
+        let caption = 📌 **ثبت نوبت جدید کائنات‌چی**\n\n +
+                      👤 **نام:** ${name}\n +
+                      📞 **شماره تماس:** ${phone}\n +
+                      🔮 **خدمت:** ${service}\n +
+                      📅 **تاریخ:** ${dateVal}\n +
+                      ⏰ **ساعت:** ${timeVal}\n;
+
+        if (codeVal) caption += 🧾 **کد پیگیری:** ${codeVal}\n;
 
         try {
             let res;
-            if (fileInput.files.length > 0) {
-                const formData = new FormData();
+            if (fileInput.files.length > 0) {const formData = new FormData();
                 formData.append('chat_id', CHAT_ID);
                 formData.append('photo', fileInput.files[0]);
                 formData.append('caption', caption);
@@ -426,7 +423,7 @@
             } else {
                 res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'Application/json' },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
                         chat_id: CHAT_ID, 
                         text: caption,
