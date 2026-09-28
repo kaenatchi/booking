@@ -7,10 +7,10 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            /* ست شده دقیق با پالت رنگی لوگو */
-            --primary: #3a4435;         /* سبز زیتونی/یشمی لوگو */
+            /* پالت رنگی زیتونی و استخوانی شیک */
+            --primary: #3a4435;         /* سبز زیتونی/یشمی */
             --primary-light: #525e4c;   
-            --bg: #ece9e2;              /* پس‌زمینه کرم/استخوانی عکست */
+            --bg: #ece9e2;              /* پس‌زمینه کرم/استخوانی */
             --card: #f6f4ee;           /* باکس‌های روشن داخلی */
             --text: #2c3328;            /* متن تیره متناسب */
             --border: #d8d3c7;         /* خطوط کادر */
@@ -37,20 +37,6 @@
             box-shadow: 0 8px 24px rgba(58, 68, 53, 0.08);
             box-sizing: border-box;
             border: 1px solid var(--border);
-        }
-
-        /* بخش لوگوی بالای صفحه */
-        .logo-header {
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        .logo-header img {
-            width: 90px;
-            height: 90px;
-            object-fit: contain;
-            border-radius: 50%;
-            background: transparent;
         }
 
         .welcome-box {
@@ -185,11 +171,6 @@
 <body>
 
 <div class="container">
-    <!-- لوگوی بالای پیج -->
-    <div class="logo-header">
-        <img src="logo.png" alt="کائنات‌چی">
-    </div>
-
     <div class="welcome-box">
         🌺🍃 دوست عزیز، به سامانه دریافت نوبت کائنات‌چی خوش اومدید.<br><br>
         لطفاً نام و شماره موبایل خودتون رو وارد کرده و از لیست خدمات زیر، خدمت موردنظر، روز و ساعت نوبت خودتون رو انتخاب کنید.<br><br>
@@ -445,7 +426,7 @@
             } else {
                 res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'Application/json' },
                     body: JSON.stringify({ 
                         chat_id: CHAT_ID, 
                         text: caption,
