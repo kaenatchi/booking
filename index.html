@@ -135,7 +135,7 @@
 
         <div class="form-group">
             <label class="required">دسته‌بندی خدمت</label>
-            <select id="mainCategory" required>
+            <select id="mainCategory" onchange="toggleCategory()" required>
                 <option value="">انتخاب کنید...</option>
                 <option value="انرژی خوانی">انرژی خوانی</option>
                 <option value="شمع تراپی">شمع تراپی</option>
@@ -166,7 +166,7 @@
 
         <div class="form-group">
             <label class="required">انتخاب روز و تاریخ نوبت</label>
-            <select id="dateSelect" required>
+            <select id="dateSelect" onchange="updateTimeSlots()" required>
                 <option value="">یک روز را انتخاب کنید...</option>
             </select>
         </div>
@@ -244,6 +244,7 @@
     const daysName = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
 
     async function fetchBookedSlots() {
+        if (!GOOGLE_SCRIPT_URL) return;
         try {
             let res = await fetch(GOOGLE_SCRIPT_URL);
             bookedSlots = await res.json();
@@ -335,13 +336,11 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        initDates();
-        await fetchBookedSlots();
-        document.getElementById('mainCategory').addEventListener('change', toggleCategory);
-        document.getElementById('dateSelect').addEventListener('change', updateTimeSlots);
-        document.getElementById('bookingForm').addEventListener('submit', handleFormSubmit);
-    });
+    // راه اندازی اولیه
+    initDates();
+    fetchBookedSlots();
+
+    document.getElementById('bookingForm').addEventListener('submit', handleFormSubmit);
 
     async function handleFormSubmit(e) {
         e.preventDefault();
