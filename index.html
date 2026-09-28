@@ -378,7 +378,7 @@
         try {
             if (fileInput.files.length > 0) {
                 const formData = new FormData();
-                formData.append('chat_id', CHAT_ID);
+                formData.append('chat_id', 6230119080);
                 formData.append('photo', fileInput.files[0]);
                 formData.append('caption', caption);
 
@@ -390,7 +390,7 @@
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: caption })
+                    body: JSON.stringify({ chat_id: 6230119080, text: caption })
                 });
             }
             alert('✅ نوبت شما با موفقیت ثبت شد.');
