@@ -208,7 +208,9 @@
 
     const BOT_TOKEN = "8903855446:AAGsv5BqmfuSUQugmP3GQ99ExOvMYoAONmg"; 
     const CHAT_ID = "6230119080";
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKOiqQR4FFLkXLOKBjyKB_JcOW-BqvfEQAAcoOOKZy86a1G6cOWIapo0zsbSMNW0dm/exec"; 
+    
+    // لینک اصلاح‌شده با اکشن مورد نظر برای دریافت لیست رزروها:
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwRgoCfFjgDX-wZuB2VoNjnigV8pQcJoLpBihUgzVVbONUGs6jAmJzuy0-U0xaaGCA/exec?action=getBookedSlots"; 
 
     let bookedSlots = [];
 
@@ -375,8 +377,11 @@
         let service = mainCat;
         if (subCat) service += ` (${subCat})`;
 
+        // ارسال به گوگل‌شیت (آدرس بیس بدون اکشنِ getBookedSlots برای فرم ارسال)
+        const POST_URL = "https://script.google.com/macros/s/AKfycbwRgoCfFjgDX-wZuB2VoNjnigV8pQcJoLpBihUgzVVbONUGs6jAmJzuy0-U0xaaGCA/exec";
+
         try {
-            await fetch(GOOGLE_SCRIPT_URL, {
+            await fetch(POST_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
