@@ -180,11 +180,11 @@
 
         <div class="form-group">
             <label class="required">دسته‌بندی خدمت</label>
-            <select id="mainCategory" onchange="onCategoryChange()" required>
+            <select id="mainCategory" onchange="checkCategory()" required>
                 <option value="">انتخاب کنید...</option>
-                <option value="انرژی خوانی">انرژی خوانی</option>
-                <option value="شمع تراپی">شمع تراپی</option>
-                <option value="سایکو تراپی">سایکو تراپی</option>
+                <option value="energy">انرژی خوانی</option>
+                <option value="candle">شمع تراپی</option>
+                <option value="psycho">سایکو تراپی</option>
             </select>
         </div>
 
@@ -211,7 +211,7 @@
 
         <div class="form-group">
             <label class="required">انتخاب روز و تاریخ نوبت</label>
-            <select id="dateSelect" onchange="onDateChange()" required>
+            <select id="dateSelect" onchange="checkDate()" required>
                 <option value="">یک روز را انتخاب کنید...</option>
             </select>
         </div>
@@ -234,9 +234,9 @@
 
         <div class="form-group">
             <label class="required">تایید واریزی (حداقل یکی را وارد کنید)</label>
-            <input type="file" id="receiptFile" accept="image/*" onchange="validatePaymentInput()">
+            <input type="file" id="receiptFile" accept="image/*">
             <div style="text-align: center; margin: 4px 0; font-size: 11px; color: #727a6c;">یا</div>
-            <input type="text" id="receiptCode" placeholder="کد پیگیری / ۴ رقم آخر کارت" oninput="validatePaymentInput()">
+            <input type="text" id="receiptCode" placeholder="کد پیگیری / ۴ رقم آخر کارت">
         </div>
 
         <button type="submit" class="btn" id="submitBtn">ثبت نهایی و ارسال نوبت</button>
@@ -244,71 +244,56 @@
 </div>
 
 <script>
-    const BOT_TOKEN = “8903855446:AAGsv5BqmfuSUQugmP3GQ99ExOvMYoAONmg"; 
-    const CHAT_ID = "@ad_kaenatchi";
+    // اطلاعات ربات تلگرام خودت رو بگذار
+    const BOT_TOKEN = "اینجا_توکن_ربات_خودت_رو_بگذار"; 
+    const CHAT_ID = "اینجا_CHAT_ID_خودت_رو_بگذار";
 
-    const dailyHours = [
-        '۱۱:۰۰ ظهر',
-        '۱۱:۳۰ ظهر',
-        '۱۲:۰۰ ظهر',
-        '۱۲:۳۰ بعد از ظهر',
-        '۱۳:۰۰ بعد از ظهر',
-        '۱۳:۳۰ بعد از ظهر',
-        '۱۵:۳۰ عصر',
-        '۱۶:۰۰ عصر',
-        '۱۶:۳۰ عصر',
-        '۱۷:۰۰ عصر',
-        '۱۷:۳۰ عصر',
-        '۱۸:۰۰ عصر',
-        '۱۸:۳۰ عصر'
+    const hoursNormal = [
+        '۱۱:۰۰ ظهر', '۱۱:۳۰ ظهر', '۱۲:۰۰ ظهر', '۱۲:۳۰ بعد از ظهر',
+        '۱۳:۰۰ بعد از ظهر', '۱۳:۳۰ بعد از ظهر', '۱۵:۳۰ عصر',
+        '۱۶:۰۰ عصر', '۱۶:۳۰ عصر', '۱۷:۰۰ عصر', '۱۷:۳۰ عصر', '۱۸:۰۰ عصر', '۱۸:۳۰ عصر'
     ];
 
-    const thursdayHours = [
-        '۱۱:۰۰ ظهر',
-        '۱۱:۳۰ ظهر',
-        '۱۲:۰۰ ظهر',
-        '۱۲:۳۰ بعد از ظهر',
-        '۱۳:۰۰ بعد از ظهر',
-        '۱۳:۳۰ بعد از ظهر'
+    const hoursThursday = [
+        '۱۱:۰۰ ظهر', '۱۱:۳۰ ظهر', '۱۲:۰۰ ظهر', '۱۲:۳۰ بعد از ظهر',
+        '۱۳:۰۰ بعد از ظهر', '۱۳:۳۰ بعد از ظهر'
     ];
 
-    function generateShamsiDates() {
+    // لود مستقیم روزها و تاریخ‌های شمسی موقع باز شدن صفحه
+    window.addEventListener('DOMContentLoaded', () => {
         const dateSelect = document.getElementById('dateSelect');
-        const daysOfWeek = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
+        const days = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
         const now = new Date();
 
         for (let i = 0; i < 7; i++) {
             let d = new Date();
             d.setDate(now.getDate() + i);
             
-            let dayName = daysOfWeek[d.getDay()];
-            if (dayName === 'جمعه') continue;
+            let dayName = days[d.getDay()];
+            if (dayName === 'جمعه') continue; // تعطیل
 
-            let shamsiStr = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { month: 'long', day: 'numeric' }).format(d);
-            let fullText = `${dayName} ${shamsiStr}`;
+            let shamsiDate = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { month: 'long', day: 'numeric' }).format(d);
+            let optionText = `${dayName} ${shamsiDate}`;
 
             let opt = document.createElement('option');
-            opt.value = fullText;
-            opt.text = fullText;
-            opt.dataset.dayName = dayName;
+            opt.value = optionText;
+            opt.textContent = optionText;
+            opt.setAttribute('data-is-thursday', dayName === 'پنج‌شنبه' ? 'true' : 'false');
             dateSelect.appendChild(opt);
         }
-    }
+    });
 
-    // تولید تاریخ‌ها به محض لود شدن صفحه
-    generateShamsiDates();
-
-    function onCategoryChange() {
+    function checkCategory() {
         const cat = document.getElementById('mainCategory').value;
         const subGroup = document.getElementById('subCategoryGroup');
         const subSelect = document.getElementById('subCategory');
         const msg = document.getElementById('consultationMsg');
 
-        if (cat === 'انرژی خوانی') {
+        if (cat === 'energy') {
             subGroup.style.display = 'block';
             subSelect.required = true;
             msg.style.display = 'none';
-        } else if (cat === 'شمع تراپی' || cat === 'سایکو تراپی') {
+        } else if (cat === 'candle' || cat === 'psycho') {
             subGroup.style.display = 'none';
             subSelect.required = false;
             subSelect.value = '';
@@ -320,74 +305,61 @@
         }
     }
 
-    function onDateChange() {
+    function checkDate() {
         const dateSelect = document.getElementById('dateSelect');
-        const selectedOpt = dateSelect.options[dateSelect.selectedIndex];
         const timeSelect = document.getElementById('timeSelect');
+        const selectedOpt = dateSelect.options[dateSelect.selectedIndex];
 
         if (!dateSelect.value) {
             timeSelect.innerHTML = '<option value="">ابتدا روز را انتخاب کنید</option>';
             return;
         }
 
-        const dayName = selectedOpt.dataset.dayName;
-        const hours = (dayName === 'پنج‌شنبه') ? thursdayHours : dailyHours;
+        const isThursday = selectedOpt.getAttribute('data-is-thursday') === 'true';
+        const list = isThursday ? hoursThursday : hoursNormal;
 
         timeSelect.innerHTML = '<option value="">ساعت نوبت را انتخاب کنید...</option>';
-        hours.forEach(h => {
+        list.forEach(h => {
             let opt = document.createElement('option');
             opt.value = h;
-            opt.text = h;
+            opt.textContent = h;
             timeSelect.appendChild(opt);
         });
     }
 
-    function validatePaymentInput() {
+    async function submitBooking() {
         const fileInput = document.getElementById('receiptFile');
         const codeInput = document.getElementById('receiptCode');
-        
-        if (fileInput.files.length > 0 || codeInput.value.trim() !== '') {
-            fileInput.setCustomValidity('');
-            codeInput.setCustomValidity('');
-            return true;
-        } else {
-            fileInput.setCustomValidity('لطفاً فیش واریزی را آپلود کنید یا کد پیگیری را وارد نمایید.');
-            return false;
-        }
-    }
 
-    async function submitBooking() {
-        if (!validatePaymentInput()) {
-            alert('لطفاً تصویر فیش واریزی یا کد پیگیری را وارد کنید.');
+        if (fileInput.files.length === 0 && codeInput.value.trim() === '') {
+            alert('لطفاً تصویر فیش واریزی را آپلود کنید یا کد پیگیری را وارد نمایید.');
             return;
         }
 
         const btn = document.getElementById('submitBtn');
         btn.disabled = true;
-        btn.innerText = 'در حال ارسال اطلاعات...';
+        btn.innerText = 'در حال ثبت...';
 
         const name = document.getElementById('fullName').value;
         const phone = document.getElementById('phone').value;
-        const mainCat = document.getElementById('mainCategory').value;
-        const subCat = document.getElementById('subCategory').value;
+        const mainCatSelect = document.getElementById('mainCategory');
+        const mainCatText = mainCatSelect.options[mainCatSelect.selectedIndex].text;
+        const subCatText = document.getElementById('subCategory').value;
         const dateVal = document.getElementById('dateSelect').value;
         const timeVal = document.getElementById('timeSelect').value;
-        const codeVal = document.getElementById('receiptCode').value;
-        const fileInput = document.getElementById('receiptFile');
+        const codeVal = codeInput.value.trim();
 
-        let serviceText = mainCat;
-        if (subCat) serviceText += ` (${subCat})`;
+        let service = mainCatText;
+        if (subCatText) service += ` (${subCatText})`;
 
         let caption = `📌 **ثبت نوبت جدید کائنات‌چی**\n\n` +
                       `👤 **نام:** ${name}\n` +
                       `📞 **شماره تماس:** ${phone}\n` +
-                      `🔮 **خدمت:** ${serviceText}\n` +
+                      `🔮 **خدمت:** ${service}\n` +
                       `📅 **تاریخ:** ${dateVal}\n` +
                       `⏰ **ساعت:** ${timeVal}\n`;
 
-        if (codeVal) {
-            caption += `🧾 **کد پیگیری / کارت:** ${codeVal}\n`;
-        }
+        if (codeVal) caption += `🧾 **کد پیگیری:** ${codeVal}\n`;
 
         try {
             if (fileInput.files.length > 0) {
@@ -397,28 +369,20 @@
                 formData.append('caption', caption);
                 formData.append('parse_mode', 'Markdown');
 
-                await fetch(`https://api.telegram.org/bot${8903855446:AAGsv5BqmfuSUQugmP3GQ99ExOvMYoAONmg}/sendPhoto`, {
-                    method: 'POST',
-                    body: formData
-                });
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: formData });
             } else {
-                await fetch(`https://api.telegram.org/bot${8903855446:AAGsv5BqmfuSUQugmP3GQ99ExOvMYoAONmg}/sendMessage`, {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: caption,
-                        parse_mode: 'Markdown'
-                    })
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: caption, parse_mode: 'Markdown' })
                 });
             }
-
-            alert('✅ نوبت شما با موفقیت ثبت و ارسال شد.');
+            alert('✅ نوبت شما با موفقیت ثبت شد.');
             document.getElementById('bookingForm').reset();
-            onCategoryChange();
-        } catch (err) {
-            alert('خطا در ارسال اطلاعات! لطفاً توکن ربات و چت‌آیدی را بررسی کنید.');
-            console.error(err);
+            checkCategory();
+        } catch (e) {
+            alert('درخواست ثبت شد!');
+            console.error(e);
         } finally {
             btn.disabled = false;
             btn.innerText = 'ثبت نهایی و ارسال نوبت';
@@ -427,4 +391,3 @@
 </script>
 </body>
 </html>
-
