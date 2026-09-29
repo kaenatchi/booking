@@ -1470,18 +1470,49 @@ if (
 
     });
 
+    const selectedDate =
+        document.getElementById(
+            'dateSelect'
+        ).value;
+
+    const selectedTime =
+        document.getElementById(
+            'timeSelect'
+        ).value;
+
+    /*
+       فقط همان ساعت انتخاب‌شده را رزروشده می‌کنیم.
+       لیست ساعت‌ها دوباره ساخته نمی‌شود.
+    */
+
+    if (
+        selectedDate === event.data.date &&
+        selectedTime === event.data.time
+    ) {
+
+        const timeSelect =
+            document.getElementById(
+                'timeSelect'
+            );
+
+        const selectedOption =
+            timeSelect.options[
+                timeSelect.selectedIndex
+            ];
+
+        if (selectedOption) {
+
+            selectedOption.textContent =
+                ${event.data.time} (❌ رزرو شده);
+
+            selectedOption.disabled =
+                true;
+
+        }
+
+    }
+
 }
-
-/* حفظ تاریخ و ساعت انتخاب‌شده */
-const savedDate =
-    document.getElementById(
-        'dateSelect'
-    ).value;
-
-const savedTime =
-    document.getElementById(
-        'timeSelect'
-    ).value;
 
 updateTimeSlots();
 
