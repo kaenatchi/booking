@@ -1366,7 +1366,33 @@ async function handleFormSubmit(e) {
         );
 
 
-        form.submit();
+        fetch(POST_URL, {
+    method: 'POST',
+    body: new FormData(form)
+})
+.then(response => response.text())
+.then(html => {
+    const match = html.match(/window\.top\.postMessage\(([\s\S]*?),\s*['"]\*['"]\)/);
+
+    if (match) {
+        try {
+            const result = JSON.parse(match[1]);
+
+            window.postMessage(result, '*');
+            return;
+        } catch (e) {}
+    }
+
+    throw new Error('پاسخ نامعتبر از سامانه دریافت شد.');
+})
+.catch(error => {
+    console.error(error);
+
+    alert('❌ ثبت نوبت انجام نشد. لطفاً دوباره تلاش کنید.');
+
+    btn.disabled = false;
+    btn.innerText = 'ثبت نهایی و ارسال نوبت';
+});
 
 
     } catch (error) {
