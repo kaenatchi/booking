@@ -1,401 +1,571 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
 
-<meta
-name=“viewport”
-content=“width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no”
+    <meta charset="UTF-8">
 
-<title>نوبت‌دهی کائنات‌چی</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<style>
-:root {
-    --primary: #3a4435;
-    --primary-light: #525e4c;
-    --bg: #ece9e2;
-    --card: #f6f4ee;
-    --text: #2c3328;
-    --border: #d8d3c7;
-    --danger: #a54b4b;
-}
-* {
-    box-sizing: border-box;
-}
-body {
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Tahoma,
-        Arial,
-        sans-serif;
-    min-height: 100vh;
-}
-.container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 18px 14px 30px;
-}
-.welcome {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 18px;
-    line-height: 1.9;
-    font-size: 14px;
-    margin-bottom: 16px;
-}
-.card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 17px;
-    margin-bottom: 14px;
-}
-.label {
-    display: block;
-    margin-bottom: 7px;
-    font-size: 14px;
-    font-weight: 600;
-}
-input,
-select {
-    width: 100%;
-    border: 1px solid var(--border);
-    background: #fff;
-    color: var(--text);
-    border-radius: 12px;
-    padding: 13px 12px;
-    font-size: 14px;
-    outline: none;
-    font-family: inherit;
-}
-input:focus,
-select:focus {
-    border-color: var(--primary-light);
-}
-.field {
-    margin-bottom: 14px;
-}
-.service-info {
-    margin-top: 9px;
-    padding: 11px 12px;
-    background: #eeece5;
-    border-radius: 12px;
-    font-size: 13px;
-    line-height: 1.8;
-}
-.consultation {
-    display: none;
-    margin-top: 9px;
-    padding: 11px 12px;
-    background: #eeece5;
-    border-radius: 12px;
-    font-size: 13px;
-    line-height: 1.8;
-}
-.payment-box {
-    background: #eeece5;
-    border-radius: 13px;
-    padding: 14px;
-    line-height: 2;
-    font-size: 14px;
-    margin-bottom: 14px;
-}
-.payment-card {
-    direction: ltr;
-    text-align: center;
-    font-weight: 700;
-    letter-spacing: 1px;
-    font-size: 17px;
-    margin: 5px 0;
-}
-.hint {
-    font-size: 12px;
-    opacity: .78;
-    line-height: 1.8;
-    margin-top: 6px;
-}
-.submit-btn {
-    width: 100%;
-    border: 0;
-    border-radius: 14px;
-    padding: 14px;
-    background: var(--primary);
-    color: white;
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-}
-.submit-btn:disabled {
-    opacity: .55;
-    cursor: not-allowed;
-}
-footer {
-    text-align: center;
-    font-size: 11px;
-    opacity: .65;
-    padding: 10px 0 4px;
-}
-.required {
-    color: #9b4545;
-}
-</style>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>نوبت‌دهی کائنات‌چی</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+
+        :root {
+            --primary: #3a4435;
+            --primary-light: #525e4c;
+            --bg: #ece9e2;
+            --card: #f6f4ee;
+            --text: #2c3328;
+            --border: #d8d3c7;
+            --danger: #a54b4b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Tahoma,
+                Arial,
+                sans-serif;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 18px 14px 30px;
+        }
+
+        .welcome {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            line-height: 1.9;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 17px;
+            margin-bottom: 14px;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            border: 1px solid var(--border);
+            background: #fff;
+            color: var(--text);
+            border-radius: 12px;
+            padding: 13px 12px;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--primary-light);
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        .service-info {
+            margin-top: 9px;
+            padding: 11px 12px;
+            background: #eeece5;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .consultation {
+            display: none;
+            margin-top: 9px;
+            padding: 11px 12px;
+            background: #eeece5;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .payment-box {
+            background: #eeece5;
+            border-radius: 13px;
+            padding: 14px;
+            line-height: 2;
+            font-size: 14px;
+            margin-bottom: 14px;
+        }
+
+        .payment-card {
+            direction: ltr;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 17px;
+            margin: 5px 0;
+        }
+
+        .hint {
+            font-size: 12px;
+            opacity: .78;
+            line-height: 1.8;
+            margin-top: 6px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            border: 0;
+            border-radius: 14px;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .submit-btn:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 11px;
+            opacity: .65;
+            padding: 10px 0 4px;
+        }
+
+        .required {
+            color: #9b4545;
+        }
+
+    </style>
+
 </head>
+
+
 <body>
+
 <div class="container">
-<div class="welcome">
 
-🌺🍃 دوست عزیز، به سامانه دریافت نوبت کائنات‌چی خوش اومدید.
+    <div class="welcome">
 
-لطفاً نام و شماره موبایل خودتون رو وارد کرده و از لیست خدمات زیر، خدمت موردنظر، روز و ساعت نوبت خودتون رو انتخاب کنید.
+        🌺🍃 دوست عزیز، به سامانه دریافت نوبت کائنات‌چی خوش اومدید.
 
-در ادامه، فیش واریزی رو بارگذاری کنید و نوبت خودتون رو ثبت کنید. 🧾💚
+        <br><br>
 
-ممنون که کائنات‌چی رو انتخاب کردید 🌿✨
+        لطفاً نام و شماره موبایل خودتون رو وارد کرده و از لیست خدمات زیر، خدمت موردنظر، روز و ساعت نوبت خودتون رو انتخاب کنید.
+
+        <br><br>
+
+        در ادامه، فیش واریزی رو بارگذاری کنید و نوبت خودتون رو ثبت کنید. 🧾💚
+
+        <br><br>
+
+        ممنون که کائنات‌چی رو انتخاب کردید 🌿✨
+
+    </div>
+
+
+    <form id="bookingForm">
+
+
+        <!-- مشخصات -->
+
+        <div class="card">
+
+            <div class="field">
+
+                <label
+                    class="label"
+                    for="fullName"
+                >
+                    👤 نام و نام خانوادگی
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    id="fullName"
+                    name="name"
+                    type="text"
+                    required
+                    autocomplete="name"
+                    placeholder="نام و نام خانوادگی"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label
+                    class="label"
+                    for="phone"
+                >
+                    📱 شماره موبایل
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    id="phone"
+                    name="mobile"
+                    type="tel"
+                    required
+                    autocomplete="tel"
+                    placeholder="مثلاً ۰۹۱۲۱۲۳۴۵۶۷"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- خدمات -->
+
+        <div class="card">
+
+            <div class="field">
+
+                <label
+                    class="label"
+                    for="mainCategory"
+                >
+                    🔮 نوع خدمت
+                    <span class="required">*</span>
+                </label>
+
+                <select
+                    id="mainCategory"
+                    name="mainCategory"
+                    required
+                >
+
+                    <option value="">
+                        خدمت موردنظر را انتخاب کنید...
+                    </option>
+
+                    <option value="انرژی خوانی">
+                        🔮 انرژی خوانی
+                    </option>
+
+                    <option value="شمع تراپی">
+                        🕯️ شمع تراپی
+                    </option>
+
+                    <option value="سایکو تراپی">
+                        🌱 سایکو تراپی
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div
+                class="field"
+                id="subCategoryGroup"
+                style="display:none;"
+            >
+
+                <label
+                    class="label"
+                    for="subCategory"
+                >
+                    ✨ نوع انرژی‌خوانی
+                    <span class="required">*</span>
+                </label>
+
+                <select
+                    id="subCategory"
+                    name="subCategory"
+                >
+
+                    <option value="">
+                        انرژی‌خوانی موردنظر را انتخاب کنید...
+                    </option>
+
+                    <option value="قهوه — ۷۰۰ هزار تومان">
+                        ☕ قهوه — ۷۰۰ هزار تومان
+                    </option>
+
+                    <option value="پاسور — ۶۵۰ هزار تومان">
+                        🃏 پاسور — ۶۵۰ هزار تومان
+                    </option>
+
+                    <option value="تاروت رایدر وایت — ۷۵۰ هزار تومان">
+                        🔮 تاروت رایدر وایت — ۷۵۰ هزار تومان
+                    </option>
+
+                    <option value="تاروت رایدر احساسی — ۷۵۰ هزار تومان">
+                        💚 تاروت رایدر احساسی — ۷۵۰ هزار تومان
+                    </option>
+
+                    <option value="تاروت رایدر شغلی - مالی — ۷۵۰ هزار تومان">
+                        💼 تاروت رایدر شغلی - مالی — ۷۵۰ هزار تومان
+                    </option>
+
+                    <option value="لِنورماند فرانسوی — ۷۵۰ هزار تومان">
+                        🃏 لِنورماند فرانسوی — ۷۵۰ هزار تومان
+                    </option>
+
+                    <option value="لِنورماند فرانسوی احساسی — ۷۵۰ هزار تومان">
+                        💕 لِنورماند فرانسوی احساسی — ۷۵۰ هزار تومان
+                    </option>
+
+                    <option value="تاروت یونانی احساسی — ۸۵۰ هزار تومان">
+                        🔮 تاروت یونانی احساسی — ۸۵۰ هزار تومان
+                    </option>
+
+                    <option value="تاروت مارسِی احساسی — ۸۵۰ هزار تومان">
+                        💕 تاروت مارسِی احساسی — ۸۵۰ هزار تومان
+                    </option>
+
+                    <option value="جِم اوراکل — ۷۰۰ هزار تومان">
+                        💎 جِم اوراکل — ۷۰۰ هزار تومان
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div
+                id="consultationMsg"
+                class="consultation"
+            >
+
+                🌱 با تعیین وقت مشاوره قبلی می‌تونید نوبت خود را ثبت کنید.
+
+            </div>
+
+        </div>
+
+
+        <!-- تاریخ و ساعت -->
+
+        <div class="card">
+
+            <div class="field">
+
+                <label
+                    class="label"
+                    for="dateSelect"
+                >
+                    📅 روز نوبت
+                    <span class="required">*</span>
+                </label>
+
+                <select
+                    id="dateSelect"
+                    name="date"
+                    required
+                >
+
+                    <option value="">
+                        روز نوبت را انتخاب کنید...
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label
+                    class="label"
+                    for="timeSelect"
+                >
+                    ⏰ ساعت نوبت
+                    <span class="required">*</span>
+                </label>
+
+                <select
+                    id="timeSelect"
+                    name="time"
+                    required
+                >
+
+                    <option value="">
+                        ابتدا روز را انتخاب کنید
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- پرداخت -->
+
+        <div class="card">
+
+            <div class="payment-box">
+
+                💳 لطفاً مبلغ خدمت انتخابی را به اطلاعات زیر واریز کنید:
+
+                <br>
+
+                <strong>شماره کارت:</strong>
+
+                <div class="payment-card">
+                    6219 - 8619 - 7737 - 8974
+                </div>
+
+                <strong>بانک سامان</strong>
+
+                <br>
+
+                بنام <strong>آرشام نظری</strong>
+
+            </div>
+
+
+            <div class="field">
+
+                <label
+                    class="label"
+                    for="receiptFile"
+                >
+                    🧾 تصویر فیش واریزی
+                </label>
+
+                <input
+                    id="receiptFile"
+                    type="file"
+                    accept="image/*"
+                >
+
+                <div class="hint">
+                    می‌تونید تصویر فیش رو بارگذاری کنید یا به‌جای آن کد پیگیری / چهار رقم آخر کارت را وارد کنید.
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label
+                    class="label"
+                    for="receiptCode"
+                >
+                    🔢 کد پیگیری / چهار رقم آخر کارت
+                </label>
+
+                <input
+                    id="receiptCode"
+                    type="text"
+                    inputmode="numeric"
+                    placeholder="کد پیگیری یا چهار رقم آخر کارت"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- ثبت -->
+
+        <button
+            id="submitBtn"
+            class="submit-btn"
+            type="submit"
+        >
+            ثبت نهایی و ارسال نوبت
+        </button>
+
+
+    </form>
+
+
+    <footer>
+        © تمامی حقوق متعلق به کائنات‌چی می‌باشد ✨
+    </footer>
+
 
 </div>
-<form id="bookingForm">
-<div class="card">
-<div class="field">
-<label class="label" for="fullName">
-👤 نام و نام خانوادگی
-<span class="required">*</span>
-</label>
 
-<input
-id=“fullName”
-name=“name”
-type=“text”
-required
-autocomplete=“name”
-placeholder=“نام و نام خانوادگی”
 
-</div>
-<div class="field">
-<label class="label" for="phone">
-📱 شماره موبایل
-<span class="required">*</span>
-</label>
-
-<input
-id=“phone”
-name=“mobile”
-type=“tel”
-required
-autocomplete=“tel”
-placeholder=“مثلاً ۰۹۱۲۱۲۳۴۵۶۷”
-
-</div>
-</div>
-<div class="card">
-<div class="field">
-<label class="label" for="mainCategory">
-🔮 نوع خدمت
-<span class="required">*</span>
-</label>
-
-<select
-id=“mainCategory”
-name=“mainCategory”
-required
-
-<option value="">
-خدمت موردنظر را انتخاب کنید...
-</option>
-<option value="انرژی خوانی">
-🔮 انرژی خوانی
-</option>
-<option value="شمع تراپی">
-🕯️ شمع تراپی
-</option>
-<option value="سایکو تراپی">
-🌱 سایکو تراپی
-</option>
-</select>
-</div>
-<div
-    class="field"
-    id="subCategoryGroup"
-    style="display:none;"
->
-<label class="label" for="subCategory">
-✨ نوع انرژی‌خوانی
-<span class="required">*</span>
-</label>
-
-<select
-id=“subCategory”
-name=“subCategory”
-
-<option value="">
-انرژی‌خوانی موردنظر را انتخاب کنید...
-</option>
-<option value="قهوه — ۷۰۰ هزار تومان">
-☕ قهوه — ۷۰۰ هزار تومان
-</option>
-<option value="پاسور — ۶۵۰ هزار تومان">
-🃏 پاسور — ۶۵۰ هزار تومان
-</option>
-<option value="تاروت رایدر وایت — ۷۵۰ هزار تومان">
-🔮 تاروت رایدر وایت — ۷۵۰ هزار تومان
-</option>
-<option value="تاروت رایدر احساسی — ۷۵۰ هزار تومان">
-💚 تاروت رایدر احساسی — ۷۵۰ هزار تومان
-</option>
-<option value="تاروت رایدر شغلی - مالی — ۷۵۰ هزار تومان">
-💼 تاروت رایدر شغلی - مالی — ۷۵۰ هزار تومان
-</option>
-<option value="لِنورماند فرانسوی — ۷۵۰ هزار تومان">
-🃏 لِنورماند فرانسوی — ۷۵۰ هزار تومان
-</option>
-<option value="لِنورماند فرانسوی احساسی — ۷۵۰ هزار تومان">
-💕 لِنورماند فرانسوی احساسی — ۷۵۰ هزار تومان
-</option>
-<option value="تاروت یونانی احساسی — ۸۵۰ هزار تومان">
-🔮 تاروت یونانی احساسی — ۸۵۰ هزار تومان
-</option>
-<option value="تاروت مارسِی احساسی — ۸۵۰ هزار تومان">
-💕 تاروت مارسِی احساسی — ۸۵۰ هزار تومان
-</option>
-<option value="جِم اوراکل — ۷۰۰ هزار تومان">
-💎 جِم اوراکل — ۷۰۰ هزار تومان
-</option>
-</select>
-</div>
-<div id="consultationMsg" class="consultation">
-
-🌱 با تعیین وقت مشاوره قبلی می‌تونید نوبت خود را ثبت کنید.
-
-</div>
-</div>
-<div class="card">
-<div class="field">
-<label class="label" for="dateSelect">
-📅 روز نوبت
-<span class="required">*</span>
-</label>
-
-<select
-id=“dateSelect”
-name=“date”
-required
-
-<option value="">
-روز نوبت را انتخاب کنید...
-</option>
-</select>
-</div>
-<div class="field">
-<label class="label" for="timeSelect">
-⏰ ساعت نوبت
-<span class="required">*</span>
-</label>
-
-<select
-id=“timeSelect”
-name=“time”
-required
-
-<option value="">
-ابتدا روز را انتخاب کنید
-</option>
-</select>
-</div>
-</div>
-<div class="card">
-<div class="payment-box">
-
-💳 لطفاً مبلغ خدمت انتخابی را به اطلاعات زیر واریز کنید:
-
-<br>
-
-شماره کارت:
-
-<div class="payment-card">
-6219 - 8619 - 7737 - 8974
-</div>
-
-بانک سامان
-
-<br>
-
-بنام آرشام نظری
-
-</div>
-<div class="field">
-<label class="label" for="receiptFile">
-🧾 تصویر فیش واریزی
-</label>
-
-<input
-id=“receiptFile”
-type=“file”
-accept=“image/*”
-
-<div class="hint">
-می‌تونید تصویر فیش رو بارگذاری کنید یا به‌جای آن کد پیگیری / چهار رقم آخر کارت را وارد کنید.
-</div>
-</div>
-<div class="field">
-<label class="label" for="receiptCode">
-🔢 کد پیگیری / چهار رقم آخر کارت
-</label>
-
-<input
-id=“receiptCode”
-type=“text”
-inputmode=“numeric”
-placeholder=“کد پیگیری یا چهار رقم آخر کارت”
-
-</div>
-</div>
-
-<button
-id=“submitBtn”
-class=“submit-btn”
-type=“submit”
-
-ثبت نهایی و ارسال نوبت
-</form>
-<footer>
-© تمامی حقوق متعلق به کائنات‌چی می‌باشد ✨
-</footer>
-</div>
 <script>
+
 /* =====================================================
    Telegram
 ===================================================== */
+
 const tg =
     window.Telegram &&
     window.Telegram.WebApp
         ? window.Telegram.WebApp
         : null;
+
+
 if (tg) {
+
     tg.ready();
+
     tg.expand();
+
 }
+
+
 /* =====================================================
    Google Apps Script
 ===================================================== */
+
 const GOOGLE_SCRIPT_URL =
     'https://script.google.com/macros/s/AKfycbGSzpV9iHxMsVmceAI4i5KIhbsttuD5pOkDqRK58mx-QlP60CWjg2PZfU5miLgN2ssSw/exec';
-const POST_URL = GOOGLE_SCRIPT_URL;
+
+const POST_URL =
+    GOOGLE_SCRIPT_URL;
+
+
 /* =====================================================
    متغیرها
 ===================================================== */
+
 let bookedSlots = [];
+
+
 /* =====================================================
    روزها
 ===================================================== */
+
 const daysName = [
+
     'یکشنبه',
     'دوشنبه',
     'سه‌شنبه',
@@ -403,11 +573,16 @@ const daysName = [
     'پنج‌شنبه',
     'جمعه',
     'شنبه'
+
 ];
+
+
 /* =====================================================
-   ماه‌ها
+   ماه‌های شمسی
 ===================================================== */
+
 const persianMonths = [
+
     'فروردین',
     'اردیبهشت',
     'خرداد',
@@ -420,17 +595,23 @@ const persianMonths = [
     'دی',
     'بهمن',
     'اسفند'
+
 ];
+
+
 /* =====================================================
    ساعت‌ها
 ===================================================== */
+
 const hoursNormal = [
+
     '۱۱:۰۰ ظهر',
     '۱۱:۳۰ ظهر',
     '۱۲:۰۰ ظهر',
     '۱۲:۳۰ بعد از ظهر',
     '۱۳:۰۰ بعد از ظهر',
     '۱۳:۳۰ بعد از ظهر',
+
     '۱۵:۳۰ عصر',
     '۱۶:۰۰ عصر',
     '۱۶:۳۰ عصر',
@@ -438,19 +619,28 @@ const hoursNormal = [
     '۱۷:۳۰ عصر',
     '۱۸:۰۰ عصر',
     '۱۸:۳۰ عصر'
+
 ];
+
+
 const hoursThursday = [
+
     '۱۱:۰۰ ظهر',
     '۱۱:۳۰ ظهر',
     '۱۲:۰۰ ظهر',
     '۱۲:۳۰ بعد از ظهر',
     '۱۳:۰۰ بعد از ظهر',
     '۱۳:۳۰ عصر'
+
 ];
+
+
 /* =====================================================
    تبدیل میلادی به جلالی
 ===================================================== */
+
 function toJalaali(gy, gm, gd) {
+
     const g_d_m = [
         0,
         31,
@@ -465,8 +655,17 @@ function toJalaali(gy, gm, gd) {
         304,
         334
     ];
-    let jy = gy > 1600 ? 979 : 0;
-    let gy2 = gm > 2 ? gy + 1 : gy;
+
+    let jy =
+        gy > 1600
+            ? 979
+            : 0;
+
+    let gy2 =
+        gm > 2
+            ? gy + 1
+            : gy;
+
     let days =
         365 * gy +
         Math.floor((gy2 + 3) / 4) -
@@ -475,103 +674,171 @@ function toJalaali(gy, gm, gd) {
         80 +
         gd +
         g_d_m[gm - 1];
-    jy += 33 * Math.floor(days / 12053);
+
+    jy +=
+        33 *
+        Math.floor(days / 12053);
+
     days %= 12053;
-    jy += 4 * Math.floor(days / 1461);
+
+    jy +=
+        4 *
+        Math.floor(days / 1461);
+
     days %= 1461;
+
     if (days > 365) {
-        jy += Math.floor((days - 1) / 365);
-        days = (days - 1) % 365;
+
+        jy +=
+            Math.floor((days - 1) / 365);
+
+        days =
+            (days - 1) % 365;
+
     }
+
     let jm;
+
     if (days < 186) {
+
         jm =
             1 +
             Math.floor(days / 31);
+
     } else {
+
         jm =
             7 +
             Math.floor(
                 (days - 186) / 30
             );
+
     }
+
     let jd;
+
     if (days < 186) {
+
         jd =
             1 +
             (days % 31);
+
     } else {
+
         jd =
             1 +
             ((days - 186) % 30);
+
     }
+
     return {
-        jy,
-        jm,
-        jd
+        jy: jy,
+        jm: jm,
+        jd: jd
     };
+
 }
+
+
 /* =====================================================
    ایجاد تاریخ‌ها
 ===================================================== */
+
 function initDates() {
+
     const dateSelect =
         document.getElementById('dateSelect');
-    if (!dateSelect) return;
+
+    if (!dateSelect) {
+        return;
+    }
+
     dateSelect.innerHTML =
         '<option value="">روز نوبت را انتخاب کنید...</option>';
-    const now = new Date();
-    let added = 0;
-    let offset = 0;
+
+    const now =
+        new Date();
+
+    let added =
+        0;
+
+    let offset =
+        0;
+
     while (added < 7) {
-        const d = new Date();
+
+        const d =
+            new Date();
+
         d.setDate(
             now.getDate() + offset
         );
+
         offset++;
+
         const dayOfWeek =
             d.getDay();
+
         const dayName =
             daysName[dayOfWeek];
+
         if (dayName === 'جمعه') {
             continue;
         }
+
         const j =
             toJalaali(
                 d.getFullYear(),
                 d.getMonth() + 1,
                 d.getDate()
             );
+
         const optionText =
             `${dayName} ${j.jd} ${persianMonths[j.jm - 1]}`;
+
         const opt =
             document.createElement('option');
+
         opt.value =
             optionText;
+
         opt.textContent =
             optionText;
+
         opt.setAttribute(
             'data-thursday',
             dayName === 'پنج‌شنبه'
                 ? '1'
                 : '0'
         );
+
         dateSelect.appendChild(opt);
+
         added++;
+
     }
+
 }
+
+
 /* =====================================================
-   دسته‌بندی
+   دسته‌بندی خدمات
 ===================================================== */
+
 function toggleCategory() {
+
     const mainCategory =
         document.getElementById('mainCategory');
+
     const subGroup =
         document.getElementById('subCategoryGroup');
+
     const subSelect =
         document.getElementById('subCategory');
+
     const msg =
         document.getElementById('consultationMsg');
+
     if (
         !mainCategory ||
         !subGroup ||
@@ -580,130 +847,257 @@ function toggleCategory() {
     ) {
         return;
     }
+
     const cat =
         mainCategory.value;
+
     if (cat === 'انرژی خوانی') {
+
         subGroup.style.display =
             'block';
+
         subSelect.required =
             true;
+
         msg.style.display =
             'none';
+
     } else if (
         cat === 'شمع تراپی' ||
         cat === 'سایکو تراپی'
     ) {
+
         subGroup.style.display =
             'none';
+
         subSelect.required =
             false;
+
         subSelect.value =
             '';
+
         msg.style.display =
             'block';
+
     } else {
+
         subGroup.style.display =
             'none';
+
         subSelect.required =
             false;
+
         subSelect.value =
             '';
+
         msg.style.display =
             'none';
+
     }
+
 }
+
+
 /* =====================================================
-   بررسی رزرو
+   بررسی رزرو بودن ساعت
 ===================================================== */
+
 function isSlotBooked(date, time) {
+
     if (!Array.isArray(bookedSlots)) {
         return false;
     }
+
     return bookedSlots.some(
         function(item) {
+
             return (
                 String(item.date).trim() ===
                 String(date).trim() &&
+
                 String(item.time).trim() ===
                 String(time).trim()
             );
+
         }
     );
+
 }
+
+
 /* =====================================================
-   نمایش ساعت‌ها
+   نمایش ساعت‌ها با حفظ انتخاب قبلی
 ===================================================== */
+
 function updateTimeSlots(preserveTime = true) {
+
     const dateSelect =
         document.getElementById('dateSelect');
+
     const timeSelect =
         document.getElementById('timeSelect');
-    if (!dateSelect || !timeSelect) {
+
+    if (
+        !dateSelect ||
+        !timeSelect
+    ) {
         return;
     }
+
+    /*
+       ساعت فعلی را قبل از بازسازی ذخیره می‌کنیم.
+    */
+
     const oldTime =
         preserveTime
             ? timeSelect.value
             : '';
+
+    const selectedIndex =
+        dateSelect.selectedIndex;
+
     const selectedOpt =
-        dateSelect.options[
-            dateSelect.selectedIndex
-        ];
+        dateSelect.options[selectedIndex];
+
     const selectedDate =
         dateSelect.value;
-    timeSelect.innerHTML = '';
+
+    timeSelect.innerHTML =
+        '';
+
     if (!selectedDate) {
+
         timeSelect.innerHTML =
             '<option value="">ابتدا روز را انتخاب کنید</option>';
+
         return;
+
     }
+
     const isThursday =
         selectedOpt &&
         selectedOpt.getAttribute(
             'data-thursday'
         ) === '1';
+
     const list =
         isThursday
             ? hoursThursday
             : hoursNormal;
+
     const defaultOpt =
         document.createElement('option');
-    defaultOpt.value = '';
+
+    defaultOpt.value =
+        '';
+
     defaultOpt.textContent =
         'ساعت نوبت را انتخاب کنید...';
+
     timeSelect.appendChild(
         defaultOpt
     );
+
     list.forEach(
         function(h) {
+
             const opt =
                 document.createElement('option');
-            if (
+
+            const alreadyBooked =
                 isSlotBooked(
                     selectedDate,
                     h
-                )
-            ) {
-                opt.value = '';
+                );
+
+            if (alreadyBooked) {
+
+                opt.value =
+                    '';
+
                 opt.textContent =
                     `${h} (❌ رزرو شده)`;
-                opt.disabled = true;
+
+                opt.disabled =
+                    true;
+
             } else {
-                opt.value = h;
-                opt.textContent = h;
+
+                opt.value =
+                    h;
+
+                opt.textContent =
+                    h;
+
+                /*
+                   اگر ساعت قبلی هنوز آزاد است،
+                   همان ساعت را دوباره انتخاب می‌کنیم.
+                */
+
                 if (h === oldTime) {
-                    opt.selected = true;
+
+                    opt.selected =
+                        true;
+
                 }
+
             }
-            timeSelect.appendChild(opt);
+
+            timeSelect.appendChild(
+                opt
+            );
+
         }
     );
+
 }
+
+
 /* =====================================================
    دریافت نوبت‌های رزروشده
+   بدون از بین بردن انتخاب‌های کاربر
 ===================================================== */
+
 async function fetchBookedSlots() {
+
+    /*
+       همه انتخاب‌های فعلی را قبل از fetch نگه می‌داریم.
+    */
+
+    const mainCategory =
+        document.getElementById('mainCategory');
+
+    const subCategory =
+        document.getElementById('subCategory');
+
+    const dateSelect =
+        document.getElementById('dateSelect');
+
+    const timeSelect =
+        document.getElementById('timeSelect');
+
+    const savedMainCategory =
+        mainCategory
+            ? mainCategory.value
+            : '';
+
+    const savedSubCategory =
+        subCategory
+            ? subCategory.value
+            : '';
+
+    const savedDate =
+        dateSelect
+            ? dateSelect.value
+            : '';
+
+    const savedTime =
+        timeSelect
+            ? timeSelect.value
+            : '';
+
     try {
+
         const response =
             await fetch(
                 GOOGLE_SCRIPT_URL +
@@ -714,230 +1108,639 @@ async function fetchBookedSlots() {
                     cache: 'no-store'
                 }
             );
+
         if (!response.ok) {
+
             throw new Error(
-                'HTTP ' + response.status
+                'HTTP ' +
+                response.status
             );
+
         }
+
         const data =
             await response.json();
-        bookedSlots =
-            Array.isArray(data)
-                ? data
-                : [];
-        return true;
-    } catch (error) {
-        console.log(
-            'دریافت نوبت‌ها:',
-            error
-        );
-        return false;
-    }
-}
-/* =====================================================
-   تبدیل فایل به Base64
-===================================================== */
-function fileToDataURL(file) {
-    return new Promise(
-        function(resolve, reject) {
-            const reader =
-                new FileReader();
-            reader.onload =
-                function() {
-                    resolve(reader.result);
-                };
-            reader.onerror =
-                function() {
-                    reject(reader.error);
-                };
-            reader.readAsDataURL(file);
+
+        if (Array.isArray(data)) {
+
+            bookedSlots =
+                data;
+
+        } else {
+
+            bookedSlots =
+                [];
+
         }
-    );
-}
-/* =====================================================
-   بررسی ثبت شدن نوبت
-   بعد از ارسال فرم
-===================================================== */
-async function waitForBooking(
-    date,
-    time,
-    maxAttempts = 12
-) {
-    for (
-        let attempt = 0;
-        attempt < maxAttempts;
-        attempt++
-    ) {
-        await new Promise(
-            function(resolve) {
-                setTimeout(resolve, 1500);
-            }
-        );
-        try {
-            const response =
-                await fetch(
-                    GOOGLE_SCRIPT_URL +
-                    '?action=getBookedSlots&t=' +
-                    Date.now(),
-                    {
-                        method: 'GET',
-                        cache: 'no-store'
+
+        /*
+           نوع خدمت را برمی‌گردانیم.
+        */
+
+        if (mainCategory) {
+
+            mainCategory.value =
+                savedMainCategory;
+
+        }
+
+        /*
+           بعد از برگرداندن خدمت،
+           زیرمجموعه انرژی‌خوانی را هم حفظ می‌کنیم.
+        */
+
+        toggleCategory();
+
+        if (subCategory) {
+
+            subCategory.value =
+                savedSubCategory;
+
+        }
+
+        /*
+           تاریخ را برمی‌گردانیم.
+        */
+
+        if (dateSelect) {
+
+            dateSelect.value =
+                savedDate;
+
+        }
+
+        /*
+           ساعت‌ها را با همان ساعت قبلی بازسازی می‌کنیم.
+        */
+
+        updateTimeSlots(false);
+
+        if (
+            timeSelect &&
+            savedTime
+        ) {
+
+            const matchingOption =
+                Array.from(
+                    timeSelect.options
+                ).find(
+                    function(option) {
+
+                        return (
+                            option.value ===
+                            savedTime
+                        );
+
                     }
                 );
-            if (!response.ok) {
-                continue;
+
+            if (matchingOption) {
+
+                timeSelect.value =
+                    savedTime;
+
             }
-            const data =
-                await response.json();
-            if (Array.isArray(data)) {
-                bookedSlots = data;
-                const found =
-                    data.some(
-                        function(item) {
+
+        }
+
+        return true;
+
+    } catch (error) {
+
+        console.log(
+            'خطا در دریافت نوبت‌ها:',
+            error
+        );
+
+        bookedSlots =
+            [];
+
+        /*
+           حتی در صورت خطا هم انتخاب‌های کاربر
+           نباید از بین بروند.
+        */
+
+        if (mainCategory) {
+
+            mainCategory.value =
+                savedMainCategory;
+
+        }
+
+        toggleCategory();
+
+        if (subCategory) {
+
+            subCategory.value =
+                savedSubCategory;
+
+        }
+
+        if (dateSelect) {
+
+            dateSelect.value =
+                savedDate;
+
+        }
+
+        updateTimeSlots(false);
+
+        if (
+            timeSelect &&
+            savedTime
+        ) {
+
+            timeSelect.value =
+                savedTime;
+
+        }
+
+        return false;
+
+    }
+
+}
+
+
+/* =====================================================
+   تبدیل فیش به Base64
+===================================================== */
+
+function fileToDataURL(file) {
+
+    return new Promise(
+        function(resolve, reject) {
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                function() {
+
+                    resolve(
+                        reader.result
+                    );
+
+                };
+
+            reader.onerror =
+                function() {
+
+                    reject(
+                        reader.error
+                    );
+
+                };
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   پاسخ Google Apps Script
+===================================================== */
+
+window.addEventListener(
+    'message',
+    function(event) {
+
+        if (
+            !event.data ||
+            event.data.type !== 'BOOKING_RESULT'
+        ) {
+            return;
+        }
+
+        const btn =
+            document.getElementById('submitBtn');
+
+        const mainCategory =
+            document.getElementById('mainCategory');
+
+        const subCategory =
+            document.getElementById('subCategory');
+
+        const dateSelect =
+            document.getElementById('dateSelect');
+
+        const timeSelect =
+            document.getElementById('timeSelect');
+
+        /*
+           قبل از هر کاری انتخاب‌های کاربر را ذخیره می‌کنیم.
+        */
+
+        const savedMainCategory =
+            mainCategory
+                ? mainCategory.value
+                : '';
+
+        const savedSubCategory =
+            subCategory
+                ? subCategory.value
+                : '';
+
+        const savedDate =
+            dateSelect
+                ? dateSelect.value
+                : '';
+
+        const savedTime =
+            timeSelect
+                ? timeSelect.value
+                : '';
+
+        if (event.data.success) {
+
+            /*
+               نوبت ثبت‌شده را به لیست رزروها اضافه می‌کنیم.
+            */
+
+            if (
+                event.data.date &&
+                event.data.time
+            ) {
+
+                bookedSlots.push({
+
+                    date:
+                        event.data.date,
+
+                    time:
+                        event.data.time
+
+                });
+
+            }
+
+            alert(
+                '✅ نوبت شما با موفقیت ثبت شد و اطلاعات برای ادمین ارسال شد.'
+            );
+
+            /*
+               خدمت و نوع فال را حفظ می‌کنیم.
+            */
+
+            if (mainCategory) {
+
+                mainCategory.value =
+                    savedMainCategory;
+
+            }
+
+            toggleCategory();
+
+            if (subCategory) {
+
+                subCategory.value =
+                    savedSubCategory;
+
+            }
+
+            /*
+               تاریخ را حفظ می‌کنیم.
+            */
+
+            if (dateSelect) {
+
+                dateSelect.value =
+                    savedDate;
+
+            }
+
+            /*
+               ساعت‌ها را بازسازی می‌کنیم.
+            */
+
+            updateTimeSlots(false);
+
+            /*
+               ساعت انتخاب‌شده را دوباره انتخاب می‌کنیم.
+               چون همین ساعت اکنون رزرو شده،
+               آن را غیرفعال و با علامت رزرو شده نمایش می‌دهیم.
+            */
+
+            if (
+                timeSelect &&
+                savedTime
+            ) {
+
+                const options =
+                    Array.from(
+                        timeSelect.options
+                    );
+
+                const matchingOption =
+                    options.find(
+                        function(option) {
+
                             return (
-                                String(item.date).trim() ===
-                                String(date).trim() &&
-                                String(item.time).trim() ===
-                                String(time).trim()
+                                option.value ===
+                                savedTime
                             );
+
                         }
                     );
-                if (found) {
-                    return true;
+
+                if (matchingOption) {
+
+                    matchingOption.textContent =
+                        `${savedTime} (❌ رزرو شده)`;
+
+                    matchingOption.disabled =
+                        true;
+
+                    matchingOption.value =
+                        '';
+
+                    matchingOption.selected =
+                        true;
+
                 }
+
             }
-        } catch (error) {
-            console.log(
-                'بررسی ثبت نوبت:',
-                error
+
+            if (btn) {
+
+                btn.disabled =
+                    false;
+
+                btn.innerText =
+                    'ثبت نهایی و ارسال نوبت';
+
+            }
+
+            if (tg) {
+
+                tg.close();
+
+            }
+
+        } else {
+
+            alert(
+                '❌ ' +
+                (
+                    event.data.message ||
+                    'خطا در ثبت نوبت'
+                )
             );
+
+            /*
+               در صورت خطا هم هیچ انتخابی
+               از کاربر گرفته نمی‌شود.
+            */
+
+            if (mainCategory) {
+
+                mainCategory.value =
+                    savedMainCategory;
+
+            }
+
+            toggleCategory();
+
+            if (subCategory) {
+
+                subCategory.value =
+                    savedSubCategory;
+
+            }
+
+            if (dateSelect) {
+
+                dateSelect.value =
+                    savedDate;
+
+            }
+
+            updateTimeSlots(false);
+
+            if (
+                timeSelect &&
+                savedTime
+            ) {
+
+                timeSelect.value =
+                    savedTime;
+
+            }
+
+            if (btn) {
+
+                btn.disabled =
+                    false;
+
+                btn.innerText =
+                    'ثبت نهایی و ارسال نوبت';
+
+            }
+
         }
+
     }
-    return false;
-}
+);
+
+
 /* =====================================================
-   ارسال نهایی
+   ثبت نهایی نوبت
 ===================================================== */
+
 async function handleFormSubmit(e) {
+
     e.preventDefault();
+
     const fileInput =
         document.getElementById('receiptFile');
+
     const codeInput =
         document.getElementById('receiptCode');
+
     const btn =
         document.getElementById('submitBtn');
-    if (!fileInput || !codeInput || !btn) {
+
+    if (
+        !fileInput ||
+        !codeInput ||
+        !btn
+    ) {
         return;
     }
+
     if (
         fileInput.files.length === 0 &&
         codeInput.value.trim() === ''
     ) {
+
         alert(
             'لطفاً تصویر فیش واریزی را آپلود کنید یا کد پیگیری را وارد نمایید.'
         );
+
         return;
+
     }
+
     const name =
         document
             .getElementById('fullName')
             .value
             .trim();
+
     const phone =
         document
             .getElementById('phone')
             .value
             .trim();
+
     const mainCat =
         document
             .getElementById('mainCategory')
             .value;
+
     const subCat =
         document
             .getElementById('subCategory')
             .value;
+
     const dateVal =
         document
             .getElementById('dateSelect')
             .value;
+
     const timeVal =
         document
             .getElementById('timeSelect')
             .value;
+
     const codeVal =
         codeInput
             .value
             .trim();
+
     if (!name) {
+
         alert(
             'لطفاً نام و نام خانوادگی را وارد کنید.'
         );
+
         return;
+
     }
+
     if (!phone) {
+
         alert(
             'لطفاً شماره موبایل را وارد کنید.'
         );
+
         return;
+
     }
+
     if (!mainCat) {
+
         alert(
             'لطفاً نوع خدمت را انتخاب کنید.'
         );
+
         return;
+
     }
+
     if (
         mainCat === 'انرژی خوانی' &&
         !subCat
     ) {
+
         alert(
             'لطفاً نوع انرژی‌خوانی را انتخاب کنید.'
         );
+
         return;
+
     }
+
     if (!dateVal) {
+
         alert(
             'لطفاً روز نوبت را انتخاب کنید.'
         );
+
         return;
+
     }
+
     if (!timeVal) {
+
         alert(
             'لطفاً ساعت نوبت را انتخاب کنید.'
         );
+
         return;
+
     }
-    /*
-       بررسی اولیه فقط در صورتی که پاسخ بدهد.
-       اگر شبکه کند باشد، ثبت نهایی متوقف نمی‌شود.
-    */
-    btn.disabled = true;
+
+    btn.disabled =
+        true;
+
     btn.innerText =
         'در حال بررسی و ثبت...';
+
     /*
-       مقدارها را ثابت می‌کنیم.
+       مقدارهای انتخاب‌شده را قبل از بررسی ذخیره می‌کنیم.
     */
+
+    const savedMainCategory =
+        mainCat;
+
+    const savedSubCategory =
+        subCat;
+
     const savedDate =
         dateVal;
+
     const savedTime =
         timeVal;
-    /*
-       بررسی سریع نوبت فعلی.
-    */
+
     const checkOK =
-        await Promise.race([
-            fetchBookedSlots(),
-            new Promise(
-                function(resolve) {
-                    setTimeout(
-                        function() {
-                            resolve(false);
-                        },
-                        5000
-                    );
-                }
-            )
-        ]);
+        await fetchBookedSlots();
+
+    /*
+       بعد از fetch دوباره انتخاب‌ها را تضمین می‌کنیم.
+    */
+
+    document
+        .getElementById('mainCategory')
+        .value =
+        savedMainCategory;
+
+    toggleCategory();
+
+    document
+        .getElementById('subCategory')
+        .value =
+        savedSubCategory;
+
+    document
+        .getElementById('dateSelect')
+        .value =
+        savedDate;
+
+    updateTimeSlots(false);
+
+    document
+        .getElementById('timeSelect')
+        .value =
+        savedTime;
+
+    /*
+       بررسی نهایی سمت مرورگر.
+    */
+
     if (
         checkOK &&
         isSlotBooked(
@@ -945,215 +1748,245 @@ async function handleFormSubmit(e) {
             savedTime
         )
     ) {
+
         alert(
             '❌ این ساعت همین الان توسط شخص دیگری رزرو شده است. لطفاً ساعت دیگری انتخاب کنید.'
         );
+
+        /*
+           انتخاب‌های کاربر حفظ می‌شوند،
+           فقط ساعت رزرو شده دیگر قابل انتخاب نیست.
+        */
+
         updateTimeSlots(false);
-        btn.disabled = false;
+
+        btn.disabled =
+            false;
+
         btn.innerText =
             'ثبت نهایی و ارسال نوبت';
+
         return;
+
     }
-    /*
-       ساخت نام خدمت
-    */
+
     let service =
-        mainCat;
-    if (subCat) {
+        savedMainCategory;
+
+    if (savedSubCategory) {
+
         service +=
-            ` (${subCat})`;
+            ` (${savedSubCategory})`;
+
     }
-    /*
-       آماده‌سازی فیش
-    */
-    let receiptDataUrl = '';
-    let receiptName = '';
-    let receiptMimeType = '';
-    if (fileInput.files.length > 0) {
-        try {
-            const file =
-                fileInput.files[0];
-            receiptDataUrl =
-                await fileToDataURL(file);
-            receiptName =
-                file.name;
-            receiptMimeType =
-                file.type ||
-                'image/jpeg';
-        } catch (error) {
-            console.error(error);
-            alert(
-                '❌ خطا در خواندن تصویر فیش. لطفاً دوباره انتخاب کنید.'
-            );
-            btn.disabled = false;
-            btn.innerText =
-                'ثبت نهایی و ارسال نوبت';
-            return;
-        }
+
+    let receiptDataUrl =
+        '';
+
+    let receiptName =
+        '';
+
+    let receiptMimeType =
+        '';
+
+    if (
+        fileInput.files.length > 0
+    ) {
+
+        const file =
+            fileInput.files[0];
+
+        receiptDataUrl =
+            await fileToDataURL(file);
+
+        receiptName =
+            file.name;
+
+        receiptMimeType =
+            file.type ||
+            'image/jpeg';
+
     }
-    /*
-       iframe مخفی برای POST
-    */
-    const frame =
-        document.createElement('iframe');
-    frame.name =
-        'bookingSubmitFrame';
-    frame.style.display =
-        'none';
-    document.body.appendChild(frame);
-    const form =
-        document.createElement('form');
-    form.method =
-        'POST';
-    form.action =
-        POST_URL;
-    form.target =
-        'bookingSubmitFrame';
-    form.style.display =
-        'none';
-    const fields = {
-        name:
-            name,
-        mobile:
-            phone,
-        service:
-            service,
-        date:
-            savedDate,
-        time:
-            savedTime,
-        trackingCode:
-            codeVal,
-        receiptDataUrl:
-            receiptDataUrl,
-        receiptName:
-            receiptName,
-        receiptMimeType:
-            receiptMimeType
-    };
-    Object.keys(fields).forEach(
-        function(key) {
-            const input =
-                document.createElement('input');
-            input.type =
-                'hidden';
-            input.name =
-                key;
-            input.value =
-                fields[key] || '';
-            form.appendChild(input);
-        }
-    );
-    document.body.appendChild(form);
+
     try {
-        /*
-           ارسال واقعی به Apps Script
-        */
-        form.submit();
-        /*
-           حالا منتظر می‌مانیم تا Apps Script
-           نوبت را داخل شیت ثبت کند.
-        */
-        const bookingSaved =
-            await waitForBooking(
+
+        const frame =
+            document.createElement('iframe');
+
+        frame.name =
+            'bookingSubmitFrame';
+
+        frame.id =
+            'bookingSubmitFrame';
+
+        frame.style.display =
+            'none';
+
+        document.body.appendChild(
+            frame
+        );
+
+        const form =
+            document.createElement('form');
+
+        form.method =
+            'POST';
+
+        form.action =
+            POST_URL;
+
+        form.target =
+            'bookingSubmitFrame';
+
+        form.style.display =
+            'none';
+
+        const fields = {
+
+            name:
+                name,
+
+            mobile:
+                phone,
+
+            service:
+                service,
+
+            date:
                 savedDate,
+
+            time:
                 savedTime,
-                12
+
+            trackingCode:
+                codeVal,
+
+            receiptDataUrl:
+                receiptDataUrl,
+
+            receiptName:
+                receiptName,
+
+            receiptMimeType:
+                receiptMimeType
+
+        };
+
+        Object.keys(fields)
+            .forEach(
+                function(key) {
+
+                    const input =
+                        document.createElement('input');
+
+                    input.type =
+                        'hidden';
+
+                    input.name =
+                        key;
+
+                    input.value =
+                        fields[key] || '';
+
+                    form.appendChild(
+                        input
+                    );
+
+                }
             );
-        /*
-           پاک کردن iframe و فرم
-        */
+
+        document.body.appendChild(
+            form
+        );
+
+        form.submit();
+
         setTimeout(
             function() {
-                try {
-                    form.remove();
-                } catch (e) {}
-                try {
+
+                if (frame) {
                     frame.remove();
-                } catch (e) {}
+                }
+
+                if (form) {
+                    form.remove();
+                }
+
             },
-            500
+            15000
         );
-        if (bookingSaved) {
-            alert(
-                '✅ نوبت شما با موفقیت ثبت شد و اطلاعات برای ادمین ارسال شد.'
-            );
-            /*
-               ساعت ثبت‌شده را رزروشده می‌کنیم.
-            */
-            updateTimeSlots(false);
-            /*
-               انتخاب خدمت، تاریخ و سایر اطلاعات
-               دست‌نخورده باقی می‌مانند.
-            */
-            btn.disabled = false;
-            btn.innerText =
-                'ثبت نهایی و ارسال نوبت';
-            if (tg) {
-                try {
-                    tg.close();
-                } catch (e) {}
-            }
-        } else {
-            /*
-               اگر بعد از ۱۸ ثانیه هنوز نوبت در شیت
-               دیده نشد، فرم دیگر گیر نمی‌کند.
-            */
-            alert(
-                '⚠️ پاسخ ثبت نوبت دریافت نشد. لطفاً چند لحظه بعد بخش نوبت‌ها را بررسی کنید و اگر ثبت نشده بود دوباره تلاش کنید.'
-            );
-            btn.disabled = false;
-            btn.innerText =
-                'ثبت نهایی و ارسال نوبت';
-        }
+
     } catch (error) {
+
         console.error(
             'Booking error:',
             error
         );
-        try {
-            form.remove();
-        } catch (e) {}
-        try {
-            frame.remove();
-        } catch (e) {}
+
         alert(
             '❌ خطا در ارسال اطلاعات. لطفاً دوباره تلاش کنید.'
         );
-        btn.disabled = false;
+
+        btn.disabled =
+            false;
+
         btn.innerText =
             'ثبت نهایی و ارسال نوبت';
+
     }
+
 }
+
+
 /* =====================================================
    رویدادها
 ===================================================== */
+
 document
     .getElementById('mainCategory')
     .addEventListener(
         'change',
         toggleCategory
     );
+
+
 document
     .getElementById('dateSelect')
     .addEventListener(
         'change',
         function() {
+
+            /*
+               وقتی تاریخ عوض می‌شود،
+               ساعت قبلی عمداً پاک می‌شود.
+            */
+
             updateTimeSlots(false);
+
         }
     );
+
+
 document
     .getElementById('bookingForm')
     .addEventListener(
         'submit',
         handleFormSubmit
     );
+
+
 /* =====================================================
    شروع
 ===================================================== */
+
 initDates();
+
 updateTimeSlots(false);
+
 fetchBookedSlots();
+
 </script>
+
 </body>
+
 </html>
