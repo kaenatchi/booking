@@ -1455,24 +1455,44 @@ window.addEventListener(
 
 toggleCategory();
 
+if (
+    event.data.date &&
+    event.data.time
+) {
 
-            if (
-                event.data.date &&
-                event.data.time
-            ) {
+    bookedSlots.push({
 
-                bookedSlots.push({
+        date:
+            event.data.date,
 
-                    date:
-                        event.data.date,
+        time:
+            event.data.time
 
-                    time:
-                        event.data.time
+    });
 
-                });
+}
 
-            }
+/* حفظ تاریخ و ساعت انتخاب‌شده */
+const savedDate =
+    document.getElementById(
+        'dateSelect'
+    ).value;
 
+const savedTime =
+    document.getElementById(
+        'timeSelect'
+    ).value;
+
+updateTimeSlots();
+
+/* برگرداندن تاریخ و ساعت انتخاب‌شده */
+document.getElementById(
+    'dateSelect'
+).value = savedDate;
+
+document.getElementById(
+    'timeSelect'
+).value = savedTime;
 
             updateTimeSlots();
 
