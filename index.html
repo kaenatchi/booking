@@ -944,10 +944,6 @@ function updateTimeSlots(preserveTime = true) {
         return;
     }
 
-    /*
-       ساعت فعلی را قبل از بازسازی ذخیره می‌کنیم.
-    */
-
     const oldTime =
         preserveTime
             ? timeSelect.value
@@ -1029,11 +1025,6 @@ function updateTimeSlots(preserveTime = true) {
                 opt.textContent =
                     h;
 
-                /*
-                   اگر ساعت قبلی هنوز آزاد است،
-                   همان ساعت را دوباره انتخاب می‌کنیم.
-                */
-
                 if (h === oldTime) {
 
                     opt.selected =
@@ -1055,14 +1046,9 @@ function updateTimeSlots(preserveTime = true) {
 
 /* =====================================================
    دریافت نوبت‌های رزروشده
-   بدون از بین بردن انتخاب‌های کاربر
 ===================================================== */
 
 async function fetchBookedSlots() {
-
-    /*
-       همه انتخاب‌های فعلی را قبل از fetch نگه می‌داریم.
-    */
 
     const mainCategory =
         document.getElementById('mainCategory');
@@ -1121,21 +1107,10 @@ async function fetchBookedSlots() {
         const data =
             await response.json();
 
-        if (Array.isArray(data)) {
-
-            bookedSlots =
-                data;
-
-        } else {
-
-            bookedSlots =
-                [];
-
-        }
-
-        /*
-           نوع خدمت را برمی‌گردانیم.
-        */
+        bookedSlots =
+            Array.isArray(data)
+                ? data
+                : [];
 
         if (mainCategory) {
 
@@ -1143,11 +1118,6 @@ async function fetchBookedSlots() {
                 savedMainCategory;
 
         }
-
-        /*
-           بعد از برگرداندن خدمت،
-           زیرمجموعه انرژی‌خوانی را هم حفظ می‌کنیم.
-        */
 
         toggleCategory();
 
@@ -1158,20 +1128,12 @@ async function fetchBookedSlots() {
 
         }
 
-        /*
-           تاریخ را برمی‌گردانیم.
-        */
-
         if (dateSelect) {
 
             dateSelect.value =
                 savedDate;
 
         }
-
-        /*
-           ساعت‌ها را با همان ساعت قبلی بازسازی می‌کنیم.
-        */
 
         updateTimeSlots(false);
 
@@ -1214,11 +1176,6 @@ async function fetchBookedSlots() {
 
         bookedSlots =
             [];
-
-        /*
-           حتی در صورت خطا هم انتخاب‌های کاربر
-           نباید از بین بروند.
-        */
 
         if (mainCategory) {
 
@@ -1301,249 +1258,95 @@ function fileToDataURL(file) {
 
 
 /* =====================================================
-   پاسخ Google Apps Script
+   انتظار برای ثبت نوبت
 ===================================================== */
 
-window.addEventListener(
-    'message',
-    function(event) {
+async function waitForBooking(date, time, previousBooked) {
 
-        if (
-            !event.data ||
-            event.data.type !== 'BOOKING_RESULT'
-        ) {
-            return;
-        }
+    const start =
+        Date.now();
 
-        const btn =
-            document.getElementById('submitBtn');
+    const timeout =
+        25000;
 
-        const mainCategory =
-            document.getElementById('mainCategory');
+    while (
+        Date.now() - start <
+        timeout
+    ) {
 
-        const subCategory =
-            document.getElementById('subCategory');
+        await new Promise(
+            function(resolve) {
 
-        const dateSelect =
-            document.getElementById('dateSelect');
+                setTimeout(
+                    resolve,
+                    1200
+                );
 
-        const timeSelect =
-            document.getElementById('timeSelect');
+            }
+        );
 
-        /*
-           قبل از هر کاری انتخاب‌های کاربر را ذخیره می‌کنیم.
-        */
+        try {
 
-        const savedMainCategory =
-            mainCategory
-                ? mainCategory.value
-                : '';
+            const response =
+                await fetch(
+                    GOOGLE_SCRIPT_URL +
+                    '?action=getBookedSlots&t=' +
+                    Date.now(),
+                    {
+                        method: 'GET',
+                        cache: 'no-store'
+                    }
+                );
 
-        const savedSubCategory =
-            subCategory
-                ? subCategory.value
-                : '';
+            if (!response.ok) {
+                continue;
+            }
 
-        const savedDate =
-            dateSelect
-                ? dateSelect.value
-                : '';
+            const data =
+                await response.json();
 
-        const savedTime =
-            timeSelect
-                ? timeSelect.value
-                : '';
+            if (!Array.isArray(data)) {
+                continue;
+            }
 
-        if (event.data.success) {
+            const found =
+                data.some(
+                    function(item) {
 
-            /*
-               نوبت ثبت‌شده را به لیست رزروها اضافه می‌کنیم.
-            */
+                        return (
+                            String(item.date).trim() ===
+                            String(date).trim() &&
 
-            if (
-                event.data.date &&
-                event.data.time
-            ) {
+                            String(item.time).trim() ===
+                            String(time).trim()
+                        );
 
-                bookedSlots.push({
+                    }
+                );
 
-                    date:
-                        event.data.date,
+            if (found) {
 
-                    time:
-                        event.data.time
+                bookedSlots =
+                    data;
 
-                });
+                return true;
 
             }
 
-            alert(
-                '✅ نوبت شما با موفقیت ثبت شد و اطلاعات برای ادمین ارسال شد.'
+        } catch (error) {
+
+            console.log(
+                'Waiting for booking:',
+                error
             );
-
-            /*
-               خدمت و نوع فال را حفظ می‌کنیم.
-            */
-
-            if (mainCategory) {
-
-                mainCategory.value =
-                    savedMainCategory;
-
-            }
-
-            toggleCategory();
-
-            if (subCategory) {
-
-                subCategory.value =
-                    savedSubCategory;
-
-            }
-
-            /*
-               تاریخ را حفظ می‌کنیم.
-            */
-
-            if (dateSelect) {
-
-                dateSelect.value =
-                    savedDate;
-
-            }
-
-            /*
-               ساعت‌ها را بازسازی می‌کنیم.
-            */
-
-            updateTimeSlots(false);
-
-            /*
-               ساعت انتخاب‌شده را دوباره انتخاب می‌کنیم.
-               چون همین ساعت اکنون رزرو شده،
-               آن را غیرفعال و با علامت رزرو شده نمایش می‌دهیم.
-            */
-
-            if (
-                timeSelect &&
-                savedTime
-            ) {
-
-                const options =
-                    Array.from(
-                        timeSelect.options
-                    );
-
-                const matchingOption =
-                    options.find(
-                        function(option) {
-
-                            return (
-                                option.value ===
-                                savedTime
-                            );
-
-                        }
-                    );
-
-                if (matchingOption) {
-
-                    matchingOption.textContent =
-                        `${savedTime} (❌ رزرو شده)`;
-
-                    matchingOption.disabled =
-                        true;
-
-                    matchingOption.value =
-                        '';
-
-                    matchingOption.selected =
-                        true;
-
-                }
-
-            }
-
-            if (btn) {
-
-                btn.disabled =
-                    false;
-
-                btn.innerText =
-                    'ثبت نهایی و ارسال نوبت';
-
-            }
-
-            if (tg) {
-
-                tg.close();
-
-            }
-
-        } else {
-
-            alert(
-                '❌ ' +
-                (
-                    event.data.message ||
-                    'خطا در ثبت نوبت'
-                )
-            );
-
-            /*
-               در صورت خطا هم هیچ انتخابی
-               از کاربر گرفته نمی‌شود.
-            */
-
-            if (mainCategory) {
-
-                mainCategory.value =
-                    savedMainCategory;
-
-            }
-
-            toggleCategory();
-
-            if (subCategory) {
-
-                subCategory.value =
-                    savedSubCategory;
-
-            }
-
-            if (dateSelect) {
-
-                dateSelect.value =
-                    savedDate;
-
-            }
-
-            updateTimeSlots(false);
-
-            if (
-                timeSelect &&
-                savedTime
-            ) {
-
-                timeSelect.value =
-                    savedTime;
-
-            }
-
-            if (btn) {
-
-                btn.disabled =
-                    false;
-
-                btn.innerText =
-                    'ثبت نهایی و ارسال نوبت';
-
-            }
 
         }
 
     }
-);
+
+    return false;
+
+}
 
 
 /* =====================================================
@@ -1690,10 +1493,6 @@ async function handleFormSubmit(e) {
     btn.innerText =
         'در حال بررسی و ثبت...';
 
-    /*
-       مقدارهای انتخاب‌شده را قبل از بررسی ذخیره می‌کنیم.
-    */
-
     const savedMainCategory =
         mainCat;
 
@@ -1706,11 +1505,15 @@ async function handleFormSubmit(e) {
     const savedTime =
         timeVal;
 
+    /*
+       بررسی آخرین وضعیت رزرو
+    */
+
     const checkOK =
         await fetchBookedSlots();
 
     /*
-       بعد از fetch دوباره انتخاب‌ها را تضمین می‌کنیم.
+       انتخاب‌های کاربر را برمی‌گردانیم.
     */
 
     document
@@ -1738,7 +1541,8 @@ async function handleFormSubmit(e) {
         savedTime;
 
     /*
-       بررسی نهایی سمت مرورگر.
+       اگر قبل از ارسال رزرو شده باشد،
+       اصلاً ارسال نمی‌کنیم.
     */
 
     if (
@@ -1752,11 +1556,6 @@ async function handleFormSubmit(e) {
         alert(
             '❌ این ساعت همین الان توسط شخص دیگری رزرو شده است. لطفاً ساعت دیگری انتخاب کنید.'
         );
-
-        /*
-           انتخاب‌های کاربر حفظ می‌شوند،
-           فقط ساعت رزرو شده دیگر قابل انتخاب نیست.
-        */
 
         updateTimeSlots(false);
 
@@ -1808,113 +1607,193 @@ async function handleFormSubmit(e) {
 
     }
 
+    /*
+       داده‌های ثبت نوبت
+    */
+
+    const fields = {
+
+        name:
+            name,
+
+        mobile:
+            phone,
+
+        service:
+            service,
+
+        date:
+            savedDate,
+
+        time:
+            savedTime,
+
+        trackingCode:
+            codeVal,
+
+        receiptDataUrl:
+            receiptDataUrl,
+
+        receiptName:
+            receiptName,
+
+        receiptMimeType:
+            receiptMimeType
+
+    };
+
     try {
 
-        const frame =
-            document.createElement('iframe');
+        /*
+           ارسال مستقیم به Apps Script.
+           برخلاف iframe، اینجا درخواست واقعاً
+           به doPost فرستاده می‌شود.
+        */
 
-        frame.name =
-            'bookingSubmitFrame';
-
-        frame.id =
-            'bookingSubmitFrame';
-
-        frame.style.display =
-            'none';
-
-        document.body.appendChild(
-            frame
-        );
-
-        const form =
-            document.createElement('form');
-
-        form.method =
-            'POST';
-
-        form.action =
-            POST_URL;
-
-        form.target =
-            'bookingSubmitFrame';
-
-        form.style.display =
-            'none';
-
-        const fields = {
-
-            name:
-                name,
-
-            mobile:
-                phone,
-
-            service:
-                service,
-
-            date:
-                savedDate,
-
-            time:
-                savedTime,
-
-            trackingCode:
-                codeVal,
-
-            receiptDataUrl:
-                receiptDataUrl,
-
-            receiptName:
-                receiptName,
-
-            receiptMimeType:
-                receiptMimeType
-
-        };
+        const body =
+            new URLSearchParams();
 
         Object.keys(fields)
             .forEach(
                 function(key) {
 
-                    const input =
-                        document.createElement('input');
-
-                    input.type =
-                        'hidden';
-
-                    input.name =
-                        key;
-
-                    input.value =
-                        fields[key] || '';
-
-                    form.appendChild(
-                        input
+                    body.append(
+                        key,
+                        fields[key] || ''
                     );
 
                 }
             );
 
-        document.body.appendChild(
-            form
+        await fetch(
+            POST_URL,
+            {
+                method: 'POST',
+                mode: 'no-cors',
+                body: body,
+                keepalive: true
+            }
         );
 
-        form.submit();
+        /*
+           پاسخ Apps Script به دلیل no-cors
+           قابل خواندن نیست؛ بنابراین چند ثانیه
+           صبر می‌کنیم و شیت را بررسی می‌کنیم.
+        */
 
-        setTimeout(
-            function() {
+        const registered =
+            await waitForBooking(
+                savedDate,
+                savedTime,
+                bookedSlots
+            );
 
-                if (frame) {
-                    frame.remove();
-                }
+        if (!registered) {
 
-                if (form) {
-                    form.remove();
-                }
+            throw new Error(
+                'ثبت نوبت در زمان تعیین‌شده تأیید نشد.'
+            );
 
-            },
-            15000
+        }
+
+        /*
+           ثبت موفق
+        */
+
+        if (
+            !isSlotBooked(
+                savedDate,
+                savedTime
+            )
+        ) {
+
+            bookedSlots.push({
+
+                date:
+                    savedDate,
+
+                time:
+                    savedTime
+
+            });
+
+        }
+
+        alert(
+            '✅ نوبت شما با موفقیت ثبت شد و اطلاعات برای ادمین ارسال شد.'
         );
+
+        /*
+           انتخاب‌ها حفظ می‌شوند.
+        */
+
+        document
+            .getElementById('mainCategory')
+            .value =
+            savedMainCategory;
+
+        toggleCategory();
+
+        document
+            .getElementById('subCategory')
+            .value =
+            savedSubCategory;
+
+        document
+            .getElementById('dateSelect')
+            .value =
+            savedDate;
+
+        updateTimeSlots(false);
+
+        /*
+           ساعت ثبت‌شده را رزروشده نشان می‌دهیم.
+        */
+
+        const timeSelect =
+            document.getElementById('timeSelect');
+
+        const matchingOption =
+            Array.from(
+                timeSelect.options
+            ).find(
+                function(option) {
+
+                    return (
+                        option.value ===
+                        savedTime
+                    );
+
+                }
+            );
+
+        if (matchingOption) {
+
+            matchingOption.textContent =
+                `${savedTime} (❌ رزرو شده)`;
+
+            matchingOption.disabled =
+                true;
+
+            matchingOption.value =
+                '';
+
+            matchingOption.selected =
+                true;
+
+        }
+
+        btn.disabled =
+            false;
+
+        btn.innerText =
+            'ثبت نهایی و ارسال نوبت';
+
+        if (tg) {
+
+            tg.close();
+
+        }
 
     } catch (error) {
 
@@ -1924,8 +1803,36 @@ async function handleFormSubmit(e) {
         );
 
         alert(
-            '❌ خطا در ارسال اطلاعات. لطفاً دوباره تلاش کنید.'
+            '❌ ثبت نوبت تأیید نشد. لطفاً دوباره تلاش کنید.'
         );
+
+        /*
+           انتخاب‌های کاربر حفظ می‌شوند.
+        */
+
+        document
+            .getElementById('mainCategory')
+            .value =
+            savedMainCategory;
+
+        toggleCategory();
+
+        document
+            .getElementById('subCategory')
+            .value =
+            savedSubCategory;
+
+        document
+            .getElementById('dateSelect')
+            .value =
+            savedDate;
+
+        updateTimeSlots(false);
+
+        document
+            .getElementById('timeSelect')
+            .value =
+            savedTime;
 
         btn.disabled =
             false;
@@ -1955,11 +1862,6 @@ document
     .addEventListener(
         'change',
         function() {
-
-            /*
-               وقتی تاریخ عوض می‌شود،
-               ساعت قبلی عمداً پاک می‌شود.
-            */
 
             updateTimeSlots(false);
 
