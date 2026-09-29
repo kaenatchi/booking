@@ -926,10 +926,10 @@ function isSlotBooked(date, time) {
 
 
 /* =====================================================
-   نمایش ساعت‌ها
+   نمایش ساعت‌ها با حفظ انتخاب قبلی
 ===================================================== */
 
-function updateTimeSlots() {
+function updateTimeSlots(preserveTime = true) {
 
     const dateSelect =
         document.getElementById('dateSelect');
@@ -943,6 +943,15 @@ function updateTimeSlots() {
     ) {
         return;
     }
+
+    /*
+       ساعت فعلی را قبل از بازسازی ذخیره می‌کنیم.
+    */
+
+    const oldTime =
+        preserveTime
+            ? timeSelect.value
+            : '';
 
     const selectedIndex =
         dateSelect.selectedIndex;
@@ -1020,6 +1029,18 @@ function updateTimeSlots() {
                 opt.textContent =
                     h;
 
+                /*
+                   اگر ساعت قبلی هنوز آزاد است،
+                   همان ساعت را دوباره انتخاب می‌کنیم.
+                */
+
+                if (h === oldTime) {
+
+                    opt.selected =
+                        true;
+
+                }
+
             }
 
             timeSelect.appendChild(
@@ -1034,9 +1055,46 @@ function updateTimeSlots() {
 
 /* =====================================================
    دریافت نوبت‌های رزروشده
+   بدون از بین بردن انتخاب‌های کاربر
 ===================================================== */
 
 async function fetchBookedSlots() {
+
+    /*
+       همه انتخاب‌های فعلی را قبل از fetch نگه می‌داریم.
+    */
+
+    const mainCategory =
+        document.getElementById('mainCategory');
+
+    const subCategory =
+        document.getElementById('subCategory');
+
+    const dateSelect =
+        document.getElementById('dateSelect');
+
+    const timeSelect =
+        document.getElementById('timeSelect');
+
+    const savedMainCategory =
+        mainCategory
+            ? mainCategory.value
+            : '';
+
+    const savedSubCategory =
+        subCategory
+            ? subCategory.value
+            : '';
+
+    const savedDate =
+        dateSelect
+            ? dateSelect.value
+            : '';
+
+    const savedTime =
+        timeSelect
+            ? timeSelect.value
+            : '';
 
     try {
 
@@ -1075,7 +1133,75 @@ async function fetchBookedSlots() {
 
         }
 
-        updateTimeSlots();
+        /*
+           نوع خدمت را برمی‌گردانیم.
+        */
+
+        if (mainCategory) {
+
+            mainCategory.value =
+                savedMainCategory;
+
+        }
+
+        /*
+           بعد از برگرداندن خدمت،
+           زیرمجموعه انرژی‌خوانی را هم حفظ می‌کنیم.
+        */
+
+        toggleCategory();
+
+        if (subCategory) {
+
+            subCategory.value =
+                savedSubCategory;
+
+        }
+
+        /*
+           تاریخ را برمی‌گردانیم.
+        */
+
+        if (dateSelect) {
+
+            dateSelect.value =
+                savedDate;
+
+        }
+
+        /*
+           ساعت‌ها را با همان ساعت قبلی بازسازی می‌کنیم.
+        */
+
+        updateTimeSlots(false);
+
+        if (
+            timeSelect &&
+            savedTime
+        ) {
+
+            const matchingOption =
+                Array.from(
+                    timeSelect.options
+                ).find(
+                    function(option) {
+
+                        return (
+                            option.value ===
+                            savedTime
+                        );
+
+                    }
+                );
+
+            if (matchingOption) {
+
+                timeSelect.value =
+                    savedTime;
+
+            }
+
+        }
 
         return true;
 
@@ -1089,7 +1215,45 @@ async function fetchBookedSlots() {
         bookedSlots =
             [];
 
-        updateTimeSlots();
+        /*
+           حتی در صورت خطا هم انتخاب‌های کاربر
+           نباید از بین بروند.
+        */
+
+        if (mainCategory) {
+
+            mainCategory.value =
+                savedMainCategory;
+
+        }
+
+        toggleCategory();
+
+        if (subCategory) {
+
+            subCategory.value =
+                savedSubCategory;
+
+        }
+
+        if (dateSelect) {
+
+            dateSelect.value =
+                savedDate;
+
+        }
+
+        updateTimeSlots(false);
+
+        if (
+            timeSelect &&
+            savedTime
+        ) {
+
+            timeSelect.value =
+                savedTime;
+
+        }
 
         return false;
 
@@ -1154,31 +1318,43 @@ window.addEventListener(
         const btn =
             document.getElementById('submitBtn');
 
+        const mainCategory =
+            document.getElementById('mainCategory');
+
+        const subCategory =
+            document.getElementById('subCategory');
+
+        const dateSelect =
+            document.getElementById('dateSelect');
+
+        const timeSelect =
+            document.getElementById('timeSelect');
+
+        /*
+           قبل از هر کاری انتخاب‌های کاربر را ذخیره می‌کنیم.
+        */
+
+        const savedMainCategory =
+            mainCategory
+                ? mainCategory.value
+                : '';
+
+        const savedSubCategory =
+            subCategory
+                ? subCategory.value
+                : '';
+
+        const savedDate =
+            dateSelect
+                ? dateSelect.value
+                : '';
+
+        const savedTime =
+            timeSelect
+                ? timeSelect.value
+                : '';
+
         if (event.data.success) {
-
-            alert(
-                '✅ نوبت شما با موفقیت ثبت شد و اطلاعات برای ادمین ارسال شد.'
-            );
-
-            /*
-               تاریخ و ساعت فعلی را نگه می‌داریم.
-            */
-
-            const dateSelect =
-                document.getElementById('dateSelect');
-
-            const timeSelect =
-                document.getElementById('timeSelect');
-
-            const savedDate =
-                dateSelect
-                    ? dateSelect.value
-                    : '';
-
-            const savedTime =
-                timeSelect
-                    ? timeSelect.value
-                    : '';
 
             /*
                نوبت ثبت‌شده را به لیست رزروها اضافه می‌کنیم.
@@ -1190,21 +1366,44 @@ window.addEventListener(
             ) {
 
                 bookedSlots.push({
+
                     date:
                         event.data.date,
 
                     time:
                         event.data.time
+
                 });
 
             }
 
+            alert(
+                '✅ نوبت شما با موفقیت ثبت شد و اطلاعات برای ادمین ارسال شد.'
+            );
+
             /*
-               دکمه ساعت را دوباره می‌سازیم،
-               ولی تاریخ انتخاب‌شده را حفظ می‌کنیم.
+               خدمت و نوع فال را حفظ می‌کنیم.
             */
 
-            updateTimeSlots();
+            if (mainCategory) {
+
+                mainCategory.value =
+                    savedMainCategory;
+
+            }
+
+            toggleCategory();
+
+            if (subCategory) {
+
+                subCategory.value =
+                    savedSubCategory;
+
+            }
+
+            /*
+               تاریخ را حفظ می‌کنیم.
+            */
 
             if (dateSelect) {
 
@@ -1213,11 +1412,16 @@ window.addEventListener(
 
             }
 
-            updateTimeSlots();
+            /*
+               ساعت‌ها را بازسازی می‌کنیم.
+            */
+
+            updateTimeSlots(false);
 
             /*
-               بعد از بازسازی ساعت‌ها،
-               همان ساعت انتخاب‌شده را رزروشده نگه می‌داریم.
+               ساعت انتخاب‌شده را دوباره انتخاب می‌کنیم.
+               چون همین ساعت اکنون رزرو شده،
+               آن را غیرفعال و با علامت رزرو شده نمایش می‌دهیم.
             */
 
             if (
@@ -1253,6 +1457,9 @@ window.addEventListener(
                     matchingOption.value =
                         '';
 
+                    matchingOption.selected =
+                        true;
+
                 }
 
             }
@@ -1282,6 +1489,46 @@ window.addEventListener(
                     'خطا در ثبت نوبت'
                 )
             );
+
+            /*
+               در صورت خطا هم هیچ انتخابی
+               از کاربر گرفته نمی‌شود.
+            */
+
+            if (mainCategory) {
+
+                mainCategory.value =
+                    savedMainCategory;
+
+            }
+
+            toggleCategory();
+
+            if (subCategory) {
+
+                subCategory.value =
+                    savedSubCategory;
+
+            }
+
+            if (dateSelect) {
+
+                dateSelect.value =
+                    savedDate;
+
+            }
+
+            updateTimeSlots(false);
+
+            if (
+                timeSelect &&
+                savedTime
+            ) {
+
+                timeSelect.value =
+                    savedTime;
+
+            }
 
             if (btn) {
 
@@ -1443,14 +1690,62 @@ async function handleFormSubmit(e) {
     btn.innerText =
         'در حال بررسی و ثبت...';
 
+    /*
+       مقدارهای انتخاب‌شده را قبل از بررسی ذخیره می‌کنیم.
+    */
+
+    const savedMainCategory =
+        mainCat;
+
+    const savedSubCategory =
+        subCat;
+
+    const savedDate =
+        dateVal;
+
+    const savedTime =
+        timeVal;
+
     const checkOK =
         await fetchBookedSlots();
+
+    /*
+       بعد از fetch دوباره انتخاب‌ها را تضمین می‌کنیم.
+    */
+
+    document
+        .getElementById('mainCategory')
+        .value =
+        savedMainCategory;
+
+    toggleCategory();
+
+    document
+        .getElementById('subCategory')
+        .value =
+        savedSubCategory;
+
+    document
+        .getElementById('dateSelect')
+        .value =
+        savedDate;
+
+    updateTimeSlots(false);
+
+    document
+        .getElementById('timeSelect')
+        .value =
+        savedTime;
+
+    /*
+       بررسی نهایی سمت مرورگر.
+    */
 
     if (
         checkOK &&
         isSlotBooked(
-            dateVal,
-            timeVal
+            savedDate,
+            savedTime
         )
     ) {
 
@@ -1458,7 +1753,12 @@ async function handleFormSubmit(e) {
             '❌ این ساعت همین الان توسط شخص دیگری رزرو شده است. لطفاً ساعت دیگری انتخاب کنید.'
         );
 
-        updateTimeSlots();
+        /*
+           انتخاب‌های کاربر حفظ می‌شوند،
+           فقط ساعت رزرو شده دیگر قابل انتخاب نیست.
+        */
+
+        updateTimeSlots(false);
 
         btn.disabled =
             false;
@@ -1471,12 +1771,12 @@ async function handleFormSubmit(e) {
     }
 
     let service =
-        mainCat;
+        savedMainCategory;
 
-    if (subCat) {
+    if (savedSubCategory) {
 
         service +=
-            ` (${subCat})`;
+            ` (${savedSubCategory})`;
 
     }
 
@@ -1553,10 +1853,10 @@ async function handleFormSubmit(e) {
                 service,
 
             date:
-                dateVal,
+                savedDate,
 
             time:
-                timeVal,
+                savedTime,
 
             trackingCode:
                 codeVal,
@@ -1654,7 +1954,16 @@ document
     .getElementById('dateSelect')
     .addEventListener(
         'change',
-        updateTimeSlots
+        function() {
+
+            /*
+               وقتی تاریخ عوض می‌شود،
+               ساعت قبلی عمداً پاک می‌شود.
+            */
+
+            updateTimeSlots(false);
+
+        }
     );
 
 
@@ -1672,7 +1981,7 @@ document
 
 initDates();
 
-updateTimeSlots();
+updateTimeSlots(false);
 
 fetchBookedSlots();
 
