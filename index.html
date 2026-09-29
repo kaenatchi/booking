@@ -1061,110 +1061,167 @@ async function handleFormSubmit(e) {
 
     e.preventDefault();
 
+    const fileInput = document.getElementById('receiptFile');
+    const codeInput = document.getElementById('receiptCode');
 
-    const fileInput =
-        document.getElementById(
-            'receiptFile'
-        );
-
-    const codeInput =
-        document.getElementById(
-            'receiptCode'
-        );
-
-
-    /* -----------------------------------------------
-       بررسی فیش یا کد پیگیری
-    ------------------------------------------------ */
-
+    /* بررسی فیش یا کد پیگیری */
     if (
-
         fileInput.files.length === 0 &&
-
         codeInput.value.trim() === ''
-
     ) {
-
         alert(
             'لطفاً تصویر فیش واریزی را آپلود کنید یا کد پیگیری را وارد نمایید.'
         );
-
         return;
     }
 
+    const btn = document.getElementById('submitBtn');
 
-    const btn =
-        document.getElementById(
-            'submitBtn'
-        );
-
-
-    btn.disabled =
-        true;
-
-    btn.innerText =
-        'در حال بررسی و ثبت...';
-
+    btn.disabled = true;
+    btn.innerText = 'در حال بررسی و ثبت...';
 
     const name =
-        document.getElementById(
-            'fullName'
-        ).value.trim();
-
+        document.getElementById('fullName').value.trim();
 
     const phone =
-        document.getElementById(
-            'phone'
-        ).value.trim();
-
+        document.getElementById('phone').value.trim();
 
     const mainCat =
-        document.getElementById(
-            'mainCategory'
-        ).value;
-
+        document.getElementById('mainCategory').value;
 
     const subCat =
-        document.getElementById(
-            'subCategory'
-        ).value;
-
+        document.getElementById('subCategory').value;
 
     const dateVal =
-        document.getElementById(
-            'dateSelect'
-        ).value;
-
+        document.getElementById('dateSelect').value;
 
     const timeVal =
-        document.getElementById(
-            'timeSelect'
-        ).value;
-
+        document.getElementById('timeSelect').value;
 
     const codeVal =
         codeInput.value.trim();
 
-
-    /* -----------------------------------------------
-       بررسی ساعت
-    ------------------------------------------------ */
-
+    /* بررسی ساعت */
     if (!timeVal) {
 
         alert(
             'لطفاً یک ساعت معتبر و غیر رزرو شده را انتخاب کنید.'
         );
 
-        btn.disabled =
-            false;
-
-        btn.innerText =
-            'ثبت نهایی و ارسال نوبت';
+        btn.disabled = false;
+        btn.innerText = 'ثبت نهایی و ارسال نوبت';
 
         return;
     }
 
+    /* بررسی آخرین وضعیت رزروها */
+    const checkOK = await fetchBookedSlots();
+
+    if (
+        checkOK &&
+        isSlotBooked(dateVal, timeVal)
+    ) {
+
+        alert(
+            '❌ این ساعت همین الان توسط شخص دیگری رزرو شده است. لطفاً ساعت دیگری انتخاب کنید.'
+        );
+
+        updateTimeSlots();
+
+        btn.disabled = false;
+        btn.innerText = 'ثبت نهایی و ارسال نوبت';
+
+        return;
+    }
+
+    /* ساخت نام کامل خدمت */
+    let service = mainCat;
+
+    if (subCat) {
+        service += ' (' + subCat + ')';
+    }
+
+    /* آماده‌سازی فیش */
+    let receiptDataUrl = '';
+    let receiptName = '';
+    let receiptMimeType = '';
+
+    if (fileInput.files.length > 0) {
+
+        const file = fileInput.files[0];
+
+        receiptDataUrl =
+            await fileToDataURL(file);
+
+        receiptName = file.name;
+
+        receiptMimeType =
+            file.type || 'image/jpeg';
+    }
+
+    /* ارسال اطلاعات به Google Apps Script */
+    try {
+
+        const formData = new FormData();
+
+        formData.append('name', name);
+        formData.append('mobile', phone);
+        formData.append('service', service);
+        formData.append('date', dateVal);
+        formData.append('time', timeVal);
+        formData.append('trackingCode', codeVal);
+        formData.append('receiptDataUrl', receiptDataUrl);
+        formData.append('receiptName', receiptName);
+        formData.append('receiptMimeType', receiptMimeType);
+
+        const response = await fetch(
+            POST_URL,
+            {
+                method: 'POST',
+                body: formData
+            }
+        );
+
+        const html = await response.text();
+
+        console.log('Google Apps Script response:', html);
+
+        /* بررسی پاسخ Google Apps Script */
+        const match = html.match(
+            /window\.top\.postMessage\(([\s\S]*?),\s*['"]\*['"]\)/
+        );
+
+        if (!match) {
+            throw new Error(
+                'پاسخ قابل شناسایی از Google Apps Script دریافت نشد.'
+            );
+        }
+
+        const result =
+            JSON.parse(match[1]);
+
+        window.postMessage(
+            result,
+            '*'
+        );
+
+    } catch (error) {
+
+        console.error(
+            'Booking error:',
+            error
+        );
+
+        alert(
+            '❌ ثبت نوبت انجام نشد. لطفاً دوباره تلاش کنید.'
+        );
+
+        btn.disabled = false;
+
+        btn.innerText =
+            'ثبت نهایی و ارسال نوبت';
+    }
+}
 
     /* -----------------------------------------------
        بررسی آخرین وضعیت رزروها
