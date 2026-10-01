@@ -309,7 +309,6 @@ button:disabled{
     </div>
   </div>
 
-
   <div class="card">
 
     <h2>🔮 انتخاب خدمت</h2>
@@ -321,7 +320,6 @@ button:disabled{
     <select id="mainCategory">
       <option value="">در حال دریافت خدمات...</option>
     </select>
-
 
     <div id="subcategoryBox" class="hidden">
 
@@ -335,9 +333,7 @@ button:disabled{
 
     </div>
 
-
     <div id="serviceDescription" class="muted"></div>
-
 
     <div id="servicePriceBox" class="price-box hidden">
 
@@ -360,7 +356,6 @@ button:disabled{
 
   </div>
 
-
   <div class="card">
 
     <h2>📅 انتخاب زمان نوبت</h2>
@@ -373,7 +368,6 @@ button:disabled{
       <option value="">در حال آماده‌سازی تاریخ‌ها...</option>
     </select>
 
-
     <label for="time">
       ساعت
     </label>
@@ -382,11 +376,9 @@ button:disabled{
       <option value="">ابتدا تاریخ را انتخاب کنید</option>
     </select>
 
-
     <div id="slotMessage" class="message info"></div>
 
   </div>
-
 
   <div class="card">
 
@@ -403,7 +395,6 @@ button:disabled{
       autocomplete="given-name"
     >
 
-
     <label for="lastName">
       نام خانوادگی <span class="required">*</span>
     </label>
@@ -414,7 +405,6 @@ button:disabled{
       placeholder="نام خانوادگی"
       autocomplete="family-name"
     >
-
 
     <label for="mobile">
       شماره موبایل <span class="required">*</span>
@@ -429,7 +419,6 @@ button:disabled{
     >
 
   </div>
-
 
   <div class="card">
 
@@ -457,7 +446,6 @@ button:disabled{
     <div id="discountMessage" class="message"></div>
 
   </div>
-
 
   <div class="card">
 
@@ -488,7 +476,6 @@ button:disabled{
 
     </div>
 
-
     <div class="muted">
       لطفاً مبلغ نهایی را به کارت بالا واریز کرده و
       تصویر فیش واریزی خود را ارسال کنید.
@@ -497,12 +484,10 @@ button:disabled{
 
     <br>
 
-
     <label>
       🧾 تصویر فیش واریزی
       <span class="required">*</span>
     </label>
-
 
     <div class="file-box">
 
@@ -525,7 +510,6 @@ button:disabled{
 
     </div>
 
-
     <label for="trackingCode">
       کد پیگیری / شماره تراکنش
       <span class="muted">(اختیاری)</span>
@@ -539,7 +523,6 @@ button:disabled{
     >
 
   </div>
-
 
   <div class="card">
 
@@ -566,7 +549,6 @@ button:disabled{
 
 </div>
 
-
 <script>
 
 const tg =
@@ -574,7 +556,6 @@ const tg =
   window.Telegram.WebApp
     ? window.Telegram.WebApp
     : null;
-
 
 if(tg){
 
@@ -710,14 +691,12 @@ function normalizeText(value){
 
 }
 
-
 function compactText(value){
 
   return normalizeText(value)
     .replace(/\s+/g,"");
 
 }
-
 
 function toEnglishDigits(value){
 
@@ -730,7 +709,6 @@ function toEnglishDigits(value){
     );
 
 }
-
 
 function numberValue(value){
 
@@ -746,7 +724,6 @@ function numberValue(value){
 
 }
 
-
 function formatMoney(value){
 
   return Number(value || 0)
@@ -754,7 +731,6 @@ function formatMoney(value){
     + " تومان";
 
 }
-
 
 function showMessage(element,text,type){
 
@@ -766,7 +742,6 @@ function showMessage(element,text,type){
   element.style.display = "block";
 
 }
-
 
 function hideMessage(element){
 
@@ -802,7 +777,6 @@ function getSetting(name,fallback){
   return fallback;
 
 }
-
 
 function getNumberSetting(name,fallback){
 
@@ -850,7 +824,6 @@ const weekDays = {
   6:"شنبه"
 
 };
-
 
 function normalizeWeekDay(value){
 
@@ -910,7 +883,6 @@ function getDayWorkRows(dayName){
 
 }
 
-
 function hasWorkingHours(dayName){
 
   return getDayWorkRows(dayName)
@@ -953,7 +925,6 @@ function normalizeDateKey(value){
   );
 
 }
-
 
 function gregorianToJalali(gy,gm,gd){
 
@@ -1028,7 +999,6 @@ function gregorianToJalali(gy,gm,gd){
 
 }
 
-
 function jalaliKey(j){
 
   return (
@@ -1040,7 +1010,6 @@ function jalaliKey(j){
   );
 
 }
-
 
 function jalaliDisplay(j){
 
@@ -1122,7 +1091,6 @@ function timeToMinutes(value){
 
 }
 
-
 function minutesToTime(minutes){
 
   return (
@@ -1136,7 +1104,6 @@ function minutesToTime(minutes){
   );
 
 }
-
 
 function normalizeTime(value){
 
@@ -1167,7 +1134,6 @@ function getServiceName(service){
 
 }
 
-
 function getServiceCategory(service){
 
   return (
@@ -1179,7 +1145,6 @@ function getServiceCategory(service){
 
 }
 
-
 function getServicePrice(service){
 
   return numberValue(
@@ -1190,7 +1155,6 @@ function getServicePrice(service){
 
 }
 
-
 function getServiceDescription(service){
 
   return (
@@ -1200,7 +1164,6 @@ function getServiceDescription(service){
   );
 
 }
-
 
 function getServiceDuration(service){
 
@@ -1214,7 +1177,6 @@ function getServiceDuration(service){
   ) || 30;
 
 }
-
 
 function isServiceActive(service){
 
@@ -1255,7 +1217,6 @@ function isSlotClosed(
   const end =
     start + slotDuration;
 
-
   return (config.closures || [])
     .some(row => {
 
@@ -1268,14 +1229,12 @@ function isSlotClosed(
         return false;
       }
 
-
       const startDate =
         normalizeDateKey(
           row.startDate ??
           row["تاریخ شروع"] ??
           ""
         );
-
 
       const endDate =
         normalizeDateKey(
@@ -1286,7 +1245,6 @@ function isSlotClosed(
           ""
         );
 
-
       if(
         dateKey < startDate ||
         dateKey > endDate
@@ -1296,7 +1254,6 @@ function isSlotClosed(
 
       }
 
-
       const closureStart =
         timeToMinutes(
           row.startTime ??
@@ -1304,14 +1261,12 @@ function isSlotClosed(
           "00:00"
         ) ?? 0;
 
-
       const closureEnd =
         timeToMinutes(
           row.endTime ??
           row["ساعت پایان"] ??
           "23:59"
         ) ?? 1439;
-
 
       return (
         start < closureEnd &&
@@ -1327,21 +1282,10 @@ function isSlotClosed(
    GENERATE AVAILABLE START TIMES
    ========================================================= */
 
-/*
-  مهم:
-  Apps Script فیلدهای ساعات کاری را با نام‌های:
-  start / end
-  برمی‌گرداند.
-
-  نسخه قبلی دنبال startTime / endTime می‌گشت
-  و به همین دلیل هیچ ساعتی تولید نمی‌شد.
-*/
-
 function generateSlotsForDay(dayName){
 
   const rows =
     getDayWorkRows(dayName);
-
 
   const interval =
     Math.max(
@@ -1355,7 +1299,6 @@ function generateSlotsForDay(dayName){
       ) || 30
     );
 
-
   const duration =
     Math.max(
       1,
@@ -1364,16 +1307,9 @@ function generateSlotsForDay(dayName){
       )
     );
 
-
   const slots = [];
 
-
   rows.forEach(row => {
-
-    /*
-      اول start / end
-      چون Apps Script همین‌ها را می‌فرستد.
-    */
 
     const start =
       timeToMinutes(
@@ -1382,14 +1318,12 @@ function generateSlotsForDay(dayName){
         row["ساعت شروع"]
       );
 
-
     const end =
       timeToMinutes(
         row.end ??
         row.endTime ??
         row["ساعت پایان"]
       );
-
 
     if(
       start === null ||
@@ -1400,12 +1334,6 @@ function generateSlotsForDay(dayName){
       return;
 
     }
-
-
-    /*
-      ساعت شروع باید طوری باشد که
-      کل مدت خدمت داخل شیفت جا شود.
-    */
 
     for(
       let t = start;
@@ -1420,7 +1348,6 @@ function generateSlotsForDay(dayName){
     }
 
   });
-
 
   return [
     ...new Set(slots)
@@ -1453,7 +1380,6 @@ function isSlotBooked(
     return false;
   }
 
-
   const wantedDuration =
     Number(duration) ||
     getServiceDuration(currentService) ||
@@ -1463,17 +1389,11 @@ function isSlotBooked(
     ) ||
     30;
 
-
   const end =
     start + wantedDuration;
 
-
   return (config.bookedSlots || [])
     .some(item => {
-
-      /*
-        پشتیبانی از ساختارهای مختلف
-      */
 
       if(typeof item === "string"){
 
@@ -1491,7 +1411,6 @@ function isSlotBooked(
 
       }
 
-
       const bookedDate =
         normalizeDateKey(
           item.date ??
@@ -1499,13 +1418,11 @@ function isSlotBooked(
           ""
         );
 
-
       const bookedStart =
         timeToMinutes(
           item.time ??
           item["ساعت"]
         );
-
 
       if(
         bookedDate !== wantedDate ||
@@ -1515,7 +1432,6 @@ function isSlotBooked(
         return false;
 
       }
-
 
       const bookedDuration =
         Number(
@@ -1527,15 +1443,9 @@ function isSlotBooked(
           )
         ) || 30;
 
-
       const bookedEnd =
         bookedStart +
         bookedDuration;
-
-
-      /*
-        بررسی هم‌پوشانی واقعی.
-      */
 
       return (
         start < bookedEnd &&
@@ -1557,12 +1467,6 @@ function initDates(){
 
   dateSelect.innerHTML = "";
 
-
-  /*
-    نام واقعی تنظیم موجود در شیت:
-    تعداد روز های قبل رزرو
-  */
-
   const daysCount =
     Math.max(
       1,
@@ -1578,7 +1482,6 @@ function initDates(){
       ) || 7
     );
 
-
   const today =
     new Date();
 
@@ -1586,14 +1489,7 @@ function initDates(){
     12,0,0,0
   );
 
-
   let added = 0;
-
-
-  /*
-    تا 45 روز جلو می‌رویم
-    تا به تعداد روزهای کاری موردنظر برسیم.
-  */
 
   for(
     let offset = 0;
@@ -1613,10 +1509,8 @@ function initDates(){
       12,0,0,0
     );
 
-
     const dayName =
       weekDays[d.getDay()];
-
 
     if(
       normalizeWeekDay(dayName) ===
@@ -1627,7 +1521,6 @@ function initDates(){
 
     }
 
-
     if(
       !hasWorkingHours(dayName)
     ){
@@ -1636,7 +1529,6 @@ function initDates(){
 
     }
 
-
     const j =
       gregorianToJalali(
         d.getFullYear(),
@@ -1644,20 +1536,16 @@ function initDates(){
         d.getDate()
       );
 
-
     const key =
       jalaliKey(j);
 
-
     dateDayMap[key] =
       dayName;
-
 
     const option =
       document.createElement(
         "option"
       );
-
 
     option.value = key;
 
@@ -1666,16 +1554,13 @@ function initDates(){
       " " +
       jalaliDisplay(j);
 
-
     dateSelect.appendChild(
       option
     );
 
-
     added++;
 
   }
-
 
   if(
     !dateSelect.options.length
@@ -1699,10 +1584,121 @@ function initDates(){
 
   }
 
-
   dateSelect.selectedIndex = 0;
 
   loadTimes();
+
+}
+
+
+/* =========================================================
+   CURRENT DAY / TIME FILTER
+   ========================================================= */
+
+/*
+  تاریخ امروز را بر اساس ساعت ایران محاسبه می‌کنیم.
+  این قسمت مستقل از منطقه زمانی مرورگر است.
+*/
+
+function getIranNow(){
+
+  try{
+
+    const parts =
+      new Intl.DateTimeFormat(
+        "en-US",
+        {
+          timeZone:"Asia/Tehran",
+          year:"numeric",
+          month:"2-digit",
+          day:"2-digit",
+          hour:"2-digit",
+          minute:"2-digit",
+          second:"2-digit",
+          hour12:false
+        }
+      ).formatToParts(
+        new Date()
+      );
+
+    const result = {};
+
+    parts.forEach(part => {
+
+      if(part.type !== "literal"){
+        result[part.type] =
+          Number(part.value);
+      }
+
+    });
+
+    return result;
+
+  }
+
+  catch(error){
+
+    console.log(
+      "Iran time error:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
+
+function isPastSlotToday(
+  dateKey,
+  time
+){
+
+  const iranNow =
+    getIranNow();
+
+  if(!iranNow){
+    return false;
+  }
+
+  const todayJalali =
+    gregorianToJalali(
+      iranNow.year,
+      iranNow.month,
+      iranNow.day
+    );
+
+  const todayKey =
+    jalaliKey(
+      todayJalali
+    );
+
+  /*
+    فقط برای امروز فیلتر اعمال می‌شود.
+  */
+
+  if(dateKey !== todayKey){
+    return false;
+  }
+
+  const currentMinutes =
+    iranNow.hour * 60 +
+    iranNow.minute;
+
+  const slotMinutes =
+    timeToMinutes(time);
+
+  if(slotMinutes === null){
+    return false;
+  }
+
+  /*
+    اگر ساعت شروع نوبت رسیده یا گذشته باشد،
+    دیگر قابل رزرو نیست.
+  */
+
+  return slotMinutes <= currentMinutes;
 
 }
 
@@ -1717,10 +1713,8 @@ function loadTimes(){
 
   hideMessage(slotMessage);
 
-
   const dateKey =
     dateSelect.value;
-
 
   if(!dateKey){
 
@@ -1742,10 +1736,8 @@ function loadTimes(){
 
   }
 
-
   const dayName =
     dateDayMap[dateKey];
-
 
   if(!dayName){
 
@@ -1767,18 +1759,15 @@ function loadTimes(){
 
   }
 
-
   const duration =
     getServiceDuration(
       currentService
     );
 
-
   const slots =
     generateSlotsForDay(
       dayName
     );
-
 
   const available =
     slots.filter(time => {
@@ -1790,7 +1779,6 @@ function loadTimes(){
           duration
         );
 
-
       const closed =
         isSlotClosed(
           dateKey,
@@ -1798,11 +1786,19 @@ function loadTimes(){
           duration
         );
 
+      const past =
+        isPastSlotToday(
+          dateKey,
+          time
+        );
 
-      return !booked && !closed;
+      return (
+        !booked &&
+        !closed &&
+        !past
+      );
 
     });
-
 
   if(!available.length){
 
@@ -1820,18 +1816,15 @@ function loadTimes(){
       option
     );
 
-
     showMessage(
       slotMessage,
       "برای این تاریخ در حال حاضر ساعت آزادی باقی نمانده است.",
       "info"
     );
 
-
     return;
 
   }
-
 
   const first =
     document.createElement(
@@ -1846,7 +1839,6 @@ function loadTimes(){
   timeSelect.appendChild(
     first
   );
-
 
   available.forEach(time => {
 
@@ -1876,13 +1868,11 @@ function loadServices(){
 
   mainCategory.innerHTML = "";
 
-
   const services =
     (config.services || [])
       .filter(
         isServiceActive
       );
-
 
   if(!services.length){
 
@@ -1904,11 +1894,9 @@ function loadServices(){
 
   }
 
-
   const categories = [];
 
   const map = {};
-
 
   services.forEach(service => {
 
@@ -1917,17 +1905,14 @@ function loadServices(){
         service
       );
 
-
     const key =
       compactText(
         category
       );
 
-
     if(!key){
       return;
     }
-
 
     if(!map[key]){
 
@@ -1942,13 +1927,11 @@ function loadServices(){
 
     }
 
-
     map[key].push(
       service
     );
 
   });
-
 
   categories.forEach(category => {
 
@@ -1969,10 +1952,8 @@ function loadServices(){
 
   });
 
-
   mainCategory._categoryMap =
     map;
-
 
   if(categories.length){
 
@@ -1996,17 +1977,14 @@ function updateSubcategories(){
     mainCategory._categoryMap ||
     {};
 
-
   const services =
     map[
       mainCategory.value
     ] || [];
 
-
   subCategory.innerHTML = "";
 
   currentService = null;
-
 
   if(!services.length){
 
@@ -2019,7 +1997,6 @@ function updateSubcategories(){
     return;
 
   }
-
 
   if(services.length === 1){
 
@@ -2036,11 +2013,9 @@ function updateSubcategories(){
 
   }
 
-
   subcategoryBox
     .classList
     .remove("hidden");
-
 
   const first =
     document.createElement(
@@ -2055,7 +2030,6 @@ function updateSubcategories(){
   subCategory.appendChild(
     first
   );
-
 
   services.forEach(
     (service,index) => {
@@ -2080,7 +2054,6 @@ function updateSubcategories(){
     }
   );
 
-
   clearServiceInfo();
 
 }
@@ -2094,12 +2067,10 @@ function selectSubcategory(){
       {}
     )[mainCategory.value] || [];
 
-
   const index =
     Number(
       subCategory.value
     );
-
 
   if(
     !subCategory.value ||
@@ -2114,10 +2085,8 @@ function selectSubcategory(){
 
   }
 
-
   currentService =
     services[index];
-
 
   showServiceInfo();
 
@@ -2138,22 +2107,18 @@ function showServiceInfo(){
 
   }
 
-
   const price =
     getServicePrice(
       currentService
     );
-
 
   const description =
     getServiceDescription(
       currentService
     );
 
-
   serviceDescription.textContent =
     description || "";
-
 
   serviceDescription
     .classList
@@ -2162,20 +2127,11 @@ function showServiceInfo(){
       !description
     );
 
-
   servicePriceBox
     .classList
     .remove("hidden");
 
-
   applyDiscountPreview();
-
-
-  /*
-    وقتی خدمت عوض می‌شود،
-    ساعت‌ها هم باید بر اساس مدت
-    جدید دوباره محاسبه شوند.
-  */
 
   loadTimes();
 
@@ -2191,11 +2147,9 @@ function clearServiceInfo(){
     .classList
     .add("hidden");
 
-
   servicePriceBox
     .classList
     .add("hidden");
-
 
   currentService = null;
 
@@ -2214,12 +2168,10 @@ function applyDiscountPreview(){
     return;
   }
 
-
   const original =
     getServicePrice(
       currentService
     );
-
 
   let discount =
     currentDiscount.valid
@@ -2228,19 +2180,16 @@ function applyDiscountPreview(){
         )
       : 0;
 
-
   discount =
     Math.min(
       discount,
       original
     );
 
-
   servicePrice.textContent =
     formatMoney(
       original
     );
-
 
   discountRow
     .classList
@@ -2248,7 +2197,6 @@ function applyDiscountPreview(){
       "hidden",
       discount <= 0
     );
-
 
   if(discount > 0){
 
@@ -2258,7 +2206,6 @@ function applyDiscountPreview(){
       );
 
   }
-
 
   finalPrice.textContent =
     formatMoney(
@@ -2277,7 +2224,6 @@ async function checkDiscount(){
   const code =
     discountCode.value.trim();
 
-
   currentDiscount = {
 
     valid:false,
@@ -2286,11 +2232,9 @@ async function checkDiscount(){
 
   };
 
-
   hideMessage(
     discountMessage
   );
-
 
   if(!code){
 
@@ -2306,10 +2250,8 @@ async function checkDiscount(){
 
   }
 
-
   discountButton.disabled =
     true;
-
 
   try{
 
@@ -2322,10 +2264,8 @@ async function checkDiscount(){
         Date.now()
       );
 
-
     const data =
       await response.json();
-
 
     if(
       data?.ok &&
@@ -2346,7 +2286,6 @@ async function checkDiscount(){
         code
 
       };
-
 
       showMessage(
         discountMessage,
@@ -2379,10 +2318,8 @@ async function checkDiscount(){
 
   }
 
-
   discountButton.disabled =
     false;
-
 
   applyDiscountPreview();
 
@@ -2435,12 +2372,10 @@ function fileToDataURL(file){
       const reader =
         new FileReader();
 
-
       reader.onload =
         () => resolve(
           reader.result
         );
-
 
       reader.onerror =
         () =>
@@ -2449,7 +2384,6 @@ function fileToDataURL(file){
               "خطا در خواندن تصویر"
             )
           );
-
 
       reader.readAsDataURL(
         file
@@ -2479,13 +2413,11 @@ function validateForm(){
 
   }
 
-
   const firstName =
     document
       .getElementById("firstName")
       .value
       .trim();
-
 
   const lastName =
     document
@@ -2493,21 +2425,17 @@ function validateForm(){
       .value
       .trim();
 
-
   const mobile =
     document
       .getElementById("mobile")
       .value
       .trim();
 
-
   const date =
     dateSelect.value;
 
-
   const time =
     timeSelect.value;
-
 
   if(!firstName){
 
@@ -2521,7 +2449,6 @@ function validateForm(){
 
   }
 
-
   if(!lastName){
 
     showMessage(
@@ -2533,7 +2460,6 @@ function validateForm(){
     return false;
 
   }
-
 
   if(!mobile){
 
@@ -2547,7 +2473,6 @@ function validateForm(){
 
   }
 
-
   if(!date){
 
     showMessage(
@@ -2559,7 +2484,6 @@ function validateForm(){
     return false;
 
   }
-
 
   if(!time){
 
@@ -2573,12 +2497,10 @@ function validateForm(){
 
   }
 
-
   const duration =
     getServiceDuration(
       currentService
     );
-
 
   if(
     isSlotBooked(
@@ -2594,13 +2516,11 @@ function validateForm(){
       "error"
     );
 
-
     loadTimes();
 
     return false;
 
   }
-
 
   if(
     isSlotClosed(
@@ -2616,13 +2536,35 @@ function validateForm(){
       "error"
     );
 
-
     loadTimes();
 
     return false;
 
   }
 
+  /*
+    جلوگیری از رزرو ساعت گذشته،
+    حتی اگر کاربر صفحه را از قبل باز کرده باشد.
+  */
+
+  if(
+    isPastSlotToday(
+      date,
+      time
+    )
+  ){
+
+    showMessage(
+      submitMessage,
+      "⏰ این ساعت گذشته است. لطفاً ساعت دیگری انتخاب کنید.",
+      "error"
+    );
+
+    loadTimes();
+
+    return false;
+
+  }
 
   if(
     !receiptFile.files?.length
@@ -2637,7 +2579,6 @@ function validateForm(){
     return false;
 
   }
-
 
   if(
     receiptFile.files[0].size >
@@ -2654,7 +2595,6 @@ function validateForm(){
 
   }
 
-
   return true;
 
 }
@@ -2670,32 +2610,26 @@ async function submitBooking(){
     submitMessage
   );
 
-
   if(!validateForm()){
     return;
   }
 
-
   submitButton.disabled =
     true;
-
 
   loadingMessage
     .classList
     .remove("hidden");
-
 
   try{
 
     const file =
       receiptFile.files[0];
 
-
     const receiptDataUrl =
       await fileToDataURL(
         file
       );
-
 
     const firstName =
       document
@@ -2703,13 +2637,11 @@ async function submitBooking(){
         .value
         .trim();
 
-
     const lastName =
       document
         .getElementById("lastName")
         .value
         .trim();
-
 
     const mobile =
       document
@@ -2717,26 +2649,21 @@ async function submitBooking(){
         .value
         .trim();
 
-
     const date =
       dateSelect.value;
 
-
     const time =
       timeSelect.value;
-
 
     const serviceName =
       getServiceName(
         currentService
       );
 
-
     const originalPrice =
       getServicePrice(
         currentService
       );
-
 
     const payload = {
 
@@ -2778,7 +2705,6 @@ async function submitBooking(){
 
     };
 
-
     await fetch(
       ENDPOINT,
       {
@@ -2799,7 +2725,6 @@ async function submitBooking(){
       }
     );
 
-
     await new Promise(
       resolve =>
         setTimeout(
@@ -2808,16 +2733,13 @@ async function submitBooking(){
         )
     );
 
-
     await refreshBookedSlots();
-
 
     showMessage(
       submitMessage,
       "✅ درخواست شما ارسال شد.\n\nدرخواست در انتظار بررسی و تأیید ادمین است.",
       "success"
     );
-
 
   }
 
@@ -2827,19 +2749,16 @@ async function submitBooking(){
       error
     );
 
-
     showMessage(
       submitMessage,
       "❌ هنگام ارسال اطلاعات مشکلی پیش آمد. لطفاً دوباره تلاش کنید.",
       "error"
     );
 
-
     submitButton.disabled =
       false;
 
   }
-
 
   loadingMessage
     .classList
@@ -2863,10 +2782,8 @@ async function loadConfig(){
         Date.now()
       );
 
-
     const data =
       await response.json();
-
 
     if(!data?.ok){
 
@@ -2877,7 +2794,6 @@ async function loadConfig(){
 
     }
 
-
     config = {
 
       services:
@@ -2887,14 +2803,12 @@ async function loadConfig(){
           ? data.services
           : [],
 
-
       bookedSlots:
         Array.isArray(
           data.bookedSlots
         )
           ? data.bookedSlots
           : [],
-
 
       workHours:
         Array.isArray(
@@ -2903,7 +2817,6 @@ async function loadConfig(){
           ? data.workHours
           : [],
 
-
       closures:
         Array.isArray(
           data.closures
@@ -2911,13 +2824,11 @@ async function loadConfig(){
           ? data.closures
           : [],
 
-
       settings:
         data.settings ||
         {}
 
     };
-
 
     loadServices();
 
@@ -2931,7 +2842,6 @@ async function loadConfig(){
       "Config error:",
       error
     );
-
 
     showMessage(
       submitMessage,
@@ -2959,10 +2869,8 @@ async function refreshBookedSlots(){
         Date.now()
       );
 
-
     const data =
       await response.json();
-
 
     if(
       data?.ok &&
@@ -2973,7 +2881,6 @@ async function refreshBookedSlots(){
 
       config.bookedSlots =
         data.bookedSlots;
-
 
       loadTimes();
 
@@ -3002,24 +2909,20 @@ mainCategory.addEventListener(
   updateSubcategories
 );
 
-
 subCategory.addEventListener(
   "change",
   selectSubcategory
 );
-
 
 dateSelect.addEventListener(
   "change",
   loadTimes
 );
 
-
 discountButton.addEventListener(
   "click",
   checkDiscount
 );
-
 
 discountCode.addEventListener(
   "input",
@@ -3033,17 +2936,14 @@ discountCode.addEventListener(
 
     };
 
-
     hideMessage(
       discountMessage
     );
-
 
     applyDiscountPreview();
 
   }
 );
-
 
 submitButton.addEventListener(
   "click",
@@ -3071,6 +2971,24 @@ setInterval(
 );
 
 
+/*
+  هر 30 ثانیه ساعت‌های امروز
+  دوباره بررسی می‌شوند تا اگر
+  زمان یک نوبت گذشت، خودکار حذف شود.
+*/
+
+setInterval(
+  () => {
+
+    if(dateSelect.value){
+      loadTimes();
+    }
+
+  },
+  30000
+);
+
+
 /* =========================================================
    HEADER
    ========================================================= */
@@ -3084,13 +3002,11 @@ function setHeaderTitle(){
         location.search
       );
 
-
     let title =
       params.get("title") ||
       params.get("action") ||
       params.get("service") ||
       params.get("category");
-
 
     if(
       !title &&
@@ -3104,7 +3020,6 @@ function setHeaderTitle(){
         "";
 
     }
-
 
     const map = {
 
@@ -3130,7 +3045,6 @@ function setHeaderTitle(){
         "🧠 سایکوتراپی"
 
     };
-
 
     headerTitle.textContent =
       map[title] ||
