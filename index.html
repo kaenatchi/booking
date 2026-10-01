@@ -112,10 +112,6 @@ textarea{
   text-align:right;
 }
 
-/* =========================================================
-   RECEIPT FILE INPUT
-   ========================================================= */
-
 .file-box{
   position:relative;
   margin-bottom:12px;
@@ -571,10 +567,6 @@ button:disabled{
 
     <br>
 
-    <!-- =====================================================
-         IMAGE RECEIPT — OPTIONAL
-         ===================================================== -->
-
     <label for="receiptFile">
       📷 تصویر فیش واریزی
       <span class="optional">(اختیاری)</span>
@@ -601,10 +593,6 @@ button:disabled{
       </div>
 
     </div>
-
-    <!-- =====================================================
-         TEXT RECEIPT — REQUIRED
-         ===================================================== -->
 
     <label for="receiptText">
       🧾 متن کامل رسید بانکی
@@ -756,6 +744,8 @@ let currentDiscount = {
   code: ""
 
 };
+
+let bookingSubmitted = false;
 
 
 /* =========================================================
@@ -1940,7 +1930,12 @@ function isPastSlotToday(
    LOAD TIMES
    ========================================================= */
 
-function loadTimes(){
+function loadTimes(preferredTime){
+
+  const previousTime =
+    preferredTime ??
+    timeSelect.value ??
+    "";
 
   timeSelect.innerHTML = "";
 
@@ -2096,6 +2091,27 @@ function loadTimes(){
     );
 
   });
+
+  /*
+    اگر ساعت قبلی هنوز آزاد است،
+    همان ساعت دوباره انتخاب شود.
+  */
+
+  if(
+    previousTime &&
+    Array.from(
+      timeSelect.options
+    ).some(
+      option =>
+        option.value === previousTime &&
+        !option.disabled
+    )
+  ){
+
+    timeSelect.value =
+      previousTime;
+
+  }
 
   if(availableCount === 0){
 
@@ -2356,11 +2372,6 @@ function showServiceInfo(){
     return;
 
   }
-
-  const price =
-    getServicePrice(
-      currentService
-    );
 
   const description =
     getServiceDescription(
@@ -2662,63 +2673,25 @@ function fileToDataURL(file){
 
 
 /* =========================================================
-   LOCAL REQUEST TRACKING CODE
+   CLIENT REQUEST ID
    ========================================================= */
 
-function generateLocalTrackingCode(){
+function generateRequestId(){
 
-  const iranNow =
-    getIranNow();
+  const now =
+    Date.now().toString(36);
 
-  let datePart = "";
-
-  if(iranNow){
-
-    const jalali =
-      gregorianToJalali(
-        iranNow.year,
-        iranNow.month,
-        iranNow.day
-      );
-
-    datePart =
-      String(jalali.jy) +
-      String(jalali.jm).padStart(2,"0") +
-      String(jalali.jd).padStart(2,"0");
-
-  }
-
-  else{
-
-    const now =
-      new Date();
-
-    const jalali =
-      gregorianToJalali(
-        now.getFullYear(),
-        now.getMonth() + 1,
-        now.getDate()
-      );
-
-    datePart =
-      String(jalali.jy) +
-      String(jalali.jm).padStart(2,"0") +
-      String(jalali.jd).padStart(2,"0");
-
-  }
-
-  const randomPart =
-    Math.floor(
-      100000 +
-      Math.random() * 900000
-    );
+  const random =
+    Math.random()
+      .toString(36)
+      .substring(2,10);
 
   return (
-    "KC-" +
-    datePart +
+    "REQ-" +
+    now +
     "-" +
-    randomPart
-  );
+    random
+  ).toUpperCase();
 
 }
 
@@ -2852,7 +2825,7 @@ function validateForm(){
       "error"
     );
 
-    loadTimes();
+    loadTimes(time);
 
     focusField(timeSelect);
 
@@ -2874,7 +2847,7 @@ function validateForm(){
       "error"
     );
 
-    loadTimes();
+    loadTimes(time);
 
     focusField(timeSelect);
 
@@ -2902,11 +2875,6 @@ function validateForm(){
     return false;
 
   }
-
-  /*
-    متن کامل رسید بانکی اجباری است.
-    عکس اختیاری است.
-  */
 
   if(!receiptTextValue){
 
@@ -2936,6 +2904,72 @@ function validateForm(){
   }
 
   return true;
+
+}
+
+
+/* =========================================================
+   WAIT FOR SERVER BOOKING
+   ========================================================= */
+
+async function waitForBookingStatus(
+  requestId,
+  maxAttempts = 15
+){
+
+  for(
+    let attempt = 0;
+    attempt < maxAttempts;
+    attempt++
+  ){
+
+    try{
+
+      const response =
+        await fetch(
+          ENDPOINT +
+          "?action=bookingStatus&requestId=" +
+          encodeURIComponent(
+            requestId
+          ) +
+          "&_=" +
+          Date.now()
+        );
+
+      const data =
+        await response.json();
+
+      if(
+        data?.ok &&
+        data?.found
+      ){
+
+        return data;
+
+      }
+
+    }
+
+    catch(error){
+
+      console.log(
+        "Booking status check:",
+        error
+      );
+
+    }
+
+    await new Promise(
+      resolve =>
+        setTimeout(
+          resolve,
+          1000
+        )
+    );
+
+  }
+
+  return null;
 
 }
 
@@ -2983,11 +3017,6 @@ async function submitBooking(){
     let receiptNameValue = "";
 
     let receiptMimeType = "";
-
-    /*
-      فقط در صورت انتخاب تصویر،
-      تصویر خوانده و ارسال می‌شود.
-    */
 
     if(hasImage){
 
@@ -3052,25 +3081,12 @@ async function submitBooking(){
         : 0;
 
     /*
-      این کد در خود Mini App ساخته می‌شود.
-      بعد از ارسال به مشتری نمایش داده می‌شود.
+      این فقط شناسه درخواست است.
+      کد پیگیری نهایی توسط سرور ساخته می‌شود.
     */
 
-    const localTrackingCode =
-      generateLocalTrackingCode();
-
-    /*
-      متن رسید + کد درخواست را در trackingCode
-      می‌فرستیم تا Code.gs فعلی بتواند آن را
-      از همان فیلد دریافت کند.
-    */
-
-    const serverTrackingValue =
-      (
-        receiptTextValue +
-        "\n\nکد پیگیری درخواست: " +
-        localTrackingCode
-      ).trim();
+    const clientRequestId =
+      generateRequestId();
 
     const payload = {
 
@@ -3092,13 +3108,11 @@ async function submitBooking(){
         discountCode.value.trim(),
 
       /*
-        متن کامل رسید بانکی
-        داخل فیلد موجود trackingCode
-        قرار می‌گیرد.
+        شماره تراکنش بانکی
       */
 
       trackingCode:
-        serverTrackingValue,
+        trackingCode.value.trim(),
 
       price:originalPrice,
 
@@ -3106,6 +3120,13 @@ async function submitBooking(){
 
       finalPrice:
         originalPrice - discount,
+
+      /*
+        متن کامل رسید
+      */
+
+      receiptText:
+        receiptTextValue,
 
       /*
         تصویر اختیاری
@@ -3119,15 +3140,17 @@ async function submitBooking(){
       receiptMimeType,
 
       /*
-        فیلد جداگانه برای نسخه‌های
-        آینده Code.gs
+        شناسه درخواست سمت مشتری
       */
 
-      receiptText:
-        receiptTextValue,
+      clientRequestId,
+
+      /*
+        برای سازگاری با نسخه‌های قبلی
+      */
 
       clientTrackingCode:
-        localTrackingCode,
+        clientRequestId,
 
       telegramChatId:
         getTelegramChatId()
@@ -3159,29 +3182,46 @@ async function submitBooking(){
     );
 
     /*
-      کمی زمان برای ثبت سمت Apps Script
+      منتظر می‌مانیم تا ثبت واقعی
+      در Google Sheets انجام شود.
     */
 
-    await new Promise(
-      resolve =>
-        setTimeout(
-          resolve,
-          1800
-        )
-    );
+    const bookingStatus =
+      await waitForBookingStatus(
+        clientRequestId,
+        20
+      );
+
+    if(
+      !bookingStatus ||
+      !bookingStatus.found
+    ){
+
+      throw new Error(
+        "BOOKING_NOT_CONFIRMED"
+      );
+
+    }
+
+    const serverTrackingCode =
+      bookingStatus.trackingCode ||
+      "";
+
+    if(!serverTrackingCode){
+
+      throw new Error(
+        "SERVER_TRACKING_CODE_MISSING"
+      );
+
+    }
 
     /*
-      تازه‌سازی زمان‌های رزرو
-    */
-
-    await refreshBookedSlots();
-
-    /*
-      نمایش کد پیگیری به مشتری
+      دیگر refreshBookedSlots اجرا نمی‌شود.
+      چون باعث reset شدن ساعت انتخابی می‌شد.
     */
 
     generatedTrackingCode.textContent =
-      localTrackingCode;
+      serverTrackingCode;
 
     trackingResult
       .classList
@@ -3189,13 +3229,70 @@ async function submitBooking(){
 
     showMessage(
       submitMessage,
-      "✅ درخواست شما ارسال شد.\n\nدرخواست شما در انتظار بررسی و تأیید ادمین است.\n\n🎫 کد پیگیری درخواست در پایین صفحه نمایش داده شده است.",
+      "✅ درخواست شما با موفقیت ثبت شد\n\n" +
+      "🔐 کد پیگیری: " +
+      serverTrackingCode +
+      "\n\n" +
+      "💳 فیش و اطلاعات پرداخت شما دریافت شد و درخواستتان در انتظار بررسی ادمین است.\n\n" +
+      "⏳ لطفاً تا حداکثر ۳۰ دقیقه منتظر بمانید.\n" +
+      "درخواست شما پس از بررسی اطلاعات و تأیید پرداخت، نهایی خواهد شد.\n\n" +
+      "🌿 لطفاً تا زمان دریافت پیام تأیید، از ارسال مجدد درخواست خودداری کنید.\n\n" +
+      "📌 کد پیگیری خود را نگه دارید.",
       "success"
     );
 
+    bookingSubmitted =
+      true;
+
     /*
-      اسکرول نرم به کد پیگیری
+      بعد از ثبت موفق، فرم را قفل می‌کنیم
+      تا درخواست دوباره ارسال نشود.
     */
+
+    mainCategory.disabled =
+      true;
+
+    subCategory.disabled =
+      true;
+
+    dateSelect.disabled =
+      true;
+
+    timeSelect.disabled =
+      true;
+
+    discountCode.disabled =
+      true;
+
+    discountButton.disabled =
+      true;
+
+    document
+      .getElementById("firstName")
+      .disabled = true;
+
+    document
+      .getElementById("lastName")
+      .disabled = true;
+
+    document
+      .getElementById("mobile")
+      .disabled = true;
+
+    receiptText.disabled =
+      true;
+
+    trackingCode.disabled =
+      true;
+
+    receiptFile.disabled =
+      true;
+
+    submitButton.textContent =
+      "✅ درخواست ثبت شد";
+
+    submitButton.disabled =
+      true;
 
     setTimeout(() => {
 
@@ -3221,22 +3318,58 @@ async function submitBooking(){
       error
     );
 
-    showMessage(
-      submitMessage,
-      "❌ هنگام ارسال اطلاعات مشکلی پیش آمد.\n\nلطفاً دوباره تلاش کنید.",
-      "error"
-    );
+    if(
+      error?.message ===
+      "BOOKING_NOT_CONFIRMED"
+    ){
+
+      showMessage(
+        submitMessage,
+        "⚠️ درخواست هنوز از سمت سامانه تأیید ثبت نشده است.\n\n" +
+        "ممکن است ارتباط با سامانه کمی زمان‌بر شده باشد.\n\n" +
+        "لطفاً چند لحظه بعد دوباره بررسی کنید و تا دریافت کد پیگیری، از ارسال چندباره درخواست خودداری کنید.",
+        "error"
+      );
+
+    }
+
+    else if(
+      error?.message ===
+      "SERVER_TRACKING_CODE_MISSING"
+    ){
+
+      showMessage(
+        submitMessage,
+        "⚠️ درخواست دریافت شد اما کد پیگیری از سامانه دریافت نشد.\n\nلطفاً فعلاً درخواست را دوباره ارسال نکنید و با پشتیبانی کائنات‌چی تماس بگیرید.",
+        "error"
+      );
+
+    }
+
+    else{
+
+      showMessage(
+        submitMessage,
+        "❌ هنگام ارسال اطلاعات مشکلی پیش آمد.\n\nلطفاً دوباره تلاش کنید.",
+        "error"
+      );
+
+    }
 
   }
 
   finally{
 
-    submitButton.disabled =
-      false;
-
     loadingMessage
       .classList
       .add("hidden");
+
+    if(!bookingSubmitted){
+
+      submitButton.disabled =
+        false;
+
+    }
 
   }
 
@@ -3415,7 +3548,22 @@ async function loadConfig(){
 
 async function refreshBookedSlots(){
 
+  /*
+    اگر درخواست با موفقیت ثبت شده،
+    دیگر صفحه را دستکاری نمی‌کنیم.
+  */
+
+  if(bookingSubmitted){
+    return;
+  }
+
   try{
+
+    const selectedDate =
+      dateSelect.value;
+
+    const selectedTime =
+      timeSelect.value;
 
     const response =
       await fetch(
@@ -3437,7 +3585,25 @@ async function refreshBookedSlots(){
       config.bookedSlots =
         data.bookedSlots;
 
-      loadTimes();
+      /*
+        تاریخ و ساعت قبلی حفظ می‌شوند.
+      */
+
+      if(
+        dateSelect.value === selectedDate
+      ){
+
+        loadTimes(
+          selectedTime
+        );
+
+      }
+
+      else{
+
+        loadTimes();
+
+      }
 
     }
 
@@ -3471,7 +3637,13 @@ subCategory.addEventListener(
 
 dateSelect.addEventListener(
   "change",
-  loadTimes
+  function(){
+
+    if(!bookingSubmitted){
+      loadTimes();
+    }
+
+  }
 );
 
 discountButton.addEventListener(
@@ -3522,8 +3694,18 @@ setInterval(
 setInterval(
   () => {
 
-    if(dateSelect.value){
-      loadTimes();
+    if(
+      dateSelect.value &&
+      !bookingSubmitted
+    ){
+
+      const selectedTime =
+        timeSelect.value;
+
+      loadTimes(
+        selectedTime
+      );
+
     }
 
   },
