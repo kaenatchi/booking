@@ -105,7 +105,7 @@ input[type=text]{
 }
 
 textarea{
-  min-height:150px;
+  min-height:170px;
   resize:vertical;
   line-height:2;
   direction:rtl;
@@ -183,11 +183,6 @@ textarea{
   color:#5f7066;
   font-size:12px;
   line-height:2;
-}
-
-.receipt-required{
-  color:#a52d2d;
-  font-weight:bold;
 }
 
 .optional{
@@ -303,12 +298,6 @@ button:disabled{
   color:#315b70;
 }
 
-.muted{
-  color:#7c8a80;
-  font-size:12px;
-  line-height:1.9;
-}
-
 .loading{
   text-align:center;
   color:#688071;
@@ -352,6 +341,7 @@ button:disabled{
   letter-spacing:1px;
   color:#174b38;
   margin:8px 0 12px;
+  word-break:break-all;
 }
 
 .copy-button{
@@ -573,15 +563,16 @@ button:disabled{
     </div>
 
     <div class="muted">
-      لطفاً مبلغ نهایی را به کارت بالا واریز کرده و
-      سپس تصویر فیش یا متن کامل رسید بانکی خود را ارسال کنید.
+      لطفاً مبلغ نهایی را به کارت بالا واریز کنید.
+      پس از پرداخت، <strong>متن کامل رسید بانکی</strong> را در کادر مربوط وارد کنید.
+      در صورت امکان می‌توانید تصویر فیش را نیز اضافه کنید.
       ثبت نهایی نوبت پس از بررسی و تأیید ادمین انجام خواهد شد.
     </div>
 
     <br>
 
     <!-- =====================================================
-         IMAGE RECEIPT
+         IMAGE RECEIPT — OPTIONAL
          ===================================================== -->
 
     <label for="receiptFile">
@@ -612,37 +603,42 @@ button:disabled{
     </div>
 
     <!-- =====================================================
-         TEXT RECEIPT
+         TEXT RECEIPT — REQUIRED
          ===================================================== -->
 
     <label for="receiptText">
-      🧾 متن رسید واریز
-      <span class="optional">(در صورت نداشتن تصویر)</span>
+      🧾 متن کامل رسید بانکی
+      <span class="required">*</span>
     </label>
 
     <textarea
       id="receiptText"
-      placeholder="متن کامل رسیدی که بانک پس از کارت‌به‌کارت یا انتقال وجه نمایش می‌دهد را کپی و اینجا وارد کنید."
+      placeholder="متن کامل رسیدی که بانک پس از کارت‌به‌کارت یا انتقال وجه نمایش می‌دهد را کپی و اینجا وارد کنید؛ شامل مبلغ، تاریخ، ساعت و شماره پیگیری/تراکنش."
+      required
     ></textarea>
 
     <div class="receipt-help">
-      ⚠️ <strong>حداقل یکی از دو مورد بالا الزامی است.</strong><br>
-      اگر امکان بارگذاری تصویر فیش را ندارید، لطفاً
-      <strong>متن کامل رسید بانکی</strong> را کپی کرده و در کادر بالا وارد کنید.
+      🧾 <strong>وارد کردن متن کامل رسید بانکی الزامی است.</strong><br>
+      لطفاً متن رسیدی را که بانک پس از انتقال وجه نمایش می‌دهد
+      <strong>کامل کپی کنید</strong> و در این قسمت وارد کنید.
       اطلاعات رسید هنگام بررسی با تراکنش ثبت‌شده در حساب تطبیق داده می‌شود.
+      <br><br>
+      📷 اگر امکان ارسال تصویر فیش را دارید، می‌توانید تصویر آن را هم اضافه کنید.
+      اگر گالری باز نشد یا در انتخاب تصویر مشکل داشتید،
+      <strong>فقط متن کامل رسید بانکی را وارد کنید.</strong>
       <br><br>
       🔐 لطفاً رمز کارت، CVV2، تاریخ انقضا یا رمز پویا را وارد نکنید.
     </div>
 
     <label for="trackingCode">
-      کد پیگیری / شماره تراکنش
-      <span class="optional">(اختیاری)</span>
+      شماره پیگیری / شماره تراکنش بانکی
+      <span class="optional">(در صورت وجود در رسید)</span>
     </label>
 
     <input
       id="trackingCode"
       type="text"
-      placeholder="در صورت وجود"
+      placeholder="شماره پیگیری یا شماره تراکنش را از رسید وارد کنید"
       autocomplete="off"
     >
 
@@ -2666,28 +2662,63 @@ function fileToDataURL(file){
 
 
 /* =========================================================
-   LOCAL TRACKING CODE
+   LOCAL REQUEST TRACKING CODE
    ========================================================= */
 
 function generateLocalTrackingCode(){
 
-  const now =
-    new Date();
+  const iranNow =
+    getIranNow();
 
-  const timePart =
-    String(
-      now.getTime()
-    ).slice(-6);
+  let datePart = "";
+
+  if(iranNow){
+
+    const jalali =
+      gregorianToJalali(
+        iranNow.year,
+        iranNow.month,
+        iranNow.day
+      );
+
+    datePart =
+      String(jalali.jy) +
+      String(jalali.jm).padStart(2,"0") +
+      String(jalali.jd).padStart(2,"0");
+
+  }
+
+  else{
+
+    const now =
+      new Date();
+
+    const jalali =
+      gregorianToJalali(
+        now.getFullYear(),
+        now.getMonth() + 1,
+        now.getDate()
+      );
+
+    datePart =
+      String(jalali.jy) +
+      String(jalali.jm).padStart(2,"0") +
+      String(jalali.jd).padStart(2,"0");
+
+  }
 
   const randomPart =
-    Math.random()
-      .toString(36)
-      .substring(2,6)
-      .toUpperCase();
+    Math.floor(
+      100000 +
+      Math.random() * 900000
+    );
 
-  return "KC-" +
-    timePart +
-    randomPart;
+  return (
+    "KC-" +
+    datePart +
+    "-" +
+    randomPart
+  );
 
 }
 
@@ -2756,9 +2787,6 @@ function validateForm(){
   const hasImage =
     receiptFile.files &&
     receiptFile.files.length > 0;
-
-  const hasTextReceipt =
-    receiptTextValue.length > 0;
 
   if(!firstName){
 
@@ -2876,23 +2904,16 @@ function validateForm(){
   }
 
   /*
-    حداقل یکی از عکس یا متن رسید باید وجود داشته باشد.
+    متن کامل رسید بانکی اجباری است.
+    عکس اختیاری است.
   */
 
-  if(
-    !hasImage &&
-    !hasTextReceipt
-  ){
+  if(!receiptTextValue){
 
-    showMessage(
-      submitMessage,
-      "⚠️ لطفاً تصویر فیش را انتخاب کنید یا متن کامل رسید بانکی را وارد کنید.\n\nحداقل یکی از این دو مورد برای ثبت درخواست الزامی است.",
-      "error"
+    return requiredError(
+      "لطفاً متن کامل رسید بانکی را وارد کنید.",
+      receiptText
     );
-
-    focusField(receiptText);
-
-    return false;
 
   }
 
@@ -2933,6 +2954,10 @@ async function submitBooking(){
     .classList
     .add("hidden");
 
+  hideMessage(
+    copyMessage
+  );
+
   if(!validateForm()){
     return;
   }
@@ -2960,8 +2985,8 @@ async function submitBooking(){
     let receiptMimeType = "";
 
     /*
-      فقط اگر تصویر واقعاً انتخاب شده باشد
-      FileReader اجرا می‌شود.
+      فقط در صورت انتخاب تصویر،
+      تصویر خوانده و ارسال می‌شود.
     */
 
     if(hasImage){
@@ -3027,13 +3052,25 @@ async function submitBooking(){
         : 0;
 
     /*
-      کد پیگیری فعلاً سمت کاربر ساخته می‌شود.
-      چون Code.gs را تغییر نمی‌دهیم،
-      این کد فعلاً شناسه رسمی Sheet نیست.
+      این کد در خود Mini App ساخته می‌شود.
+      بعد از ارسال به مشتری نمایش داده می‌شود.
     */
 
     const localTrackingCode =
       generateLocalTrackingCode();
+
+    /*
+      متن رسید + کد درخواست را در trackingCode
+      می‌فرستیم تا Code.gs فعلی بتواند آن را
+      از همان فیلد دریافت کند.
+    */
+
+    const serverTrackingValue =
+      (
+        receiptTextValue +
+        "\n\nکد پیگیری درخواست: " +
+        localTrackingCode
+      ).trim();
 
     const payload = {
 
@@ -3054,8 +3091,14 @@ async function submitBooking(){
       discountCode:
         discountCode.value.trim(),
 
+      /*
+        متن کامل رسید بانکی
+        داخل فیلد موجود trackingCode
+        قرار می‌گیرد.
+      */
+
       trackingCode:
-        trackingCode.value.trim(),
+        serverTrackingValue,
 
       price:originalPrice,
 
@@ -3065,7 +3108,7 @@ async function submitBooking(){
         originalPrice - discount,
 
       /*
-        تصویر فیش
+        تصویر اختیاری
       */
 
       receiptDataUrl,
@@ -3076,15 +3119,12 @@ async function submitBooking(){
       receiptMimeType,
 
       /*
-        متن کامل رسید
+        فیلد جداگانه برای نسخه‌های
+        آینده Code.gs
       */
 
       receiptText:
         receiptTextValue,
-
-      /*
-        کد پیگیری محلی
-      */
 
       clientTrackingCode:
         localTrackingCode,
@@ -3093,6 +3133,10 @@ async function submitBooking(){
         getTelegramChatId()
 
     };
+
+    /*
+      ارسال به Google Apps Script
+    */
 
     await fetch(
       ENDPOINT,
@@ -3114,6 +3158,10 @@ async function submitBooking(){
       }
     );
 
+    /*
+      کمی زمان برای ثبت سمت Apps Script
+    */
+
     await new Promise(
       resolve =>
         setTimeout(
@@ -3121,6 +3169,10 @@ async function submitBooking(){
           1800
         )
     );
+
+    /*
+      تازه‌سازی زمان‌های رزرو
+    */
 
     await refreshBookedSlots();
 
@@ -3137,12 +3189,12 @@ async function submitBooking(){
 
     showMessage(
       submitMessage,
-      "✅ درخواست شما ارسال شد.\n\nدرخواست در انتظار بررسی و تأیید ادمین است.",
+      "✅ درخواست شما ارسال شد.\n\nدرخواست شما در انتظار بررسی و تأیید ادمین است.\n\n🎫 کد پیگیری درخواست در پایین صفحه نمایش داده شده است.",
       "success"
     );
 
     /*
-      اسکرول نرم به سمت کد پیگیری
+      اسکرول نرم به کد پیگیری
     */
 
     setTimeout(() => {
@@ -3165,12 +3217,13 @@ async function submitBooking(){
   catch(error){
 
     console.error(
+      "Submit error:",
       error
     );
 
     showMessage(
       submitMessage,
-      "❌ هنگام ارسال اطلاعات مشکلی پیش آمد. لطفاً دوباره تلاش کنید.",
+      "❌ هنگام ارسال اطلاعات مشکلی پیش آمد.\n\nلطفاً دوباره تلاش کنید.",
       "error"
     );
 
