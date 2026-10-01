@@ -102,6 +102,53 @@ input[type=text]{
   text-align:right;
 }
 
+/* =========================================================
+   NATIVE FILE INPUT
+   ========================================================= */
+
+.file-box{
+  margin-bottom:12px;
+}
+
+#receiptFile{
+  display:block;
+  width:100%;
+  height:auto;
+  min-height:50px;
+  padding:8px;
+  margin:0 0 8px 0;
+  border:1px solid #9eb5a6;
+  border-radius:10px;
+  background:#f8faf8;
+  color:#20543e;
+  font-family:inherit;
+  font-size:13px;
+  cursor:pointer;
+  direction:ltr;
+  text-align:left;
+}
+
+#receiptFile:focus{
+  border-color:#2c7658;
+  outline:2px solid rgba(44,118,88,.12);
+  outline-offset:1px;
+}
+
+.file-hint{
+  font-size:12px;
+  color:#7c8a80;
+  line-height:1.8;
+  margin-top:4px;
+}
+
+.file-name{
+  font-size:12px;
+  color:#20543e;
+  margin-top:7px;
+  line-height:1.8;
+  word-break:break-word;
+}
+
 button{
   width:100%;
   padding:13px;
@@ -123,58 +170,6 @@ button:disabled{
 .secondary{
   background:#e8f1eb;
   color:#20543e;
-}
-
-/* =========================================================
-   RECEIPT FILE PICKER
-   ========================================================= */
-
-.file-box{
-  position:relative;
-  margin-bottom:12px;
-  min-height:58px;
-}
-
-#receiptFile{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  opacity:0;
-  cursor:pointer;
-  z-index:2;
-  margin:0;
-  padding:0;
-}
-
-.file-picker{
-  display:block;
-  width:100%;
-  padding:14px;
-  border:1px dashed #9eb5a6;
-  border-radius:10px;
-  background:#f8faf8;
-  color:#20543e;
-  text-align:center;
-  font-size:14px;
-  cursor:pointer;
-  line-height:1.8;
-  position:relative;
-  z-index:1;
-}
-
-.file-picker:active{
-  background:#e8f1eb;
-}
-
-.file-name{
-  font-size:12px;
-  color:#7c8a80;
-  margin-top:7px;
-  line-height:1.8;
-  word-break:break-word;
-  position:relative;
-  z-index:1;
 }
 
 .payment-box{
@@ -288,6 +283,7 @@ button:disabled{
 }
 
 @media(max-width:480px){
+
   body{
     padding:12px;
   }
@@ -303,6 +299,7 @@ button:disabled{
   .header h1{
     font-size:20px;
   }
+
 }
 </style>
 </head>
@@ -317,12 +314,14 @@ button:disabled{
   </div>
 
   <div class="card">
+
     <h2>🌿 دریافت نوبت</h2>
 
     <div class="muted">
       لطفاً خدمت موردنظر، تاریخ و ساعت خود را انتخاب کنید
       و سپس اطلاعات خود را به همراه تصویر فیش واریزی ارسال نمایید.
     </div>
+
   </div>
 
   <div class="card">
@@ -333,7 +332,7 @@ button:disabled{
       دسته‌بندی خدمت <span class="required">*</span>
     </label>
 
-    <select id="mainCategory">
+    <select id="mainCategory" required>
       <option value="">در حال دریافت خدمات...</option>
     </select>
 
@@ -343,7 +342,7 @@ button:disabled{
         نوع خدمت <span class="required">*</span>
       </label>
 
-      <select id="subCategory">
+      <select id="subCategory" required>
         <option value="">لطفاً انتخاب کنید</option>
       </select>
 
@@ -380,7 +379,7 @@ button:disabled{
       تاریخ <span class="required">*</span>
     </label>
 
-    <select id="date">
+    <select id="date" required>
       <option value="">در حال آماده‌سازی تاریخ‌ها...</option>
     </select>
 
@@ -388,7 +387,7 @@ button:disabled{
       ساعت <span class="required">*</span>
     </label>
 
-    <select id="time">
+    <select id="time" required>
       <option value="">ابتدا تاریخ را انتخاب کنید</option>
     </select>
 
@@ -409,6 +408,7 @@ button:disabled{
       type="text"
       placeholder="نام"
       autocomplete="given-name"
+      required
     >
 
     <label for="lastName">
@@ -420,6 +420,7 @@ button:disabled{
       type="text"
       placeholder="نام خانوادگی"
       autocomplete="family-name"
+      required
     >
 
     <label for="mobile">
@@ -432,6 +433,7 @@ button:disabled{
       inputmode="tel"
       placeholder="09xxxxxxxxx"
       autocomplete="tel"
+      required
     >
 
   </div>
@@ -507,6 +509,13 @@ button:disabled{
 
     <div class="file-box">
 
+      <!--
+        مهم:
+        این input عمداً native و قابل مشاهده است.
+        برای Telegram WebView در iOS از input مخفی
+        یا label پوشاننده استفاده نمی‌کنیم.
+      -->
+
       <input
         id="receiptFile"
         type="file"
@@ -515,12 +524,9 @@ button:disabled{
         aria-label="تصویر فیش واریزی"
       >
 
-      <label
-        for="receiptFile"
-        class="file-picker"
-      >
-        📷 انتخاب تصویر فیش از گالری
-      </label>
+      <div class="file-hint">
+        📷 با لمس کادر بالا، تصویر فیش را از گالری انتخاب کنید.
+      </div>
 
       <div id="receiptName" class="file-name">
         هنوز تصویری انتخاب نشده است
@@ -769,7 +775,7 @@ function hideMessage(element){
 
 
 /* =========================================================
-   FIELD ERROR / SCROLL
+   FIELD ERROR
    ========================================================= */
 
 function focusField(element){
@@ -781,15 +787,15 @@ function focusField(element){
       block:"center"
     });
 
-    setTimeout(
-      () => {
-        try{
-          element.focus();
-        }
-        catch(e){}
-      },
-      350
-    );
+    setTimeout(() => {
+
+      try{
+        element.focus();
+      }
+
+      catch(e){}
+
+    },350);
 
   }
 
@@ -1345,7 +1351,7 @@ function isSlotClosed(
 
 
 /* =========================================================
-   GENERATE AVAILABLE START TIMES
+   GENERATE START TIMES
    ========================================================= */
 
 function generateSlotsForDay(dayName){
@@ -1524,7 +1530,7 @@ function isSlotBooked(
 
 
 /* =========================================================
-   DATES
+   DATES — BASED ON IRAN TIME
    ========================================================= */
 
 function initDates(){
@@ -1548,12 +1554,41 @@ function initDates(){
       ) || 7
     );
 
-  const today =
-    new Date();
+  const iranNow =
+    getIranNow();
 
-  today.setHours(
-    12,0,0,0
-  );
+  let today;
+
+  if(iranNow){
+
+    /*
+      ساعت ۱۲ ظهر UTC باعث می‌شود
+      تاریخ ایران مستقل از timezone دستگاه
+      به‌درستی محاسبه شود.
+    */
+
+    today =
+      new Date(
+        Date.UTC(
+          iranNow.year,
+          iranNow.month - 1,
+          iranNow.day,
+          12,0,0
+        )
+      );
+
+  }
+
+  else{
+
+    today =
+      new Date();
+
+    today.setHours(
+      12,0,0,0
+    );
+
+  }
 
   let added = 0;
 
@@ -1567,16 +1602,12 @@ function initDates(){
     const d =
       new Date(today);
 
-    d.setDate(
-      today.getDate() + offset
-    );
-
-    d.setHours(
-      12,0,0,0
+    d.setUTCDate(
+      today.getUTCDate() + offset
     );
 
     const dayName =
-      weekDays[d.getDay()];
+      weekDays[d.getUTCDay()];
 
     if(
       normalizeWeekDay(dayName) ===
@@ -1597,9 +1628,9 @@ function initDates(){
 
     const j =
       gregorianToJalali(
-        d.getFullYear(),
-        d.getMonth() + 1,
-        d.getDate()
+        d.getUTCFullYear(),
+        d.getUTCMonth() + 1,
+        d.getUTCDate()
       );
 
     const key =
@@ -1658,7 +1689,7 @@ function initDates(){
 
 
 /* =========================================================
-   CURRENT DAY / TIME FILTER
+   IRAN CURRENT TIME
    ========================================================= */
 
 function getIranNow(){
@@ -1687,11 +1718,24 @@ function getIranNow(){
     parts.forEach(part => {
 
       if(part.type !== "literal"){
+
         result[part.type] =
           Number(part.value);
+
       }
 
     });
+
+    /*
+      بعضی مرورگرها نیمه‌شب را
+      به صورت 24 نمایش می‌دهند.
+    */
+
+    if(result.hour === 24){
+
+      result.hour = 0;
+
+    }
 
     return result;
 
@@ -1763,7 +1807,9 @@ function loadTimes(){
 
   timeSelect.innerHTML = "";
 
-  hideMessage(slotMessage);
+  hideMessage(
+    slotMessage
+  );
 
   const dateKey =
     dateSelect.value;
@@ -1822,15 +1868,6 @@ function loadTimes(){
     );
 
   let availableCount = 0;
-  let bookedCount = 0;
-  let closedCount = 0;
-  let pastCount = 0;
-
-  /*
-    تمام ساعت‌ها را نمایش می‌دهیم.
-    ساعت رزروشده حذف نمی‌شود؛
-    با ❌ نمایش داده شده و disabled است.
-  */
 
   const first =
     document.createElement(
@@ -1875,6 +1912,14 @@ function loadTimes(){
 
     option.value = time;
 
+    /*
+      اولویت نمایش:
+      رزرو شده
+      سپس بسته
+      سپس گذشته
+      سپس آزاد
+    */
+
     if(booked){
 
       option.textContent =
@@ -1886,8 +1931,6 @@ function loadTimes(){
       option.className =
         "option-booked";
 
-      bookedCount++;
-
     }
 
     else if(closed){
@@ -1898,8 +1941,6 @@ function loadTimes(){
 
       option.disabled = true;
 
-      closedCount++;
-
     }
 
     else if(past){
@@ -1909,8 +1950,6 @@ function loadTimes(){
         " ⏰ گذشته";
 
       option.disabled = true;
-
-      pastCount++;
 
     }
 
@@ -1943,7 +1982,7 @@ function loadTimes(){
 
 
 /* =========================================================
-   LOAD SERVICES
+   SERVICES
    ========================================================= */
 
 function loadServices(){
@@ -2241,7 +2280,7 @@ function clearServiceInfo(){
 
 
 /* =========================================================
-   DISCOUNT PREVIEW
+   DISCOUNT
    ========================================================= */
 
 function applyDiscountPreview(){
@@ -2296,10 +2335,6 @@ function applyDiscountPreview(){
 
 }
 
-
-/* =========================================================
-   DISCOUNT CHECK
-   ========================================================= */
 
 async function checkDiscount(){
 
@@ -2421,9 +2456,16 @@ receiptFile.addEventListener(
       this.files.length
     ){
 
+      const file =
+        this.files[0];
+
       receiptName.textContent =
-        "✅ " +
-        this.files[0].name;
+        "✅ تصویر انتخاب شد: " +
+        file.name;
+
+      hideMessage(
+        submitMessage
+      );
 
     }
 
@@ -2456,7 +2498,7 @@ function getTelegramChatId(){
 
 
 /* =========================================================
-   FILE
+   FILE TO DATA URL
    ========================================================= */
 
 function fileToDataURL(file){
@@ -2496,14 +2538,42 @@ function fileToDataURL(file){
 
 function validateForm(){
 
+  const firstNameInput =
+    document.getElementById(
+      "firstName"
+    );
+
+  const lastNameInput =
+    document.getElementById(
+      "lastName"
+    );
+
+  const mobileInput =
+    document.getElementById(
+      "mobile"
+    );
+
   /*
     خدمت
   */
 
   if(!currentService){
 
+    if(
+      !subcategoryBox.classList.contains(
+        "hidden"
+      )
+    ){
+
+      return requiredError(
+        "لطفاً نوع خدمت موردنظر را انتخاب کنید.",
+        subCategory
+      );
+
+    }
+
     return requiredError(
-      "لطفاً خدمت موردنظر را انتخاب کنید.",
+      "لطفاً دسته‌بندی خدمت موردنظر را انتخاب کنید.",
       mainCategory
     );
 
@@ -2514,30 +2584,21 @@ function validateForm(){
   */
 
   const firstName =
-    document
-      .getElementById("firstName")
-      .value
-      .trim();
+    firstNameInput.value.trim();
 
   /*
     نام خانوادگی
   */
 
   const lastName =
-    document
-      .getElementById("lastName")
-      .value
-      .trim();
+    lastNameInput.value.trim();
 
   /*
     موبایل
   */
 
   const mobile =
-    document
-      .getElementById("mobile")
-      .value
-      .trim();
+    mobileInput.value.trim();
 
   /*
     تاریخ
@@ -2557,7 +2618,7 @@ function validateForm(){
 
     return requiredError(
       "لطفاً نام خود را وارد کنید.",
-      document.getElementById("firstName")
+      firstNameInput
     );
 
   }
@@ -2566,7 +2627,7 @@ function validateForm(){
 
     return requiredError(
       "لطفاً نام خانوادگی خود را وارد کنید.",
-      document.getElementById("lastName")
+      lastNameInput
     );
 
   }
@@ -2575,7 +2636,7 @@ function validateForm(){
 
     return requiredError(
       "لطفاً شماره موبایل خود را وارد کنید.",
-      document.getElementById("mobile")
+      mobileInput
     );
 
   }
@@ -2604,9 +2665,7 @@ function validateForm(){
     );
 
   /*
-    دوباره روی خود نوبت بررسی می‌کنیم
-    تا اگر در همین فاصله شخص دیگری رزرو کرده بود،
-    درخواست ارسال نشود.
+    بررسی مجدد رزرو
   */
 
   if(
@@ -2631,6 +2690,10 @@ function validateForm(){
 
   }
 
+  /*
+    بررسی تعطیلی
+  */
+
   if(
     isSlotClosed(
       date,
@@ -2652,6 +2715,10 @@ function validateForm(){
     return false;
 
   }
+
+  /*
+    بررسی گذشته بودن ساعت
+  */
 
   if(
     isPastSlotToday(
@@ -2691,7 +2758,7 @@ function validateForm(){
   }
 
   /*
-    محدودیت حجم فیش
+    حجم فیش
   */
 
   if(
@@ -2725,11 +2792,6 @@ async function submitBooking(){
   hideMessage(
     submitMessage
   );
-
-  /*
-    قبل از هر کاری تمام فیلدهای اجباری
-    بررسی می‌شوند.
-  */
 
   if(!validateForm()){
     return;
@@ -2786,6 +2848,16 @@ async function submitBooking(){
         currentService
       );
 
+    const discount =
+      currentDiscount.valid
+        ? Math.min(
+            numberValue(
+              currentDiscount.amount
+            ),
+            originalPrice
+          )
+        : 0;
+
     const payload = {
 
       firstName,
@@ -2814,6 +2886,11 @@ async function submitBooking(){
           .trim(),
 
       price:originalPrice,
+
+      discountAmount:discount,
+
+      finalPrice:
+        originalPrice - discount,
 
       receiptDataUrl,
 
@@ -2847,9 +2924,7 @@ async function submitBooking(){
     );
 
     /*
-      کمی زمان می‌دهیم تا سرور
-      ثبت را انجام دهد و سپس
-      لیست نوبت‌ها دوباره خوانده شود.
+      فرصت کوتاه برای پردازش Apps Script
     */
 
     await new Promise(
@@ -3010,9 +3085,8 @@ async function refreshBookedSlots(){
         data.bookedSlots;
 
       /*
-        با دریافت رزرو جدید،
-        لیست ساعت‌ها بلافاصله دوباره ساخته می‌شود.
-        بنابراین ساعت رزروشده ❌ می‌گیرد.
+        اگر شخص دیگری رزرو کرده باشد،
+        ساعت در لیست به ❌ رزرو شده تبدیل می‌شود.
       */
 
       loadTimes();
@@ -3106,8 +3180,7 @@ setInterval(
 
 /*
   هر 30 ثانیه ساعت‌های امروز
-  دوباره بررسی می‌شوند تا اگر
-  زمان یک نوبت گذشت، خودکار غیرفعال شود.
+  دوباره بررسی می‌شوند.
 */
 
 setInterval(
