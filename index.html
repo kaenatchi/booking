@@ -103,42 +103,57 @@ input[type=text]{
 }
 
 /* =========================================================
-   NATIVE FILE INPUT
+   RECEIPT FILE INPUT
    ========================================================= */
 
 .file-box{
+  position:relative;
   margin-bottom:12px;
 }
 
-#receiptFile{
-  display:block;
+.file-picker{
+  display:flex;
+  align-items:center;
+  justify-content:center;
   width:100%;
-  height:auto;
-  min-height:50px;
-  padding:8px;
+  min-height:52px;
+  padding:13px;
   margin:0 0 8px 0;
   border:1px solid #9eb5a6;
   border-radius:10px;
   background:#f8faf8;
   color:#20543e;
   font-family:inherit;
-  font-size:13px;
+  font-size:14px;
   cursor:pointer;
-  direction:ltr;
-  text-align:left;
+  text-align:center;
+  line-height:1.8;
+  -webkit-user-select:none;
+  user-select:none;
 }
 
-#receiptFile:focus{
+.file-picker:active{
+  background:#edf5f0;
+}
+
+#receiptFile{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:0;
+  opacity:0;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  clip-path:inset(50%);
+  white-space:nowrap;
+  border:0;
+}
+
+#receiptFile:focus + .file-picker{
   border-color:#2c7658;
   outline:2px solid rgba(44,118,88,.12);
   outline-offset:1px;
-}
-
-.file-hint{
-  font-size:12px;
-  color:#7c8a80;
-  line-height:1.8;
-  margin-top:4px;
 }
 
 .file-name{
@@ -509,13 +524,6 @@ button:disabled{
 
     <div class="file-box">
 
-      <!--
-        مهم:
-        این input عمداً native و قابل مشاهده است.
-        برای Telegram WebView در iOS از input مخفی
-        یا label پوشاننده استفاده نمی‌کنیم.
-      -->
-
       <input
         id="receiptFile"
         type="file"
@@ -524,9 +532,12 @@ button:disabled{
         aria-label="تصویر فیش واریزی"
       >
 
-      <div class="file-hint">
-        📷 با لمس کادر بالا، تصویر فیش را از گالری انتخاب کنید.
-      </div>
+      <label
+        for="receiptFile"
+        class="file-picker"
+      >
+        📷 انتخاب تصویر فیش از گالری
+      </label>
 
       <div id="receiptName" class="file-name">
         هنوز تصویری انتخاب نشده است
@@ -1561,12 +1572,6 @@ function initDates(){
 
   if(iranNow){
 
-    /*
-      ساعت ۱۲ ظهر UTC باعث می‌شود
-      تاریخ ایران مستقل از timezone دستگاه
-      به‌درستی محاسبه شود.
-    */
-
     today =
       new Date(
         Date.UTC(
@@ -1725,11 +1730,6 @@ function getIranNow(){
       }
 
     });
-
-    /*
-      بعضی مرورگرها نیمه‌شب را
-      به صورت 24 نمایش می‌دهند.
-    */
 
     if(result.hour === 24){
 
@@ -1911,14 +1911,6 @@ function loadTimes(){
       );
 
     option.value = time;
-
-    /*
-      اولویت نمایش:
-      رزرو شده
-      سپس بسته
-      سپس گذشته
-      سپس آزاد
-    */
 
     if(booked){
 
@@ -2553,10 +2545,6 @@ function validateForm(){
       "mobile"
     );
 
-  /*
-    خدمت
-  */
-
   if(!currentService){
 
     if(
@@ -2579,37 +2567,17 @@ function validateForm(){
 
   }
 
-  /*
-    نام
-  */
-
   const firstName =
     firstNameInput.value.trim();
-
-  /*
-    نام خانوادگی
-  */
 
   const lastName =
     lastNameInput.value.trim();
 
-  /*
-    موبایل
-  */
-
   const mobile =
     mobileInput.value.trim();
 
-  /*
-    تاریخ
-  */
-
   const date =
     dateSelect.value;
-
-  /*
-    ساعت
-  */
 
   const time =
     timeSelect.value;
@@ -2664,10 +2632,6 @@ function validateForm(){
       currentService
     );
 
-  /*
-    بررسی مجدد رزرو
-  */
-
   if(
     isSlotBooked(
       date,
@@ -2689,10 +2653,6 @@ function validateForm(){
     return false;
 
   }
-
-  /*
-    بررسی تعطیلی
-  */
 
   if(
     isSlotClosed(
@@ -2716,10 +2676,6 @@ function validateForm(){
 
   }
 
-  /*
-    بررسی گذشته بودن ساعت
-  */
-
   if(
     isPastSlotToday(
       date,
@@ -2741,10 +2697,6 @@ function validateForm(){
 
   }
 
-  /*
-    فیش اجباری
-  */
-
   if(
     !receiptFile.files ||
     !receiptFile.files.length
@@ -2756,10 +2708,6 @@ function validateForm(){
     );
 
   }
-
-  /*
-    حجم فیش
-  */
 
   if(
     receiptFile.files[0].size >
@@ -2923,10 +2871,6 @@ async function submitBooking(){
       }
     );
 
-    /*
-      فرصت کوتاه برای پردازش Apps Script
-    */
-
     await new Promise(
       resolve =>
         setTimeout(
@@ -3084,11 +3028,6 @@ async function refreshBookedSlots(){
       config.bookedSlots =
         data.bookedSlots;
 
-      /*
-        اگر شخص دیگری رزرو کرده باشد،
-        ساعت در لیست به ❌ رزرو شده تبدیل می‌شود.
-      */
-
       loadTimes();
 
     }
@@ -3167,21 +3106,11 @@ setHeaderTitle();
 loadConfig();
 
 
-/*
-  هر 15 ثانیه نوبت‌های رزروشده
-  دوباره از سرور خوانده می‌شوند.
-*/
-
 setInterval(
   refreshBookedSlots,
   15000
 );
 
-
-/*
-  هر 30 ثانیه ساعت‌های امروز
-  دوباره بررسی می‌شوند.
-*/
 
 setInterval(
   () => {
