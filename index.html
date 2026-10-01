@@ -1,344 +1,315 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <base target="_top">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<base target="_top">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <title>سامانه دریافت نوبت کائنات‌چی</title>
+<title>سامانه دریافت نوبت کائنات‌چی</title>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
 
-    body {
-      margin: 0;
-      padding: 20px;
-      font-family: Tahoma, Arial, sans-serif;
-      background: #f4f7f4;
-      color: #26352d;
-      direction: rtl;
-    }
+body{
+  margin:0;
+  padding:20px;
+  font-family:Tahoma,Arial,sans-serif;
+  background:#f4f7f4;
+  color:#26352d;
+  direction:rtl;
+}
 
-    .container {
-      max-width: 650px;
-      margin: 0 auto;
-    }
+.container{
+  max-width:650px;
+  margin:0 auto;
+}
 
-    /* =========================
-       HEADER
-    ========================= */
+.header{
+  text-align:center;
+  background:linear-gradient(135deg,#174b38,#2c7658);
+  color:#fff;
+  padding:30px 20px;
+  border-radius:20px;
+  margin-bottom:20px;
+  box-shadow:0 5px 18px rgba(23,75,56,.12);
+}
 
-    .header {
-      text-align: center;
-      background: linear-gradient(135deg, #174b38, #2c7658);
-      color: white;
-      padding: 30px 20px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 5px 18px rgba(23, 75, 56, 0.12);
-    }
+.header h1{
+  font-size:23px;
+  margin:0 0 10px;
+  line-height:1.8;
+}
 
-    .header h1 {
-      font-size: 23px;
-      margin: 0 0 10px;
-      line-height: 1.8;
-    }
+.header p{
+  margin:0;
+  font-size:14px;
+  opacity:.92;
+  line-height:1.8;
+}
 
-    .header p {
-      margin: 0;
-      font-size: 14px;
-      opacity: 0.92;
-      line-height: 1.8;
-    }
+.card{
+  background:#fff;
+  padding:22px;
+  border-radius:16px;
+  margin-bottom:16px;
+  box-shadow:0 4px 15px rgba(0,0,0,.05);
+}
 
-    /* =========================
-       CARDS
-    ========================= */
+h2{
+  font-size:17px;
+  margin:0 0 18px;
+  color:#20543e;
+  line-height:1.8;
+}
 
-    .card {
-      background: #ffffff;
-      padding: 22px;
-      border-radius: 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
+label{
+  display:block;
+  margin-bottom:8px;
+  font-size:14px;
+  line-height:1.8;
+}
 
-    h2 {
-      font-size: 17px;
-      margin: 0 0 18px;
-      color: #20543e;
-      line-height: 1.8;
-    }
+input,
+select{
+  width:100%;
+  padding:13px;
+  border:1px solid #d8e3dc;
+  border-radius:10px;
+  font-family:inherit;
+  font-size:14px;
+  margin-bottom:12px;
+  background:#fff;
+  color:#26352d;
+  outline:none;
+}
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 14px;
-      line-height: 1.8;
-    }
+input:focus,
+select:focus{
+  border-color:#2c7658;
+}
 
-    input,
-    select {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #d8e3dc;
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: 14px;
-      margin-bottom: 12px;
-      background: #fff;
-      color: #26352d;
-      outline: none;
-    }
+input[type=tel]{
+  direction:ltr;
+  text-align:left;
+}
 
-    input:focus,
-    select:focus {
-      border-color: #2c7658;
-    }
+input[type=text]{
+  direction:rtl;
+  text-align:right;
+}
 
-    input[type="tel"] {
-      direction: ltr;
-      text-align: left;
-    }
+button{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:10px;
+  background:#246347;
+  color:#fff;
+  font-family:inherit;
+  font-size:14px;
+  cursor:pointer;
+  margin-top:6px;
+}
 
-    input[type="text"] {
-      direction: rtl;
-      text-align: right;
-    }
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
 
-    button {
-      width: 100%;
-      padding: 13px;
-      border: 0;
-      border-radius: 10px;
-      background: #246347;
-      color: white;
-      font-family: inherit;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 6px;
-    }
+.secondary{
+  background:#e8f1eb;
+  color:#20543e;
+}
 
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+.file-box{
+  position:relative;
+  margin-bottom:12px;
+}
 
-    .secondary {
-      background: #e8f1eb;
-      color: #20543e;
-    }
+#receiptFile{
+  position:absolute;
+  width:1px;
+  height:1px;
+  opacity:0;
+  overflow:hidden;
+  pointer-events:none;
+}
 
-    /* =========================
-       FILE UPLOAD
-    ========================= */
+.file-picker{
+  display:block;
+  width:100%;
+  padding:14px;
+  border:1px dashed #9eb5a6;
+  border-radius:10px;
+  background:#f8faf8;
+  color:#20543e;
+  text-align:center;
+  font-size:14px;
+  cursor:pointer;
+  line-height:1.8;
+}
 
-    .file-box {
-      position: relative;
-      margin-bottom: 12px;
-    }
+.file-picker:active{
+  background:#e8f1eb;
+}
 
-    #receiptFile {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
+.file-name{
+  font-size:12px;
+  color:#7c8a80;
+  margin-top:7px;
+  line-height:1.8;
+  word-break:break-word;
+}
 
-    .file-picker {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      border: 1px dashed #9eb5a6;
-      border-radius: 10px;
-      background: #f8faf8;
-      color: #20543e;
-      text-align: center;
-      font-size: 14px;
-      cursor: pointer;
-      line-height: 1.8;
-    }
+.payment-box{
+  background:#f8faf8;
+  border:1px solid #e8eee9;
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:15px;
+}
 
-    .file-picker:active {
-      background: #e8f1eb;
-    }
+.payment-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:9px 0;
+  border-bottom:1px solid #edf0ed;
+  font-size:13px;
+  line-height:1.8;
+}
 
-    .file-name {
-      font-size: 12px;
-      color: #7c8a80;
-      margin-top: 7px;
-      line-height: 1.8;
-      word-break: break-word;
-    }
+.payment-row:last-child{
+  border-bottom:0;
+}
 
-    /* =========================
-       PAYMENT
-    ========================= */
+.payment-label{
+  color:#7c8a80;
+}
 
-    .payment-box {
-      background: #f8faf8;
-      border: 1px solid #e8eee9;
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 15px;
-    }
+.payment-value{
+  font-weight:bold;
+  color:#20543e;
+  direction:ltr;
+  text-align:left;
+  word-break:break-word;
+}
 
-    .payment-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 9px 0;
-      border-bottom: 1px solid #edf0ed;
-      font-size: 13px;
-      line-height: 1.8;
-    }
+.price-box{
+  background:#edf5f0;
+  border-radius:12px;
+  padding:15px;
+  margin-top:12px;
+}
 
-    .payment-row:last-child {
-      border-bottom: 0;
-    }
+.price-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:6px 0;
+  font-size:13px;
+  line-height:1.8;
+}
 
-    .payment-label {
-      color: #7c8a80;
-    }
+.price-final{
+  font-size:16px;
+  font-weight:bold;
+  color:#174b38;
+  border-top:1px solid #d8e3dc;
+  margin-top:6px;
+  padding-top:10px;
+}
 
-    .payment-value {
-      font-weight: bold;
-      color: #20543e;
-      direction: ltr;
-      text-align: left;
-      word-break: break-word;
-    }
+.message{
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
+  font-size:13px;
+  line-height:1.9;
+  display:none;
+  white-space:pre-line;
+}
 
-    /* =========================
-       PRICE
-    ========================= */
+.success{
+  background:#e5f5e9;
+  color:#216638;
+}
 
-    .price-box {
-      background: #edf5f0;
-      border-radius: 12px;
-      padding: 15px;
-      margin-top: 12px;
-    }
+.error{
+  background:#fff0ef;
+  color:#a52d2d;
+}
 
-    .price-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 6px 0;
-      font-size: 13px;
-      line-height: 1.8;
-    }
+.info{
+  background:#edf4f8;
+  color:#315b70;
+}
 
-    .price-final {
-      font-size: 16px;
-      font-weight: bold;
-      color: #174b38;
-      border-top: 1px solid #d8e3dc;
-      margin-top: 6px;
-      padding-top: 10px;
-    }
+.muted{
+  color:#7c8a80;
+  font-size:12px;
+  line-height:1.9;
+}
 
-    /* =========================
-       MESSAGES
-    ========================= */
+.loading{
+  text-align:center;
+  color:#688071;
+  padding:12px;
+  font-size:13px;
+}
 
-    .message {
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 12px;
-      font-size: 13px;
-      line-height: 1.9;
-      display: none;
-    }
+.hidden{
+  display:none!important;
+}
 
-    .success {
-      background: #e5f5e9;
-      color: #216638;
-    }
+.required{
+  color:#a52d2d;
+}
 
-    .error {
-      background: #fff0ef;
-      color: #a52d2d;
-    }
+@media(max-width:480px){
+  body{
+    padding:12px;
+  }
 
-    .info {
-      background: #edf4f8;
-      color: #315b70;
-    }
+  .card{
+    padding:17px;
+  }
 
-    /* =========================
-       INFO
-    ========================= */
+  .header{
+    padding:25px 17px;
+  }
 
-    .muted {
-      color: #7c8a80;
-      font-size: 12px;
-      line-height: 1.9;
-    }
-
-    .loading {
-      text-align: center;
-      color: #688071;
-      padding: 12px;
-      font-size: 13px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .required {
-      color: #a52d2d;
-    }
-
-    @media (max-width: 480px) {
-      body {
-        padding: 12px;
-      }
-
-      .card {
-        padding: 17px;
-      }
-
-      .header {
-        padding: 25px 17px;
-      }
-
-      .header h1 {
-        font-size: 20px;
-      }
-    }
-  </style>
+  .header h1{
+    font-size:20px;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-  <!-- HEADER -->
   <div class="header">
     <h1 id="headerTitle">📅 رزرو نوبت</h1>
     <p>سامانه دریافت نوبت کائنات‌چی</p>
   </div>
 
-  <!-- WELCOME -->
   <div class="card">
     <h2>🌿 دریافت نوبت</h2>
 
     <div class="muted">
-      لطفاً خدمت موردنظر، تاریخ و ساعت خود را انتخاب کنید و سپس اطلاعات
-      خود را به همراه تصویر فیش واریزی ارسال نمایید.
+      لطفاً خدمت موردنظر، تاریخ و ساعت خود را انتخاب کنید
+      و سپس اطلاعات خود را به همراه تصویر فیش واریزی ارسال نمایید.
     </div>
   </div>
 
-  <!-- SERVICE -->
+
   <div class="card">
 
     <h2>🔮 انتخاب خدمت</h2>
@@ -350,6 +321,7 @@
     <select id="mainCategory">
       <option value="">در حال دریافت خدمات...</option>
     </select>
+
 
     <div id="subcategoryBox" class="hidden">
 
@@ -363,7 +335,9 @@
 
     </div>
 
+
     <div id="serviceDescription" class="muted"></div>
+
 
     <div id="servicePriceBox" class="price-box hidden">
 
@@ -386,7 +360,7 @@
 
   </div>
 
-  <!-- DATE & TIME -->
+
   <div class="card">
 
     <h2>📅 انتخاب زمان نوبت</h2>
@@ -399,6 +373,7 @@
       <option value="">در حال آماده‌سازی تاریخ‌ها...</option>
     </select>
 
+
     <label for="time">
       ساعت
     </label>
@@ -407,11 +382,12 @@
       <option value="">ابتدا تاریخ را انتخاب کنید</option>
     </select>
 
+
     <div id="slotMessage" class="message info"></div>
 
   </div>
 
-  <!-- CUSTOMER -->
+
   <div class="card">
 
     <h2>👤 اطلاعات شما</h2>
@@ -427,6 +403,7 @@
       autocomplete="given-name"
     >
 
+
     <label for="lastName">
       نام خانوادگی <span class="required">*</span>
     </label>
@@ -437,6 +414,7 @@
       placeholder="نام خانوادگی"
       autocomplete="family-name"
     >
+
 
     <label for="mobile">
       شماره موبایل <span class="required">*</span>
@@ -452,7 +430,7 @@
 
   </div>
 
-  <!-- DISCOUNT -->
+
   <div class="card">
 
     <h2>🎁 کد تخفیف</h2>
@@ -480,7 +458,7 @@
 
   </div>
 
-  <!-- PAYMENT -->
+
   <div class="card">
 
     <h2>💳 پرداخت</h2>
@@ -489,33 +467,42 @@
 
       <div class="payment-row">
         <span class="payment-label">شماره کارت</span>
-        <span class="payment-value">6219 - 8619 - 7737 - 8974</span>
+        <span class="payment-value">
+          6219 - 8619 - 7737 - 8974
+        </span>
       </div>
 
       <div class="payment-row">
         <span class="payment-label">بانک</span>
-        <span class="payment-value">سامان</span>
+        <span class="payment-value">
+          سامان
+        </span>
       </div>
 
       <div class="payment-row">
         <span class="payment-label">بنام</span>
-        <span class="payment-value">آرشام نظری</span>
+        <span class="payment-value">
+          آرشام نظری
+        </span>
       </div>
 
     </div>
 
+
     <div class="muted">
-      لطفاً مبلغ نهایی را به کارت بالا واریز کرده و تصویر فیش
-      واریزی خود را ارسال کنید. ثبت نهایی نوبت پس از بررسی و تأیید
-      ادمین انجام خواهد شد.
+      لطفاً مبلغ نهایی را به کارت بالا واریز کرده و
+      تصویر فیش واریزی خود را ارسال کنید.
+      ثبت نهایی نوبت پس از بررسی و تأیید ادمین انجام خواهد شد.
     </div>
 
     <br>
+
 
     <label>
       🧾 تصویر فیش واریزی
       <span class="required">*</span>
     </label>
+
 
     <div class="file-box">
 
@@ -532,14 +519,12 @@
         📷 انتخاب تصویر فیش از گالری
       </label>
 
-      <div
-        id="receiptName"
-        class="file-name"
-      >
+      <div id="receiptName" class="file-name">
         هنوز تصویری انتخاب نشده است
       </div>
 
     </div>
+
 
     <label for="trackingCode">
       کد پیگیری / شماره تراکنش
@@ -555,7 +540,7 @@
 
   </div>
 
-  <!-- SUBMIT -->
+
   <div class="card">
 
     <button
@@ -584,1672 +569,2133 @@
 
 <script>
 
-  /* =========================================================
-     TELEGRAM
-  ========================================================= */
+const tg =
+  window.Telegram &&
+  window.Telegram.WebApp
+    ? window.Telegram.WebApp
+    : null;
 
-  const tg =
-    window.Telegram &&
-    window.Telegram.WebApp
-      ? window.Telegram.WebApp
-      : null;
 
-  if (tg) {
-    try {
-      tg.ready();
-      tg.expand();
-    } catch (e) {
-      console.log(e);
-    }
+if(tg){
+
+  try{
+    tg.ready();
+    tg.expand();
   }
 
+  catch(e){}
 
-  /* =========================================================
-     CONFIG
-  ========================================================= */
+}
 
-  const ENDPOINT =
-    "https://script.google.com/macros/s/AKfycbyGSzpV9iHxMsVmceAI4i5KIhbsttuD5pOkDqRK58mx-QlP60CWjg2PZfU5miLgN2ssSw/exec";
 
+/* =========================================================
+   GOOGLE APPS SCRIPT
+   ========================================================= */
 
-  /* =========================================================
-     GLOBAL DATA
-  ========================================================= */
+const ENDPOINT =
+"https://script.google.com/macros/s/AKfycbyGSzpV9iHxMsVmceAI4i5KIhbsttuD5pOkDqRK58mx-QlP60CWjg2PZfU5miLgN2ssSw/exec";
 
-  let config = {
-    services: [],
-    bookedSlots: [],
-    workHours: [],
-    closures: [],
-    settings: {}
-  };
 
-  let dateDayMap = {};
+/* =========================================================
+   GLOBAL DATA
+   ========================================================= */
 
-  let currentService = null;
+let config = {
 
-  let currentDiscount = {
-    valid: false,
-    amount: 0,
-    code: ""
-  };
+  services: [],
+  bookedSlots: [],
+  workHours: [],
+  closures: [],
+  settings: {}
 
+};
 
-  /* =========================================================
-     ELEMENTS
-  ========================================================= */
+let dateDayMap = {};
 
-  const headerTitle =
-    document.getElementById("headerTitle");
+let currentService = null;
 
-  const mainCategory =
-    document.getElementById("mainCategory");
+let currentDiscount = {
 
-  const subcategoryBox =
-    document.getElementById("subcategoryBox");
+  valid: false,
+  amount: 0,
+  code: ""
 
-  const subCategory =
-    document.getElementById("subCategory");
+};
 
-  const serviceDescription =
-    document.getElementById("serviceDescription");
 
-  const servicePriceBox =
-    document.getElementById("servicePriceBox");
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
 
-  const servicePrice =
-    document.getElementById("servicePrice");
+const headerTitle =
+  document.getElementById("headerTitle");
 
-  const discountRow =
-    document.getElementById("discountRow");
+const mainCategory =
+  document.getElementById("mainCategory");
 
-  const discountAmount =
-    document.getElementById("discountAmount");
+const subcategoryBox =
+  document.getElementById("subcategoryBox");
 
-  const finalPrice =
-    document.getElementById("finalPrice");
+const subCategory =
+  document.getElementById("subCategory");
 
-  const dateSelect =
-    document.getElementById("date");
+const serviceDescription =
+  document.getElementById("serviceDescription");
 
-  const timeSelect =
-    document.getElementById("time");
+const servicePriceBox =
+  document.getElementById("servicePriceBox");
 
-  const slotMessage =
-    document.getElementById("slotMessage");
+const servicePrice =
+  document.getElementById("servicePrice");
 
-  const discountCode =
-    document.getElementById("discountCode");
+const discountRow =
+  document.getElementById("discountRow");
 
-  const discountButton =
-    document.getElementById("discountButton");
+const discountAmount =
+  document.getElementById("discountAmount");
 
-  const discountMessage =
-    document.getElementById("discountMessage");
+const finalPrice =
+  document.getElementById("finalPrice");
 
-  const receiptFile =
-    document.getElementById("receiptFile");
+const dateSelect =
+  document.getElementById("date");
 
-  const receiptName =
-    document.getElementById("receiptName");
+const timeSelect =
+  document.getElementById("time");
 
-  const submitButton =
-    document.getElementById("submitButton");
+const slotMessage =
+  document.getElementById("slotMessage");
 
-  const submitMessage =
-    document.getElementById("submitMessage");
+const discountCode =
+  document.getElementById("discountCode");
 
-  const loadingMessage =
-    document.getElementById("loadingMessage");
+const discountButton =
+  document.getElementById("discountButton");
 
+const discountMessage =
+  document.getElementById("discountMessage");
 
-  /* =========================================================
-     HEADER TITLE
-  ========================================================= */
+const receiptFile =
+  document.getElementById("receiptFile");
 
-  function setHeaderTitle() {
+const receiptName =
+  document.getElementById("receiptName");
 
-    try {
+const submitButton =
+  document.getElementById("submitButton");
 
-      const params =
-        new URLSearchParams(window.location.search);
+const submitMessage =
+  document.getElementById("submitMessage");
 
-      let title =
-        params.get("title") ||
-        params.get("action") ||
-        params.get("service") ||
-        params.get("category");
+const loadingMessage =
+  document.getElementById("loadingMessage");
 
-      if (!title && tg && tg.initDataUnsafe) {
-        title = tg.initDataUnsafe.start_param || "";
-      }
 
-      if (!title) {
-        title = "📅 رزرو نوبت";
-      }
+/* =========================================================
+   GENERAL HELPERS
+   ========================================================= */
 
-      const titleMap = {
-        booking: "📅 رزرو نوبت",
-        appointment: "📅 رزرو نوبت",
-        reserve: "📅 رزرو نوبت",
-        services: "📋 لیست خدمات",
-        energy: "🔮 انرژی‌خوانی",
-        candle: "🕯️ شمع‌تراپی",
-        psychotherapy: "🧠 سایکوتراپی"
-      };
+function normalizeText(value){
 
-      if (titleMap[title]) {
-        title = titleMap[title];
-      }
+  return String(value ?? "")
+    .replace(/ي/g,"ی")
+    .replace(/ى/g,"ی")
+    .replace(/ك/g,"ک")
+    .replace(/ۀ/g,"ه")
+    .replace(/ة/g,"ه")
+    .replace(/\u200c/g,"")
+    .replace(/\u200d/g,"")
+    .replace(/\u00a0/g," ")
+    .trim();
 
-      headerTitle.textContent = title;
+}
 
-    } catch (e) {
 
-      headerTitle.textContent = "📅 رزرو نوبت";
+function compactText(value){
 
-    }
+  return normalizeText(value)
+    .replace(/\s+/g,"");
 
-  }
+}
 
 
-  /* =========================================================
-     TEXT NORMALIZATION
-     ========================================================= */
+function toEnglishDigits(value){
 
-  function normalizeText(value) {
-
-    return String(value || "")
-      .replace(/ي/g, "ی")
-      .replace(/ى/g, "ی")
-      .replace(/ك/g, "ک")
-      .replace(/ۀ/g, "ه")
-      .replace(/ة/g, "ه")
-      .replace(/\u200c/g, "")
-      .replace(/\u200d/g, "")
-      .replace(/\u00a0/g, " ")
-      .trim();
-
-  }
-
-
-  function compactText(value) {
-
-    return normalizeText(value)
-      .replace(/\s+/g, "");
-
-  }
-
-
-  /* =========================================================
-     NUMBER NORMALIZATION
-  ========================================================= */
-
-  function toEnglishDigits(value) {
-
-    return String(value || "")
-      .replace(/[۰-۹]/g, function(d) {
-        return String("۰۱۲۳۴۵۶۷۸۹".indexOf(d));
-      })
-      .replace(/[٠-٩]/g, function(d) {
-        return String("٠١٢٣٤٥٦٧٨٩".indexOf(d));
-      });
-
-  }
-
-
-  function numberValue(value) {
-
-    const n =
-      Number(
-        toEnglishDigits(
-          String(value || "")
-            .replace(/,/g, "")
-            .trim()
-        )
-      );
-
-    return isNaN(n) ? 0 : n;
-
-  }
-
-
-  function formatMoney(value) {
-
-    return Number(value || 0)
-      .toLocaleString("fa-IR") + " تومان";
-
-  }
-
-
-  /* =========================================================
-     JALALI CONVERSION
-     ========================================================= */
-
-  /*
-    تبدیل دقیق میلادی به شمسی.
-    این تابع از الگوریتم استاندارد جلالی استفاده می‌کند.
-  */
-
-  function div(a, b) {
-    return Math.floor(a / b);
-  }
-
-
-  function gregorianToJalali(gy, gm, gd) {
-
-    const gDaysInMonth = [
-      0,
-      31,
-      59,
-      90,
-      120,
-      151,
-      181,
-      212,
-      243,
-      273,
-      304,
-      334
-    ];
-
-    let jy = (gy > 1600) ? 979 : 0;
-
-    gy -= (gy > 1600) ? 1600 : 621;
-
-    const gy2 =
-      (gm > 2)
-        ? gy + 1
-        : gy;
-
-    let days =
-      (365 * gy) +
-      div(gy2 + 3, 4) -
-      div(gy2 + 99, 100) +
-      div(gy2 + 399, 400) -
-      80 +
-      gd +
-      gDaysInMonth[gm - 1];
-
-    jy +=
-      33 * div(days, 12053);
-
-    days %= 12053;
-
-    jy +=
-      4 * div(days, 1461);
-
-    days %= 1461;
-
-    if (days > 365) {
-
-      jy +=
-        div(days - 1, 365);
-
-      days =
-        (days - 1) % 365;
-
-    }
-
-    const jm =
-      days < 186
-        ? 1 + div(days, 31)
-        : 7 + div(days - 186, 30);
-
-    const jd =
-      1 +
-      (
-        days < 186
-          ? days % 31
-          : (days - 186) % 30
-      );
-
-    return {
-      jy: jy,
-      jm: jm,
-      jd: jd
-    };
-
-  }
-
-
-  function jalaliKey(j) {
-
-    return (
-      j.jy +
-      "/" +
-      String(j.jm).padStart(2, "0") +
-      "/" +
-      String(j.jd).padStart(2, "0")
+  return String(value ?? "")
+    .replace(/[۰-۹]/g,d =>
+      String("۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+    )
+    .replace(/[٠-٩]/g,d =>
+      String("٠١٢٣٤٥٦٧٨٩".indexOf(d))
     );
 
-  }
+}
 
 
-  function jalaliDisplay(j) {
+function numberValue(value){
 
-    return (
-      j.jd +
-      " " +
-      jalaliMonthName(j.jm) +
-      " " +
-      j.jy
-    );
+  const n = Number(
+    toEnglishDigits(
+      String(value ?? "")
+        .replace(/,/g,"")
+        .trim()
+    )
+  );
 
-  }
+  return Number.isFinite(n) ? n : 0;
 
-
-  function jalaliMonthName(month) {
-
-    const months = [
-      "",
-      "فروردین",
-      "اردیبهشت",
-      "خرداد",
-      "تیر",
-      "مرداد",
-      "شهریور",
-      "مهر",
-      "آبان",
-      "آذر",
-      "دی",
-      "بهمن",
-      "اسفند"
-    ];
-
-    return months[month] || "";
-
-  }
+}
 
 
-  /* =========================================================
-     WEEK DAYS
-  ========================================================= */
+function formatMoney(value){
 
-  const weekDays = {
-    0: "یکشنبه",
-    1: "دوشنبه",
-    2: "سه‌شنبه",
-    3: "چهارشنبه",
-    4: "پنجشنبه",
-    5: "جمعه",
-    6: "شنبه"
-  };
+  return Number(value || 0)
+    .toLocaleString("fa-IR")
+    + " تومان";
+
+}
 
 
-  function normalizeWeekDay(value) {
+function showMessage(element,text,type){
 
-    const s =
-      compactText(value);
+  element.textContent = text;
 
-    const map = {
-      "شنبه": "شنبه",
-      "یکشنبه": "یکشنبه",
-      "یکشنبه": "یکشنبه",
-      "دوشنبه": "دوشنبه",
-      "سهشنبه": "سه‌شنبه",
-      "سهشنبه": "سه‌شنبه",
-      "چهارشنبه": "چهارشنبه",
-      "پنجشنبه": "پنجشنبه",
-      "جمعه": "جمعه"
-    };
+  element.className =
+    "message " + type;
 
-    return map[s] || normalizeText(value);
+  element.style.display = "block";
 
-  }
+}
 
 
-  /* =========================================================
-     SETTINGS
-  ========================================================= */
+function hideMessage(element){
 
-  function getSetting(name, fallback) {
+  element.style.display = "none";
 
-    const settings =
-      config.settings || {};
+}
 
-    const wanted =
-      compactText(name);
 
-    for (const key in settings) {
+/* =========================================================
+   SETTINGS
+   ========================================================= */
 
-      if (
-        compactText(key) === wanted
-      ) {
-        return settings[key];
-      }
+function getSetting(name,fallback){
+
+  const wanted =
+    compactText(name);
+
+  const settings =
+    config.settings || {};
+
+  for(const key in settings){
+
+    if(
+      compactText(key) === wanted
+    ){
+
+      return settings[key];
 
     }
 
-    return fallback;
-
   }
 
+  return fallback;
 
-  function getNumberSetting(name, fallback) {
-
-    return numberValue(
-      getSetting(name, fallback)
-    );
-
-  }
+}
 
 
-  /* =========================================================
-     WORK HOURS
-  ========================================================= */
+function getNumberSetting(name,fallback){
 
-  function isActive(value) {
+  return numberValue(
+    getSetting(name,fallback)
+  );
 
-    const s =
-      compactText(value);
-
-    if (!s) return true;
-
-    return ![
-      "غیرفعال",
-      "غیرفعالشد",
-      "inactive",
-      "disabled",
-      "false",
-      "0",
-      "off"
-    ].includes(s);
-
-  }
+}
 
 
-  function getDayWorkRows(dayName) {
+/* =========================================================
+   STATUS
+   ========================================================= */
 
-    const wanted =
-      compactText(dayName);
+function isActive(value){
 
-    return (config.workHours || [])
-      .filter(row => {
+  const s =
+    compactText(value);
 
-        const rowDay =
-          row.day ||
-          row["روز"] ||
-          row.Day ||
-          "";
+  return ![
+    "غیرفعال",
+    "غیرفعالشد",
+    "inactive",
+    "disabled",
+    "false",
+    "0",
+    "off"
+  ].includes(s);
 
-        const rowStatus =
-          row.status ||
-          row["وضعیت"] ||
-          row.Status ||
-          "";
+}
 
-        return (
-          compactText(rowDay) === wanted &&
-          isActive(rowStatus)
+
+/* =========================================================
+   WEEK DAYS
+   ========================================================= */
+
+const weekDays = {
+
+  0:"یکشنبه",
+  1:"دوشنبه",
+  2:"سه‌شنبه",
+  3:"چهارشنبه",
+  4:"پنجشنبه",
+  5:"جمعه",
+  6:"شنبه"
+
+};
+
+
+function normalizeWeekDay(value){
+
+  const s =
+    compactText(value);
+
+  const map = {
+
+    "شنبه":"شنبه",
+    "یکشنبه":"یکشنبه",
+    "دوشنبه":"دوشنبه",
+    "سهشنبه":"سه‌شنبه",
+    "چهارشنبه":"چهارشنبه",
+    "پنجشنبه":"پنجشنبه",
+    "جمعه":"جمعه"
+
+  };
+
+  return map[s] ||
+    normalizeText(value);
+
+}
+
+
+/* =========================================================
+   WORK HOURS
+   ========================================================= */
+
+function getDayWorkRows(dayName){
+
+  const wanted =
+    normalizeWeekDay(dayName);
+
+  return (config.workHours || [])
+    .filter(row => {
+
+      const day =
+        normalizeWeekDay(
+          row.day ??
+          row["روز"] ??
+          row.Day ??
+          ""
         );
 
-      });
+      const status =
+        row.status ??
+        row["وضعیت"] ??
+        row.Status ??
+        "";
+
+      return (
+        day === wanted &&
+        isActive(status)
+      );
+
+    });
+
+}
+
+
+function hasWorkingHours(dayName){
+
+  return getDayWorkRows(dayName)
+    .length > 0;
+
+}
+
+
+/* =========================================================
+   DATE HELPERS
+   ========================================================= */
+
+function normalizeDateKey(value){
+
+  if(!value){
+    return "";
+  }
+
+  const s =
+    toEnglishDigits(
+      String(value)
+        .trim()
+        .replace(/-/g,"/")
+        .replace(/\./g,"/")
+    );
+
+  const parts =
+    s.split("/");
+
+  if(parts.length !== 3){
+    return s;
+  }
+
+  return (
+    parts[0] +
+    "/" +
+    String(parts[1]).padStart(2,"0") +
+    "/" +
+    String(parts[2]).padStart(2,"0")
+  );
+
+}
+
+
+function gregorianToJalali(gy,gm,gd){
+
+  const gdm =
+    [
+      0,31,59,90,120,151,
+      181,212,243,273,304,334
+    ];
+
+  let jy =
+    gy > 1600
+      ? 979
+      : 0;
+
+  gy -=
+    gy > 1600
+      ? 1600
+      : 621;
+
+  const gy2 =
+    gm > 2
+      ? gy + 1
+      : gy;
+
+  let days =
+    365 * gy +
+    Math.floor((gy2 + 3) / 4) -
+    Math.floor((gy2 + 99) / 100) +
+    Math.floor((gy2 + 399) / 400) -
+    80 +
+    gd +
+    gdm[gm - 1];
+
+  jy +=
+    33 * Math.floor(days / 12053);
+
+  days %= 12053;
+
+  jy +=
+    4 * Math.floor(days / 1461);
+
+  days %= 1461;
+
+  if(days > 365){
+
+    jy +=
+      Math.floor((days - 1) / 365);
+
+    days =
+      (days - 1) % 365;
+
+  }
+
+  const jm =
+    days < 186
+      ? 1 + Math.floor(days / 31)
+      : 7 + Math.floor((days - 186) / 30);
+
+  const jd =
+    1 +
+    (
+      days < 186
+        ? days % 31
+        : (days - 186) % 30
+    );
+
+  return {
+    jy,
+    jm,
+    jd
+  };
+
+}
+
+
+function jalaliKey(j){
+
+  return (
+    j.jy +
+    "/" +
+    String(j.jm).padStart(2,"0") +
+    "/" +
+    String(j.jd).padStart(2,"0")
+  );
+
+}
+
+
+function jalaliDisplay(j){
+
+  const months = [
+
+    "",
+    "فروردین",
+    "اردیبهشت",
+    "خرداد",
+    "تیر",
+    "مرداد",
+    "شهریور",
+    "مهر",
+    "آبان",
+    "آذر",
+    "دی",
+    "بهمن",
+    "اسفند"
+
+  ];
+
+  return (
+    j.jd +
+    " " +
+    months[j.jm] +
+    " " +
+    j.jy
+  );
+
+}
+
+
+/* =========================================================
+   TIME HELPERS
+   ========================================================= */
+
+function timeToMinutes(value){
+
+  if(
+    value === null ||
+    value === undefined ||
+    value === ""
+  ){
+
+    return null;
+
+  }
+
+  const s =
+    toEnglishDigits(
+      String(value)
+        .trim()
+        .replace(/[٫]/g,":")
+    );
+
+  const parts =
+    s.split(":");
+
+  if(parts.length < 2){
+    return null;
+  }
+
+  const h =
+    Number(parts[0]);
+
+  const m =
+    Number(parts[1]);
+
+  if(
+    !Number.isFinite(h) ||
+    !Number.isFinite(m)
+  ){
+
+    return null;
+
+  }
+
+  return h * 60 + m;
+
+}
+
+
+function minutesToTime(minutes){
+
+  return (
+    String(
+      Math.floor(minutes / 60)
+    ).padStart(2,"0") +
+    ":" +
+    String(
+      minutes % 60
+    ).padStart(2,"0")
+  );
+
+}
+
+
+function normalizeTime(value){
+
+  const minutes =
+    timeToMinutes(value);
+
+  if(minutes === null){
+    return "";
+  }
+
+  return minutesToTime(minutes);
+
+}
+
+
+/* =========================================================
+   SERVICE HELPERS
+   ========================================================= */
+
+function getServiceName(service){
+
+  return (
+    service?.name ??
+    service?.["نام خدمت"] ??
+    service?.title ??
+    ""
+  );
+
+}
+
+
+function getServiceCategory(service){
+
+  return (
+    service?.category ??
+    service?.["دسته‌بندی"] ??
+    service?.["دسته بندی"] ??
+    ""
+  );
+
+}
+
+
+function getServicePrice(service){
+
+  return numberValue(
+    service?.price ??
+    service?.["قیمت"] ??
+    0
+  );
+
+}
+
+
+function getServiceDescription(service){
+
+  return (
+    service?.description ??
+    service?.["توضیحات"] ??
+    ""
+  );
+
+}
+
+
+function getServiceDuration(service){
+
+  return Number(
+    service?.duration ??
+    service?.["مدت جلسه"] ??
+    getNumberSetting(
+      "مدت هر نوبت",
+      30
+    )
+  ) || 30;
+
+}
+
+
+function isServiceActive(service){
+
+  return isActive(
+    service?.status ??
+    service?.["وضعیت"] ??
+    ""
+  );
+
+}
+
+
+/* =========================================================
+   CLOSURES
+   ========================================================= */
+
+function isSlotClosed(
+  dateKey,
+  time,
+  duration
+){
+
+  const start =
+    timeToMinutes(time);
+
+  if(start === null){
+    return false;
+  }
+
+  const slotDuration =
+    Number(duration) ||
+    getNumberSetting(
+      "مدت هر نوبت",
+      30
+    ) ||
+    30;
+
+  const end =
+    start + slotDuration;
+
+
+  return (config.closures || [])
+    .some(row => {
+
+      const status =
+        row.status ??
+        row["وضعیت"] ??
+        "";
+
+      if(!isActive(status)){
+        return false;
+      }
+
+
+      const startDate =
+        normalizeDateKey(
+          row.startDate ??
+          row["تاریخ شروع"] ??
+          ""
+        );
+
+
+      const endDate =
+        normalizeDateKey(
+          row.endDate ??
+          row["تاریخ پایان"] ??
+          row.startDate ??
+          row["تاریخ شروع"] ??
+          ""
+        );
+
+
+      if(
+        dateKey < startDate ||
+        dateKey > endDate
+      ){
+
+        return false;
+
+      }
+
+
+      const closureStart =
+        timeToMinutes(
+          row.startTime ??
+          row["ساعت شروع"] ??
+          "00:00"
+        ) ?? 0;
+
+
+      const closureEnd =
+        timeToMinutes(
+          row.endTime ??
+          row["ساعت پایان"] ??
+          "23:59"
+        ) ?? 1439;
+
+
+      return (
+        start < closureEnd &&
+        end > closureStart
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   GENERATE AVAILABLE START TIMES
+   ========================================================= */
+
+/*
+  مهم:
+  Apps Script فیلدهای ساعات کاری را با نام‌های:
+  start / end
+  برمی‌گرداند.
+
+  نسخه قبلی دنبال startTime / endTime می‌گشت
+  و به همین دلیل هیچ ساعتی تولید نمی‌شد.
+*/
+
+function generateSlotsForDay(dayName){
+
+  const rows =
+    getDayWorkRows(dayName);
+
+
+  const interval =
+    Math.max(
+      1,
+      getNumberSetting(
+        "فاصله نوبت ها",
+        getNumberSetting(
+          "فاصله نوبت‌ها",
+          30
+        )
+      ) || 30
+    );
+
+
+  const duration =
+    Math.max(
+      1,
+      getServiceDuration(
+        currentService
+      )
+    );
+
+
+  const slots = [];
+
+
+  rows.forEach(row => {
+
+    /*
+      اول start / end
+      چون Apps Script همین‌ها را می‌فرستد.
+    */
+
+    const start =
+      timeToMinutes(
+        row.start ??
+        row.startTime ??
+        row["ساعت شروع"]
+      );
+
+
+    const end =
+      timeToMinutes(
+        row.end ??
+        row.endTime ??
+        row["ساعت پایان"]
+      );
+
+
+    if(
+      start === null ||
+      end === null ||
+      end <= start
+    ){
+
+      return;
+
+    }
+
+
+    /*
+      ساعت شروع باید طوری باشد که
+      کل مدت خدمت داخل شیفت جا شود.
+    */
+
+    for(
+      let t = start;
+      t + duration <= end;
+      t += interval
+    ){
+
+      slots.push(
+        minutesToTime(t)
+      );
+
+    }
+
+  });
+
+
+  return [
+    ...new Set(slots)
+  ].sort(
+    (a,b) =>
+      timeToMinutes(a) -
+      timeToMinutes(b)
+  );
+
+}
+
+
+/* =========================================================
+   BOOKED SLOT DETECTION
+   ========================================================= */
+
+function isSlotBooked(
+  date,
+  time,
+  duration
+){
+
+  const wantedDate =
+    normalizeDateKey(date);
+
+  const start =
+    timeToMinutes(time);
+
+  if(start === null){
+    return false;
+  }
+
+
+  const wantedDuration =
+    Number(duration) ||
+    getServiceDuration(currentService) ||
+    getNumberSetting(
+      "مدت هر نوبت",
+      30
+    ) ||
+    30;
+
+
+  const end =
+    start + wantedDuration;
+
+
+  return (config.bookedSlots || [])
+    .some(item => {
+
+      /*
+        پشتیبانی از ساختارهای مختلف
+      */
+
+      if(typeof item === "string"){
+
+        return (
+          normalizeText(item) ===
+          normalizeText(
+            date + "_" + time
+          )
+          ||
+          normalizeText(item) ===
+          normalizeText(
+            date + " " + time
+          )
+        );
+
+      }
+
+
+      const bookedDate =
+        normalizeDateKey(
+          item.date ??
+          item["تاریخ"] ??
+          ""
+        );
+
+
+      const bookedStart =
+        timeToMinutes(
+          item.time ??
+          item["ساعت"]
+        );
+
+
+      if(
+        bookedDate !== wantedDate ||
+        bookedStart === null
+      ){
+
+        return false;
+
+      }
+
+
+      const bookedDuration =
+        Number(
+          item.duration ??
+          item["مدت جلسه"] ??
+          getNumberSetting(
+            "مدت هر نوبت",
+            30
+          )
+        ) || 30;
+
+
+      const bookedEnd =
+        bookedStart +
+        bookedDuration;
+
+
+      /*
+        بررسی هم‌پوشانی واقعی.
+      */
+
+      return (
+        start < bookedEnd &&
+        end > bookedStart
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   DATES
+   ========================================================= */
+
+function initDates(){
+
+  dateDayMap = {};
+
+  dateSelect.innerHTML = "";
+
+
+  /*
+    نام واقعی تنظیم موجود در شیت:
+    تعداد روز های قبل رزرو
+  */
+
+  const daysCount =
+    Math.max(
+      1,
+      getNumberSetting(
+        "تعداد روز های قبل رزرو",
+        getNumberSetting(
+          "تعداد روزهای قبل رزرو",
+          getNumberSetting(
+            "تعداد روزهای قابل رزرو",
+            7
+          )
+        )
+      ) || 7
+    );
+
+
+  const today =
+    new Date();
+
+  today.setHours(
+    12,0,0,0
+  );
+
+
+  let added = 0;
+
+
+  /*
+    تا 45 روز جلو می‌رویم
+    تا به تعداد روزهای کاری موردنظر برسیم.
+  */
+
+  for(
+    let offset = 0;
+    offset < 45 &&
+    added < daysCount;
+    offset++
+  ){
+
+    const d =
+      new Date(today);
+
+    d.setDate(
+      today.getDate() + offset
+    );
+
+    d.setHours(
+      12,0,0,0
+    );
+
+
+    const dayName =
+      weekDays[d.getDay()];
+
+
+    if(
+      normalizeWeekDay(dayName) ===
+      "جمعه"
+    ){
+
+      continue;
+
+    }
+
+
+    if(
+      !hasWorkingHours(dayName)
+    ){
+
+      continue;
+
+    }
+
+
+    const j =
+      gregorianToJalali(
+        d.getFullYear(),
+        d.getMonth() + 1,
+        d.getDate()
+      );
+
+
+    const key =
+      jalaliKey(j);
+
+
+    dateDayMap[key] =
+      dayName;
+
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+
+    option.value = key;
+
+    option.textContent =
+      dayName +
+      " " +
+      jalaliDisplay(j);
+
+
+    dateSelect.appendChild(
+      option
+    );
+
+
+    added++;
 
   }
 
 
-  function hasWorkingHours(dayName) {
+  if(
+    !dateSelect.options.length
+  ){
 
-    return (
-      getDayWorkRows(dayName).length > 0
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value = "";
+
+    option.textContent =
+      "تاریخی برای رزرو موجود نیست";
+
+    dateSelect.appendChild(
+      option
+    );
+
+    return;
+
+  }
+
+
+  dateSelect.selectedIndex = 0;
+
+  loadTimes();
+
+}
+
+
+/* =========================================================
+   LOAD TIMES
+   ========================================================= */
+
+function loadTimes(){
+
+  timeSelect.innerHTML = "";
+
+  hideMessage(slotMessage);
+
+
+  const dateKey =
+    dateSelect.value;
+
+
+  if(!dateKey){
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value = "";
+
+    option.textContent =
+      "ابتدا تاریخ را انتخاب کنید";
+
+    timeSelect.appendChild(
+      option
+    );
+
+    return;
+
+  }
+
+
+  const dayName =
+    dateDayMap[dateKey];
+
+
+  if(!dayName){
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value = "";
+
+    option.textContent =
+      "روز انتخاب‌شده معتبر نیست";
+
+    timeSelect.appendChild(
+      option
+    );
+
+    return;
+
+  }
+
+
+  const duration =
+    getServiceDuration(
+      currentService
+    );
+
+
+  const slots =
+    generateSlotsForDay(
+      dayName
+    );
+
+
+  const available =
+    slots.filter(time => {
+
+      const booked =
+        isSlotBooked(
+          dateKey,
+          time,
+          duration
+        );
+
+
+      const closed =
+        isSlotClosed(
+          dateKey,
+          time,
+          duration
+        );
+
+
+      return !booked && !closed;
+
+    });
+
+
+  if(!available.length){
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value = "";
+
+    option.textContent =
+      "در این تاریخ ساعت آزادی وجود ندارد";
+
+    timeSelect.appendChild(
+      option
+    );
+
+
+    showMessage(
+      slotMessage,
+      "برای این تاریخ در حال حاضر ساعت آزادی باقی نمانده است.",
+      "info"
+    );
+
+
+    return;
+
+  }
+
+
+  const first =
+    document.createElement(
+      "option"
+    );
+
+  first.value = "";
+
+  first.textContent =
+    "لطفاً ساعت را انتخاب کنید";
+
+  timeSelect.appendChild(
+    first
+  );
+
+
+  available.forEach(time => {
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value = time;
+
+    option.textContent = time;
+
+    timeSelect.appendChild(
+      option
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   LOAD SERVICES
+   ========================================================= */
+
+function loadServices(){
+
+  mainCategory.innerHTML = "";
+
+
+  const services =
+    (config.services || [])
+      .filter(
+        isServiceActive
+      );
+
+
+  if(!services.length){
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value = "";
+
+    option.textContent =
+      "خدمتی موجود نیست";
+
+    mainCategory.appendChild(
+      option
+    );
+
+    return;
+
+  }
+
+
+  const categories = [];
+
+  const map = {};
+
+
+  services.forEach(service => {
+
+    const category =
+      getServiceCategory(
+        service
+      );
+
+
+    const key =
+      compactText(
+        category
+      );
+
+
+    if(!key){
+      return;
+    }
+
+
+    if(!map[key]){
+
+      map[key] = [];
+
+      categories.push({
+
+        key,
+        label:category
+
+      });
+
+    }
+
+
+    map[key].push(
+      service
+    );
+
+  });
+
+
+  categories.forEach(category => {
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value =
+      category.key;
+
+    option.textContent =
+      category.label;
+
+    mainCategory.appendChild(
+      option
+    );
+
+  });
+
+
+  mainCategory._categoryMap =
+    map;
+
+
+  if(categories.length){
+
+    mainCategory.value =
+      categories[0].key;
+
+    updateSubcategories();
+
+  }
+
+}
+
+
+/* =========================================================
+   SUBCATEGORIES
+   ========================================================= */
+
+function updateSubcategories(){
+
+  const map =
+    mainCategory._categoryMap ||
+    {};
+
+
+  const services =
+    map[
+      mainCategory.value
+    ] || [];
+
+
+  subCategory.innerHTML = "";
+
+  currentService = null;
+
+
+  if(!services.length){
+
+    subcategoryBox
+      .classList
+      .add("hidden");
+
+    clearServiceInfo();
+
+    return;
+
+  }
+
+
+  if(services.length === 1){
+
+    subcategoryBox
+      .classList
+      .add("hidden");
+
+    currentService =
+      services[0];
+
+    showServiceInfo();
+
+    return;
+
+  }
+
+
+  subcategoryBox
+    .classList
+    .remove("hidden");
+
+
+  const first =
+    document.createElement(
+      "option"
+    );
+
+  first.value = "";
+
+  first.textContent =
+    "لطفاً نوع خدمت را انتخاب کنید";
+
+  subCategory.appendChild(
+    first
+  );
+
+
+  services.forEach(
+    (service,index) => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        String(index);
+
+      option.textContent =
+        getServiceName(
+          service
+        );
+
+      subCategory.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  clearServiceInfo();
+
+}
+
+
+function selectSubcategory(){
+
+  const services =
+    (
+      mainCategory._categoryMap ||
+      {}
+    )[mainCategory.value] || [];
+
+
+  const index =
+    Number(
+      subCategory.value
+    );
+
+
+  if(
+    !subCategory.value ||
+    !services[index]
+  ){
+
+    currentService = null;
+
+    clearServiceInfo();
+
+    return;
+
+  }
+
+
+  currentService =
+    services[index];
+
+
+  showServiceInfo();
+
+}
+
+
+/* =========================================================
+   SERVICE INFO
+   ========================================================= */
+
+function showServiceInfo(){
+
+  if(!currentService){
+
+    clearServiceInfo();
+
+    return;
+
+  }
+
+
+  const price =
+    getServicePrice(
+      currentService
+    );
+
+
+  const description =
+    getServiceDescription(
+      currentService
+    );
+
+
+  serviceDescription.textContent =
+    description || "";
+
+
+  serviceDescription
+    .classList
+    .toggle(
+      "hidden",
+      !description
+    );
+
+
+  servicePriceBox
+    .classList
+    .remove("hidden");
+
+
+  applyDiscountPreview();
+
+
+  /*
+    وقتی خدمت عوض می‌شود،
+    ساعت‌ها هم باید بر اساس مدت
+    جدید دوباره محاسبه شوند.
+  */
+
+  loadTimes();
+
+}
+
+
+function clearServiceInfo(){
+
+  serviceDescription.textContent =
+    "";
+
+  serviceDescription
+    .classList
+    .add("hidden");
+
+
+  servicePriceBox
+    .classList
+    .add("hidden");
+
+
+  currentService = null;
+
+  loadTimes();
+
+}
+
+
+/* =========================================================
+   DISCOUNT PREVIEW
+   ========================================================= */
+
+function applyDiscountPreview(){
+
+  if(!currentService){
+    return;
+  }
+
+
+  const original =
+    getServicePrice(
+      currentService
+    );
+
+
+  let discount =
+    currentDiscount.valid
+      ? numberValue(
+          currentDiscount.amount
+        )
+      : 0;
+
+
+  discount =
+    Math.min(
+      discount,
+      original
+    );
+
+
+  servicePrice.textContent =
+    formatMoney(
+      original
+    );
+
+
+  discountRow
+    .classList
+    .toggle(
+      "hidden",
+      discount <= 0
+    );
+
+
+  if(discount > 0){
+
+    discountAmount.textContent =
+      formatMoney(
+        discount
+      );
+
+  }
+
+
+  finalPrice.textContent =
+    formatMoney(
+      original - discount
+    );
+
+}
+
+
+/* =========================================================
+   DISCOUNT CHECK
+   ========================================================= */
+
+async function checkDiscount(){
+
+  const code =
+    discountCode.value.trim();
+
+
+  currentDiscount = {
+
+    valid:false,
+    amount:0,
+    code
+
+  };
+
+
+  hideMessage(
+    discountMessage
+  );
+
+
+  if(!code){
+
+    showMessage(
+      discountMessage,
+      "کد تخفیفی وارد نشده است.",
+      "info"
+    );
+
+    applyDiscountPreview();
+
+    return;
+
+  }
+
+
+  discountButton.disabled =
+    true;
+
+
+  try{
+
+    const response =
+      await fetch(
+        ENDPOINT +
+        "?action=validateDiscount&code=" +
+        encodeURIComponent(code) +
+        "&_=" +
+        Date.now()
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      data?.ok &&
+      data.valid
+    ){
+
+      currentDiscount = {
+
+        valid:true,
+
+        amount:
+          numberValue(
+            data.discountAmount ??
+            data.amount ??
+            0
+          ),
+
+        code
+
+      };
+
+
+      showMessage(
+        discountMessage,
+        "✅ کد تخفیف معتبر است.",
+        "success"
+      );
+
+    }
+
+    else{
+
+      showMessage(
+        discountMessage,
+        data?.message ||
+        "کد تخفیف معتبر نیست.",
+        "error"
+      );
+
+    }
+
+  }
+
+  catch(error){
+
+    showMessage(
+      discountMessage,
+      "کد تخفیف هنگام ثبت نهایی روی سرور بررسی می‌شود.",
+      "info"
     );
 
   }
 
 
-  /* =========================================================
-     CLOSURES
-  ========================================================= */
+  discountButton.disabled =
+    false;
 
-  function isSlotClosed(dateKey, time) {
 
-    const closures =
-      config.closures || [];
+  applyDiscountPreview();
 
-    const slotMinutes =
-      timeToMinutes(time);
+}
 
-    for (const row of closures) {
 
-      const startDate =
-        row.startDate ||
-        row["تاریخ شروع"] ||
-        "";
+/* =========================================================
+   RECEIPT
+   ========================================================= */
 
-      const endDate =
-        row.endDate ||
-        row["تاریخ پایان"] ||
-        startDate;
+receiptFile.addEventListener(
+  "change",
+  function(){
 
-      const startTime =
-        row.startTime ||
-        row["ساعت شروع"] ||
-        "00:00";
+    receiptName.textContent =
+      this.files?.length
+        ? "✅ " + this.files[0].name
+        : "هنوز تصویری انتخاب نشده است";
 
-      const endTime =
-        row.endTime ||
-        row["ساعت پایان"] ||
-        "23:59";
+  }
+);
 
-      const status =
-        row.status ||
-        row["وضعیت"] ||
-        "";
 
-      if (!isActive(status)) {
-        continue;
-      }
+/* =========================================================
+   TELEGRAM
+   ========================================================= */
 
-      if (
-        dateKey >= normalizeDateKey(startDate) &&
-        dateKey <= normalizeDateKey(endDate)
-      ) {
+function getTelegramChatId(){
 
-        const startMinutes =
-          timeToMinutes(startTime);
+  return (
+    tg?.initDataUnsafe?.user?.id
+      ? String(
+          tg.initDataUnsafe.user.id
+        )
+      : ""
+  );
 
-        const endMinutes =
-          timeToMinutes(endTime);
+}
 
-        if (
-          slotMinutes >= startMinutes &&
-          slotMinutes < endMinutes
-        ) {
-          return true;
-        }
 
-      }
+/* =========================================================
+   FILE
+   ========================================================= */
+
+function fileToDataURL(file){
+
+  return new Promise(
+    (resolve,reject) => {
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        () => resolve(
+          reader.result
+        );
+
+
+      reader.onerror =
+        () =>
+          reject(
+            new Error(
+              "خطا در خواندن تصویر"
+            )
+          );
+
+
+      reader.readAsDataURL(
+        file
+      );
 
     }
+  );
+
+}
+
+
+/* =========================================================
+   FORM VALIDATION
+   ========================================================= */
+
+function validateForm(){
+
+  if(!currentService){
+
+    showMessage(
+      submitMessage,
+      "لطفاً ابتدا خدمت موردنظر را انتخاب کنید.",
+      "error"
+    );
 
     return false;
 
   }
 
 
-  function normalizeDateKey(value) {
+  const firstName =
+    document
+      .getElementById("firstName")
+      .value
+      .trim();
 
-    if (!value) return "";
 
-    const s =
-      toEnglishDigits(
-        String(value)
-          .trim()
-          .replace(/-/g, "/")
-          .replace(/\./g, "/")
-      );
+  const lastName =
+    document
+      .getElementById("lastName")
+      .value
+      .trim();
 
-    const parts =
-      s.split("/");
 
-    if (parts.length !== 3) {
-      return s;
-    }
+  const mobile =
+    document
+      .getElementById("mobile")
+      .value
+      .trim();
 
-    return (
-      parts[0] +
-      "/" +
-      String(parts[1]).padStart(2, "0") +
-      "/" +
-      String(parts[2]).padStart(2, "0")
+
+  const date =
+    dateSelect.value;
+
+
+  const time =
+    timeSelect.value;
+
+
+  if(!firstName){
+
+    showMessage(
+      submitMessage,
+      "لطفاً نام خود را وارد کنید.",
+      "error"
     );
 
+    return false;
+
   }
 
 
-  /* =========================================================
-     TIME
-  ========================================================= */
+  if(!lastName){
 
-  function timeToMinutes(value) {
-
-    if (!value) return 0;
-
-    const s =
-      String(value)
-        .trim()
-        .replace(/[٫]/g, ":");
-
-    const parts =
-      s.split(":");
-
-    if (parts.length < 2) {
-      return numberValue(s) * 60;
-    }
-
-    return (
-      numberValue(parts[0]) * 60 +
-      numberValue(parts[1])
+    showMessage(
+      submitMessage,
+      "لطفاً نام خانوادگی خود را وارد کنید.",
+      "error"
     );
 
+    return false;
+
   }
 
 
-  function minutesToTime(minutes) {
+  if(!mobile){
 
-    const h =
-      Math.floor(minutes / 60);
-
-    const m =
-      minutes % 60;
-
-    return (
-      String(h).padStart(2, "0") +
-      ":" +
-      String(m).padStart(2, "0")
+    showMessage(
+      submitMessage,
+      "لطفاً شماره موبایل خود را وارد کنید.",
+      "error"
     );
 
-  }
-
-
-  function generateSlotsForDay(dayName) {
-
-    const rows =
-      getDayWorkRows(dayName);
-
-    const interval =
-      getNumberSetting(
-        "فاصله نوبت‌ها",
-        30
-      ) || 30;
-
-    const duration =
-      getNumberSetting(
-        "مدت هر نوبت",
-        30
-      ) || 30;
-
-    const slots = [];
-
-    rows.forEach(row => {
-
-      const start =
-        row.startTime ||
-        row["ساعت شروع"] ||
-        "";
-
-      const end =
-        row.endTime ||
-        row["ساعت پایان"] ||
-        "";
-
-      if (!start || !end) {
-        return;
-      }
-
-      const startMinutes =
-        timeToMinutes(start);
-
-      const endMinutes =
-        timeToMinutes(end);
-
-      for (
-        let t = startMinutes;
-        t + duration <= endMinutes;
-        t += interval
-      ) {
-
-        slots.push(
-          minutesToTime(t)
-        );
-
-      }
-
-    });
-
-    return [...new Set(slots)]
-      .sort(
-        (a, b) =>
-          timeToMinutes(a) -
-          timeToMinutes(b)
-      );
+    return false;
 
   }
 
 
-  /* =========================================================
-     BOOKED SLOT CHECK
-  ========================================================= */
+  if(!date){
 
-  function makeSlotKey(date, time) {
-
-    return (
-      normalizeDateKey(date) +
-      "_" +
-      String(time || "").trim()
+    showMessage(
+      submitMessage,
+      "لطفاً تاریخ نوبت را انتخاب کنید.",
+      "error"
     );
 
-  }
-
-
-  function isSlotBooked(date, time) {
-
-    const wanted =
-      makeSlotKey(date, time);
-
-    return (config.bookedSlots || [])
-      .some(item => {
-
-        if (typeof item === "string") {
-          return (
-            item === wanted
-          );
-        }
-
-        const key =
-          item.key ||
-          item.slotKey ||
-          item["کلید نوبت"] ||
-          "";
-
-        return (
-          String(key) === wanted
-        );
-
-      });
+    return false;
 
   }
 
 
-  /* =========================================================
-     DATES
-  ========================================================= */
+  if(!time){
 
-  function initDates() {
-
-    dateDayMap = {};
-
-    dateSelect.innerHTML = "";
-
-    const daysCount =
-      getNumberSetting(
-        "تعداد روزهای قابل رزرو",
-        7
-      ) || 7;
-
-    const today =
-      new Date();
-
-    /*
-      ساعت را روی ظهر می‌گذاریم تا
-      تغییر ساعت تابستانی/منطقه زمانی
-      روی تاریخ اثر نگذارد.
-    */
-
-    today.setHours(
-      12, 0, 0, 0
+    showMessage(
+      submitMessage,
+      "لطفاً ساعت نوبت را انتخاب کنید.",
+      "error"
     );
 
-    let added = 0;
+    return false;
 
-    /*
-      تعداد روزهای تقویمی که بررسی می‌کنیم
-      کمی بیشتر از مقدار موردنیاز است تا
-      جمعه‌های تعطیل باعث کم شدن تعداد
-      گزینه‌های واقعی نشوند.
-    */
+  }
 
-    for (
-      let offset = 0;
-      offset < 30 && added < daysCount;
-      offset++
-    ) {
 
-      const d =
-        new Date(today);
+  const duration =
+    getServiceDuration(
+      currentService
+    );
 
-      d.setDate(
-        today.getDate() + offset
-      );
 
-      d.setHours(
-        12, 0, 0, 0
-      );
+  if(
+    isSlotBooked(
+      date,
+      time,
+      duration
+    )
+  ){
 
-      /*
-        getDay():
-        0 یکشنبه
-        1 دوشنبه
-        2 سه‌شنبه
-        3 چهارشنبه
-        4 پنجشنبه
-        5 جمعه
-        6 شنبه
-      */
+    showMessage(
+      submitMessage,
+      "این ساعت همین الان توسط شخص دیگری انتخاب شده است. لطفاً ساعت دیگری انتخاب کنید.",
+      "error"
+    );
 
-      const dayIndex =
-        d.getDay();
-
-      const dayName =
-        weekDays[dayIndex];
-
-      /*
-        جمعه همیشه تعطیل است.
-      */
-
-      if (
-        normalizeWeekDay(dayName) ===
-        "جمعه"
-      ) {
-        continue;
-      }
-
-      /*
-        فقط روزهایی که در جدول ساعات کاری
-        حداقل یک شیفت فعال دارند.
-      */
-
-      if (
-        !hasWorkingHours(dayName)
-      ) {
-        continue;
-      }
-
-      const j =
-        gregorianToJalali(
-          d.getFullYear(),
-          d.getMonth() + 1,
-          d.getDate()
-        );
-
-      const key =
-        jalaliKey(j);
-
-      dateDayMap[key] =
-        dayName;
-
-      const option =
-        document.createElement("option");
-
-      option.value = key;
-
-      option.textContent =
-        dayName +
-        " " +
-        jalaliDisplay(j);
-
-      dateSelect.appendChild(option);
-
-      added++;
-
-    }
-
-    if (!dateSelect.options.length) {
-
-      const option =
-        document.createElement("option");
-
-      option.value = "";
-
-      option.textContent =
-        "تاریخی برای رزرو موجود نیست";
-
-      dateSelect.appendChild(option);
-
-      return;
-
-    }
-
-    dateSelect.selectedIndex = 0;
 
     loadTimes();
 
-  }
-
-
-  /* =========================================================
-     LOAD TIMES
-  ========================================================= */
-
-  function loadTimes() {
-
-    timeSelect.innerHTML = "";
-
-    const dateKey =
-      dateSelect.value;
-
-    if (!dateKey) {
-
-      const option =
-        document.createElement("option");
-
-      option.textContent =
-        "ابتدا تاریخ را انتخاب کنید";
-
-      option.value = "";
-
-      timeSelect.appendChild(option);
-
-      return;
-
-    }
-
-    const dayName =
-      dateDayMap[dateKey];
-
-    if (!dayName) {
-
-      const option =
-        document.createElement("option");
-
-      option.textContent =
-        "روز انتخاب‌شده معتبر نیست";
-
-      option.value = "";
-
-      timeSelect.appendChild(option);
-
-      return;
-
-    }
-
-    const slots =
-      generateSlotsForDay(dayName);
-
-    const available =
-      slots.filter(time => {
-
-        return (
-          !isSlotBooked(
-            dateKey,
-            time
-          ) &&
-          !isSlotClosed(
-            dateKey,
-            time
-          )
-        );
-
-      });
-
-    if (!available.length) {
-
-      const option =
-        document.createElement("option");
-
-      option.value = "";
-
-      option.textContent =
-        "در این تاریخ ساعت آزادی وجود ندارد";
-
-      timeSelect.appendChild(option);
-
-      showSlotMessage(
-        "برای این تاریخ در حال حاضر ساعت آزادی باقی نمانده است.",
-        "info"
-      );
-
-      return;
-
-    }
-
-    const first =
-      document.createElement("option");
-
-    first.value = "";
-
-    first.textContent =
-      "لطفاً ساعت را انتخاب کنید";
-
-    timeSelect.appendChild(first);
-
-    available.forEach(time => {
-
-      const option =
-        document.createElement("option");
-
-      option.value = time;
-
-      option.textContent =
-        time;
-
-      timeSelect.appendChild(option);
-
-    });
-
-    hideMessage(slotMessage);
+    return false;
 
   }
 
 
-  /* =========================================================
-     SERVICES
-  ========================================================= */
+  if(
+    isSlotClosed(
+      date,
+      time,
+      duration
+    )
+  ){
 
-  function getServiceName(service) {
-
-    return (
-      service.name ||
-      service["نام خدمت"] ||
-      service.title ||
-      ""
+    showMessage(
+      submitMessage,
+      "این ساعت در حال حاضر بسته است. لطفاً ساعت دیگری انتخاب کنید.",
+      "error"
     );
 
+
+    loadTimes();
+
+    return false;
+
   }
 
 
-  function getServiceCategory(service) {
+  if(
+    !receiptFile.files?.length
+  ){
 
-    return (
-      service.category ||
-      service["دسته‌بندی"] ||
-      service["دسته بندی"] ||
-      ""
+    showMessage(
+      submitMessage,
+      "لطفاً تصویر فیش واریزی را انتخاب کنید.",
+      "error"
     );
 
+    return false;
+
   }
 
 
-  function getServicePrice(service) {
+  if(
+    receiptFile.files[0].size >
+    8 * 1024 * 1024
+  ){
 
-    return numberValue(
-      service.price ||
-      service["قیمت"] ||
-      0
+    showMessage(
+      submitMessage,
+      "حجم تصویر فیش باید کمتر از ۸ مگابایت باشد.",
+      "error"
     );
 
-  }
-
-
-  function getServiceDescription(service) {
-
-    return (
-      service.description ||
-      service["توضیحات"] ||
-      ""
-    );
+    return false;
 
   }
 
 
-  function isServiceActive(service) {
+  return true;
 
-    const status =
-      service.status ||
-      service["وضعیت"] ||
-      "";
+}
 
-    return isActive(status);
 
-  }
+/* =========================================================
+   SUBMIT BOOKING
+   ========================================================= */
 
+async function submitBooking(){
 
-  function loadServices() {
-
-    mainCategory.innerHTML = "";
-
-    const services =
-      (config.services || [])
-        .filter(
-          isServiceActive
-        );
-
-    if (!services.length) {
-
-      const option =
-        document.createElement("option");
-
-      option.value = "";
-
-      option.textContent =
-        "خدمتی موجود نیست";
-
-      mainCategory.appendChild(option);
-
-      return;
-
-    }
-
-    const categories = [];
-
-    const categoryMap = {};
-
-    services.forEach(service => {
-
-      const category =
-        getServiceCategory(service);
-
-      const key =
-        compactText(category);
-
-      if (!key) {
-        return;
-      }
-
-      if (!categoryMap[key]) {
-
-        categoryMap[key] = [];
-
-        categories.push({
-          key: key,
-          label: category
-        });
-
-      }
-
-      categoryMap[key].push(service);
-
-    });
-
-    categories.forEach(item => {
-
-      const option =
-        document.createElement("option");
-
-      option.value =
-        item.key;
-
-      option.textContent =
-        item.label;
-
-      mainCategory.appendChild(option);
-
-    });
-
-    mainCategory._categoryMap =
-      categoryMap;
-
-    if (categories.length) {
-
-      mainCategory.value =
-        categories[0].key;
-
-      updateSubcategories();
-
-    }
-
-  }
-
-
-  function updateSubcategories() {
-
-    const map =
-      mainCategory._categoryMap || {};
-
-    const categoryKey =
-      mainCategory.value;
-
-    const services =
-      map[categoryKey] || [];
-
-    subCategory.innerHTML = "";
-
-    currentService = null;
-
-    if (!services.length) {
-
-      subcategoryBox
-        .classList
-        .add("hidden");
-
-      clearServiceInfo();
-
-      return;
-
-    }
-
-    /*
-      اگر فقط یک خدمت در یک دسته باشد،
-      دیگر انتخاب نوع خدمت لازم نیست.
-    */
-
-    if (services.length === 1) {
-
-      subcategoryBox
-        .classList
-        .add("hidden");
-
-      currentService =
-        services[0];
-
-      showServiceInfo();
-
-      return;
-
-    }
-
-    subcategoryBox
-      .classList
-      .remove("hidden");
-
-    const first =
-      document.createElement("option");
-
-    first.value = "";
-
-    first.textContent =
-      "لطفاً نوع خدمت را انتخاب کنید";
-
-    subCategory.appendChild(first);
-
-    services.forEach((service, index) => {
-
-      const option =
-        document.createElement("option");
-
-      option.value =
-        String(index);
-
-      option.textContent =
-        getServiceName(service);
-
-      subCategory.appendChild(option);
-
-    });
-
-    clearServiceInfo();
-
-  }
-
-
-  function selectSubcategory() {
-
-    const map =
-      mainCategory._categoryMap || {};
-
-    const services =
-      map[mainCategory.value] || [];
-
-    const index =
-      Number(subCategory.value);
-
-    if (
-      !subCategory.value ||
-      !services[index]
-    ) {
-
-      currentService = null;
-
-      clearServiceInfo();
-
-      return;
-
-    }
-
-    currentService =
-      services[index];
-
-    showServiceInfo();
-
-  }
-
-
-  function showServiceInfo() {
-
-    if (!currentService) {
-      clearServiceInfo();
-      return;
-    }
-
-    const name =
-      getServiceName(
-        currentService
-      );
-
-    const price =
-      getServicePrice(
-        currentService
-      );
-
-    const description =
-      getServiceDescription(
-        currentService
-      );
-
-    serviceDescription.textContent =
-      description || "";
-
-    if (description) {
-      serviceDescription.classList.remove("hidden");
-    } else {
-      serviceDescription.classList.add("hidden");
-    }
-
-    servicePrice.textContent =
-      formatMoney(price);
-
-    servicePriceBox
-      .classList
-      .remove("hidden");
-
-    applyDiscountPreview();
-
-  }
-
-
-  function clearServiceInfo() {
-
-    serviceDescription.textContent =
-      "";
-
-    serviceDescription.classList
-      .add("hidden");
-
-    servicePriceBox.classList
-      .add("hidden");
-
-    currentService = null;
-
-  }
-
-
-  /* =========================================================
-     DISCOUNT
-  ========================================================= */
-
-  function applyDiscountPreview() {
-
-    if (!currentService) {
-      return;
-    }
-
-    const original =
-      getServicePrice(
-        currentService
-      );
-
-    let discount =
-      numberValue(
-        currentDiscount.amount
-      );
-
-    if (
-      !currentDiscount.valid
-    ) {
-      discount = 0;
-    }
-
-    if (discount > original) {
-      discount = original;
-    }
-
-    const final =
-      original - discount;
-
-    servicePrice.textContent =
-      formatMoney(original);
-
-    if (discount > 0) {
-
-      discountRow.classList
-        .remove("hidden");
-
-      discountAmount.textContent =
-        formatMoney(discount);
-
-    } else {
-
-      discountRow.classList
-        .add("hidden");
-
-    }
-
-    finalPrice.textContent =
-      formatMoney(final);
-
-  }
-
-
-  async function checkDiscount() {
-
-    const code =
-      discountCode.value.trim();
-
-    currentDiscount = {
-      valid: false,
-      amount: 0,
-      code: code
-    };
-
-    hideMessage(
-      discountMessage
-    );
-
-    if (!code) {
-
-      showMessage(
-        discountMessage,
-        "کد تخفیفی وارد نشده است.",
-        "info"
-      );
-
-      applyDiscountPreview();
-
-      return;
-
-    }
-
-    /*
-      ابتدا تلاش می‌کنیم endpoint اعتبارسنجی
-      موجود در Apps Script را استفاده کنیم.
-
-      اگر در نسخه فعلی Code.gs این endpoint
-      وجود نداشته باشد، خطا باعث خراب شدن
-      روند رزرو نمی‌شود و بررسی نهایی روی
-      سرور انجام خواهد شد.
-    */
-
-    discountButton.disabled = true;
-
-    try {
-
-      const response =
-        await fetch(
-          ENDPOINT +
-          "?action=validateDiscount&code=" +
-          encodeURIComponent(code)
-        );
-
-      const data =
-        await response.json();
-
-      if (
-        data &&
-        data.ok &&
-        data.valid
-      ) {
-
-        currentDiscount = {
-          valid: true,
-          amount: numberValue(
-            data.discountAmount ||
-            data.amount ||
-            0
-          ),
-          code: code
-        };
-
-        showMessage(
-          discountMessage,
-          "✅ کد تخفیف معتبر است.",
-          "success"
-        );
-
-      } else {
-
-        showMessage(
-          discountMessage,
-          data.message ||
-          "کد تخفیف معتبر نیست.",
-          "error"
-        );
-
-      }
-
-    } catch (error) {
-
-      /*
-        اعتبارسنجی نهایی باید روی سرور انجام شود.
-      */
-
-      showMessage(
-        discountMessage,
-        "کد تخفیف هنگام ثبت نهایی روی سرور بررسی می‌شود.",
-        "info"
-      );
-
-    }
-
-    discountButton.disabled = false;
-
-    applyDiscountPreview();
-
-  }
-
-
-  /* =========================================================
-     RECEIPT
-  ========================================================= */
-
-  receiptFile.addEventListener(
-    "change",
-    function() {
-
-      if (
-        !this.files ||
-        !this.files.length
-      ) {
-
-        receiptName.textContent =
-          "هنوز تصویری انتخاب نشده است";
-
-        return;
-
-      }
-
-      const file =
-        this.files[0];
-
-      receiptName.textContent =
-        "✅ " +
-        file.name;
-
-    }
+  hideMessage(
+    submitMessage
   );
 
 
-  /* =========================================================
-     MESSAGES
-  ========================================================= */
-
-  function showMessage(
-    element,
-    text,
-    type
-  ) {
-
-    element.textContent =
-      text;
-
-    element.className =
-      "message " +
-      type;
-
-    element.style.display =
-      "block";
-
+  if(!validateForm()){
+    return;
   }
 
 
-  function hideMessage(element) {
-
-    element.style.display =
-      "none";
-
-  }
+  submitButton.disabled =
+    true;
 
 
-  function showSlotMessage(
-    text,
-    type
-  ) {
-
-    showMessage(
-      slotMessage,
-      text,
-      type
-    );
-
-  }
+  loadingMessage
+    .classList
+    .remove("hidden");
 
 
-  /* =========================================================
-     TELEGRAM CHAT ID
-  ========================================================= */
+  try{
 
-  function getTelegramChatId() {
+    const file =
+      receiptFile.files[0];
 
-    if (
-      tg &&
-      tg.initDataUnsafe &&
-      tg.initDataUnsafe.user
-    ) {
 
-      return String(
-        tg.initDataUnsafe.user.id
+    const receiptDataUrl =
+      await fileToDataURL(
+        file
       );
 
-    }
-
-    return "";
-
-  }
-
-
-  /* =========================================================
-     RECEIPT -> DATA URL
-  ========================================================= */
-
-  function fileToDataURL(file) {
-
-    return new Promise(
-      (resolve, reject) => {
-
-        const reader =
-          new FileReader();
-
-        reader.onload =
-          function() {
-            resolve(
-              reader.result
-            );
-          };
-
-        reader.onerror =
-          function() {
-            reject(
-              new Error(
-                "خطا در خواندن تصویر"
-              )
-            );
-          };
-
-        reader.readAsDataURL(file);
-
-      }
-    );
-
-  }
-
-
-  /* =========================================================
-     VALIDATION
-  ========================================================= */
-
-  function validateForm() {
-
-    if (!currentService) {
-
-      showMessage(
-        submitMessage,
-        "لطفاً ابتدا خدمت موردنظر را انتخاب کنید.",
-        "error"
-      );
-
-      return false;
-
-    }
 
     const firstName =
       document
@@ -2257,11 +2703,13 @@
         .value
         .trim();
 
+
     const lastName =
       document
         .getElementById("lastName")
         .value
         .trim();
+
 
     const mobile =
       document
@@ -2269,623 +2717,436 @@
         .value
         .trim();
 
+
     const date =
       dateSelect.value;
+
 
     const time =
       timeSelect.value;
 
-    if (!firstName) {
 
-      showMessage(
-        submitMessage,
-        "لطفاً نام خود را وارد کنید.",
-        "error"
+    const serviceName =
+      getServiceName(
+        currentService
       );
 
-      return false;
 
-    }
-
-    if (!lastName) {
-
-      showMessage(
-        submitMessage,
-        "لطفاً نام خانوادگی خود را وارد کنید.",
-        "error"
+    const originalPrice =
+      getServicePrice(
+        currentService
       );
 
-      return false;
 
-    }
+    const payload = {
 
-    if (!mobile) {
+      firstName,
 
-      showMessage(
-        submitMessage,
-        "لطفاً شماره موبایل خود را وارد کنید.",
-        "error"
-      );
+      lastName,
 
-      return false;
+      name:firstName,
 
-    }
+      mobile,
 
-    if (!date) {
+      service:serviceName,
 
-      showMessage(
-        submitMessage,
-        "لطفاً تاریخ نوبت را انتخاب کنید.",
-        "error"
-      );
+      date,
 
-      return false;
+      time,
 
-    }
+      discountCode:
+        discountCode.value.trim(),
 
-    if (!time) {
+      trackingCode:
+        document
+          .getElementById(
+            "trackingCode"
+          )
+          .value
+          .trim(),
 
-      showMessage(
-        submitMessage,
-        "لطفاً ساعت نوبت را انتخاب کنید.",
-        "error"
-      );
+      price:originalPrice,
 
-      return false;
+      receiptDataUrl,
 
-    }
+      receiptName:file.name,
 
-    if (
-      isSlotBooked(
-        date,
-        time
-      )
-    ) {
+      receiptMimeType:file.type,
 
-      showMessage(
-        submitMessage,
-        "این ساعت همین الان توسط شخص دیگری انتخاب شده است. لطفاً ساعت دیگری انتخاب کنید.",
-        "error"
-      );
+      telegramChatId:
+        getTelegramChatId()
 
-      loadTimes();
-
-      return false;
-
-    }
-
-    if (
-      isSlotClosed(
-        date,
-        time
-      )
-    ) {
-
-      showMessage(
-        submitMessage,
-        "این ساعت در حال حاضر بسته است. لطفاً ساعت دیگری انتخاب کنید.",
-        "error"
-      );
-
-      loadTimes();
-
-      return false;
-
-    }
-
-    if (
-      !receiptFile.files ||
-      !receiptFile.files.length
-    ) {
-
-      showMessage(
-        submitMessage,
-        "لطفاً تصویر فیش واریزی را انتخاب کنید.",
-        "error"
-      );
-
-      return false;
-
-    }
-
-    const file =
-      receiptFile.files[0];
-
-    /*
-      جلوگیری از ارسال فایل‌های بسیار بزرگ
-      که ممکن است باعث شکست درخواست شود.
-    */
-
-    const maxSize =
-      8 * 1024 * 1024;
-
-    if (
-      file.size > maxSize
-    ) {
-
-      showMessage(
-        submitMessage,
-        "حجم تصویر فیش باید کمتر از ۸ مگابایت باشد.",
-        "error"
-      );
-
-      return false;
-
-    }
-
-    return true;
-
-  }
+    };
 
 
-  /* =========================================================
-     SUBMIT BOOKING
-  ========================================================= */
+    await fetch(
+      ENDPOINT,
+      {
+        method:"POST",
 
-  async function submitBooking() {
+        mode:"no-cors",
 
-    hideMessage(
-      submitMessage
+        headers:{
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body:
+          JSON.stringify(
+            payload
+          )
+
+      }
     );
 
-    if (
-      !validateForm()
-    ) {
-      return;
-    }
 
-    submitButton.disabled = true;
-
-    loadingMessage.classList
-      .remove("hidden");
-
-    try {
-
-      const file =
-        receiptFile.files[0];
-
-      const receiptDataUrl =
-        await fileToDataURL(file);
-
-      const firstName =
-        document
-          .getElementById("firstName")
-          .value
-          .trim();
-
-      const lastName =
-        document
-          .getElementById("lastName")
-          .value
-          .trim();
-
-      const mobile =
-        document
-          .getElementById("mobile")
-          .value
-          .trim();
-
-      const date =
-        dateSelect.value;
-
-      const time =
-        timeSelect.value;
-
-      const serviceName =
-        getServiceName(
-          currentService
-        );
-
-      /*
-        مبلغ فقط برای نمایش/ارسال اولیه است.
-        مبلغ قابل اعتماد باید در Code.gs
-        از جدول خدمات دوباره محاسبه شود.
-      */
-
-      const originalPrice =
-        getServicePrice(
-          currentService
-        );
-
-      const discountCodeValue =
-        discountCode.value.trim();
-
-      const trackingCode =
-        document
-          .getElementById("trackingCode")
-          .value
-          .trim();
-
-      const payload = {
-
-        firstName:
-          firstName,
-
-        lastName:
-          lastName,
-
-        /*
-          حفظ فیلد قدیمی برای سازگاری
-          با Code.gs قبلی
-        */
-
-        name:
-          firstName,
-
-        mobile:
-          mobile,
-
-        service:
-          serviceName,
-
-        date:
-          date,
-
-        time:
-          time,
-
-        discountCode:
-          discountCodeValue,
-
-        trackingCode:
-          trackingCode,
-
-        /*
-          مبلغ اولیه فقط جهت سازگاری.
-          سرور نباید به این مقدار اعتماد کند.
-        */
-
-        price:
-          originalPrice,
-
-        receiptDataUrl:
-          receiptDataUrl,
-
-        receiptName:
-          file.name,
-
-        receiptMimeType:
-          file.type,
-
-        telegramChatId:
-          getTelegramChatId()
-
-      };
-
-
-      /*
-        ثبت درخواست با POST
-      */
-
-      await fetch(
-        ENDPOINT,
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type":
-              "text/plain;charset=utf-8"
-          },
-          body:
-            JSON.stringify(payload)
-        }
-      );
-
-
-      /*
-        چون no-cors پاسخ واقعی را در
-        مرورگر نشان نمی‌دهد، بعد از ارسال
-        کمی صبر می‌کنیم و دوباره لیست
-        نوبت‌ها را می‌گیریم.
-      */
-
-      await new Promise(
-        resolve =>
-          setTimeout(
-            resolve,
-            1800
-          )
-      );
-
-
-      await refreshBookedSlots();
-
-
-      /*
-        اگر سرور slot را ثبت کرده باشد،
-        ساعت از لیست آزادها حذف می‌شود.
-      */
-
-      if (
-        isSlotBooked(
-          date,
-          time
+    await new Promise(
+      resolve =>
+        setTimeout(
+          resolve,
+          1800
         )
-      ) {
-
-        showMessage(
-          submitMessage,
-          "✅ درخواست نوبت شما با موفقیت ارسال شد.\n\nدرخواست در انتظار بررسی فیش و تأیید ادمین است. پس از تأیید، اطلاعات نوبت برای شما ارسال خواهد شد.",
-          "success"
-        );
-
-      } else {
-
-        /*
-          حتی اگر polling به‌موقع آپدیت نشود،
-          درخواست به کاربر به‌عنوان pending
-          اعلام می‌شود.
-        */
-
-        showMessage(
-          submitMessage,
-          "✅ درخواست شما ارسال شد.\n\nدرخواست در انتظار بررسی و تأیید ادمین است.",
-          "success"
-        );
-
-      }
+    );
 
 
-      /*
-        برای جلوگیری از ثبت دوباره همان فرم
-      */
+    await refreshBookedSlots();
 
-      submitButton.disabled = true;
 
-    } catch (error) {
+    showMessage(
+      submitMessage,
+      "✅ درخواست شما ارسال شد.\n\nدرخواست در انتظار بررسی و تأیید ادمین است.",
+      "success"
+    );
 
-      console.error(error);
 
-      showMessage(
-        submitMessage,
-        "❌ هنگام ارسال اطلاعات مشکلی پیش آمد. لطفاً دوباره تلاش کنید.",
-        "error"
-      );
+  }
 
-      submitButton.disabled = false;
+  catch(error){
 
-    }
+    console.error(
+      error
+    );
 
-    loadingMessage.classList
-      .add("hidden");
+
+    showMessage(
+      submitMessage,
+      "❌ هنگام ارسال اطلاعات مشکلی پیش آمد. لطفاً دوباره تلاش کنید.",
+      "error"
+    );
+
+
+    submitButton.disabled =
+      false;
 
   }
 
 
-  /* =========================================================
-     GET CONFIG
-  ========================================================= */
+  loadingMessage
+    .classList
+    .add("hidden");
 
-  async function loadConfig() {
-
-    try {
-
-      const response =
-        await fetch(
-          ENDPOINT +
-          "?action=getConfig&_=" +
-          Date.now()
-        );
-
-      const data =
-        await response.json();
-
-      if (
-        !data ||
-        !data.ok
-      ) {
-
-        throw new Error(
-          data && data.message
-            ? data.message
-            : "دریافت تنظیمات ناموفق بود."
-        );
-
-      }
-
-      config = {
-
-        services:
-          Array.isArray(
-            data.services
-          )
-            ? data.services
-            : [],
-
-        bookedSlots:
-          Array.isArray(
-            data.bookedSlots
-          )
-            ? data.bookedSlots
-            : [],
-
-        workHours:
-          Array.isArray(
-            data.workHours
-          )
-            ? data.workHours
-            : [],
-
-        closures:
-          Array.isArray(
-            data.closures
-          )
-            ? data.closures
-            : [],
-
-        settings:
-          data.settings || {}
-
-      };
+}
 
 
-      loadServices();
+/* =========================================================
+   LOAD CONFIG
+   ========================================================= */
 
-      initDates();
+async function loadConfig(){
 
-    } catch (error) {
+  try{
 
-      console.error(
-        "Config error:",
-        error
+    const response =
+      await fetch(
+        ENDPOINT +
+        "?action=getConfig&_=" +
+        Date.now()
       );
 
-      showMessage(
-        submitMessage,
-        "❌ اطلاعات سامانه دریافت نشد. لطفاً صفحه را دوباره باز کنید.",
-        "error"
+
+    const data =
+      await response.json();
+
+
+    if(!data?.ok){
+
+      throw new Error(
+        data?.message ||
+        "دریافت تنظیمات ناموفق بود."
       );
 
     }
 
-  }
+
+    config = {
+
+      services:
+        Array.isArray(
+          data.services
+        )
+          ? data.services
+          : [],
 
 
-  /* =========================================================
-     REFRESH BOOKED SLOTS
-  ========================================================= */
-
-  async function refreshBookedSlots() {
-
-    try {
-
-      const response =
-        await fetch(
-          ENDPOINT +
-          "?action=getBookedSlots&_=" +
-          Date.now()
-        );
-
-      const data =
-        await response.json();
-
-      if (
-        data &&
-        data.ok &&
+      bookedSlots:
         Array.isArray(
           data.bookedSlots
         )
-      ) {
+          ? data.bookedSlots
+          : [],
 
-        config.bookedSlots =
-          data.bookedSlots;
 
-        loadTimes();
+      workHours:
+        Array.isArray(
+          data.workHours
+        )
+          ? data.workHours
+          : [],
 
-      }
 
-    } catch (error) {
+      closures:
+        Array.isArray(
+          data.closures
+        )
+          ? data.closures
+          : [],
 
-      console.log(
-        "Booked slots refresh error:",
-        error
+
+      settings:
+        data.settings ||
+        {}
+
+    };
+
+
+    loadServices();
+
+    initDates();
+
+  }
+
+  catch(error){
+
+    console.error(
+      "Config error:",
+      error
+    );
+
+
+    showMessage(
+      submitMessage,
+      "❌ اطلاعات سامانه دریافت نشد. لطفاً صفحه را دوباره باز کنید.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   REFRESH BOOKED SLOTS
+   ========================================================= */
+
+async function refreshBookedSlots(){
+
+  try{
+
+    const response =
+      await fetch(
+        ENDPOINT +
+        "?action=getBookedSlots&_=" +
+        Date.now()
       );
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      data?.ok &&
+      Array.isArray(
+        data.bookedSlots
+      )
+    ){
+
+      config.bookedSlots =
+        data.bookedSlots;
+
+
+      loadTimes();
 
     }
 
   }
 
+  catch(error){
 
-  /* =========================================================
-     EVENTS
-  ========================================================= */
+    console.log(
+      "Booked slots refresh error:",
+      error
+    );
 
-  mainCategory.addEventListener(
-    "change",
-    function() {
+  }
 
-      updateSubcategories();
-
-    }
-  );
+}
 
 
-  subCategory.addEventListener(
-    "change",
-    function() {
+/* =========================================================
+   EVENTS
+   ========================================================= */
 
-      selectSubcategory();
-
-    }
-  );
-
-
-  dateSelect.addEventListener(
-    "change",
-    function() {
-
-      loadTimes();
-
-    }
-  );
+mainCategory.addEventListener(
+  "change",
+  updateSubcategories
+);
 
 
-  discountButton.addEventListener(
-    "click",
-    function() {
-
-      checkDiscount();
-
-    }
-  );
+subCategory.addEventListener(
+  "change",
+  selectSubcategory
+);
 
 
-  discountCode.addEventListener(
-    "input",
-    function() {
+dateSelect.addEventListener(
+  "change",
+  loadTimes
+);
 
-      /*
-        تغییر کد تخفیف، نتیجه قبلی را
-        معتبر نگه نمی‌دارد.
-      */
 
-      currentDiscount = {
-        valid: false,
-        amount: 0,
-        code: ""
-      };
+discountButton.addEventListener(
+  "click",
+  checkDiscount
+);
 
-      hideMessage(
-        discountMessage
+
+discountCode.addEventListener(
+  "input",
+  () => {
+
+    currentDiscount = {
+
+      valid:false,
+      amount:0,
+      code:""
+
+    };
+
+
+    hideMessage(
+      discountMessage
+    );
+
+
+    applyDiscountPreview();
+
+  }
+);
+
+
+submitButton.addEventListener(
+  "click",
+  submitBooking
+);
+
+
+/* =========================================================
+   INIT
+   ========================================================= */
+
+setHeaderTitle();
+
+loadConfig();
+
+
+/*
+  هر 15 ثانیه نوبت‌های رزروشده
+  دوباره از سرور خوانده می‌شوند.
+*/
+
+setInterval(
+  refreshBookedSlots,
+  15000
+);
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+function setHeaderTitle(){
+
+  try{
+
+    const params =
+      new URLSearchParams(
+        location.search
       );
 
-      applyDiscountPreview();
+
+    let title =
+      params.get("title") ||
+      params.get("action") ||
+      params.get("service") ||
+      params.get("category");
+
+
+    if(
+      !title &&
+      tg &&
+      tg.initDataUnsafe
+    ){
+
+      title =
+        tg.initDataUnsafe
+          .start_param ||
+        "";
 
     }
-  );
 
 
-  submitButton.addEventListener(
-    "click",
-    function() {
+    const map = {
 
-      submitBooking();
+      booking:
+        "📅 رزرو نوبت",
 
-    }
-  );
+      appointment:
+        "📅 رزرو نوبت",
+
+      reserve:
+        "📅 رزرو نوبت",
+
+      services:
+        "📋 لیست خدمات",
+
+      energy:
+        "🔮 انرژی‌خوانی",
+
+      candle:
+        "🕯️ شمع‌تراپی",
+
+      psychotherapy:
+        "🧠 سایکوتراپی"
+
+    };
 
 
-  /* =========================================================
-     START
-  ========================================================= */
+    headerTitle.textContent =
+      map[title] ||
+      title ||
+      "📅 رزرو نوبت";
 
-  setHeaderTitle();
+  }
 
-  loadConfig();
+  catch(error){
 
+    headerTitle.textContent =
+      "📅 رزرو نوبت";
 
-  /* =========================================================
-     AUTO REFRESH
-  ========================================================= */
+  }
 
-  setInterval(
-    function() {
-
-      refreshBookedSlots();
-
-    },
-    15000
-  );
+}
 
 </script>
 
