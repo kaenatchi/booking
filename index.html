@@ -2,7 +2,6 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<base target="_top">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>سامانه دریافت نوبت کائنات‌چی</title>
@@ -126,18 +125,26 @@ button:disabled{
   color:#20543e;
 }
 
+/* =========================================================
+   RECEIPT FILE PICKER
+   ========================================================= */
+
 .file-box{
   position:relative;
   margin-bottom:12px;
+  min-height:58px;
 }
 
 #receiptFile{
   position:absolute;
-  width:1px;
-  height:1px;
+  inset:0;
+  width:100%;
+  height:100%;
   opacity:0;
-  overflow:hidden;
-  pointer-events:none;
+  cursor:pointer;
+  z-index:2;
+  margin:0;
+  padding:0;
 }
 
 .file-picker{
@@ -152,6 +159,8 @@ button:disabled{
   font-size:14px;
   cursor:pointer;
   line-height:1.8;
+  position:relative;
+  z-index:1;
 }
 
 .file-picker:active{
@@ -164,6 +173,8 @@ button:disabled{
   margin-top:7px;
   line-height:1.8;
   word-break:break-word;
+  position:relative;
+  z-index:1;
 }
 
 .payment-box{
@@ -269,6 +280,11 @@ button:disabled{
 
 .required{
   color:#a52d2d;
+  font-weight:bold;
+}
+
+.option-booked{
+  color:#a52d2d;
 }
 
 @media(max-width:480px){
@@ -314,7 +330,7 @@ button:disabled{
     <h2>🔮 انتخاب خدمت</h2>
 
     <label for="mainCategory">
-      دسته‌بندی خدمت
+      دسته‌بندی خدمت <span class="required">*</span>
     </label>
 
     <select id="mainCategory">
@@ -324,7 +340,7 @@ button:disabled{
     <div id="subcategoryBox" class="hidden">
 
       <label for="subCategory">
-        نوع خدمت
+        نوع خدمت <span class="required">*</span>
       </label>
 
       <select id="subCategory">
@@ -361,7 +377,7 @@ button:disabled{
     <h2>📅 انتخاب زمان نوبت</h2>
 
     <label for="date">
-      تاریخ
+      تاریخ <span class="required">*</span>
     </label>
 
     <select id="date">
@@ -369,7 +385,7 @@ button:disabled{
     </select>
 
     <label for="time">
-      ساعت
+      ساعت <span class="required">*</span>
     </label>
 
     <select id="time">
@@ -484,7 +500,7 @@ button:disabled{
 
     <br>
 
-    <label>
+    <label for="receiptFile">
       🧾 تصویر فیش واریزی
       <span class="required">*</span>
     </label>
@@ -495,6 +511,8 @@ button:disabled{
         id="receiptFile"
         type="file"
         accept="image/*"
+        required
+        aria-label="تصویر فیش واریزی"
       >
 
       <label
@@ -746,6 +764,54 @@ function showMessage(element,text,type){
 function hideMessage(element){
 
   element.style.display = "none";
+
+}
+
+
+/* =========================================================
+   FIELD ERROR / SCROLL
+   ========================================================= */
+
+function focusField(element){
+
+  try{
+
+    element.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+    setTimeout(
+      () => {
+        try{
+          element.focus();
+        }
+        catch(e){}
+      },
+      350
+    );
+
+  }
+
+  catch(e){}
+
+}
+
+function requiredError(message,element){
+
+  showMessage(
+    submitMessage,
+    "⚠️ اطلاعات کامل نیست.\n\n" +
+    message +
+    "\n\nلطفاً همه فیلدهای ⭐ را با دقت تکمیل کنید.",
+    "error"
+  );
+
+  if(element){
+    focusField(element);
+  }
+
+  return false;
 
 }
 
@@ -1595,11 +1661,6 @@ function initDates(){
    CURRENT DAY / TIME FILTER
    ========================================================= */
 
-/*
-  تاریخ امروز را بر اساس ساعت ایران محاسبه می‌کنیم.
-  این قسمت مستقل از منطقه زمانی مرورگر است.
-*/
-
 function getIranNow(){
 
   try{
@@ -1674,10 +1735,6 @@ function isPastSlotToday(
       todayJalali
     );
 
-  /*
-    فقط برای امروز فیلتر اعمال می‌شود.
-  */
-
   if(dateKey !== todayKey){
     return false;
   }
@@ -1692,11 +1749,6 @@ function isPastSlotToday(
   if(slotMinutes === null){
     return false;
   }
-
-  /*
-    اگر ساعت شروع نوبت رسیده یا گذشته باشد،
-    دیگر قابل رزرو نیست.
-  */
 
   return slotMinutes <= currentMinutes;
 
@@ -1769,62 +1821,16 @@ function loadTimes(){
       dayName
     );
 
-  const available =
-    slots.filter(time => {
+  let availableCount = 0;
+  let bookedCount = 0;
+  let closedCount = 0;
+  let pastCount = 0;
 
-      const booked =
-        isSlotBooked(
-          dateKey,
-          time,
-          duration
-        );
-
-      const closed =
-        isSlotClosed(
-          dateKey,
-          time,
-          duration
-        );
-
-      const past =
-        isPastSlotToday(
-          dateKey,
-          time
-        );
-
-      return (
-        !booked &&
-        !closed &&
-        !past
-      );
-
-    });
-
-  if(!available.length){
-
-    const option =
-      document.createElement(
-        "option"
-      );
-
-    option.value = "";
-
-    option.textContent =
-      "در این تاریخ ساعت آزادی وجود ندارد";
-
-    timeSelect.appendChild(
-      option
-    );
-
-    showMessage(
-      slotMessage,
-      "برای این تاریخ در حال حاضر ساعت آزادی باقی نمانده است.",
-      "info"
-    );
-
-    return;
-
-  }
+  /*
+    تمام ساعت‌ها را نمایش می‌دهیم.
+    ساعت رزروشده حذف نمی‌شود؛
+    با ❌ نمایش داده شده و disabled است.
+  */
 
   const first =
     document.createElement(
@@ -1840,7 +1846,27 @@ function loadTimes(){
     first
   );
 
-  available.forEach(time => {
+  slots.forEach(time => {
+
+    const booked =
+      isSlotBooked(
+        dateKey,
+        time,
+        duration
+      );
+
+    const closed =
+      isSlotClosed(
+        dateKey,
+        time,
+        duration
+      );
+
+    const past =
+      isPastSlotToday(
+        dateKey,
+        time
+      );
 
     const option =
       document.createElement(
@@ -1849,13 +1875,69 @@ function loadTimes(){
 
     option.value = time;
 
-    option.textContent = time;
+    if(booked){
+
+      option.textContent =
+        time +
+        " ❌ رزرو شده";
+
+      option.disabled = true;
+
+      option.className =
+        "option-booked";
+
+      bookedCount++;
+
+    }
+
+    else if(closed){
+
+      option.textContent =
+        time +
+        " 🔒 بسته";
+
+      option.disabled = true;
+
+      closedCount++;
+
+    }
+
+    else if(past){
+
+      option.textContent =
+        time +
+        " ⏰ گذشته";
+
+      option.disabled = true;
+
+      pastCount++;
+
+    }
+
+    else{
+
+      option.textContent =
+        time;
+
+      availableCount++;
+
+    }
 
     timeSelect.appendChild(
       option
     );
 
   });
+
+  if(availableCount === 0){
+
+    showMessage(
+      slotMessage,
+      "برای این تاریخ در حال حاضر ساعت آزادی برای انتخاب وجود ندارد.",
+      "info"
+    );
+
+  }
 
 }
 
@@ -2334,10 +2416,23 @@ receiptFile.addEventListener(
   "change",
   function(){
 
-    receiptName.textContent =
-      this.files?.length
-        ? "✅ " + this.files[0].name
-        : "هنوز تصویری انتخاب نشده است";
+    if(
+      this.files &&
+      this.files.length
+    ){
+
+      receiptName.textContent =
+        "✅ " +
+        this.files[0].name;
+
+    }
+
+    else{
+
+      receiptName.textContent =
+        "هنوز تصویری انتخاب نشده است";
+
+    }
 
   }
 );
@@ -2401,17 +2496,22 @@ function fileToDataURL(file){
 
 function validateForm(){
 
+  /*
+    خدمت
+  */
+
   if(!currentService){
 
-    showMessage(
-      submitMessage,
-      "لطفاً ابتدا خدمت موردنظر را انتخاب کنید.",
-      "error"
+    return requiredError(
+      "لطفاً خدمت موردنظر را انتخاب کنید.",
+      mainCategory
     );
 
-    return false;
-
   }
+
+  /*
+    نام
+  */
 
   const firstName =
     document
@@ -2419,11 +2519,19 @@ function validateForm(){
       .value
       .trim();
 
+  /*
+    نام خانوادگی
+  */
+
   const lastName =
     document
       .getElementById("lastName")
       .value
       .trim();
+
+  /*
+    موبایل
+  */
 
   const mobile =
     document
@@ -2431,69 +2539,62 @@ function validateForm(){
       .value
       .trim();
 
+  /*
+    تاریخ
+  */
+
   const date =
     dateSelect.value;
+
+  /*
+    ساعت
+  */
 
   const time =
     timeSelect.value;
 
   if(!firstName){
 
-    showMessage(
-      submitMessage,
+    return requiredError(
       "لطفاً نام خود را وارد کنید.",
-      "error"
+      document.getElementById("firstName")
     );
-
-    return false;
 
   }
 
   if(!lastName){
 
-    showMessage(
-      submitMessage,
+    return requiredError(
       "لطفاً نام خانوادگی خود را وارد کنید.",
-      "error"
+      document.getElementById("lastName")
     );
-
-    return false;
 
   }
 
   if(!mobile){
 
-    showMessage(
-      submitMessage,
+    return requiredError(
       "لطفاً شماره موبایل خود را وارد کنید.",
-      "error"
+      document.getElementById("mobile")
     );
-
-    return false;
 
   }
 
   if(!date){
 
-    showMessage(
-      submitMessage,
+    return requiredError(
       "لطفاً تاریخ نوبت را انتخاب کنید.",
-      "error"
+      dateSelect
     );
-
-    return false;
 
   }
 
   if(!time){
 
-    showMessage(
-      submitMessage,
+    return requiredError(
       "لطفاً ساعت نوبت را انتخاب کنید.",
-      "error"
+      timeSelect
     );
-
-    return false;
 
   }
 
@@ -2501,6 +2602,12 @@ function validateForm(){
     getServiceDuration(
       currentService
     );
+
+  /*
+    دوباره روی خود نوبت بررسی می‌کنیم
+    تا اگر در همین فاصله شخص دیگری رزرو کرده بود،
+    درخواست ارسال نشود.
+  */
 
   if(
     isSlotBooked(
@@ -2512,11 +2619,13 @@ function validateForm(){
 
     showMessage(
       submitMessage,
-      "این ساعت همین الان توسط شخص دیگری انتخاب شده است. لطفاً ساعت دیگری انتخاب کنید.",
+      "❌ این ساعت همین الان توسط شخص دیگری رزرو شده است.\n\nلطفاً ساعت دیگری انتخاب کنید.",
       "error"
     );
 
     loadTimes();
+
+    focusField(timeSelect);
 
     return false;
 
@@ -2532,20 +2641,17 @@ function validateForm(){
 
     showMessage(
       submitMessage,
-      "این ساعت در حال حاضر بسته است. لطفاً ساعت دیگری انتخاب کنید.",
+      "🔒 این ساعت در حال حاضر بسته است.\n\nلطفاً ساعت دیگری انتخاب کنید.",
       "error"
     );
 
     loadTimes();
 
+    focusField(timeSelect);
+
     return false;
 
   }
-
-  /*
-    جلوگیری از رزرو ساعت گذشته،
-    حتی اگر کاربر صفحه را از قبل باز کرده باشد.
-  */
 
   if(
     isPastSlotToday(
@@ -2556,29 +2662,37 @@ function validateForm(){
 
     showMessage(
       submitMessage,
-      "⏰ این ساعت گذشته است. لطفاً ساعت دیگری انتخاب کنید.",
+      "⏰ این ساعت گذشته است.\n\nلطفاً ساعت دیگری انتخاب کنید.",
       "error"
     );
 
     loadTimes();
 
+    focusField(timeSelect);
+
     return false;
 
   }
+
+  /*
+    فیش اجباری
+  */
 
   if(
-    !receiptFile.files?.length
+    !receiptFile.files ||
+    !receiptFile.files.length
   ){
 
-    showMessage(
-      submitMessage,
+    return requiredError(
       "لطفاً تصویر فیش واریزی را انتخاب کنید.",
-      "error"
+      receiptFile
     );
 
-    return false;
-
   }
+
+  /*
+    محدودیت حجم فیش
+  */
 
   if(
     receiptFile.files[0].size >
@@ -2587,9 +2701,11 @@ function validateForm(){
 
     showMessage(
       submitMessage,
-      "حجم تصویر فیش باید کمتر از ۸ مگابایت باشد.",
+      "❌ حجم تصویر فیش باید کمتر از ۸ مگابایت باشد.",
       "error"
     );
+
+    focusField(receiptFile);
 
     return false;
 
@@ -2609,6 +2725,11 @@ async function submitBooking(){
   hideMessage(
     submitMessage
   );
+
+  /*
+    قبل از هر کاری تمام فیلدهای اجباری
+    بررسی می‌شوند.
+  */
 
   if(!validateForm()){
     return;
@@ -2724,6 +2845,12 @@ async function submitBooking(){
 
       }
     );
+
+    /*
+      کمی زمان می‌دهیم تا سرور
+      ثبت را انجام دهد و سپس
+      لیست نوبت‌ها دوباره خوانده شود.
+    */
 
     await new Promise(
       resolve =>
@@ -2882,6 +3009,12 @@ async function refreshBookedSlots(){
       config.bookedSlots =
         data.bookedSlots;
 
+      /*
+        با دریافت رزرو جدید،
+        لیست ساعت‌ها بلافاصله دوباره ساخته می‌شود.
+        بنابراین ساعت رزروشده ❌ می‌گیرد.
+      */
+
       loadTimes();
 
     }
@@ -2974,7 +3107,7 @@ setInterval(
 /*
   هر 30 ثانیه ساعت‌های امروز
   دوباره بررسی می‌شوند تا اگر
-  زمان یک نوبت گذشت، خودکار حذف شود.
+  زمان یک نوبت گذشت، خودکار غیرفعال شود.
 */
 
 setInterval(
