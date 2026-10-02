@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -12,35 +14,71 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
+
     :root {
       --cream: #f7f1e5;
       --cream-light: #fcf8ef;
+
       --green: #244d3b;
       --green-dark: #19392c;
       --green-soft: #dce8df;
       --green-soft-2: #e8f0e9;
+
       --text: #26352d;
       --text-soft: #66736b;
-      --border: #dfe5dc;
+
+      --border: rgba(36,77,59,0.13);
+
       --white: #ffffff;
-      --shadow: 0 8px 24px rgba(36, 77, 59, 0.08);
-      --radius: 18px;
+
+      --glass:
+        rgba(255,255,255,0.64);
+
+      --glass-strong:
+        rgba(255,255,255,0.78);
+
+      --shadow:
+        0 10px 30px rgba(36,77,59,0.08);
+
+      --shadow-soft:
+        0 5px 18px rgba(36,77,59,0.055);
+
+      --radius: 20px;
     }
+
 
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
 
+
     html {
       scroll-behavior: smooth;
     }
 
+
     body {
       margin: 0;
       padding: 0;
-      background: var(--cream);
+
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at 15% 8%,
+          rgba(220,232,223,0.72),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 90% 30%,
+          rgba(232,240,233,0.68),
+          transparent 28%
+        ),
+        var(--cream);
+
       color: var(--text);
+
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -48,178 +86,343 @@
         Tahoma,
         Arial,
         sans-serif;
+
       direction: rtl;
-      min-height: 100vh;
     }
+
+
+    body::before {
+      content: "";
+
+      position: fixed;
+
+      top: -70px;
+      right: -80px;
+
+      width: 210px;
+      height: 210px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(36,77,59,0.055),
+          transparent 68%
+        );
+
+      pointer-events: none;
+
+      z-index: -1;
+    }
+
 
     button,
     a {
       font-family: inherit;
     }
 
+
     button {
       border: 0;
       cursor: pointer;
     }
 
+
     .app {
+
       width: 100%;
       max-width: 520px;
+
       margin: 0 auto;
-      padding: 18px 16px 36px;
+
+      padding:
+        18px
+        16px
+        28px;
     }
 
-    /* =========================
+
+    /* =====================================================
        HEADER
-    ========================= */
+    ===================================================== */
 
     .header {
+
       text-align: center;
-      padding: 10px 0 8px;
+
+      padding:
+        8px
+        0
+        10px;
     }
 
+
     .logo-wrap {
-      width: 88px;
-      height: 88px;
-      margin: 0 auto 10px;
+
+      width: 92px;
+      height: 92px;
+
+      margin: 0 auto 11px;
+
       border-radius: 50%;
-      background: rgba(255,255,255,0.55);
+
+      background:
+        rgba(255,255,255,0.48);
+
+      border:
+        1px solid rgba(255,255,255,0.72);
+
+      box-shadow:
+        0 8px 25px rgba(36,77,59,0.07);
+
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
       display: flex;
+
       align-items: center;
       justify-content: center;
+
       overflow: hidden;
     }
 
+
     .logo {
-      width: 78px;
-      height: 78px;
+
+      width: 80px;
+      height: 80px;
+
       object-fit: contain;
+
       display: block;
     }
 
+
     .brand {
+
       margin: 0;
+
       color: var(--green);
+
       font-size: 28px;
+
       font-weight: 800;
+
       letter-spacing: -0.5px;
     }
 
+
     .tagline {
-      margin: 7px 0 0;
+
+      margin:
+        7px
+        0
+        0;
+
       color: var(--text-soft);
+
       font-size: 14px;
-      line-height: 1.8;
+
+      line-height: 1.9;
     }
 
+
     .intro {
-      margin: 16px 0 20px;
+
+      margin:
+        15px
+        0
+        20px;
+
       text-align: center;
+
       color: var(--text);
+
       font-size: 14px;
+
       line-height: 2;
     }
 
-    /* =========================
-       MAIN ACTION
-    ========================= */
+
+    /* =====================================================
+       PRIMARY BUTTON
+    ===================================================== */
 
     .primary-button {
+
       width: 100%;
-      min-height: 58px;
-      border-radius: 19px;
-      background: var(--green);
-      color: var(--white);
+
+      min-height: 60px;
+
+      padding:
+        12px
+        18px;
+
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--green),
+          var(--green-dark)
+        );
+
+      color: white;
+
       font-size: 16px;
-      font-weight: 700;
-      box-shadow: var(--shadow);
-      margin-bottom: 12px;
-      transition: transform 0.15s ease, opacity 0.15s ease;
+
+      font-weight: 800;
+
+      box-shadow:
+        0 12px 28px rgba(36,77,59,0.17);
+
+      margin-bottom: 13px;
+
+      transition:
+        transform .15s ease,
+        opacity .15s ease;
     }
+
 
     .primary-button:active {
-      transform: scale(0.98);
-      opacity: 0.92;
+
+      transform: scale(.985);
+
+      opacity: .92;
     }
 
-    /* =========================
+
+    /* =====================================================
        SECTION
-    ========================= */
+    ===================================================== */
 
     .section {
+
       margin-top: 14px;
     }
 
-    .section-title {
-      color: var(--green);
-      font-size: 16px;
-      font-weight: 800;
-      margin: 0 4px 10px;
-    }
 
-    /* =========================
-       BUTTONS
-    ========================= */
+    /* =====================================================
+       MENU BUTTON
+    ===================================================== */
 
     .menu-button {
+
       width: 100%;
-      min-height: 54px;
-      padding: 13px 16px;
+
+      min-height: 55px;
+
+      padding:
+        13px
+        16px;
+
       margin-bottom: 9px;
+
       border-radius: var(--radius);
-      background: rgba(255,255,255,0.78);
+
+      background:
+        var(--glass);
+
       color: var(--green-dark);
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 14px rgba(36, 77, 59, 0.04);
+
+      border:
+        1px solid var(--border);
+
+      box-shadow:
+        var(--shadow-soft);
+
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+
       display: flex;
+
       align-items: center;
       justify-content: space-between;
+
       gap: 12px;
+
       text-align: right;
+
       font-size: 15px;
+
       font-weight: 700;
-      transition: transform 0.15s ease, background 0.15s ease;
+
+      transition:
+        transform .15s ease,
+        background .15s ease,
+        box-shadow .15s ease;
     }
+
 
     .menu-button:active {
-      transform: scale(0.985);
-      background: var(--green-soft-2);
+
+      transform: scale(.985);
+
+      background:
+        rgba(232,240,233,0.86);
+
+      box-shadow:
+        0 3px 12px rgba(36,77,59,0.05);
     }
 
+
     .button-arrow {
+
       color: var(--green);
-      font-size: 18px;
+
+      font-size: 20px;
+
       flex-shrink: 0;
     }
 
+
     .two-column {
+
       display: grid;
-      grid-template-columns: 1fr 1fr;
+
+      grid-template-columns:
+        1fr 1fr;
+
       gap: 9px;
     }
 
+
     .two-column .menu-button {
-      min-height: 58px;
+
+      min-height: 59px;
+
       justify-content: center;
+
       text-align: center;
+
       margin-bottom: 0;
+
       line-height: 1.7;
     }
 
-    /* =========================
-       PAGE VIEW
-    ========================= */
+
+    /* =====================================================
+       PAGE
+    ===================================================== */
 
     .page {
+
       display: none;
-      animation: fadeIn 0.2s ease;
+
+      animation:
+        fadeIn .2s ease;
     }
 
+
     .page.active {
+
       display: block;
     }
 
+
     @keyframes fadeIn {
+
       from {
         opacity: 0;
         transform: translateY(5px);
@@ -229,171 +432,802 @@
         opacity: 1;
         transform: translateY(0);
       }
+
     }
+
+
+    /* =====================================================
+       BACK
+    ===================================================== */
 
     .back-button {
+
       width: 100%;
+
       min-height: 48px;
+
       margin-bottom: 15px;
-      border-radius: 15px;
-      background: var(--green-soft);
-      color: var(--green-dark);
+
+      border-radius: 16px;
+
+      background:
+        rgba(220,232,223,0.78);
+
+      color:
+        var(--green-dark);
+
+      border:
+        1px solid rgba(36,77,59,0.08);
+
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
       font-size: 14px;
+
       font-weight: 700;
     }
+
+
+    /* =====================================================
+       PAGE TITLE
+    ===================================================== */
 
     .page-title {
+
       color: var(--green);
+
       font-size: 22px;
+
       font-weight: 800;
-      margin: 5px 0 15px;
+
+      margin:
+        5px
+        0
+        15px;
     }
+
+
+    /* =====================================================
+       CONTENT CARD
+    ===================================================== */
 
     .content-card {
-      background: rgba(255,255,255,0.78);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 17px;
-      margin-bottom: 12px;
-      box-shadow: 0 5px 16px rgba(36, 77, 59, 0.04);
+
+      background:
+        var(--glass-strong);
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        var(--radius);
+
+      padding:
+        17px;
+
+      margin-bottom:
+        12px;
+
+      box-shadow:
+        var(--shadow-soft);
+
+      backdrop-filter:
+        blur(16px);
+
+      -webkit-backdrop-filter:
+        blur(16px);
     }
+
 
     .content-card h3 {
-      margin: 0 0 8px;
-      color: var(--green);
-      font-size: 16px;
+
+      margin:
+        0
+        0
+        8px;
+
+      color:
+        var(--green);
+
+      font-size:
+        16px;
     }
+
 
     .content-card p {
-      margin: 0;
-      color: var(--text);
-      font-size: 14px;
-      line-height: 2;
+
+      margin:
+        0;
+
+      color:
+        var(--text);
+
+      font-size:
+        14px;
+
+      line-height:
+        2;
+
+      white-space:
+        pre-line;
     }
+
 
     .content-image {
-      width: 100%;
-      max-height: 230px;
-      object-fit: cover;
-      border-radius: 15px;
-      margin-bottom: 13px;
-      display: block;
+
+      width:
+        100%;
+
+      max-height:
+        230px;
+
+      object-fit:
+        cover;
+
+      border-radius:
+        16px;
+
+      margin-bottom:
+        13px;
+
+      display:
+        block;
     }
+
 
     .price {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 7px 12px;
-      border-radius: 12px;
-      background: var(--green-soft);
-      color: var(--green-dark);
-      font-size: 13px;
-      font-weight: 800;
+
+      display:
+        inline-block;
+
+      margin:
+        12px 6px 0 0;
+
+      padding:
+        7px 12px;
+
+      border-radius:
+        12px;
+
+      background:
+        var(--green-soft);
+
+      color:
+        var(--green-dark);
+
+      font-size:
+        13px;
+
+      font-weight:
+        800;
     }
+
 
     .appointment-small {
-      width: 100%;
-      min-height: 48px;
-      margin-top: 12px;
-      border-radius: 15px;
-      background: var(--green);
-      color: white;
-      font-size: 14px;
-      font-weight: 700;
+
+      width:
+        100%;
+
+      min-height:
+        49px;
+
+      margin-top:
+        13px;
+
+      border-radius:
+        16px;
+
+      background:
+        var(--green);
+
+      color:
+        white;
+
+      font-size:
+        14px;
+
+      font-weight:
+        800;
+
+      box-shadow:
+        0 7px 18px rgba(36,77,59,0.12);
     }
 
-    /* =========================
+
+    /* =====================================================
        GUIDE
-    ========================= */
+    ===================================================== */
 
     .guide-box {
-      background: var(--green-soft-2);
-      border: 1px solid #d4e1d7;
-      border-radius: 16px;
-      padding: 15px;
-      margin-bottom: 14px;
+
+      background:
+        rgba(232,240,233,0.72);
+
+      border:
+        1px solid rgba(36,77,59,0.10);
+
+      border-radius:
+        17px;
+
+      padding:
+        15px;
+
+      margin-bottom:
+        14px;
+
+      backdrop-filter:
+        blur(13px);
+
+      -webkit-backdrop-filter:
+        blur(13px);
     }
+
 
     .guide-box h3 {
-      margin: 0 0 8px;
-      color: var(--green);
-      font-size: 15px;
+
+      margin:
+        0 0 7px;
+
+      color:
+        var(--green);
+
+      font-size:
+        15px;
     }
+
 
     .guide-box p {
-      margin: 0;
-      color: var(--text);
-      font-size: 13px;
-      line-height: 2;
+
+      margin:
+        0;
+
+      color:
+        var(--text);
+
+      font-size:
+        13px;
+
+      line-height:
+        2;
     }
 
-    /* =========================
-       LOADING
-    ========================= */
+
+    /* =====================================================
+       LIST ITEM
+    ===================================================== */
+
+    .list-item {
+
+      width:
+        100%;
+
+      min-height:
+        58px;
+
+      padding:
+        13px 15px;
+
+      margin-bottom:
+        9px;
+
+      border-radius:
+        18px;
+
+      background:
+        rgba(255,255,255,0.68);
+
+      border:
+        1px solid var(--border);
+
+      box-shadow:
+        var(--shadow-soft);
+
+      backdrop-filter:
+        blur(15px);
+
+      -webkit-backdrop-filter:
+        blur(15px);
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        10px;
+
+      text-align:
+        right;
+
+      color:
+        var(--green-dark);
+
+      font-size:
+        14px;
+
+      font-weight:
+        750;
+    }
+
+
+    .list-item small {
+
+      display:
+        block;
+
+      margin-top:
+        4px;
+
+      color:
+        var(--text-soft);
+
+      font-size:
+        11px;
+
+      font-weight:
+        500;
+
+      line-height:
+        1.7;
+    }
+
+
+    /* =====================================================
+       FAQ
+    ===================================================== */
+
+    .faq-question {
+
+      width:
+        100%;
+
+      padding:
+        15px;
+
+      margin-bottom:
+        8px;
+
+      border-radius:
+        17px;
+
+      background:
+        rgba(255,255,255,0.70);
+
+      border:
+        1px solid var(--border);
+
+      box-shadow:
+        var(--shadow-soft);
+
+      text-align:
+        right;
+
+      color:
+        var(--green-dark);
+
+      font-size:
+        14px;
+
+      font-weight:
+        750;
+
+      line-height:
+        1.8;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        10px;
+    }
+
+
+    .faq-answer {
+
+      display:
+        none;
+
+      margin:
+        -2px 0 9px;
+
+      padding:
+        14px 15px;
+
+      border-radius:
+        0 0 16px 16px;
+
+      background:
+        rgba(255,255,255,0.58);
+
+      border:
+        1px solid rgba(36,77,59,0.08);
+
+      color:
+        var(--text);
+
+      font-size:
+        13px;
+
+      line-height:
+        2;
+
+      white-space:
+        pre-line;
+    }
+
+
+    .faq-answer.open {
+
+      display:
+        block;
+
+      animation:
+        fadeIn .15s ease;
+    }
+
+
+    .faq-chevron {
+
+      color:
+        var(--green);
+
+      font-size:
+        18px;
+
+      transition:
+        transform .15s ease;
+    }
+
+
+    .faq-chevron.open {
+
+      transform:
+        rotate(90deg);
+    }
+
+
+    /* =====================================================
+       CONTACT SHEET
+    ===================================================== */
+
+    .sheet-backdrop {
+
+      display:
+        none;
+
+      position:
+        fixed;
+
+      inset:
+        0;
+
+      background:
+        rgba(25,57,44,0.22);
+
+      backdrop-filter:
+        blur(4px);
+
+      -webkit-backdrop-filter:
+        blur(4px);
+
+      z-index:
+        1000;
+
+      align-items:
+        flex-end;
+
+      justify-content:
+        center;
+    }
+
+
+    .sheet-backdrop.open {
+
+      display:
+        flex;
+    }
+
+
+    .bottom-sheet {
+
+      width:
+        100%;
+
+      max-width:
+        520px;
+
+      background:
+        rgba(252,248,239,0.91);
+
+      border:
+        1px solid rgba(255,255,255,0.78);
+
+      border-radius:
+        25px 25px 0 0;
+
+      padding:
+        19px 16px 24px;
+
+      box-shadow:
+        0 -10px 35px rgba(36,77,59,0.12);
+
+      backdrop-filter:
+        blur(22px);
+
+      -webkit-backdrop-filter:
+        blur(22px);
+
+      animation:
+        sheetUp .22s ease;
+    }
+
+
+    @keyframes sheetUp {
+
+      from {
+        transform:
+          translateY(100%);
+      }
+
+      to {
+        transform:
+          translateY(0);
+      }
+    }
+
+
+    .sheet-handle {
+
+      width:
+        42px;
+
+      height:
+        4px;
+
+      border-radius:
+        10px;
+
+      background:
+        rgba(36,77,59,0.20);
+
+      margin:
+        0 auto 16px;
+    }
+
+
+    .sheet-title {
+
+      color:
+        var(--green);
+
+      font-size:
+        18px;
+
+      font-weight:
+        800;
+
+      margin:
+        0 0 13px;
+
+      text-align:
+        center;
+    }
+
+
+    .contact-button {
+
+      width:
+        100%;
+
+      min-height:
+        52px;
+
+      margin-bottom:
+        8px;
+
+      padding:
+        12px 15px;
+
+      border-radius:
+        16px;
+
+      background:
+        rgba(255,255,255,0.72);
+
+      border:
+        1px solid var(--border);
+
+      color:
+        var(--green-dark);
+
+      font-size:
+        14px;
+
+      font-weight:
+        750;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+    }
+
+
+    .contact-button.disabled {
+
+      opacity:
+        .55;
+    }
+
+
+    .sheet-close {
+
+      width:
+        100%;
+
+      min-height:
+        46px;
+
+      margin-top:
+        5px;
+
+      border-radius:
+        15px;
+
+      background:
+        var(--green-soft);
+
+      color:
+        var(--green-dark);
+
+      font-size:
+        14px;
+
+      font-weight:
+        700;
+    }
+
+
+    /* =====================================================
+       LOADING / EMPTY
+    ===================================================== */
 
     .loading {
-      text-align: center;
-      padding: 35px 10px;
-      color: var(--text-soft);
-      font-size: 14px;
+
+      text-align:
+        center;
+
+      padding:
+        35px 10px;
+
+      color:
+        var(--text-soft);
+
+      font-size:
+        14px;
     }
+
 
     .empty {
-      text-align: center;
-      padding: 30px 12px;
-      color: var(--text-soft);
-      font-size: 14px;
-      line-height: 2;
+
+      text-align:
+        center;
+
+      padding:
+        30px 12px;
+
+      color:
+        var(--text-soft);
+
+      font-size:
+        14px;
+
+      line-height:
+        2;
     }
 
-    /* =========================
+
+    /* =====================================================
        FOOTER
-    ========================= */
+    ===================================================== */
 
     .footer {
-      text-align: center;
-      margin-top: 28px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(36,77,59,0.10);
-      color: var(--text-soft);
-      font-size: 12px;
-      line-height: 2;
+
+      text-align:
+        center;
+
+      margin-top:
+        30px;
+
+      padding:
+        19px 10px 7px;
+
+      border-top:
+        1px solid rgba(36,77,59,0.10);
+
+      color:
+        var(--text-soft);
+
+      font-size:
+        10px;
+
+      line-height:
+        2;
+
+      opacity:
+        .92;
     }
 
-    @media (max-width: 360px) {
+
+    @media (max-width:360px) {
+
       .app {
-        padding-left: 12px;
-        padding-right: 12px;
+
+        padding-left:
+          12px;
+
+        padding-right:
+          12px;
       }
 
       .brand {
-        font-size: 25px;
+
+        font-size:
+          25px;
       }
 
       .two-column {
-        gap: 7px;
+
+        gap:
+          7px;
       }
 
       .two-column .menu-button {
-        font-size: 13px;
+
+        font-size:
+          13px;
       }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
 <div class="app">
 
-  <!-- =========================
-       HOME
-  ========================= -->
 
-  <section id="homePage" class="page active">
+  <!-- =====================================================
+       HOME
+  ===================================================== -->
+
+  <section
+    id="homePage"
+    class="page active"
+  >
 
     <header class="header">
 
       <div class="logo-wrap">
+
         <img
           id="logo"
           class="logo"
@@ -401,9 +1235,14 @@
           alt="کائنات‌چی"
           onerror="this.style.display='none';"
         >
+
       </div>
 
-      <h1 class="brand">کائنات‌چی</h1>
+
+      <h1 class="brand">
+        کائنات‌چی
+      </h1>
+
 
       <p class="tagline">
         همراه شما در مسیر آرامش، شناخت و رشد درونی
@@ -411,331 +1250,845 @@
 
     </header>
 
+
     <p class="intro">
       ✨ خدمات تخصصی برای شناخت بهتر خود، آرامش ذهن
       و تجربه‌ای متفاوت از دنیای درون
     </p>
 
-    <button class="primary-button" onclick="openAppointment()">
+
+    <button
+      class="primary-button"
+      onclick="openAppointment()"
+    >
       📅 دریافت نوبت
     </button>
 
+
     <div class="section">
 
-      <button class="menu-button" onclick="showServices()">
-        <span>📋 مشاهده خدمات</span>
-        <span class="button-arrow">‹</span>
+
+      <button
+        class="menu-button"
+        onclick="showServices()"
+      >
+        <span>
+          📋 مشاهده خدمات
+        </span>
+
+        <span class="button-arrow">
+          ‹
+        </span>
       </button>
 
-      <button class="menu-button" onclick="showPage('companionsPage')">
-        <span>✨ همراهان کائنات‌چی</span>
-        <span class="button-arrow">‹</span>
+
+      <button
+        class="menu-button"
+        onclick="showPage('companionsPage')"
+      >
+        <span>
+          ✨ همراهان کائنات‌چی
+        </span>
+
+        <span class="button-arrow">
+          ‹
+        </span>
       </button>
+
 
       <div class="two-column">
 
-        <button class="menu-button" onclick="showPage('coursesPage')">
+
+        <button
+          class="menu-button"
+          onclick="showPage('coursesPage')"
+        >
           🎓 کلاس‌ها
         </button>
 
-        <button class="menu-button" onclick="showPage('eventsPage')">
+
+        <button
+          class="menu-button"
+          onclick="showPage('eventsPage')"
+        >
           🎟️ ایونت‌ها
         </button>
 
+
       </div>
 
-      <button class="menu-button" onclick="showPage('faqPage')">
-        <span>❓ سؤالات متداول</span>
-        <span class="button-arrow">‹</span>
+
+      <button
+        class="menu-button"
+        onclick="showPage('faqPage')"
+      >
+        <span>
+          ❓ سؤالات متداول
+        </span>
+
+        <span class="button-arrow">
+          ‹
+        </span>
       </button>
+
 
       <div class="two-column">
 
-        <button class="menu-button" onclick="openSupport()">
-          💬 پشتیبانی
+
+        <button
+          class="menu-button"
+          onclick="openContactSheet()"
+        >
+          💬 راه‌های ارتباطی
         </button>
 
-        <button class="menu-button" onclick="showPage('hoursPage')">
+
+        <button
+          class="menu-button"
+          onclick="showPage('hoursPage')"
+        >
           🕐 ساعات کاری
         </button>
 
+
+      </div>
+
+
+    </div>
+
+
+  </section>
+
+
+  <!-- =====================================================
+       SERVICES
+  ===================================================== -->
+
+  <section
+    id="servicesPage"
+    class="page"
+  >
+
+    <button
+      class="back-button"
+      onclick="goHome()"
+    >
+      🔙 بازگشت
+    </button>
+
+
+    <h2 class="page-title">
+      📋 خدمات کائنات‌چی
+    </h2>
+
+
+    <div
+      id="servicesGuide"
+      class="guide-box"
+    >
+
+      <h3>
+        انتخاب خدمت
+      </h3>
+
+      <p>
+        ابتدا دسته‌ی موردنظر خود را انتخاب کنید.
+        سپس می‌توانید روش یا خدمت مناسب را ببینید
+        و توضیحات و هزینه آن را مطالعه کنید.
+      </p>
+
+    </div>
+
+
+    <div id="servicesContainer">
+
+      <div class="loading">
+        در حال دریافت خدمات...
       </div>
 
     </div>
 
-    <div class="footer">
-      کائنات‌چی 🌿<br>
-      برای آرامش، شناخت و رشد درونی
-    </div>
 
   </section>
 
 
-  <!-- =========================
-       SERVICES
-  ========================= -->
+  <!-- =====================================================
+       SERVICE CATEGORY
+  ===================================================== -->
 
-  <section id="servicesPage" class="page">
+  <section
+    id="serviceCategoryPage"
+    class="page"
+  >
 
-    <button class="back-button" onclick="goHome()">
-      🔙 بازگشت
-    </button>
-
-    <h2 class="page-title">📋 خدمات کائنات‌چی</h2>
-
-    <div id="servicesGuide" class="guide-box" style="display:none;">
-      <h3>راهنمای خدمات</h3>
-      <p>
-        از میان خدمات زیر، خدمت موردنظر خود را انتخاب کنید
-        تا توضیحات کامل و هزینه آن را مشاهده کنید.
-      </p>
-    </div>
-
-    <div id="servicesContainer">
-      <div class="loading">در حال دریافت خدمات...</div>
-    </div>
-
-  </section>
-
-
-  <!-- =========================
-       SERVICE DETAIL
-  ========================= -->
-
-  <section id="serviceDetailPage" class="page">
-
-    <button class="back-button" onclick="showServices()">
+    <button
+      class="back-button"
+      onclick="showServices()"
+    >
       🔙 بازگشت به خدمات
     </button>
 
-    <div id="serviceDetailContainer"></div>
+
+    <h2
+      id="serviceCategoryTitle"
+      class="page-title"
+    >
+      خدمات
+    </h2>
+
+
+    <div
+      id="serviceCategoryIntro"
+      class="guide-box"
+      style="display:none;"
+    ></div>
+
+
+    <div id="serviceCategoryContainer"></div>
+
 
   </section>
 
 
-  <!-- =========================
-       COMPANIONS
-  ========================= -->
+  <!-- =====================================================
+       SERVICE DETAIL
+  ===================================================== -->
 
-  <section id="companionsPage" class="page">
+  <section
+    id="serviceDetailPage"
+    class="page"
+  >
 
-    <button class="back-button" onclick="goHome()">
+    <button
+      class="back-button"
+      onclick="backFromServiceDetail()"
+    >
       🔙 بازگشت
     </button>
 
-    <h2 class="page-title">✨ همراهان کائنات‌چی</h2>
+
+    <div
+      id="serviceDetailContainer"
+    ></div>
+
+
+  </section>
+
+
+  <!-- =====================================================
+       COMPANIONS
+  ===================================================== -->
+
+  <section
+    id="companionsPage"
+    class="page"
+  >
+
+    <button
+      class="back-button"
+      onclick="goHome()"
+    >
+      🔙 بازگشت
+    </button>
+
+
+    <h2 class="page-title">
+      ✨ همراهان کائنات‌چی
+    </h2>
+
 
     <div class="guide-box">
-      <h3>راهنمای همراهان کائنات‌چی</h3>
+
+      <h3>
+        راهنمای همراهان کائنات‌چی
+      </h3>
+
       <p>
         این بخش برای افرادی است که با دریافت کد یا شرایط
         اختصاصی از طرف کائنات‌چی، امکان استفاده از مزایای
         همراهان را دارند.
       </p>
+
     </div>
 
-    <div id="companionsContainer">
+
+    <div
+      id="companionsContainer"
+    >
+
       <div class="content-card">
-        <h3>✨ همراه کائنات‌چی</h3>
+
+        <h3>
+          ✨ همراه کائنات‌چی
+        </h3>
+
         <p>
           اگر کد اختصاصی همراهان کائنات‌چی را دریافت کرده‌اید،
-          می‌توانید هنگام دریافت نوبت از آن استفاده کنید.
+          می‌توانید وارد پنل همراهان شوید و از امکانات
+          اختصاصی خود استفاده کنید.
         </p>
+
       </div>
 
-      <button class="appointment-small" onclick="openAppointment()">
+
+      <button
+        class="appointment-small"
+        onclick="openVIP()"
+      >
+        ✨ ورود به پنل همراهان
+      </button>
+
+
+      <button
+        class="appointment-small"
+        onclick="openAppointment()"
+        style="
+          background:var(--green-soft);
+          color:var(--green-dark);
+          box-shadow:none;
+        "
+      >
         📅 دریافت نوبت
       </button>
+
+
     </div>
+
 
   </section>
 
 
-  <!-- =========================
+  <!-- =====================================================
        COURSES
-  ========================= -->
+  ===================================================== -->
 
-  <section id="coursesPage" class="page">
+  <section
+    id="coursesPage"
+    class="page"
+  >
 
-    <button class="back-button" onclick="goHome()">
+    <button
+      class="back-button"
+      onclick="goHome()"
+    >
       🔙 بازگشت
     </button>
 
-    <h2 class="page-title">🎓 کلاس‌ها</h2>
+
+    <h2 class="page-title">
+      🎓 کلاس‌ها
+    </h2>
+
 
     <div class="guide-box">
-      <h3>راهنمای کلاس‌ها</h3>
+
+      <h3>
+        راهنمای کلاس‌ها
+      </h3>
+
       <p>
-        در این بخش کلاس‌ها و دوره‌های فعال کائنات‌چی را
-        مشاهده می‌کنید. برای هر دوره، توضیحات، سرفصل‌ها،
-        مدت و هزینه درج می‌شود.
+        عنوان دوره‌ها را انتخاب کنید تا توضیحات،
+        سرفصل‌ها، مدت و هزینه آن را مشاهده کنید.
+        وضعیت ثبت‌نام هر دوره نیز در صفحه همان دوره
+        نمایش داده می‌شود.
       </p>
+
     </div>
+
 
     <div id="coursesContainer">
-      <div class="loading">در حال دریافت کلاس‌ها...</div>
+
+      <div class="loading">
+        در حال دریافت کلاس‌ها...
+      </div>
+
     </div>
+
 
   </section>
 
 
-  <!-- =========================
+  <!-- =====================================================
+       COURSE DETAIL
+  ===================================================== -->
+
+  <section
+    id="courseDetailPage"
+    class="page"
+  >
+
+    <button
+      class="back-button"
+      onclick="showPage('coursesPage')"
+    >
+      🔙 بازگشت به کلاس‌ها
+    </button>
+
+
+    <div id="courseDetailContainer"></div>
+
+
+  </section>
+
+
+  <!-- =====================================================
        EVENTS
-  ========================= -->
+  ===================================================== -->
 
-  <section id="eventsPage" class="page">
+  <section
+    id="eventsPage"
+    class="page"
+  >
 
-    <button class="back-button" onclick="goHome()">
+    <button
+      class="back-button"
+      onclick="goHome()"
+    >
       🔙 بازگشت
     </button>
 
-    <h2 class="page-title">🎟️ ایونت‌ها</h2>
+
+    <h2 class="page-title">
+      🎟️ ایونت‌ها
+    </h2>
+
 
     <div class="guide-box">
-      <h3>راهنمای ایونت‌ها</h3>
+
+      <h3>
+        راهنمای ایونت‌ها
+      </h3>
+
       <p>
-        ایونت‌های فعال کائنات‌چی در این بخش نمایش داده می‌شوند.
-        اطلاعاتی مثل تاریخ، ساعت، نحوه برگزاری، ظرفیت و هزینه
-        هر ایونت در صفحه آن قرار می‌گیرد.
+        عنوان هر ایونت را انتخاب کنید تا اطلاعات کامل
+        آن شامل تاریخ، ساعت، نحوه برگزاری، ظرفیت و هزینه
+        را مشاهده کنید.
       </p>
+
     </div>
+
 
     <div id="eventsContainer">
-      <div class="loading">در حال دریافت ایونت‌ها...</div>
+
+      <div class="loading">
+        در حال دریافت ایونت‌ها...
+      </div>
+
     </div>
+
 
   </section>
 
 
-  <!-- =========================
+  <!-- =====================================================
+       EVENT DETAIL
+  ===================================================== -->
+
+  <section
+    id="eventDetailPage"
+    class="page"
+  >
+
+    <button
+      class="back-button"
+      onclick="showPage('eventsPage')"
+    >
+      🔙 بازگشت به ایونت‌ها
+    </button>
+
+
+    <div id="eventDetailContainer"></div>
+
+
+  </section>
+
+
+  <!-- =====================================================
        FAQ
-  ========================= -->
+  ===================================================== -->
 
-  <section id="faqPage" class="page">
+  <section
+    id="faqPage"
+    class="page"
+  >
 
-    <button class="back-button" onclick="goHome()">
+    <button
+      class="back-button"
+      onclick="goHome()"
+    >
       🔙 بازگشت
     </button>
 
-    <h2 class="page-title">❓ سؤالات متداول</h2>
+
+    <h2 class="page-title">
+      ❓ سؤالات متداول
+    </h2>
+
+
+    <div class="guide-box">
+
+      <h3>
+        راهنمای سؤالات متداول
+      </h3>
+
+      <p>
+        ابتدا موضوع موردنظر خود را انتخاب کنید.
+        سپس سؤال‌ها را باز کنید تا پاسخ هر مورد
+        نمایش داده شود.
+      </p>
+
+    </div>
+
 
     <div id="faqContainer">
-      <div class="loading">در حال دریافت سؤالات...</div>
+
+      <div class="loading">
+        در حال دریافت سؤالات...
+      </div>
+
     </div>
+
 
   </section>
 
 
-  <!-- =========================
+  <!-- =====================================================
+       FAQ CATEGORY
+  ===================================================== -->
+
+  <section
+    id="faqCategoryPage"
+    class="page"
+  >
+
+    <button
+      class="back-button"
+      onclick="showPage('faqPage')"
+    >
+      🔙 بازگشت به دسته‌بندی
+    </button>
+
+
+    <h2
+      id="faqCategoryTitle"
+      class="page-title"
+    >
+      سؤالات
+    </h2>
+
+
+    <div
+      id="faqCategoryContainer"
+    ></div>
+
+
+  </section>
+
+
+  <!-- =====================================================
        HOURS
-  ========================= -->
+  ===================================================== -->
 
-  <section id="hoursPage" class="page">
+  <section
+    id="hoursPage"
+    class="page"
+  >
 
-    <button class="back-button" onclick="goHome()">
+    <button
+      class="back-button"
+      onclick="goHome()"
+    >
       🔙 بازگشت
     </button>
 
-    <h2 class="page-title">🕐 ساعات کاری</h2>
 
-    <div class="content-card">
+    <h2 class="page-title">
+      🕐 ساعات کاری
+    </h2>
 
-      <h3>ساعات پاسخ‌گویی و ارائه خدمات</h3>
 
-      <p>
-        شنبه تا چهارشنبه<br>
-        ۱۱:۰۰ تا ۱۴:۰۰<br>
-        ۱۵:۰۰ تا ۱۹:۰۰
-      </p>
+    <div
+      id="hoursContainer"
+    >
 
-      <br>
+      <div class="content-card">
 
-      <p>
-        پنجشنبه<br>
-        ۱۱:۰۰ تا ۱۴:۰۰
-      </p>
+        <h3>
+          ساعات پاسخ‌گویی و ارائه خدمات
+        </h3>
 
-      <br>
 
-      <p>
-        🌿 برای هماهنگی و ارتباط، لطفاً از طریق پیام
-        با کائنات‌چی در تماس باشید.
-      </p>
+        <p>
+          شنبه تا چهارشنبه
+          <br>
+          ۱۱:۰۰ تا ۱۴:۰۰
+          <br>
+          ۱۵:۰۰ تا ۱۹:۰۰
+        </p>
+
+
+        <br>
+
+
+        <p>
+          پنجشنبه
+          <br>
+          ۱۱:۰۰ تا ۱۴:۰۰
+        </p>
+
+
+        <br>
+
+
+        <p>
+          جمعه
+          <br>
+          تعطیل
+        </p>
+
+
+        <br>
+
+
+        <p>
+          🌿 در خارج از ساعات کاری نیز می‌توانید
+          پیام خود را ارسال کنید؛ پیام‌ها در ساعات
+          کاری پاسخ داده خواهند شد.
+        </p>
+
+
+        <br>
+
+
+        <p>
+          📌 تعطیلات رسمی نیز تعطیل است، مگر اینکه
+          زمان فعالیت ویژه‌ای از قبل اعلام شود.
+        </p>
+
+      </div>
 
     </div>
 
+
   </section>
+
+
+  <!-- =====================================================
+       PERSISTENT FOOTER
+       خارج از تمام pageهاست؛ بنابراین در تمام نماها
+       نمایش داده می‌شود.
+  ===================================================== -->
+
+  <footer class="footer">
+
+    © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
+    هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
+    ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
+
+  </footer>
+
+
+</div>
+
+
+<!-- =====================================================
+     CONTACT BOTTOM SHEET
+===================================================== -->
+
+<div
+  id="contactSheet"
+  class="sheet-backdrop"
+  onclick="closeContactSheet(event)"
+>
+
+  <div
+    class="bottom-sheet"
+    onclick="event.stopPropagation()"
+  >
+
+    <div class="sheet-handle"></div>
+
+
+    <h3 class="sheet-title">
+      💬 راه‌های ارتباطی
+    </h3>
+
+
+    <button
+      id="telegramContactButton"
+      class="contact-button"
+      onclick="openContact('telegram')"
+    >
+      <span>
+        ✈️ Telegram
+      </span>
+
+      <span>
+        ‹
+      </span>
+    </button>
+
+
+    <button
+      id="whatsappContactButton"
+      class="contact-button"
+      onclick="openContact('whatsapp')"
+    >
+      <span>
+        💬 WhatsApp
+      </span>
+
+      <span>
+        ‹
+      </span>
+    </button>
+
+
+    <button
+      id="instagramContactButton"
+      class="contact-button"
+      onclick="openContact('instagram')"
+    >
+      <span>
+        📷 Instagram
+      </span>
+
+      <span>
+        ‹
+      </span>
+    </button>
+
+
+    <button
+      id="phoneContactButton"
+      class="contact-button"
+      onclick="openContact('phone')"
+    >
+      <span>
+        📞 تماس تلفنی
+      </span>
+
+      <span>
+        ‹
+      </span>
+    </button>
+
+
+    <button
+      class="sheet-close"
+      onclick="closeContactSheet()"
+    >
+      بستن
+    </button>
+
+
+  </div>
 
 </div>
 
 
 <script>
 
+
   /* =====================================================
      TELEGRAM
   ===================================================== */
 
-  const tg = window.Telegram && window.Telegram.WebApp
-    ? window.Telegram.WebApp
-    : null;
+  const tg =
+    window.Telegram &&
+    window.Telegram.WebApp
+      ? window.Telegram.WebApp
+      : null;
+
 
   if (tg) {
+
     tg.ready();
+
     tg.expand();
+
   }
 
 
   /* =====================================================
-     CMS URL
-     
-     بعداً فقط این مقدار را با URL Web App پروژه
-     KaenatChi CMS جایگزین می‌کنیم.
+     CMS
   ===================================================== */
 
-  const CMS_API_URL = 'https://script.google.com/macros/s/AKfycbzgocb54x4FDoQl3C8-o2WnipZuQYkM1j1juV-ZZKHoieN7DbrybTj3WyXbJe5I2nMhXw/exec';
+  const CMS_API_URL =
+    'https://script.google.com/macros/s/AKfycbzgocb54x4FDoQl3C8-o2WnipZuQYkM1j1juV-ZZKHoieN7DbrybTj3WyXbJe5I2nMhXw/exec';
 
 
   /* =====================================================
      EXISTING APPOINTMENT MINI APP
      
-     این همان Mini App فعلی نوبت‌دهی است.
-     به هیچ عنوان سیستم نوبت‌دهی را بازسازی نمی‌کنیم.
+     فقط لینک عوض شده است.
+     موتور نوبت‌دهی اصلاً اینجا وجود ندارد.
   ===================================================== */
 
   const APPOINTMENT_URL =
-    'https://script.google.com/macros/s/AKfycbyGSzpV9iHxMsVmceAI4i5KIhbsttuD5pOkDqRK58mx-QlP60CWjg2PZfU5miLgN2ssSw/exec';
+    'https://kaenatchi.github.io/booking/';
 
 
   /* =====================================================
-     SUPPORT
+     EXISTING VIP CUSTOMER PANEL
   ===================================================== */
 
-  const SUPPORT_USERNAME = '@AD_Kaenatchi';
+  const VIP_URL =
+    'https://script.google.com/macros/s/AKfycbSl6l5K7oTLBus2cjvBJuOv-ZTjIhX9OnIq93gifQng1IfMl7f2A3Bl-7pSx1nC1u/exec';
 
 
   /* =====================================================
-     DATA
+     DEFAULT TELEGRAM SUPPORT
+  ===================================================== */
+
+  const SUPPORT_USERNAME =
+    '@AD_Kaenatchi';
+
+
+  /* =====================================================
+     CMS DATA
   ===================================================== */
 
   let cmsData = {
+
     services: [],
+
     courses: [],
+
     events: [],
+
     faq: [],
+
     pages: [],
+
     settings: []
+
   };
+
+
+  /* =====================================================
+     CURRENT NAVIGATION STATE
+  ===================================================== */
+
+  let currentServiceCategory = '';
+
+  let currentServiceDetailSource = '';
+
+  let currentFAQCategory = '';
 
 
   /* =====================================================
      INIT
   ===================================================== */
 
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener(
+    'DOMContentLoaded',
+    function() {
 
-    loadCMSData();
+      loadCMSData();
 
-  });
+    }
+  );
 
 
   /* =====================================================
@@ -744,63 +2097,112 @@
 
   async function loadCMSData() {
 
-    if (
-      !CMS_API_URL ||
-      CMS_API_URL === 'PASTE_CMS_WEB_APP_URL_HERE'
-    ) {
-
-      useEmptyCMS();
-
-      return;
-    }
-
     try {
 
-      const response = await fetch(
-        CMS_API_URL + '?action=getMiniAppData'
-      );
+      const response =
+        await fetch(
+          CMS_API_URL +
+          '?action=getMiniAppData'
+        );
+
 
       if (!response.ok) {
-        throw new Error('خطا در دریافت اطلاعات CMS');
+
+        throw new Error(
+          'خطا در دریافت اطلاعات CMS'
+        );
+
       }
 
-      const data = await response.json();
+
+      const data =
+        await response.json();
+
 
       if (!data.success) {
-        throw new Error('CMS response failed');
+
+        throw new Error(
+          'CMS response failed'
+        );
+
       }
 
-      cmsData = data;
+
+      cmsData = {
+
+        services:
+          Array.isArray(data.services)
+            ? data.services
+            : [],
+
+        courses:
+          Array.isArray(data.courses)
+            ? data.courses
+            : [],
+
+        events:
+          Array.isArray(data.events)
+            ? data.events
+            : [],
+
+        faq:
+          Array.isArray(data.faq)
+            ? data.faq
+            : [],
+
+        pages:
+          Array.isArray(data.pages)
+            ? data.pages
+            : [],
+
+        settings:
+          Array.isArray(data.settings)
+            ? data.settings
+            : []
+
+      };
+
 
       renderAll();
 
+      renderHours();
+
+
+      updateContactButtons();
+
+
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        'CMS:',
+        error
+      );
 
-      useEmptyCMS();
+
+      cmsData = {
+
+        services: [],
+
+        courses: [],
+
+        events: [],
+
+        faq: [],
+
+        pages: [],
+
+        settings: []
+
+      };
+
+
+      renderAll();
+
+      renderHours();
+
+      updateContactButtons();
 
     }
-
-  }
-
-
-  /* =====================================================
-     EMPTY CMS
-  ===================================================== */
-
-  function useEmptyCMS() {
-
-    cmsData = {
-      services: [],
-      courses: [],
-      events: [],
-      faq: [],
-      pages: [],
-      settings: []
-    };
-
-    renderAll();
 
   }
 
@@ -812,8 +2214,11 @@
   function renderAll() {
 
     renderServices();
+
     renderCourses();
+
     renderEvents();
+
     renderFAQ();
 
   }
@@ -826,16 +2231,13 @@
   function renderServices() {
 
     const container =
-      document.getElementById('servicesContainer');
+      document.getElementById(
+        'servicesContainer'
+      );
 
-    const services = [...(cmsData.services || [])];
 
-    services.sort(function(a, b) {
-
-      return Number(a['ترتیب'] || 999)
-        - Number(b['ترتیب'] || 999);
-
-    });
+    const services =
+      getSortedServices();
 
 
     if (!services.length) {
@@ -847,42 +2249,340 @@
       `;
 
       return;
+
     }
 
 
-    container.innerHTML = services.map(function(service, index) {
+    const categories = [];
 
-      const name =
-        escapeHTML(service['نام خدمت'] || 'خدمت');
+    const categoryMap = {};
 
-      const shortDescription =
-        escapeHTML(service['توضیح کوتاه'] || '');
 
-      return `
-        <button
-          class="menu-button"
-          onclick="showServiceDetail(${index})"
-        >
-          <span>
-            ${name}
-            ${
-              shortDescription
-                ? `<small style="
-                    display:block;
-                    margin-top:4px;
-                    color:#7b857e;
-                    font-size:11px;
-                    font-weight:500;
-                  ">${shortDescription}</small>`
-                : ''
-            }
-          </span>
+    services.forEach(
+      function(service) {
 
-          <span class="button-arrow">‹</span>
-        </button>
+        const category =
+          String(
+            service['دسته'] || 'سایر خدمات'
+          ).trim();
+
+
+        if (!categoryMap[category]) {
+
+          categoryMap[category] = [];
+
+          categories.push(category);
+
+        }
+
+
+        categoryMap[category].push(
+          service
+        );
+
+      }
+    );
+
+
+    container.innerHTML =
+      categories.map(
+        function(category) {
+
+          const items =
+            categoryMap[category] || [];
+
+
+          let description = '';
+
+
+          const intro =
+            items.find(
+              function(item) {
+
+                return String(
+                  item['نام خدمت'] || ''
+                ).trim() === category;
+
+              }
+            );
+
+
+          if (intro) {
+
+            description =
+              intro['توضیح کوتاه'] || '';
+
+          }
+
+
+          return `
+
+            <button
+              class="list-item"
+              onclick="showServiceCategory(
+                ${JSON.stringify(category)}
+              )"
+            >
+
+              <span>
+
+                ${escapeHTML(category)}
+
+                ${
+                  description
+                    ? `
+                      <small>
+                        ${escapeHTML(description)}
+                      </small>
+                    `
+                    : ''
+                }
+
+              </span>
+
+
+              <span class="button-arrow">
+                ‹
+              </span>
+
+            </button>
+
+          `;
+
+        }
+      ).join('');
+
+  }
+
+
+  /* =====================================================
+     SHOW SERVICE CATEGORY
+  ===================================================== */
+
+  function showServiceCategory(
+    category
+  ) {
+
+    currentServiceCategory =
+      category;
+
+
+    const services =
+      getSortedServices()
+        .filter(
+          function(service) {
+
+            return String(
+              service['دسته'] || ''
+            ).trim() === category;
+
+          }
+        );
+
+
+    const intro =
+      services.find(
+        function(service) {
+
+          return String(
+            service['نام خدمت'] || ''
+          ).trim() === category;
+
+        }
+      );
+
+
+    const actualServices =
+      services.filter(
+        function(service) {
+
+          return String(
+            service['نام خدمت'] || ''
+          ).trim() !== category;
+
+        }
+      );
+
+
+    document.getElementById(
+      'serviceCategoryTitle'
+    ).textContent =
+      category;
+
+
+    const introBox =
+      document.getElementById(
+        'serviceCategoryIntro'
+      );
+
+
+    if (
+      category === 'انرژی‌خوانی' &&
+      intro
+    ) {
+
+      const introText =
+        intro['توضیحات کامل'] ||
+        intro['توضیح کوتاه'] ||
+        '';
+
+
+      introBox.innerHTML = `
+
+        <h3>
+          ${escapeHTML(
+            intro['نام خدمت'] || category
+          )}
+        </h3>
+
+        <p>
+          ${escapeHTML(
+            introText
+          )}
+        </p>
+
       `;
 
-    }).join('');
+
+      introBox.style.display =
+        'block';
+
+    } else {
+
+      introBox.innerHTML = '';
+
+      introBox.style.display =
+        'none';
+
+    }
+
+
+    const container =
+      document.getElementById(
+        'serviceCategoryContainer'
+      );
+
+
+    if (!actualServices.length) {
+
+      if (intro) {
+
+        showServiceDetailObject(
+          intro,
+          'category'
+        );
+
+        return;
+
+      }
+
+
+      container.innerHTML = `
+
+        <div class="empty">
+          موردی برای نمایش ثبت نشده است.
+        </div>
+
+      `;
+
+      showPage(
+        'serviceCategoryPage'
+      );
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      actualServices.map(
+        function(service) {
+
+          const name =
+            escapeHTML(
+              service['نام خدمت'] ||
+              'خدمت'
+            );
+
+
+          const short =
+            escapeHTML(
+              service['توضیح کوتاه'] ||
+              ''
+            );
+
+
+          const price =
+            escapeHTML(
+              service['قیمت'] ||
+              ''
+            );
+
+
+          return `
+
+            <button
+              class="list-item"
+              onclick="showServiceDetailByObject(
+                ${JSON.stringify(service)}
+              )"
+            >
+
+              <span>
+
+                ${name}
+
+                ${
+                  short
+                    ? `
+                      <small>
+                        ${short}
+                      </small>
+                    `
+                    : ''
+                }
+
+              </span>
+
+
+              <span>
+
+                ${
+                  price
+                    ? `
+                      <small
+                        style="
+                          margin-top:0;
+                          color:var(--green);
+                          font-weight:800;
+                        "
+                      >
+                        ${price}
+                      </small>
+                    `
+                    : ''
+                }
+
+                <span
+                  class="button-arrow"
+                  style="margin-right:7px;"
+                >
+                  ‹
+                </span>
+
+              </span>
+
+            </button>
+
+          `;
+
+        }
+      ).join('');
+
+
+    showPage(
+      'serviceCategoryPage'
+    );
 
   }
 
@@ -891,100 +2591,205 @@
      SERVICE DETAIL
   ===================================================== */
 
-  function showServiceDetail(index) {
+  function showServiceDetailByObject(
+    service
+  ) {
 
-    const services = [...(cmsData.services || [])];
+    currentServiceDetailSource =
+      'category';
 
-    services.sort(function(a, b) {
 
-      return Number(a['ترتیب'] || 999)
-        - Number(b['ترتیب'] || 999);
+    showServiceDetailObject(
+      service,
+      'category'
+    );
 
-    });
+  }
 
-    const service = services[index];
 
-    if (!service) {
-      return;
-    }
+  function showServiceDetailObject(
+    service,
+    source
+  ) {
+
+    currentServiceDetailSource =
+      source ||
+      'category';
 
 
     const name =
-      escapeHTML(service['نام خدمت'] || 'خدمت');
+      escapeHTML(
+        service['نام خدمت'] ||
+        'خدمت'
+      );
+
 
     const shortDescription =
-      escapeHTML(service['توضیح کوتاه'] || '');
+      escapeHTML(
+        service['توضیح کوتاه'] ||
+        ''
+      );
+
 
     const fullDescription =
-      escapeHTML(service['توضیحات کامل'] || '');
+      escapeHTML(
+        service['توضیحات کامل'] ||
+        ''
+      );
+
 
     const price =
-      escapeHTML(service['قیمت'] || '');
+      escapeHTML(
+        service['قیمت'] ||
+        ''
+      );
+
 
     const image =
-      String(service['تصویر'] || '').trim();
+      String(
+        service['تصویر'] ||
+        ''
+      ).trim();
 
 
     let html = '';
 
+
     if (image) {
 
       html += `
+
         <img
           class="content-image"
           src="${escapeAttribute(image)}"
           alt="${escapeAttribute(name)}"
           onerror="this.style.display='none';"
         >
+
       `;
 
     }
 
 
     html += `
+
       <div class="content-card">
 
-        <h3>${name}</h3>
+        <h3>
+          ${name}
+        </h3>
+
 
         ${
           shortDescription
-            ? `<p>${shortDescription}</p>`
+            ? `
+              <p>
+                ${shortDescription}
+              </p>
+            `
             : ''
         }
+
 
         ${
           fullDescription
             ? `
-              <p style="margin-top:12px;">
+              <p
+                style="
+                  margin-top:12px;
+                "
+              >
                 ${fullDescription}
               </p>
             `
             : ''
         }
 
+
         ${
           price
-            ? `<span class="price">💳 ${price}</span>`
+            ? `
+              <span class="price">
+                💳 ${price}
+              </span>
+            `
             : ''
         }
 
-        <button
-          class="appointment-small"
-          onclick="openAppointment()"
-        >
-          📅 دریافت نوبت
-        </button>
+
+        ${
+          price
+            ? `
+              <button
+                class="appointment-small"
+                onclick="openAppointment()"
+              >
+                📅 دریافت نوبت
+              </button>
+            `
+            : ''
+        }
 
       </div>
+
     `;
 
 
     document.getElementById(
       'serviceDetailContainer'
-    ).innerHTML = html;
+    ).innerHTML =
+      html;
 
 
-    showPage('serviceDetailPage');
+    showPage(
+      'serviceDetailPage'
+    );
+
+  }
+
+
+  function backFromServiceDetail() {
+
+    if (
+      currentServiceDetailSource ===
+      'category'
+    ) {
+
+      showPage(
+        'serviceCategoryPage'
+      );
+
+    } else {
+
+      showServices();
+
+    }
+
+  }
+
+
+  function getSortedServices() {
+
+    const services =
+      [...(cmsData.services || [])];
+
+
+    services.sort(
+      function(a, b) {
+
+        return Number(
+          a['ترتیب'] || 999
+        )
+        -
+        Number(
+          b['ترتیب'] || 999
+        );
+
+      }
+    );
+
+
+    return services;
 
   }
 
@@ -996,108 +2801,270 @@
   function renderCourses() {
 
     const container =
-      document.getElementById('coursesContainer');
+      document.getElementById(
+        'coursesContainer'
+      );
 
-    const courses = cmsData.courses || [];
+
+    const courses =
+      cmsData.courses || [];
 
 
     if (!courses.length) {
 
       container.innerHTML = `
+
         <div class="empty">
           در حال حاضر کلاس فعالی ثبت نشده است.
         </div>
+
       `;
 
       return;
+
     }
 
 
-    container.innerHTML = courses.map(function(course) {
+    container.innerHTML =
+      courses.map(
+        function(course, index) {
 
-      const name =
-        escapeHTML(course['نام دوره'] || 'دوره');
-
-      const shortDescription =
-        escapeHTML(course['توضیح کوتاه'] || '');
-
-      const fullDescription =
-        escapeHTML(course['توضیحات کامل'] || '');
-
-      const topics =
-        escapeHTML(course['سرفصل‌ها'] || '');
-
-      const duration =
-        escapeHTML(course['مدت'] || '');
-
-      const cost =
-        escapeHTML(course['هزینه'] || '');
-
-      const image =
-        String(course['تصویر'] || '').trim();
+          const name =
+            escapeHTML(
+              course['نام دوره'] ||
+              'دوره'
+            );
 
 
-      return `
-        <div class="content-card">
+          const short =
+            escapeHTML(
+              course['توضیح کوتاه'] ||
+              ''
+            );
 
-          ${
-            image
-              ? `
-                <img
-                  class="content-image"
-                  src="${escapeAttribute(image)}"
-                  alt="${escapeAttribute(name)}"
-                  onerror="this.style.display='none';"
-                >
-              `
-              : ''
-          }
 
-          <h3>${name}</h3>
+          return `
 
-          ${
-            shortDescription
-              ? `<p>${shortDescription}</p>`
-              : ''
-          }
+            <button
+              class="list-item"
+              onclick="showCourseDetail(${index})"
+            >
 
-          ${
-            fullDescription
-              ? `
-                <p style="margin-top:10px;">
-                  ${fullDescription}
-                </p>
-              `
-              : ''
-          }
+              <span>
 
-          ${
-            topics
-              ? `
-                <p style="margin-top:10px;">
-                  <strong>سرفصل‌ها:</strong><br>
-                  ${topics}
-                </p>
-              `
-              : ''
-          }
+                ${name}
 
-          ${
-            duration
-              ? `<span class="price">⏱ ${duration}</span>`
-              : ''
-          }
+                ${
+                  short
+                    ? `
+                      <small>
+                        ${short}
+                      </small>
+                    `
+                    : ''
+                }
 
-          ${
-            cost
-              ? `<span class="price">💳 ${cost}</span>`
-              : ''
-          }
+              </span>
 
-        </div>
+
+              <span class="button-arrow">
+                ‹
+              </span>
+
+            </button>
+
+          `;
+
+        }
+      ).join('');
+
+  }
+
+
+  function showCourseDetail(index) {
+
+    const courses =
+      cmsData.courses || [];
+
+
+    const course =
+      courses[index];
+
+
+    if (!course) {
+
+      return;
+
+    }
+
+
+    const name =
+      escapeHTML(
+        course['نام دوره'] ||
+        'دوره'
+      );
+
+
+    const short =
+      escapeHTML(
+        course['توضیح کوتاه'] ||
+        ''
+      );
+
+
+    const full =
+      escapeHTML(
+        course['توضیحات کامل'] ||
+        ''
+      );
+
+
+    const topics =
+      escapeHTML(
+        course['سرفصل‌ها'] ||
+        ''
+      );
+
+
+    const duration =
+      escapeHTML(
+        course['مدت'] ||
+        ''
+      );
+
+
+    const cost =
+      escapeHTML(
+        course['هزینه'] ||
+        ''
+      );
+
+
+    const image =
+      String(
+        course['تصویر'] ||
+        ''
+      ).trim();
+
+
+    let html = '';
+
+
+    if (image) {
+
+      html += `
+
+        <img
+          class="content-image"
+          src="${escapeAttribute(image)}"
+          alt="${escapeAttribute(name)}"
+          onerror="this.style.display='none';"
+        >
+
       `;
 
-    }).join('');
+    }
+
+
+    html += `
+
+      <div class="content-card">
+
+        <h3>
+          ${name}
+        </h3>
+
+
+        ${
+          short
+            ? `
+              <p>
+                ${short}
+              </p>
+            `
+            : ''
+        }
+
+
+        ${
+          full
+            ? `
+              <p
+                style="
+                  margin-top:10px;
+                "
+              >
+                ${full}
+              </p>
+            `
+            : ''
+        }
+
+
+        ${
+          topics
+            ? `
+              <p
+                style="
+                  margin-top:12px;
+                "
+              >
+                <strong>
+                  سرفصل‌ها
+                </strong>
+
+                <br>
+
+                ${topics}
+              </p>
+            `
+            : ''
+        }
+
+
+        ${
+          duration
+            ? `
+              <span class="price">
+                ⏱ ${duration}
+              </span>
+            `
+            : ''
+        }
+
+
+        ${
+          cost
+            ? `
+              <span class="price">
+                💳 ${cost}
+              </span>
+            `
+            : ''
+        }
+
+
+        <button
+          class="appointment-small"
+          onclick="requestCourseInfo()"
+        >
+          💬 درخواست اطلاعات / ثبت‌نام
+        </button>
+
+      </div>
+
+    `;
+
+
+    document.getElementById(
+      'courseDetailContainer'
+    ).innerHTML =
+      html;
+
+
+    showPage(
+      'courseDetailPage'
+    );
 
   }
 
@@ -1109,105 +3076,270 @@
   function renderEvents() {
 
     const container =
-      document.getElementById('eventsContainer');
+      document.getElementById(
+        'eventsContainer'
+      );
 
-    const events = cmsData.events || [];
+
+    const events =
+      cmsData.events || [];
 
 
     if (!events.length) {
 
       container.innerHTML = `
+
         <div class="empty">
           در حال حاضر ایونت فعالی ثبت نشده است.
         </div>
+
       `;
 
       return;
+
     }
 
 
-    container.innerHTML = events.map(function(event) {
+    container.innerHTML =
+      events.map(
+        function(event, index) {
 
-      const name =
-        escapeHTML(event['نام ایونت'] || 'ایونت');
-
-      const shortDescription =
-        escapeHTML(event['توضیح کوتاه'] || '');
-
-      const fullDescription =
-        escapeHTML(event['توضیحات کامل'] || '');
-
-      const date =
-        escapeHTML(event['تاریخ'] || '');
-
-      const time =
-        escapeHTML(event['ساعت'] || '');
-
-      const method =
-        escapeHTML(event['نحوه برگزاری'] || '');
-
-      const capacity =
-        escapeHTML(event['ظرفیت'] || '');
-
-      const cost =
-        escapeHTML(event['هزینه'] || '');
+          const name =
+            escapeHTML(
+              event['نام ایونت'] ||
+              'ایونت'
+            );
 
 
-      return `
-        <div class="content-card">
+          const short =
+            escapeHTML(
+              event['توضیح کوتاه'] ||
+              ''
+            );
 
-          <h3>${name}</h3>
 
-          ${
-            shortDescription
-              ? `<p>${shortDescription}</p>`
-              : ''
-          }
+          return `
 
-          ${
-            fullDescription
-              ? `
-                <p style="margin-top:10px;">
-                  ${fullDescription}
-                </p>
-              `
-              : ''
-          }
+            <button
+              class="list-item"
+              onclick="showEventDetail(${index})"
+            >
 
-          ${
-            date
-              ? `<span class="price">📅 ${date}</span>`
-              : ''
-          }
+              <span>
 
-          ${
-            time
-              ? `<span class="price">🕐 ${time}</span>`
-              : ''
-          }
+                ${name}
 
-          ${
-            method
-              ? `<span class="price">📍 ${method}</span>`
-              : ''
-          }
+                ${
+                  short
+                    ? `
+                      <small>
+                        ${short}
+                      </small>
+                    `
+                    : ''
+                }
 
-          ${
-            capacity
-              ? `<span class="price">👥 ظرفیت: ${capacity}</span>`
-              : ''
-          }
+              </span>
 
-          ${
-            cost
-              ? `<span class="price">💳 ${cost}</span>`
-              : ''
-          }
 
-        </div>
-      `;
+              <span class="button-arrow">
+                ‹
+              </span>
 
-    }).join('');
+            </button>
+
+          `;
+
+        }
+      ).join('');
+
+  }
+
+
+  function showEventDetail(index) {
+
+    const events =
+      cmsData.events || [];
+
+
+    const event =
+      events[index];
+
+
+    if (!event) {
+
+      return;
+
+    }
+
+
+    const name =
+      escapeHTML(
+        event['نام ایونت'] ||
+        'ایونت'
+      );
+
+
+    const short =
+      escapeHTML(
+        event['توضیح کوتاه'] ||
+        ''
+      );
+
+
+    const full =
+      escapeHTML(
+        event['توضیحات کامل'] ||
+        ''
+      );
+
+
+    const date =
+      escapeHTML(
+        event['تاریخ'] ||
+        ''
+      );
+
+
+    const time =
+      escapeHTML(
+        event['ساعت'] ||
+        ''
+      );
+
+
+    const method =
+      escapeHTML(
+        event['نحوه برگزاری'] ||
+        ''
+      );
+
+
+    const capacity =
+      escapeHTML(
+        event['ظرفیت'] ||
+        ''
+      );
+
+
+    const cost =
+      escapeHTML(
+        event['هزینه'] ||
+        ''
+      );
+
+
+    let html = `
+
+      <div class="content-card">
+
+        <h3>
+          ${name}
+        </h3>
+
+
+        ${
+          short
+            ? `
+              <p>
+                ${short}
+              </p>
+            `
+            : ''
+        }
+
+
+        ${
+          full
+            ? `
+              <p
+                style="
+                  margin-top:10px;
+                "
+              >
+                ${full}
+              </p>
+            `
+            : ''
+        }
+
+
+        ${
+          date
+            ? `
+              <span class="price">
+                📅 ${date}
+              </span>
+            `
+            : ''
+        }
+
+
+        ${
+          time
+            ? `
+              <span class="price">
+                🕐 ${time}
+              </span>
+            `
+            : ''
+        }
+
+
+        ${
+          method
+            ? `
+              <span class="price">
+                📍 ${method}
+              </span>
+            `
+            : ''
+        }
+
+
+        ${
+          capacity
+            ? `
+              <span class="price">
+                👥 ظرفیت: ${capacity}
+              </span>
+            `
+            : ''
+        }
+
+
+        ${
+          cost
+            ? `
+              <span class="price">
+                💳 ${cost}
+              </span>
+            `
+            : ''
+        }
+
+
+        <button
+          class="appointment-small"
+          onclick="requestEventInfo()"
+        >
+          💬 درخواست اطلاعات / شرکت
+        </button>
+
+      </div>
+
+    `;
+
+
+    document.getElementById(
+      'eventDetailContainer'
+    ).innerHTML =
+      html;
+
+
+    showPage(
+      'eventDetailPage'
+    );
 
   }
 
@@ -1219,51 +3351,901 @@
   function renderFAQ() {
 
     const container =
-      document.getElementById('faqContainer');
+      document.getElementById(
+        'faqContainer'
+      );
 
-    const faq = [...(cmsData.faq || [])];
 
-    faq.sort(function(a, b) {
+    const faq =
+      [...(cmsData.faq || [])];
 
-      return Number(a['ترتیب'] || 999)
-        - Number(b['ترتیب'] || 999);
 
-    });
+    faq.sort(
+      function(a, b) {
+
+        return Number(
+          a['ترتیب'] || 999
+        )
+        -
+        Number(
+          b['ترتیب'] || 999
+        );
+
+      }
+    );
 
 
     if (!faq.length) {
 
       container.innerHTML = `
+
         <div class="empty">
           هنوز سؤال متداولی ثبت نشده است.
         </div>
+
       `;
 
       return;
+
     }
 
 
-    container.innerHTML = faq.map(function(item) {
+    const categories = [];
 
-      const question =
-        escapeHTML(item['سؤال'] || '');
 
-      const answer =
-        escapeHTML(item['پاسخ'] || '');
+    faq.forEach(
+      function(item) {
 
-      return `
-        <div class="content-card">
+        const category =
+          String(
+            item['دسته'] ||
+            'عمومی'
+          ).trim();
 
-          <h3>❓ ${question}</h3>
 
-          <p>
-            ${answer}
-          </p>
+        if (
+          !categories.includes(
+            category
+          )
+        ) {
 
+          categories.push(
+            category
+          );
+
+        }
+
+      }
+    );
+
+
+    container.innerHTML =
+      categories.map(
+        function(category) {
+
+          const count =
+            faq.filter(
+              function(item) {
+
+                return String(
+                  item['دسته'] ||
+                  'عمومی'
+                ).trim() === category;
+
+              }
+            ).length;
+
+
+          return `
+
+            <button
+              class="list-item"
+              onclick="showFAQCategory(
+                ${JSON.stringify(category)}
+              )"
+            >
+
+              <span>
+
+                ${escapeHTML(category)}
+
+                <small>
+                  ${count} سؤال
+                </small>
+
+              </span>
+
+
+              <span class="button-arrow">
+                ‹
+              </span>
+
+            </button>
+
+          `;
+
+        }
+      ).join('');
+
+  }
+
+
+  function showFAQCategory(
+    category
+  ) {
+
+    currentFAQCategory =
+      category;
+
+
+    document.getElementById(
+      'faqCategoryTitle'
+    ).textContent =
+      category;
+
+
+    const container =
+      document.getElementById(
+        'faqCategoryContainer'
+      );
+
+
+    const items =
+      [...(cmsData.faq || [])]
+        .filter(
+          function(item) {
+
+            return String(
+              item['دسته'] ||
+              'عمومی'
+            ).trim() === category;
+
+          }
+        )
+        .sort(
+          function(a, b) {
+
+            return Number(
+              a['ترتیب'] || 999
+            )
+            -
+            Number(
+              b['ترتیب'] || 999
+            );
+
+          }
+        );
+
+
+    if (!items.length) {
+
+      container.innerHTML = `
+
+        <div class="empty">
+          سؤالی در این دسته ثبت نشده است.
         </div>
+
       `;
 
-    }).join('');
+      showPage(
+        'faqCategoryPage'
+      );
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      items.map(
+        function(item, index) {
+
+          const question =
+            escapeHTML(
+              item['سؤال'] ||
+              ''
+            );
+
+
+          const answer =
+            sanitizeFAQAnswer(
+              item['پاسخ'] ||
+              ''
+            );
+
+
+          const answerId =
+            'faqAnswer_' +
+            index +
+            '_' +
+            Date.now();
+
+
+          return `
+
+            <div>
+
+              <button
+                class="faq-question"
+                onclick="toggleFAQ(
+                  '${answerId}',
+                  this
+                )"
+              >
+
+                <span>
+                  ❓ ${question}
+                </span>
+
+                <span class="faq-chevron">
+                  ‹
+                </span>
+
+              </button>
+
+
+              <div
+                id="${answerId}"
+                class="faq-answer"
+              >
+                ${answer}
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      ).join('');
+
+
+    showPage(
+      'faqCategoryPage'
+    );
+
+  }
+
+
+  function toggleFAQ(
+    answerId,
+    button
+  ) {
+
+    const answer =
+      document.getElementById(
+        answerId
+      );
+
+
+    if (!answer) {
+
+      return;
+
+    }
+
+
+    const isOpen =
+      answer.classList.contains(
+        'open'
+      );
+
+
+    answer.classList.toggle(
+      'open',
+      !isOpen
+    );
+
+
+    const arrow =
+      button.querySelector(
+        '.faq-chevron'
+      );
+
+
+    if (arrow) {
+
+      arrow.classList.toggle(
+        'open',
+        !isOpen
+      );
+
+    }
+
+  }
+
+
+  /* =====================================================
+     HIDE PUBLIC DISCOUNT PERCENTAGES
+  ===================================================== */
+
+  function sanitizeFAQAnswer(
+    value
+  ) {
+
+    let text =
+      String(value || '');
+
+
+    text =
+      text.replace(
+        /[۰-۹0-9]+\s*(٪|%)/g,
+        'تخفیف ویژه'
+      );
+
+
+    text =
+      text.replace(
+        /[۰-۹0-9]+\s*درصد/g,
+        'تخفیف ویژه'
+      );
+
+
+    return escapeHTML(
+      text
+    );
+
+  }
+
+
+  /* =====================================================
+     HOURS
+  ===================================================== */
+
+  function renderHours() {
+
+    const container =
+      document.getElementById(
+        'hoursContainer'
+      );
+
+
+    if (!container) {
+
+      return;
+
+    }
+
+
+    const saturday =
+      getSetting(
+        [
+          'شنبه تا چهارشنبه',
+          'ساعات شنبه تا چهارشنبه',
+          'working_hours_sat_wed'
+        ],
+        '۱۱:۰۰ تا ۱۴:۰۰\n۱۵:۰۰ تا ۱۹:۰۰'
+      );
+
+
+    const thursday =
+      getSetting(
+        [
+          'پنجشنبه',
+          'ساعات پنجشنبه',
+          'working_hours_thursday'
+        ],
+        '۱۱:۰۰ تا ۱۴:۰۰'
+      );
+
+
+    const friday =
+      getSetting(
+        [
+          'جمعه',
+          'ساعات جمعه',
+          'working_hours_friday'
+        ],
+        'تعطیل'
+      );
+
+
+    const holidays =
+      getSetting(
+        [
+          'تعطیلات رسمی',
+          'تعطیلات',
+          'official_holidays'
+        ],
+        'تعطیل، مگر در صورت اعلام قبلی برنامه ویژه'
+      );
+
+
+    container.innerHTML = `
+
+      <div class="content-card">
+
+        <h3>
+          ساعات پاسخ‌گویی و ارائه خدمات
+        </h3>
+
+
+        <p>
+          <strong>
+            شنبه تا چهارشنبه
+          </strong>
+
+          <br>
+
+          ${escapeHTML(
+            saturday
+          )}
+        </p>
+
+
+        <br>
+
+
+        <p>
+          <strong>
+            پنجشنبه
+          </strong>
+
+          <br>
+
+          ${escapeHTML(
+            thursday
+          )}
+        </p>
+
+
+        <br>
+
+
+        <p>
+          <strong>
+            جمعه
+          </strong>
+
+          <br>
+
+          ${escapeHTML(
+            friday
+          )}
+        </p>
+
+
+        <br>
+
+
+        <p>
+          🌿 خارج از ساعات کاری نیز می‌توانید
+          پیام خود را ارسال کنید؛ پیام‌ها در
+          ساعات کاری پاسخ داده خواهند شد.
+        </p>
+
+
+        <br>
+
+
+        <p>
+          📌 تعطیلات رسمی:
+          ${escapeHTML(
+            holidays
+          )}
+        </p>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* =====================================================
+     CONTACT SETTINGS
+  ===================================================== */
+
+  function getSetting(
+    keys,
+    fallback
+  ) {
+
+    const settings =
+      cmsData.settings || [];
+
+
+    for (
+      let i = 0;
+      i < settings.length;
+      i++
+    ) {
+
+      const key =
+        String(
+          settings[i]['کلید'] ||
+          ''
+        ).trim();
+
+
+      if (
+        keys.includes(key)
+      ) {
+
+        const value =
+          String(
+            settings[i]['مقدار'] ||
+            ''
+          ).trim();
+
+
+        if (value) {
+
+          return value;
+
+        }
+
+      }
+
+    }
+
+
+    return fallback;
+
+  }
+
+
+  function updateContactButtons() {
+
+    const telegram =
+      'https://t.me/' +
+      SUPPORT_USERNAME.replace(
+        '@',
+        ''
+      );
+
+
+    const whatsapp =
+      getSetting(
+        [
+          'لینک واتساپ',
+          'WhatsApp',
+          'whatsapp',
+          'whatsapp_url'
+        ],
+        ''
+      );
+
+
+    const instagram =
+      getSetting(
+        [
+          'لینک اینستاگرام',
+          'Instagram',
+          'instagram',
+          'instagram_url'
+        ],
+        ''
+      );
+
+
+    const phone =
+      getSetting(
+        [
+          'شماره تماس',
+          'تلفن',
+          'phone',
+          'phone_number'
+        ],
+        ''
+      );
+
+
+    const whatsappButton =
+      document.getElementById(
+        'whatsappContactButton'
+      );
+
+
+    const instagramButton =
+      document.getElementById(
+        'instagramContactButton'
+      );
+
+
+    const phoneButton =
+      document.getElementById(
+        'phoneContactButton'
+      );
+
+
+    if (whatsappButton) {
+
+      whatsappButton.dataset.url =
+        whatsapp;
+
+      whatsappButton.classList.toggle(
+        'disabled',
+        !whatsapp
+      );
+
+    }
+
+
+    if (instagramButton) {
+
+      instagramButton.dataset.url =
+        instagram;
+
+      instagramButton.classList.toggle(
+        'disabled',
+        !instagram
+      );
+
+    }
+
+
+    if (phoneButton) {
+
+      phoneButton.dataset.url =
+        phone
+          ? 'tel:' +
+            phone.replace(
+              /\s+/g,
+              ''
+            )
+          : '';
+
+      phoneButton.classList.toggle(
+        'disabled',
+        !phone
+      );
+
+    }
+
+
+    const telegramButton =
+      document.getElementById(
+        'telegramContactButton'
+      );
+
+
+    if (telegramButton) {
+
+      telegramButton.dataset.url =
+        telegram;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     CONTACT SHEET
+  ===================================================== */
+
+  function openContactSheet() {
+
+    updateContactButtons();
+
+
+    const sheet =
+      document.getElementById(
+        'contactSheet'
+      );
+
+
+    if (sheet) {
+
+      sheet.classList.add(
+        'open'
+      );
+
+    }
+
+  }
+
+
+  function closeContactSheet(
+    event
+  ) {
+
+    if (
+      event &&
+      event.target &&
+      event.target.id !==
+        'contactSheet'
+    ) {
+
+      return;
+
+    }
+
+
+    const sheet =
+      document.getElementById(
+        'contactSheet'
+      );
+
+
+    if (sheet) {
+
+      sheet.classList.remove(
+        'open'
+      );
+
+    }
+
+  }
+
+
+  function openContact(
+    type
+  ) {
+
+    let url = '';
+
+
+    if (
+      type ===
+      'telegram'
+    ) {
+
+      url =
+        'https://t.me/' +
+        SUPPORT_USERNAME.replace(
+          '@',
+          ''
+        );
+
+    }
+
+
+    if (
+      type ===
+      'whatsapp'
+    ) {
+
+      url =
+        getSetting(
+          [
+            'لینک واتساپ',
+            'WhatsApp',
+            'whatsapp',
+            'whatsapp_url'
+          ],
+          ''
+        );
+
+    }
+
+
+    if (
+      type ===
+      'instagram'
+    ) {
+
+      url =
+        getSetting(
+          [
+            'لینک اینستاگرام',
+            'Instagram',
+            'instagram',
+            'instagram_url'
+          ],
+          ''
+        );
+
+    }
+
+
+    if (
+      type ===
+      'phone'
+    ) {
+
+      const phone =
+        getSetting(
+          [
+            'شماره تماس',
+            'تلفن',
+            'phone',
+            'phone_number'
+          ],
+          ''
+        );
+
+
+      if (phone) {
+
+        url =
+          'tel:' +
+          phone.replace(
+            /\s+/g,
+            ''
+          );
+
+      }
+
+    }
+
+
+    if (!url) {
+
+      alert(
+        'این راه ارتباطی هنوز در تنظیمات کائنات‌چی ثبت نشده است.'
+      );
+
+      return;
+
+    }
+
+
+    if (
+      tg &&
+      type === 'telegram' &&
+      tg.openTelegramLink
+    ) {
+
+      tg.openTelegramLink(
+        url
+      );
+
+      return;
+
+    }
+
+
+    if (
+      tg &&
+      tg.openLink
+    ) {
+
+      tg.openLink(
+        url
+      );
+
+      return;
+
+    }
+
+
+    window.open(
+      url,
+      '_blank'
+    );
+
+  }
+
+
+  /* =====================================================
+     VIP
+  ===================================================== */
+
+  function openVIP() {
+
+    if (
+      tg &&
+      tg.openLink
+    ) {
+
+      tg.openLink(
+        VIP_URL
+      );
+
+    } else {
+
+      window.location.href =
+        VIP_URL;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     COURSE / EVENT CONTACT
+  ===================================================== */
+
+  function requestCourseInfo() {
+
+    openContactSheet();
+
+  }
+
+
+  function requestEventInfo() {
+
+    openContactSheet();
 
   }
 
@@ -1272,18 +4254,37 @@
      NAVIGATION
   ===================================================== */
 
-  function showPage(pageId) {
+  function showPage(
+    pageId
+  ) {
 
-    document.querySelectorAll('.page').forEach(function(page) {
-      page.classList.remove('active');
-    });
+    document
+      .querySelectorAll(
+        '.page'
+      )
+      .forEach(
+        function(page) {
+
+          page.classList.remove(
+            'active'
+          );
+
+        }
+      );
 
 
     const page =
-      document.getElementById(pageId);
+      document.getElementById(
+        pageId
+      );
+
 
     if (page) {
-      page.classList.add('active');
+
+      page.classList.add(
+        'active'
+      );
+
     }
 
 
@@ -1297,14 +4298,18 @@
 
   function goHome() {
 
-    showPage('homePage');
+    showPage(
+      'homePage'
+    );
 
   }
 
 
   function showServices() {
 
-    showPage('servicesPage');
+    showPage(
+      'servicesPage'
+    );
 
   }
 
@@ -1318,39 +4323,20 @@
     const url =
       APPOINTMENT_URL;
 
-    if (tg && tg.openLink) {
 
-      tg.openLink(url);
+    if (
+      tg &&
+      tg.openLink
+    ) {
 
-    } else {
-
-      window.location.href = url;
-
-    }
-
-  }
-
-
-  /* =====================================================
-     SUPPORT
-  ===================================================== */
-
-  function openSupport() {
-
-    const username =
-      SUPPORT_USERNAME.replace('@', '');
-
-    const url =
-      'https://t.me/' + username;
-
-
-    if (tg && tg.openTelegramLink) {
-
-      tg.openTelegramLink(url);
+      tg.openLink(
+        url
+      );
 
     } else {
 
-      window.location.href = url;
+      window.location.href =
+        url;
 
     }
 
@@ -1361,25 +4347,50 @@
      SECURITY / HTML ESCAPING
   ===================================================== */
 
-  function escapeHTML(value) {
+  function escapeHTML(
+    value
+  ) {
 
-    return String(value)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
+    return String(
+      value
+    )
+      .replace(
+        /&/g,
+        '&amp;'
+      )
+      .replace(
+        /</g,
+        '&lt;'
+      )
+      .replace(
+        />/g,
+        '&gt;'
+      )
+      .replace(
+        /"/g,
+        '&quot;'
+      )
+      .replace(
+        /'/g,
+        '&#039;'
+      );
 
   }
 
 
-  function escapeAttribute(value) {
+  function escapeAttribute(
+    value
+  ) {
 
-    return escapeHTML(value);
+    return escapeHTML(
+      value
+    );
 
   }
+
 
 </script>
+
 
 </body>
 </html>
