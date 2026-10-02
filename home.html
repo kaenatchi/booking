@@ -2,36 +2,45 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>کائنات‌چی</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <style>
+/* =========================================================
+   KAENATCHI — LIQUID GLASS HOME
+   ========================================================= */
 
 :root{
-  --cream:#f5f1e7;
-  --cream-light:#fbf9f1;
+  --cream:#f5f0e6;
+  --cream2:#eee7da;
 
-  --green:#234f3b;
-  --green-dark:#183e2d;
-  --green-soft:#587762;
-  --green-pale:#b7cbb9;
+  --green:#315c49;
+  --green-dark:#234738;
+  --green-soft:#648775;
 
-  --text:#294237;
-  --muted:#72827a;
+  --ink:#264537;
+  --muted:#708276;
 
-  --glass:rgba(255,255,255,.43);
-  --glass-strong:rgba(255,255,255,.62);
-  --glass-border:rgba(255,255,255,.82);
+  --glass:rgba(255,255,255,.40);
+  --glass-strong:rgba(255,255,255,.57);
+  --glass-soft:rgba(255,255,255,.28);
+
+  --line:rgba(255,255,255,.70);
+  --line-dark:rgba(57,91,75,.16);
 
   --shadow:
-    0 20px 55px rgba(27,63,47,.13),
-    0 4px 12px rgba(27,63,47,.06);
+    0 28px 65px rgba(42,67,54,.18),
+    0 10px 25px rgba(42,67,54,.10);
 
   --shadow-deep:
-    0 25px 70px rgba(25,61,45,.20);
+    0 38px 85px rgba(32,58,46,.25),
+    0 14px 32px rgba(32,58,46,.13);
+
+  --radius-xl:38px;
+  --radius-lg:30px;
+  --radius-md:24px;
 }
 
 *{
@@ -46,314 +55,201 @@ html{
 body{
   margin:0;
   min-height:100vh;
-
   background:
-    radial-gradient(
-      circle at 10% 5%,
-      rgba(255,255,255,.95),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 92% 32%,
-      rgba(210,226,211,.55),
-      transparent 30%
-    ),
-    linear-gradient(
-      145deg,
-      #faf6ec 0%,
-      #f1f1e7 55%,
-      #e9efe7 100%
-    );
-
-  color:var(--text);
-
+    radial-gradient(circle at 15% 8%, rgba(255,255,255,.95), transparent 27%),
+    radial-gradient(circle at 90% 20%, rgba(178,205,190,.38), transparent 25%),
+    radial-gradient(circle at 50% 85%, rgba(255,255,255,.55), transparent 32%),
+    linear-gradient(145deg,#f8f4eb 0%,#eee8dc 52%,#e8e1d5 100%);
+  color:var(--ink);
   font-family:
     -apple-system,
     BlinkMacSystemFont,
     "SF Pro Display",
-    "Segoe UI",
+    "SF Pro Text",
+    "IRANSans",
+    "Vazirmatn",
     Tahoma,
-    Arial,
     sans-serif;
+  overflow-x:hidden;
 }
 
-button,
-a{
-  font:inherit;
+/* ---------------------------------------------------------
+   AMBIENT LIGHT
+--------------------------------------------------------- */
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:-25%;
+  pointer-events:none;
+  z-index:-5;
+
+  background:
+    radial-gradient(
+      circle at 25% 20%,
+      rgba(255,255,255,.70),
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 78% 42%,
+      rgba(171,203,188,.25),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 50% 90%,
+      rgba(255,255,255,.50),
+      transparent 24%
+    );
+
+  filter:blur(35px);
 }
 
-button{
-  border:0;
-  cursor:pointer;
+/* ---------------------------------------------------------
+   BOTANICAL BRANCH
+--------------------------------------------------------- */
+
+.botanical{
+  position:absolute;
+  pointer-events:none;
+  z-index:4;
 }
 
-svg{
-  display:block;
+.branch-home{
+  top:52px;
+  right:-22px;
+  width:190px;
+  height:175px;
+  opacity:.82;
+  transform:rotate(-4deg);
 }
+
+.branch-internal{
+  top:28px;
+  right:-30px;
+  width:150px;
+  height:135px;
+  opacity:.42;
+  filter:blur(.15px);
+}
+
+.branch-path{
+  fill:none;
+  stroke:#5d7b69;
+  stroke-width:3;
+  stroke-linecap:round;
+}
+
+.leaf{
+  fill:#718f7b;
+  opacity:.75;
+}
+
+.leaf.light{
+  opacity:.48;
+}
+
+.leaf.dark{
+  opacity:.85;
+}
+
+/* ---------------------------------------------------------
+   APP SHELL
+--------------------------------------------------------- */
 
 .app{
-  width:min(100%,540px);
-  margin:auto;
-  padding:0 14px 35px;
-  position:relative;
-  overflow:hidden;
-}
-
-.page{
-  display:none;
+  width:100%;
   min-height:100vh;
   position:relative;
 }
 
-.page.active{
-  display:block;
-  animation:pageIn .28s ease;
-}
+/* ---------------------------------------------------------
+   HEADER — LARGE CURVED / SEMI CIRCLE
+--------------------------------------------------------- */
 
-@keyframes pageIn{
-  from{
-    opacity:0;
-    transform:translateY(8px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-
-/* =========================================================
-   LIQUID GLASS
-========================================================= */
-
-.glass{
+.hero{
   position:relative;
+  height:325px;
+  overflow:hidden;
+  isolation:isolate;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  left:-12%;
+  right:-12%;
+  top:-170px;
+  height:430px;
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.70),
-      rgba(255,255,255,.25)
+    radial-gradient(
+      circle at 50% 58%,
+      rgba(255,255,255,.75),
+      rgba(255,255,255,.32) 42%,
+      rgba(255,255,255,.08) 68%,
+      transparent 72%
     );
 
-  border:1px solid rgba(255,255,255,.84);
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.70);
 
   box-shadow:
-    0 18px 45px rgba(30,65,49,.12),
-    0 3px 10px rgba(30,65,49,.05),
-    inset 0 1px 0 rgba(255,255,255,.90);
+    inset 0 2px 2px rgba(255,255,255,.85),
+    inset 0 -20px 50px rgba(79,111,94,.08),
+    0 28px 60px rgba(49,82,65,.12);
 
-  backdrop-filter:
-    blur(25px)
-    saturate(140%);
-
-  -webkit-backdrop-filter:
-    blur(25px)
-    saturate(140%);
-}
-
-.glass::after{
-  content:"";
-
-  position:absolute;
-  inset:1px;
-
-  border-radius:inherit;
-
-  pointer-events:none;
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.9),
-    inset 0 -1px 0 rgba(39,76,58,.05);
-}
-
-/* =========================================================
-   BOTANICAL
-========================================================= */
-
-.botanical{
-  position:absolute;
-  inset:0;
-
-  pointer-events:none;
-
-  overflow:hidden;
+  backdrop-filter:blur(24px) saturate(135%);
+  -webkit-backdrop-filter:blur(24px) saturate(135%);
 
   z-index:1;
 }
 
-.branch{
-  position:absolute;
-
-  opacity:.65;
-
-  filter:
-    drop-shadow(
-      0 7px 12px
-      rgba(31,70,51,.06)
-    );
-}
-
-.branch.left{
-  left:-60px;
-  top:75px;
-  width:235px;
-  transform:rotate(-7deg);
-}
-
-.branch.right{
-  right:-58px;
-  top:105px;
-  width:245px;
-  transform:
-    scaleX(-1)
-    rotate(-5deg);
-}
-
-.branch.bottom{
-  right:-45px;
-  bottom:-25px;
-  width:225px;
-  transform:
-    scaleX(-1)
-    rotate(7deg);
-
-  opacity:.32;
-}
-
-.branch path{
-  fill:none;
-  stroke:#587b64;
-  stroke-width:2;
-  stroke-linecap:round;
-}
-
-.branch ellipse{
-  fill:#89a98f;
-  opacity:.62;
-}
-
-.branch .flower{
-  fill:#d8c9c2;
-  opacity:.58;
-}
-
-/* =========================================================
-   HOME HERO
-========================================================= */
-
-.home-hero{
-
-  position:relative;
-
-  min-height:405px;
-
-  margin:
-    0 -14px
-    0;
-
-  padding:0 20px 25px;
-
-  overflow:hidden;
-
-  border-radius:
-    0 0
-    53% 53% /
-    0 0
-    24% 24%;
-
-  background:
-
-    radial-gradient(
-      ellipse at 50% 10%,
-      rgba(255,255,255,.97),
-      transparent 45%
-    ),
-
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.86),
-      rgba(220,231,218,.42)
-    );
-
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.90);
-
-  box-shadow:
-    0 24px 65px
-    rgba(31,66,50,.14);
-
-  backdrop-filter:
-    blur(28px)
-    saturate(145%);
-
-  -webkit-backdrop-filter:
-    blur(28px)
-    saturate(145%);
-}
-
-.home-hero::before{
-
+.hero::after{
   content:"";
-
   position:absolute;
-
   left:7%;
   right:7%;
-  top:16px;
-
-  height:125px;
+  top:32px;
+  height:175px;
 
   border-radius:50%;
 
   background:
     radial-gradient(
-      ellipse at center,
-      rgba(255,255,255,.78),
-      transparent 70%
+      ellipse at 50% 10%,
+      rgba(255,255,255,.72),
+      transparent 63%
     );
 
-  filter:blur(11px);
-
+  filter:blur(2px);
   pointer-events:none;
+  z-index:2;
 }
 
-/* =========================================================
-   HEADER CONTROLS
-========================================================= */
+/* ---------------------------------------------------------
+   TOP BAR
+--------------------------------------------------------- */
 
-.header-controls{
-
+.topbar{
   position:absolute;
-
-  z-index:20;
-
-  top:
-    calc(
-      env(safe-area-inset-top)
-      + 14px
-    );
-
-  left:14px;
+  top:18px;
+  left:18px;
+  right:18px;
+  height:54px;
 
   display:flex;
+  align-items:center;
+  justify-content:space-between;
 
-  gap:8px;
-
-  direction:ltr;
+  z-index:20;
 }
 
-.glass-button{
-
-  width:47px;
-  height:47px;
-
-  display:grid;
-  place-items:center;
-
+.menu-button{
+  width:52px;
+  height:52px;
   border-radius:18px;
 
-  color:var(--green);
+  border:1px solid rgba(255,255,255,.72);
 
   background:
     linear-gradient(
@@ -362,3593 +258,2678 @@ svg{
       rgba(255,255,255,.28)
     );
 
-  border:
-    1px solid
-    rgba(255,255,255,.85);
-
-  box-shadow:
-    0 11px 27px
-    rgba(30,66,50,.11),
-    inset 0 1px 0
-    rgba(255,255,255,.92);
-
   backdrop-filter:
-    blur(20px);
+    blur(22px)
+    saturate(145%);
 
   -webkit-backdrop-filter:
-    blur(20px);
+    blur(22px)
+    saturate(145%);
+
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.95),
+    inset 0 -5px 12px rgba(63,92,77,.06),
+    0 15px 28px rgba(42,68,54,.17);
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+
+  cursor:pointer;
+  transition:.25s ease;
 }
 
-.glass-button svg{
-  width:23px;
-  height:23px;
+.menu-button:active{
+  transform:scale(.94);
 }
 
-/* =========================================================
+.menu-line{
+  width:21px;
+  height:2px;
+  border-radius:4px;
+  background:#315c49;
+  box-shadow:0 1px 2px rgba(255,255,255,.8);
+}
+
+/* ---------------------------------------------------------
    LOGO
-========================================================= */
+--------------------------------------------------------- */
 
-.home-logo{
-
+.logo-wrap{
   position:absolute;
-
-  z-index:10;
-
   left:50%;
-  top:57px;
+  top:53px;
+  transform:translateX(-50%);
 
-  transform:
-    translateX(-50%);
-
-  width:158px;
-  height:158px;
-
-  padding:9px;
+  width:168px;
+  height:168px;
 
   border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  z-index:8;
 
   background:
-
     radial-gradient(
-      circle at 28% 18%,
-      rgba(255,255,255,.99),
-      rgba(255,255,255,.45) 55%,
-      rgba(203,221,206,.38)
+      circle at 35% 25%,
+      rgba(255,255,255,.90),
+      rgba(255,255,255,.48) 38%,
+      rgba(255,255,255,.18) 72%
     );
 
-  border:
-    1px solid
-    rgba(255,255,255,.93);
-
-  box-shadow:
-
-    0 25px 62px
-    rgba(30,68,50,.17),
-
-    inset 0 2px 0
-    rgba(255,255,255,.96);
+  border:1px solid rgba(255,255,255,.82);
 
   backdrop-filter:
-    blur(23px);
+    blur(28px)
+    saturate(150%);
 
   -webkit-backdrop-filter:
-    blur(23px);
+    blur(28px)
+    saturate(150%);
+
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.98),
+    inset 0 -12px 30px rgba(61,91,76,.08),
+    0 28px 55px rgba(41,70,55,.20),
+    0 7px 15px rgba(41,70,55,.10);
 }
 
-.home-logo img{
-
-  width:100%;
-  height:100%;
-
-  object-fit:cover;
+.logo-wrap::before{
+  content:"";
+  position:absolute;
+  inset:8px;
 
   border-radius:50%;
 
+  border:1px solid rgba(255,255,255,.58);
+
+  box-shadow:
+    inset 0 2px 5px rgba(255,255,255,.75),
+    inset 0 -5px 10px rgba(56,86,70,.05);
+
+  pointer-events:none;
+}
+
+.logo-image{
+  width:116px;
+  height:116px;
+  object-fit:contain;
+  border-radius:50%;
+
+  position:relative;
+  z-index:2;
+
+  filter:
+    drop-shadow(0 9px 13px rgba(44,70,56,.17));
+}
+
+/* ---------------------------------------------------------
+   HERO TEXT
+--------------------------------------------------------- */
+
+.hero-content{
+  position:absolute;
+  left:20px;
+  right:20px;
+  top:222px;
+
+  text-align:center;
+  z-index:10;
+}
+
+.hero-title{
+  margin:0;
+  font-size:23px;
+  font-weight:800;
+  letter-spacing:-.4px;
+  color:#2c503f;
+  text-shadow:0 2px 4px rgba(255,255,255,.8);
+}
+
+.hero-subtitle{
+  margin:7px auto 0;
+  max-width:330px;
+  font-size:13px;
+  line-height:1.9;
+  color:#687d70;
+}
+
+/* ---------------------------------------------------------
+   CONTENT
+--------------------------------------------------------- */
+
+.page{
+  display:none;
+  min-height:100vh;
+  padding-bottom:70px;
+}
+
+.page.active{
   display:block;
 }
 
-/* =========================================================
-   HOME BOTANICAL
-========================================================= */
-
-.home-flower{
-
-  position:absolute;
-
-  z-index:5;
-
-  pointer-events:none;
-
-  opacity:.70;
-}
-
-.home-flower.left{
-
-  left:-37px;
-  top:88px;
-
-  width:215px;
-
-  transform:rotate(-7deg);
-}
-
-.home-flower.right{
-
-  right:-40px;
-  top:108px;
-
-  width:225px;
-
-  transform:
-    scaleX(-1)
-    rotate(-5deg);
-}
-
-.home-flower.bottom{
-
-  right:-22px;
-  bottom:-32px;
-
-  width:220px;
-
-  transform:scaleX(-1);
-
-  opacity:.34;
-}
-
-/* =========================================================
-   HOME COPY
-========================================================= */
-
-.home-copy{
-
-  position:absolute;
-
-  z-index:15;
-
-  left:18px;
-  right:18px;
-
-  top:229px;
-
-  text-align:center;
-}
-
-.home-copy h1{
-
-  margin:0;
-
-  color:var(--green);
-
-  font-size:29px;
-
-  font-weight:950;
-
-  letter-spacing:-.7px;
-}
-
-.home-copy .tagline{
-
-  margin:
-    8px
-    0
-    0;
-
-  color:#566c60;
-
-  font-size:13px;
-
-  line-height:1.8;
-}
-
-.home-copy .intro{
-
-  max-width:430px;
-
-  margin:
-    12px
-    auto
-    0;
-
-  color:#60756a;
-
-  font-size:11.5px;
-
-  line-height:1.9;
-}
-
-/* =========================================================
-   HOME CONTENT
-========================================================= */
-
-.home-content{
-
+.content{
   position:relative;
-
-  z-index:30;
-
-  padding:
-    19px
-    4px
-    0;
+  padding:10px 17px 0;
+  max-width:620px;
+  margin:0 auto;
 }
 
-.home-grid{
+/* ---------------------------------------------------------
+   GLASS SURFACES
+--------------------------------------------------------- */
 
-  display:grid;
+.glass{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.60),
+      rgba(255,255,255,.28)
+    );
 
-  grid-template-columns:
-    1fr 1fr;
+  border:1px solid rgba(255,255,255,.76);
 
-  gap:12px;
+  backdrop-filter:
+    blur(25px)
+    saturate(150%);
+
+  -webkit-backdrop-filter:
+    blur(25px)
+    saturate(150%);
+
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.92),
+    inset 0 -8px 22px rgba(59,89,73,.055),
+    0 25px 55px rgba(45,72,58,.15),
+    0 7px 18px rgba(45,72,58,.08);
 }
 
-.home-card{
+/* ---------------------------------------------------------
+   PRIMARY ACTION
+--------------------------------------------------------- */
 
+.action-card{
   position:relative;
+  min-height:88px;
+  border-radius:29px;
 
-  min-height:128px;
+  padding:16px 19px;
 
-  padding:
-    15px
-    12px;
+  display:flex;
+  align-items:center;
+  gap:16px;
 
-  border-radius:30px;
-
-  text-align:center;
-
-  color:var(--green);
-
+  cursor:pointer;
   overflow:hidden;
 
   transition:
-    transform .18s ease,
-    box-shadow .18s ease;
+    transform .25s ease,
+    box-shadow .25s ease;
 }
 
-.home-card:active{
+.action-card::before{
+  content:"";
+  position:absolute;
+  left:-20%;
+  top:-100%;
+  width:55%;
+  height:300%;
 
+  transform:rotate(22deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.62),
+      transparent
+    );
+
+  filter:blur(7px);
+  opacity:.7;
+  pointer-events:none;
+}
+
+.action-card:active{
   transform:scale(.975);
-
-  box-shadow:
-    0 10px 25px
-    rgba(30,65,49,.10);
 }
 
-.home-card.wide{
-
-  grid-column:
-    1 / -1;
-
-  min-height:96px;
-
-  display:flex;
-
-  align-items:center;
-
-  text-align:right;
-
-  gap:14px;
-
-  padding:
-    13px
-    16px;
-}
-
-.home-card h3{
-
-  margin:
-    8px
-    0
-    3px;
-
-  font-size:14px;
-
-  font-weight:900;
-}
-
-.home-card p{
-
-  margin:0;
-
-  color:var(--muted);
-
-  font-size:10.5px;
-
-  line-height:1.7;
-}
-
-.home-card.wide .card-copy{
-
-  flex:1;
-
-  position:relative;
-
-  z-index:5;
-}
-
-.home-card.wide .icon-glass{
-
-  margin:0;
-}
-
-/* =========================================================
-   GRAPHICAL ICONS
-========================================================= */
-
-.icon-glass{
-
-  position:relative;
-
-  width:72px;
-  height:72px;
-
-  flex:
-    0 0
-    72px;
-
-  display:grid;
-
-  place-items:center;
-
-  border-radius:25px;
-
-  color:var(--green);
-
-  background:
-
-    radial-gradient(
-      circle at 27% 16%,
-      rgba(255,255,255,.98),
-      transparent 38%
-    ),
-
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.78),
-      rgba(220,233,221,.30)
-    );
-
-  border:
-    1px solid
-    rgba(255,255,255,.92);
-
-  box-shadow:
-
-    0 17px 34px
-    rgba(29,66,49,.13),
-
-    inset 0 1px 0
-    rgba(255,255,255,.98),
-
-    inset 0 -5px 14px
-    rgba(85,119,96,.04);
-
-  backdrop-filter:
-    blur(20px);
-
-  -webkit-backdrop-filter:
-    blur(20px);
-}
-
-.home-card .icon-glass{
-
-  margin:auto;
-}
-
-.icon-glass svg{
-
-  width:43px;
-  height:43px;
-
-  filter:
-    drop-shadow(
-      0 4px 5px
-      rgba(34,76,56,.12)
-    );
-}
-
-.icon-glass.small{
-
-  width:62px;
-  height:62px;
-
-  flex-basis:62px;
-
-  border-radius:22px;
-}
-
-.icon-glass.small svg{
-
-  width:36px;
-  height:36px;
-}
-
-/* =========================================================
-   APPOINTMENT
-========================================================= */
-
-.home-appointment{
-
-  position:relative;
-
-  z-index:5;
-
-  width:100%;
-
-  min-height:78px;
-
-  margin:
-    18px
-    0
-    0;
-
-  padding:
-    10px
-    15px;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:15px;
-
-  border-radius:29px;
-
-  color:#fff;
-
-  text-align:right;
-
-  background:
-
-    linear-gradient(
-      145deg,
-      #35664e,
-      #1c4734
-    );
-
-  border:
-    1px solid
-    rgba(255,255,255,.22);
-
-  box-shadow:
-
-    0 21px 45px
-    rgba(27,69,50,.24),
-
-    inset 0 1px 0
-    rgba(255,255,255,.27);
-}
-
-.home-appointment .icon-glass{
-
-  color:#fff;
-
-  background:
-    rgba(255,255,255,.13);
-
-  border-color:
-    rgba(255,255,255,.25);
-
-  box-shadow:
-    inset 0 1px 0
-    rgba(255,255,255,.20);
-}
-
-.home-appointment h3{
-
-  margin:
-    0
-    0
-    3px;
-
-  font-size:15px;
-}
-
-.home-appointment p{
-
-  margin:0;
-
-  font-size:10.5px;
-
-  color:
-    rgba(255,255,255,.72);
-}
-
-.home-appointment .arrow{
-
-  margin-right:auto;
-
-  font-size:28px;
-
-  font-weight:300;
-
-  opacity:.8;
-}
-
-/* =========================================================
-   INTERNAL HEADER
-========================================================= */
-
-.page-header{
-
-  position:relative;
-
-  height:300px;
-
-  margin:
-    0
-    -14px;
-
-  overflow:hidden;
-
-  border-radius:
-    0 0
-    53% 53% /
-    0 0
-    27% 27%;
-
-  background:
-
-    radial-gradient(
-      ellipse at 50% 8%,
-      rgba(255,255,255,.96),
-      transparent 45%
-    ),
-
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.84),
-      rgba(220,231,218,.43)
-    );
-
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.9);
-
-  box-shadow:
-    0 20px 58px
-    rgba(30,65,49,.12);
-
-  backdrop-filter:
-    blur(26px)
-    saturate(140%);
-
-  -webkit-backdrop-filter:
-    blur(26px)
-    saturate(140%);
-}
-
-.page-header.small{
-
-  height:205px;
-
-  border-radius:
-    0 0
-    50% 50% /
-    0 0
-    25% 25%;
-}
-
-.header-logo{
-
-  position:absolute;
-
-  z-index:10;
-
-  left:50%;
-
-  top:53px;
-
-  transform:
-    translateX(-50%);
-
-  width:100px;
-  height:100px;
-
-  padding:7px;
-
-  border-radius:50%;
-
-  background:
-
-    radial-gradient(
-      circle at 28% 18%,
-      #fff,
-      rgba(255,255,255,.44) 58%,
-      rgba(205,221,207,.40)
-    );
-
-  border:
-    1px solid
-    rgba(255,255,255,.92);
-
-  box-shadow:
-
-    0 20px 46px
-    rgba(31,68,50,.14),
-
-    inset 0 1px 0
-    rgba(255,255,255,.96);
-
-  backdrop-filter:
-    blur(22px);
-
-  -webkit-backdrop-filter:
-    blur(22px);
-}
-
-.header-logo img{
-
-  width:100%;
-  height:100%;
-
-  object-fit:cover;
-
-  border-radius:50%;
-}
-
-.page-brand{
-
-  position:absolute;
-
-  z-index:15;
-
-  left:50%;
-
-  transform:
-    translateX(-50%);
-
-  top:202px;
-
-  text-align:center;
-
-  white-space:nowrap;
-
-  color:var(--green);
-}
-
-.page-brand h1{
-
-  margin:0;
-
-  font-size:24px;
-
-  font-weight:950;
-}
-
-.page-brand p{
-
-  margin:
-    5px
-    0
-    0;
-
-  color:var(--muted);
-
-  font-size:11px;
-}
-
-/* =========================================================
-   INTERNAL CONTENT
-========================================================= */
-
-.content{
-
-  position:relative;
-
-  z-index:30;
-
-  padding:
-    18px
-    4px
-    0;
-}
-
-.internal-title{
-
-  text-align:center;
-
-  margin:
-    4px
-    0
-    17px;
-}
-
-.internal-title h2{
-
-  margin:0;
-
-  color:var(--green);
-
-  font-size:21px;
-
-  font-weight:950;
-}
-
-.internal-title p{
-
-  margin:
-    7px
-    0
-    0;
-
-  color:var(--muted);
-
-  font-size:12px;
-
-  line-height:1.8;
-}
-
-/* =========================================================
-   FILTER
-========================================================= */
-
-.filter-wrap{
-
-  margin:
-    0
-    0
-    16px;
-}
-
-.filter-scroll{
-
-  display:flex;
-
-  gap:9px;
-
-  overflow-x:auto;
-
-  padding:
-    3px
-    2px
-    10px;
-
-  scrollbar-width:none;
-
-  -webkit-overflow-scrolling:touch;
-
-  cursor:grab;
-
-  touch-action:pan-x;
-}
-
-.filter-scroll::-webkit-scrollbar{
-  display:none;
-}
-
-.filter-scroll.dragging{
-  cursor:grabbing;
-}
-
-.filter-pill{
-
-  flex:
-    0 0
-    auto;
-
-  min-height:43px;
-
-  padding:
-    0
-    17px;
-
-  border-radius:19px;
-
-  color:#537163;
-
-  background:
-    rgba(255,255,255,.42);
-
-  border:
-    1px solid
-    rgba(255,255,255,.80);
-
-  box-shadow:
-
-    0 10px 23px
-    rgba(32,68,51,.08),
-
-    inset 0 1px 0
-    rgba(255,255,255,.90);
-
-  backdrop-filter:
-    blur(20px);
-
-  -webkit-backdrop-filter:
-    blur(20px);
-
-  font-size:11.5px;
-
-  font-weight:850;
-
-  white-space:nowrap;
-}
-
-.filter-pill.active{
-
-  color:#fff;
-
+.action-card.primary{
   background:
     linear-gradient(
       145deg,
-      #35644d,
-      #204a37
+      rgba(62,105,83,.94),
+      rgba(45,86,67,.87)
     );
 
-  border-color:
-    rgba(255,255,255,.22);
+  border-color:rgba(255,255,255,.34);
 
   box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.34),
+    inset 0 -10px 25px rgba(17,51,37,.20),
+    0 28px 55px rgba(35,72,55,.29),
+    0 9px 18px rgba(35,72,55,.15);
 
-    0 14px 30px
-    rgba(30,70,51,.20),
-
-    inset 0 1px 0
-    rgba(255,255,255,.22);
+  color:white;
 }
 
-/* =========================================================
-   SERVICE LIST
-========================================================= */
-
-.glass-list{
-
-  display:grid;
-
-  gap:11px;
-}
-
-.list-card{
-
-  position:relative;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:13px;
-
-  width:100%;
-
-  min-height:98px;
-
-  padding:
-    13px
-    14px;
-
-  border-radius:28px;
-
-  text-align:right;
-
-  color:var(--text);
-}
-
-.list-copy{
-
-  flex:1;
-
-  min-width:0;
-}
-
-.list-copy h3{
-
-  margin:
-    0
-    0
-    5px;
-
-  color:var(--green);
-
-  font-size:14px;
-
-  font-weight:900;
-}
-
-.list-copy p{
-
-  margin:0;
-
-  color:var(--muted);
-
-  font-size:10.8px;
-
-  line-height:1.75;
-}
-
-.list-price{
-
-  margin-top:6px;
-
-  color:var(--green);
-
-  font-size:11px;
-
-  font-weight:900;
-}
-
-.chevron{
-
-  width:20px;
-  height:20px;
-
-  flex:
-    0 0
-    20px;
-
-  color:#789084;
-}
-
-/* =========================================================
-   DETAIL
-========================================================= */
-
-.detail-card{
-
-  position:relative;
-
-  padding:19px;
-
-  border-radius:31px;
-
-  margin-bottom:14px;
-}
-
-.detail-art{
-
-  position:relative;
-
-  height:150px;
-
-  margin-bottom:17px;
-
-  border-radius:27px;
-
-  overflow:hidden;
-
-  display:grid;
-
-  place-items:center;
-
-  background:
-
-    radial-gradient(
-      circle at 50% 30%,
-      rgba(255,255,255,.70),
-      transparent 58%
-    ),
-
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.52),
-      rgba(216,229,216,.25)
-    );
-
-  border:
-    1px solid
-    rgba(255,255,255,.75);
-}
-
-.detail-art .icon-glass{
-
-  width:90px;
-  height:90px;
-
-  border-radius:31px;
-}
-
-.detail-art .icon-glass svg{
-
-  width:52px;
-  height:52px;
-}
-
-.detail-art img{
-
-  width:100%;
-  height:100%;
-
-  object-fit:cover;
-}
-
-.detail-card h3{
-
-  margin:
-    0
-    0
-    8px;
-
-  color:var(--green);
-
-  font-size:21px;
-
-  font-weight:950;
-}
-
-.detail-short{
-
-  margin:
-    0
-    0
-    12px;
-
-  color:#5d7268;
-
-  font-size:12px;
-
-  line-height:1.9;
-}
-
-.detail-full{
-
-  color:#586e63;
-
-  font-size:12.5px;
-
-  line-height:2.05;
-
-  white-space:pre-line;
-}
-
-.price-box{
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:12px;
-
-  margin-top:15px;
-
-  padding:
-    13px
-    15px;
+.action-icon{
+  width:58px;
+  height:58px;
+  flex:0 0 58px;
 
   border-radius:21px;
 
-  background:
-    rgba(227,239,228,.55);
-
-  border:
-    1px solid
-    rgba(77,113,91,.10);
-}
-
-.price-box span{
-
-  color:#73827b;
-
-  font-size:11px;
-}
-
-.price-box strong{
-
-  color:var(--green);
-
-  font-size:14px;
-
-  font-weight:900;
-}
-
-.bottom-action{
-
-  width:100%;
-
-  min-height:59px;
-
-  margin-top:15px;
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
 
-  gap:10px;
-
-  border-radius:23px;
-
-  color:#fff;
+  font-size:30px;
 
   background:
-
     linear-gradient(
       145deg,
-      #35644d,
-      #204a37
+      rgba(255,255,255,.70),
+      rgba(255,255,255,.24)
     );
 
+  border:1px solid rgba(255,255,255,.67);
+
   box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.9),
+    inset 0 -7px 15px rgba(49,77,62,.08),
+    0 12px 23px rgba(35,62,49,.13);
 
-    0 18px 37px
-    rgba(29,70,51,.21),
-
-    inset 0 1px 0
-    rgba(255,255,255,.25);
-
-  font-size:13px;
-
-  font-weight:900;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
 }
 
-/* =========================================================
-   COURSES / EVENTS
-========================================================= */
-
-.program-card{
-
-  position:relative;
-
-  padding:
-    14px
-    15px;
-
-  border-radius:29px;
-
-  margin-bottom:11px;
-
-  overflow:hidden;
+.primary .action-icon{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.38),
+      rgba(255,255,255,.13)
+    );
+  border-color:rgba(255,255,255,.38);
 }
 
-.program-top{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-
-  cursor:pointer;
-}
-
-.program-copy{
-
+.action-text{
   flex:1;
-
   min-width:0;
 }
 
-.program-copy h3{
-
-  margin:
-    0
-    0
-    5px;
-
-  color:var(--green);
-
-  font-size:14px;
-
-  font-weight:900;
-
-  line-height:1.45;
+.action-title{
+  font-size:16px;
+  font-weight:800;
+  margin-bottom:4px;
 }
 
-.program-copy p{
-
-  margin:0;
-
-  color:var(--muted);
-
-  font-size:10.8px;
-
+.action-sub{
+  font-size:11.5px;
+  opacity:.78;
   line-height:1.7;
 }
 
-.program-arrow{
+/* ---------------------------------------------------------
+   HOME GRID
+--------------------------------------------------------- */
 
-  width:21px;
-  height:21px;
-
-  color:#718a7d;
-
-  transition:
-    transform .25s ease;
+.home-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+  margin-top:14px;
 }
 
-.program-card.open
-.program-arrow{
+.home-card{
+  min-height:122px;
+  border-radius:29px;
 
-  transform:rotate(90deg);
-}
-
-.program-detail{
-
-  display:none;
-
-  margin-top:12px;
-
-  padding-top:12px;
-
-  border-top:
-    1px solid
-    rgba(39,77,58,.09);
-
-  color:#5d7268;
-
-  font-size:11.5px;
-
-  line-height:1.95;
-
-  white-space:pre-line;
-}
-
-.program-card.open
-.program-detail{
-
-  display:block;
-}
-
-.status-chip{
-
-  display:inline-flex;
-
-  margin-top:9px;
-
-  padding:
-    6px
-    10px;
-
-  border-radius:13px;
-
-  color:var(--green);
-
-  background:
-    rgba(220,234,221,.75);
-
-  font-size:10px;
-
-  font-weight:800;
-}
-
-/* =========================================================
-   FAQ
-========================================================= */
-
-.faq-category{
-
-  position:relative;
-
-  overflow:hidden;
-
-  border-radius:28px;
-
-  margin-bottom:11px;
-}
-
-.faq-head{
-
-  width:100%;
-
-  min-height:64px;
+  padding:16px 13px;
 
   display:flex;
-
+  flex-direction:column;
   align-items:center;
+  justify-content:center;
+  text-align:center;
 
-  gap:12px;
-
-  padding:
-    11px
-    15px;
-
-  background:transparent;
-
-  color:var(--green);
-
-  text-align:right;
-}
-
-.faq-head .icon-glass{
-
-  width:50px;
-  height:50px;
-
-  flex-basis:50px;
-
-  border-radius:18px;
-}
-
-.faq-head .icon-glass svg{
-
-  width:27px;
-  height:27px;
-}
-
-.faq-head strong{
-
-  flex:1;
-
-  font-size:13px;
-}
-
-.faq-chevron{
-
-  width:20px;
-  height:20px;
-
-  transition:
-    transform .25s ease;
-}
-
-.faq-category.open
-.faq-chevron{
-
-  transform:rotate(90deg);
-}
-
-.faq-list{
-
-  display:none;
-
-  padding:
-    0
-    12px
-    10px;
-}
-
-.faq-category.open
-.faq-list{
-
-  display:block;
-}
-
-.faq-item{
-
-  border-top:
-    1px solid
-    rgba(36,77,57,.09);
-}
-
-.faq-q{
-
-  width:100%;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:8px;
-
-  padding:
-    13px
-    5px;
-
-  background:transparent;
-
-  color:#476457;
-
-  text-align:right;
-}
-
-.faq-q span{
-
-  flex:1;
-
-  font-size:11.5px;
-
-  line-height:1.75;
-}
-
-.faq-q svg{
-
-  width:17px;
-  height:17px;
-
-  color:#789084;
-
-  transition:
-    transform .20s ease;
-}
-
-.faq-item.open
-.faq-q svg{
-
-  transform:rotate(90deg);
-}
-
-.faq-a{
-
-  display:none;
-
-  padding:
-    0
-    5px
-    13px;
-
-  color:#6c7d75;
-
-  font-size:11px;
-
-  line-height:2;
-
-  white-space:pre-line;
-}
-
-.faq-item.open
-.faq-a{
-
-  display:block;
-}
-
-/* =========================================================
-   INFO
-========================================================= */
-
-.info-card{
-
-  position:relative;
-
-  border-radius:30px;
-
-  padding:
-    10px
-    16px;
-}
-
-.info-item{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-
-  padding:
-    13px
-    0;
-
-  border-bottom:
-    1px solid
-    rgba(35,79,59,.09);
-}
-
-.info-item:last-child{
-
-  border-bottom:0;
-}
-
-.info-item .icon-glass{
-
-  width:50px;
-  height:50px;
-
-  flex-basis:50px;
-
-  border-radius:17px;
-}
-
-.info-text{
-
-  flex:1;
-}
-
-.info-text strong{
-
-  display:block;
-
-  color:var(--green);
-
-  font-size:12px;
-
-  margin-bottom:3px;
-}
-
-.info-text span{
-
-  display:block;
-
-  color:var(--muted);
-
-  font-size:10.5px;
-}
-
-/* =========================================================
-   DRAWER
-========================================================= */
-
-.drawer-overlay{
-
-  position:fixed;
-
-  inset:0;
-
-  z-index:100;
-
-  background:
-    rgba(17,43,32,.25);
-
-  opacity:0;
-
-  pointer-events:none;
+  cursor:pointer;
 
   transition:.25s ease;
 }
 
-.drawer-overlay.show{
-
-  opacity:1;
-
-  pointer-events:auto;
+.home-card:active{
+  transform:scale(.965);
 }
 
-.drawer{
+.home-card .big-icon{
+  width:58px;
+  height:58px;
 
-  position:fixed;
+  border-radius:21px;
 
-  z-index:101;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  left:0;
-  top:0;
-  bottom:0;
+  font-size:30px;
 
-  width:min(335px,86vw);
-
-  padding:
-    calc(env(safe-area-inset-top) + 18px)
-    15px
-    calc(env(safe-area-inset-bottom) + 20px);
-
-  transform:
-    translateX(-105%);
-
-  transition:
-    .32s
-    cubic-bezier(.2,.8,.2,1);
-
-  border-radius:
-    0
-    31px
-    31px
-    0;
+  margin-bottom:10px;
 
   background:
-
     linear-gradient(
       145deg,
-      rgba(251,249,240,.91),
-      rgba(225,235,225,.78)
+      rgba(255,255,255,.72),
+      rgba(255,255,255,.25)
     );
 
-  border:
-    1px solid
-    rgba(255,255,255,.85);
+  border:1px solid rgba(255,255,255,.75);
 
   box-shadow:
-    20px 0 65px
-    rgba(25,59,45,.20);
+    inset 0 1px 2px rgba(255,255,255,.92),
+    inset 0 -7px 15px rgba(49,78,63,.06),
+    0 14px 28px rgba(47,73,59,.13);
 
-  backdrop-filter:
-    blur(35px)
-    saturate(145%);
-
-  -webkit-backdrop-filter:
-    blur(35px)
-    saturate(145%);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
 }
 
-.drawer.show{
-
-  transform:
-    translateX(0);
+.home-card strong{
+  font-size:14px;
+  font-weight:800;
 }
 
-.drawer-head{
+.home-card span{
+  margin-top:5px;
+  font-size:10.5px;
+  color:#74847a;
+  line-height:1.65;
+}
 
+/* ---------------------------------------------------------
+   SECTION TITLE
+--------------------------------------------------------- */
+
+.section-title{
+  margin:30px 4px 13px;
   display:flex;
-
   align-items:center;
-
-  justify-content:space-between;
-
-  margin-bottom:19px;
+  gap:10px;
 }
 
-.drawer-brand{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:9px;
-
-  color:var(--green);
-
-  font-weight:900;
+.section-title .dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#638774;
+  box-shadow:0 0 0 5px rgba(99,135,116,.10);
 }
 
-.drawer-brand img{
+.section-title h2{
+  margin:0;
+  font-size:16px;
+  font-weight:850;
+}
 
-  width:45px;
-  height:45px;
+/* ---------------------------------------------------------
+   INTERNAL PAGE HEADER
+--------------------------------------------------------- */
+
+.internal-head{
+  position:relative;
+  min-height:215px;
+  padding-top:10px;
+}
+
+.internal-logo{
+  width:104px;
+  height:104px;
+  margin:0 auto 15px;
 
   border-radius:50%;
 
-  object-fit:cover;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  border:
-    1px solid
-    rgba(255,255,255,.90);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.67),
+      rgba(255,255,255,.28)
+    );
+
+  border:1px solid rgba(255,255,255,.78);
+
+  backdrop-filter:blur(23px);
+  -webkit-backdrop-filter:blur(23px);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.92),
+    inset 0 -7px 18px rgba(58,87,71,.06),
+    0 22px 45px rgba(42,69,55,.16);
 }
 
-.drawer-close{
+.internal-logo img{
+  width:76px;
+  height:76px;
+  object-fit:contain;
+  border-radius:50%;
+}
 
-  width:44px;
-  height:44px;
+.internal-title{
+  text-align:center;
+  font-size:21px;
+  font-weight:850;
+  margin:0;
+}
 
-  display:grid;
-  place-items:center;
+.internal-description{
+  text-align:center;
+  color:#708178;
+  font-size:12px;
+  line-height:2;
+  max-width:470px;
+  margin:8px auto 0;
+}
+
+/* ---------------------------------------------------------
+   SERVICE LIST
+--------------------------------------------------------- */
+
+.service-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.service-card{
+  position:relative;
+  border-radius:28px;
+  padding:15px;
+
+  display:flex;
+  align-items:center;
+  gap:13px;
+
+  cursor:pointer;
+  overflow:hidden;
+
+  transition:.25s ease;
+}
+
+.service-card:active{
+  transform:scale(.98);
+}
+
+.service-card .service-icon{
+  width:59px;
+  height:59px;
+  flex:0 0 59px;
+
+  border-radius:21px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:30px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.78),
+      rgba(255,255,255,.28)
+    );
+
+  border:1px solid rgba(255,255,255,.76);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.95),
+    inset 0 -7px 16px rgba(51,81,65,.06),
+    0 14px 25px rgba(42,70,56,.13);
+}
+
+.service-info{
+  flex:1;
+  min-width:0;
+}
+
+.service-name{
+  font-size:14px;
+  font-weight:850;
+  margin-bottom:4px;
+}
+
+.service-short{
+  color:#718077;
+  font-size:11px;
+  line-height:1.7;
+}
+
+/* RIGHT ARROW */
+.chevron{
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+
+  border-radius:13px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:23px;
+  font-weight:500;
+
+  color:#527361;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.68),
+      rgba(255,255,255,.25)
+    );
+
+  border:1px solid rgba(255,255,255,.70);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.9),
+    0 7px 14px rgba(42,68,54,.10);
+
+  /* مهم: جهت فلش */
+  transform:none;
+}
+
+/* ---------------------------------------------------------
+   DETAIL CARD
+--------------------------------------------------------- */
+
+.detail-card{
+  border-radius:31px;
+  padding:21px 18px;
+}
+
+.detail-card h3{
+  margin:0 0 10px;
+  font-size:18px;
+}
+
+.detail-card .detail-text{
+  white-space:pre-line;
+  font-size:12.5px;
+  line-height:2.05;
+  color:#5e7066;
+}
+
+.price{
+  margin-top:15px;
+  display:inline-flex;
+  align-items:center;
+  padding:9px 13px;
+
+  border-radius:16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(68,111,89,.12),
+      rgba(255,255,255,.45)
+    );
+
+  border:1px solid rgba(74,112,92,.14);
+
+  color:#315c49;
+  font-size:13px;
+  font-weight:850;
+}
+
+/* ---------------------------------------------------------
+   BOTTOM APPOINTMENT
+--------------------------------------------------------- */
+
+.bottom-book{
+  margin-top:20px;
+}
+
+.book-button{
+  width:100%;
+  min-height:70px;
+
+  border:1px solid rgba(255,255,255,.38);
+  border-radius:25px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:13px;
+
+  color:white;
+  font-size:15px;
+  font-weight:850;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(56,103,80,.96),
+      rgba(42,83,65,.92)
+    );
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.34),
+    inset 0 -10px 22px rgba(17,52,38,.20),
+    0 25px 48px rgba(34,70,53,.25),
+    0 8px 18px rgba(34,70,53,.14);
+
+  cursor:pointer;
+  transition:.25s ease;
+}
+
+.book-button:active{
+  transform:scale(.975);
+}
+
+.book-icon{
+  width:45px;
+  height:45px;
+  border-radius:16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:23px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.38),
+      rgba(255,255,255,.12)
+    );
+
+  border:1px solid rgba(255,255,255,.35);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.45),
+    0 8px 15px rgba(16,48,35,.16);
+}
+
+/* ---------------------------------------------------------
+   FILTER STRIP
+--------------------------------------------------------- */
+
+.filter-wrap{
+  position:relative;
+  margin:0 0 17px;
+}
+
+.filters{
+  display:flex;
+  gap:9px;
+
+  overflow-x:auto;
+  overflow-y:hidden;
+
+  padding:5px 2px 9px;
+
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+
+  cursor:grab;
+}
+
+.filters::-webkit-scrollbar{
+  display:none;
+}
+
+.filter{
+  flex:0 0 auto;
+
+  min-height:42px;
+  padding:0 17px;
 
   border-radius:17px;
 
-  color:var(--green);
-
-  background:
-    rgba(255,255,255,.48);
-
-  border:
-    1px solid
-    rgba(255,255,255,.76);
-}
-
-.drawer-nav{
-
-  display:grid;
-
-  gap:9px;
-}
-
-.drawer-item{
-
-  width:100%;
-
-  min-height:56px;
-
   display:flex;
-
   align-items:center;
+  justify-content:center;
 
-  gap:11px;
+  white-space:nowrap;
 
-  padding:
-    0
-    13px;
+  font-size:11px;
+  font-weight:750;
 
-  border-radius:20px;
-
-  color:var(--green);
+  color:#597266;
 
   background:
-    rgba(255,255,255,.34);
-
-  border:
-    1px solid
-    rgba(255,255,255,.64);
-
-  text-align:right;
-}
-
-.drawer-item svg{
-
-  width:25px;
-  height:25px;
-}
-
-.drawer-item span{
-
-  flex:1;
-
-  font-size:12px;
-
-  font-weight:800;
-}
-
-/* =========================================================
-   BOTTOM SHEET
-========================================================= */
-
-.sheet-overlay{
-
-  position:fixed;
-
-  inset:0;
-
-  z-index:120;
-
-  background:
-    rgba(18,44,33,.25);
-
-  opacity:0;
-
-  pointer-events:none;
-
-  transition:.25s;
-}
-
-.sheet-overlay.show{
-
-  opacity:1;
-
-  pointer-events:auto;
-}
-
-.bottom-sheet{
-
-  position:fixed;
-
-  z-index:121;
-
-  left:50%;
-  bottom:0;
-
-  width:min(560px,100%);
-
-  transform:
-    translate(-50%,105%);
-
-  padding:
-    12px
-    17px
-    calc(env(safe-area-inset-bottom) + 19px);
-
-  border-radius:
-    33px
-    33px
-    0
-    0;
-
-  background:
-
     linear-gradient(
       145deg,
-      rgba(250,248,240,.93),
-      rgba(224,234,224,.84)
+      rgba(255,255,255,.65),
+      rgba(255,255,255,.28)
     );
 
-  border:
-    1px solid
-    rgba(255,255,255,.87);
+  border:1px solid rgba(255,255,255,.75);
+
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
 
   box-shadow:
-    0 -22px 65px
-    rgba(26,60,46,.19);
+    inset 0 1px 2px rgba(255,255,255,.90),
+    0 10px 21px rgba(45,72,58,.11);
+
+  cursor:pointer;
+}
+
+.filter.active{
+  color:white;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(57,102,80,.95),
+      rgba(44,83,65,.90)
+    );
+
+  border-color:rgba(255,255,255,.30);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.30),
+    0 15px 28px rgba(42,78,60,.20);
+}
+
+/* ---------------------------------------------------------
+   COURSE / EVENT
+--------------------------------------------------------- */
+
+.item-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.item-card{
+  border-radius:27px;
+  padding:16px;
+
+  cursor:pointer;
+  transition:.25s ease;
+}
+
+.item-card:active{
+  transform:scale(.985);
+}
+
+.item-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.item-icon{
+  width:54px;
+  height:54px;
+  flex:0 0 54px;
+
+  border-radius:19px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:28px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.72),
+      rgba(255,255,255,.26)
+    );
+
+  border:1px solid rgba(255,255,255,.76);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.93),
+    0 12px 22px rgba(44,70,56,.12);
+}
+
+.item-title{
+  font-size:14px;
+  font-weight:850;
+  line-height:1.65;
+}
+
+.item-short{
+  margin-top:3px;
+  font-size:10.8px;
+  color:#728178;
+  line-height:1.7;
+}
+
+.item-detail{
+  display:none;
+  margin-top:13px;
+  padding-top:13px;
+
+  border-top:1px solid rgba(64,94,77,.10);
+
+  font-size:12px;
+  color:#617168;
+  line-height:1.95;
+}
+
+.item-card.open .item-detail{
+  display:block;
+}
+
+.item-meta{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+
+  margin-top:12px;
+}
+
+.meta{
+  min-height:45px;
+  padding:8px 10px;
+
+  border-radius:15px;
+
+  background:
+    rgba(255,255,255,.28);
+
+  border:1px solid rgba(255,255,255,.48);
+
+  font-size:10.5px;
+  line-height:1.6;
+}
+
+.meta b{
+  display:block;
+  color:#3c604e;
+  font-size:10px;
+}
+
+/* ---------------------------------------------------------
+   FAQ
+--------------------------------------------------------- */
+
+.faq-categories{
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+}
+
+.faq-category{
+  border-radius:27px;
+  overflow:hidden;
+}
+
+.faq-category-head{
+  min-height:67px;
+  padding:12px 15px;
+
+  display:flex;
+  align-items:center;
+
+  cursor:pointer;
+}
+
+.faq-category-icon{
+  width:44px;
+  height:44px;
+
+  border-radius:16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.67),
+      rgba(255,255,255,.24)
+    );
+
+  border:1px solid rgba(255,255,255,.65);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.85),
+    0 8px 17px rgba(43,70,55,.10);
+}
+
+.faq-category-name{
+  flex:1;
+  margin-right:11px;
+
+  font-size:13px;
+  font-weight:850;
+}
+
+.faq-arrow{
+  width:34px;
+  height:34px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:13px;
+
+  font-size:20px;
+
+  color:#557463;
+
+  background:rgba(255,255,255,.34);
+  border:1px solid rgba(255,255,255,.55);
+
+  transition:.25s ease;
+}
+
+.faq-category.open .faq-arrow{
+  transform:rotate(90deg);
+}
+
+.faq-list{
+  display:none;
+  padding:0 12px 12px;
+}
+
+.faq-category.open .faq-list{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.faq-question{
+  border-radius:18px;
+
+  padding:12px 13px;
+
+  background:
+    rgba(255,255,255,.25);
+
+  border:1px solid rgba(255,255,255,.46);
+
+  cursor:pointer;
+}
+
+.faq-question-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  font-size:11.5px;
+  line-height:1.8;
+  font-weight:700;
+}
+
+.faq-question-title .qmark{
+  color:#62826f;
+  font-weight:900;
+}
+
+.faq-answer{
+  display:none;
+
+  margin-top:9px;
+  padding-top:9px;
+
+  border-top:1px solid rgba(60,90,72,.09);
+
+  font-size:11px;
+  line-height:1.9;
+  color:#697a71;
+
+  white-space:pre-line;
+}
+
+.faq-question.open .faq-answer{
+  display:block;
+}
+
+/* ---------------------------------------------------------
+   CONTACT / HOURS
+--------------------------------------------------------- */
+
+.info-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.info-row{
+  min-height:62px;
+  border-radius:22px;
+  padding:10px 13px;
+
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.info-icon{
+  width:43px;
+  height:43px;
+  border-radius:15px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:21px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.70),
+      rgba(255,255,255,.25)
+    );
+
+  border:1px solid rgba(255,255,255,.70);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.9),
+    0 8px 16px rgba(42,69,55,.10);
+}
+
+.info-text{
+  flex:1;
+  font-size:12px;
+  line-height:1.75;
+}
+
+.info-text b{
+  display:block;
+  font-size:12.5px;
+}
+
+/* ---------------------------------------------------------
+   BACK BUTTON
+--------------------------------------------------------- */
+
+.back-button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  margin:19px auto 0;
+
+  min-height:48px;
+  padding:0 20px;
+
+  width:max-content;
+  min-width:130px;
+
+  border-radius:18px;
+
+  color:#557264;
+  font-size:12px;
+  font-weight:800;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.60),
+      rgba(255,255,255,.25)
+    );
+
+  border:1px solid rgba(255,255,255,.70);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.9),
+    0 11px 23px rgba(43,70,56,.11);
+
+  cursor:pointer;
+}
+
+/* ---------------------------------------------------------
+   SIDE DRAWER
+--------------------------------------------------------- */
+
+.drawer-overlay{
+  position:fixed;
+  inset:0;
+
+  background:
+    rgba(38,57,48,.20);
+
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:.28s ease;
+
+  z-index:100;
+}
+
+.drawer-overlay.show{
+  opacity:1;
+  visibility:visible;
+}
+
+.drawer{
+  position:absolute;
+  top:10px;
+  bottom:10px;
+  left:10px;
+
+  width:min(340px,calc(100vw - 20px));
+
+  border-radius:34px;
+
+  transform:translateX(-115%);
+
+  transition:
+    transform .38s cubic-bezier(.22,.8,.22,1);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.78),
+      rgba(245,243,235,.54)
+    );
+
+  border:1px solid rgba(255,255,255,.86);
 
   backdrop-filter:
     blur(35px)
-    saturate(145%);
+    saturate(155%);
 
   -webkit-backdrop-filter:
     blur(35px)
-    saturate(145%);
+    saturate(155%);
 
-  transition:
-    .32s
-    cubic-bezier(.2,.8,.2,1);
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.98),
+    inset 0 -15px 40px rgba(55,82,67,.08),
+    30px 0 75px rgba(30,54,43,.23),
+    0 30px 70px rgba(30,54,43,.18);
+
+  overflow:hidden;
 }
 
-.bottom-sheet.show{
-
-  transform:
-    translate(-50%,0);
+.drawer-overlay.show .drawer{
+  transform:translateX(0);
 }
 
-.sheet-handle{
+.drawer::before{
+  content:"";
+  position:absolute;
+  left:-40%;
+  top:-15%;
+  width:70%;
+  height:130%;
 
-  width:45px;
-  height:5px;
-
-  margin:
-    0
-    auto
-    17px;
-
-  border-radius:10px;
+  transform:rotate(18deg);
 
   background:
-    rgba(35,79,59,.18);
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.60),
+      transparent
+    );
+
+  filter:blur(14px);
+  pointer-events:none;
 }
 
-.sheet-title{
+.drawer-head{
+  position:relative;
 
-  text-align:center;
-
-  color:var(--green);
-
-  font-size:16px;
-
-  font-weight:900;
-
-  margin-bottom:14px;
-}
-
-.sheet-list{
-
-  display:grid;
-
-  gap:9px;
-}
-
-.sheet-link{
-
-  width:100%;
-
-  min-height:56px;
+  min-height:116px;
+  padding:22px 19px;
 
   display:flex;
-
   align-items:center;
+  gap:12px;
 
-  gap:11px;
+  border-bottom:1px solid rgba(68,96,80,.09);
+}
 
-  padding:
-    0
-    13px;
+.drawer-logo{
+  width:64px;
+  height:64px;
 
-  border-radius:20px;
+  border-radius:22px;
 
-  color:var(--green);
+  padding:7px;
 
   background:
     rgba(255,255,255,.48);
 
-  border:
-    1px solid
-    rgba(255,255,255,.78);
+  border:1px solid rgba(255,255,255,.75);
 
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.9),
+    0 13px 25px rgba(42,69,55,.13);
+}
+
+.drawer-logo img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:50%;
+}
+
+.drawer-brand{
+  flex:1;
+}
+
+.drawer-brand b{
+  display:block;
+  font-size:16px;
+}
+
+.drawer-brand span{
+  display:block;
+  margin-top:3px;
+  font-size:10.5px;
+  color:#718077;
+}
+
+.drawer-close{
+  width:39px;
+  height:39px;
+
+  border-radius:14px;
+
+  border:1px solid rgba(255,255,255,.72);
+
+  background:rgba(255,255,255,.40);
+
+  font-size:23px;
+  color:#587366;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+}
+
+.drawer-nav{
+  position:relative;
+  padding:14px 12px;
+
+  overflow-y:auto;
+  height:calc(100% - 116px);
+}
+
+.drawer-item{
+  width:100%;
+  min-height:62px;
+
+  margin-bottom:8px;
+
+  border:1px solid transparent;
+  border-radius:21px;
+
+  background:transparent;
+
+  display:flex;
+  align-items:center;
+
+  padding:8px 10px;
+
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.drawer-item:hover,
+.drawer-item:active{
+  background:
+    rgba(255,255,255,.45);
+
+  border-color:
+    rgba(255,255,255,.65);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.7),
+    0 10px 22px rgba(44,71,57,.08);
+}
+
+.drawer-item-icon{
+  width:46px;
+  height:46px;
+
+  border-radius:17px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:23px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.67),
+      rgba(255,255,255,.24)
+    );
+
+  border:1px solid rgba(255,255,255,.70);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.9),
+    0 8px 17px rgba(43,69,55,.10);
+}
+
+.drawer-item-text{
+  flex:1;
   text-align:right;
+  margin-right:12px;
 }
 
-.sheet-link svg{
-
-  width:25px;
-  height:25px;
+.drawer-item-text b{
+  display:block;
+  font-size:12.5px;
 }
 
-.sheet-link span{
-
-  font-size:12px;
-
-  font-weight:800;
+.drawer-item-text span{
+  display:block;
+  font-size:9.8px;
+  color:#7a8981;
+  margin-top:2px;
 }
 
-/* =========================================================
+/* arrow is ALWAYS on right */
+.drawer-chevron{
+  order:3;
+
+  width:31px;
+  height:31px;
+
+  border-radius:12px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:20px;
+
+  color:#5a7968;
+
+  background:
+    rgba(255,255,255,.35);
+
+  border:1px solid rgba(255,255,255,.52);
+
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.8),
+    0 6px 12px rgba(44,70,56,.08);
+}
+
+/* ---------------------------------------------------------
    FOOTER
-========================================================= */
+--------------------------------------------------------- */
 
 .footer{
-
-  position:relative;
-
-  z-index:40;
-
-  margin:
-    28px
-    8px
-    0;
-
-  padding:
-    17px
-    9px
-    7px;
-
-  border-top:
-    1px solid
-    rgba(35,79,59,.10);
+  margin:34px 5px 0;
+  padding:18px 10px 10px;
 
   text-align:center;
 
-  color:#7e8d85;
+  border-top:1px solid rgba(67,95,80,.10);
 
-  font-size:9.5px;
-
-  line-height:1.9;
-}
-
-.loading{
-
-  padding:
-    40px
-    15px;
-
-  text-align:center;
-
-  color:var(--muted);
-
-  font-size:12px;
-}
-
-.empty{
-
-  padding:
-    29px
-    15px;
-
-  text-align:center;
-
-  color:var(--muted);
-
-  font-size:12px;
-
+  color:#7a8880;
+  font-size:9px;
   line-height:2;
+
+  opacity:.88;
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
+/* ---------------------------------------------------------
+   TOAST
+--------------------------------------------------------- */
+
+.toast{
+  position:fixed;
+
+  left:50%;
+  bottom:22px;
+
+  transform:
+    translate(-50%,20px)
+    scale(.96);
+
+  opacity:0;
+  visibility:hidden;
+
+  width:min(90%,390px);
+
+  padding:13px 16px;
+
+  border-radius:19px;
+
+  color:#fff;
+  text-align:center;
+
+  font-size:11px;
+  line-height:1.7;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(45,77,61,.94),
+      rgba(36,65,51,.92)
+    );
+
+  border:1px solid rgba(255,255,255,.28);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.20),
+    0 22px 50px rgba(25,51,39,.28);
+
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+
+  transition:.3s ease;
+
+  z-index:200;
+}
+
+.toast.show{
+  opacity:1;
+  visibility:visible;
+  transform:
+    translate(-50%,0)
+    scale(1);
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+--------------------------------------------------------- */
 
 @media(max-width:380px){
 
-  .home-hero{
-    min-height:385px;
+  .hero{
+    height:315px;
   }
 
-  .home-logo{
-
-    width:147px;
-    height:147px;
+  .logo-wrap{
+    width:150px;
+    height:150px;
+    top:55px;
   }
 
-  .home-copy{
-
-    top:218px;
+  .logo-image{
+    width:104px;
+    height:104px;
   }
 
-  .home-copy h1{
-
-    font-size:27px;
+  .hero-content{
+    top:211px;
   }
 
   .home-card{
-
-    min-height:119px;
-
-    padding:
-      12px
-      9px;
-  }
-
-  .icon-glass{
-
-    width:66px;
-    height:66px;
-
-    flex-basis:66px;
-  }
-
-  .icon-glass svg{
-
-    width:40px;
-    height:40px;
+    min-height:116px;
   }
 }
 
+@media(min-width:700px){
+
+  .content{
+    padding-left:24px;
+    padding-right:24px;
+  }
+
+  .home-grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+}
 </style>
 </head>
 
 <body>
 
-<!-- =======================================================
-     SVG ICON LIBRARY
-======================================================= -->
-
-<svg width="0" height="0" style="position:absolute">
-
-<defs>
-
-<symbol id="i-menu" viewBox="0 0 24 24">
-  <path
-    d="M4 7h16M4 12h16M4 17h16"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.8"
-    stroke-linecap="round"/>
-</symbol>
-
-<symbol id="i-close" viewBox="0 0 24 24">
-  <path
-    d="M6 6l12 12M18 6L6 18"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.8"
-    stroke-linecap="round"/>
-</symbol>
-
-<symbol id="i-chevron" viewBox="0 0 24 24">
-  <path
-    d="M9 5l7 7-7 7"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.8"
-    stroke-linecap="round"
-    stroke-linejoin="round"/>
-</symbol>
-
-<symbol id="i-back" viewBox="0 0 24 24">
-  <path
-    d="M15 5l-7 7 7 7"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"/>
-</symbol>
-
-<symbol id="i-calendar" viewBox="0 0 24 24">
-  <rect
-    x="4"
-    y="5"
-    width="16"
-    height="15"
-    rx="3"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.6"/>
-  <path
-    d="M8 3v4M16 3v4M4 9h16"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.6"
-    stroke-linecap="round"/>
-  <path
-    d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2.4"
-    stroke-linecap="round"/>
-</symbol>
-
-<symbol id="i-crown" viewBox="0 0 24 24">
-  <path
-    d="M4 7l4 4 4-7 4 7 4-4-2 11H6L4 7z"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.45"
-    stroke-linejoin="round"/>
-  <path
-    d="M6 18h12"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.45"
-    stroke-linecap="round"/>
-</symbol>
-
-<symbol id="i-lotus" viewBox="0 0 24 24">
-  <path
-    d="M12 19c-5 0-8-2-8-5 3 0 5 .7 8 3 3-2.3 5-3 8-3 0 3-3 5-8 5z"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.45"/>
-  <path
-    d="M12 17c-2.4-2.2-4-5-2.8-9.2C12 9.4 13 12 12 17zM12 17c2.4-2.2 4-5 2.8-9.2C12 9.4 11 12 12 17z"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.45"/>
-</symbol>
-
-<symbol id="i-candle" viewBox="0 0 24 24">
-  <path
-    d="M8 10h8v10H8z"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"/>
-  <path
-    d="M12 10c-1.8-2-.2-3.4.2-5 1.7 1.4 2 2.9.8 5"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linecap="round"/>
-  <path
-    d="M6 20h12"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linecap="round"/>
-</symbol>
-
-<symbol id="i-brain" viewBox="0 0 24 24">
-  <path
-    d="M9 5.5A3.5 3.5 0 0 0 5.5 9c0 .5.1 1 .3 1.4A3.8 3.8 0 0 0 7 17.7c.5 0 1-.1 1.4-.3A3.5 3.5 0 0 0 15 19a3.5 3.5 0 0 0 3.5-3.5c0-.5-.1-1-.3-1.4A3.8 3.8 0 0 0 17 7.3c-.5 0-1 .1-1.4.3A3.5 3.5 0 0 0 9 5.5z"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"/>
-  <path
-    d="M9 9v6M12 8v8M15 10v4M7 12h3M14 12h3"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.4"
-    stroke-linecap="round"/>
-</symbol>
-
-<symbol id="i-cap" viewBox="0 0 24 24">
-  <path
-    d="M3 9l9-4 9 4-9 4-9-4z"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linejoin="round"/>
-  <path
-    d="M6 11v5c2 2 10 2 12 0v-5M21 9v6"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linecap="round"/>
-</symbol>
-
-<symbol id="i-ticket" viewBox="0 0 24 24">
-  <path
-    d="M4 7.5A2.5 2.5 0 0 0 6.5 5h11A2.5 2.5 0 0 0 20 7.5v1.2a2.2 2.2 0 0 0 0 4.6v1.2A2.5 2.5 0 0 0 17.5 17h-11A2.5 2.5 0 0 0 4 14.5v-1.2a2.2 2.2 0 0 0 0-4.6V7.5z"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"/>
-  <path
-    d="M12 7v10"
-    stroke="currentColor"
-    stroke-width="1.4"
-    stroke-dasharray="2 2"/>
-</symbol>
-
-<symbol id="i-chat" viewBox="0 0 24 24">
-  <path
-    d="M5 6.5A3.5 3.5 0 0 1 8.5 3h7A3.5 3.5 0 0 1 19 6.5v6a3.5 3.5 0 0 1-3.5 3.5H10l-4 3v-3.3A3.5 3.5 0 0 1 5 12.5z"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"/>
-  <path
-    d="M9 8h6M9 11h4"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linecap="round"/>
-</symbol>
-
-<symbol id="i-help" viewBox="0 0 24 24">
-  <circle
-    cx="12"
-    cy="12"
-    r="8.5"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"/>
-  <path
-    d="M9.5 9a2.6 2.6 0 1 1 4.6 1.7c-.8.9-2.1 1.2-2.1 2.7M12 16.6h.01"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.6"
-    stroke-linecap="round"/>
-</symbol>
-
-<symbol id="i-clock" viewBox="0 0 24 24">
-  <circle
-    cx="12"
-    cy="12"
-    r="8.5"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"/>
-  <path
-    d="M12 7v5l3.2 2"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"/>
-</symbol>
-
-<symbol id="i-send" viewBox="0 0 24 24">
-  <path
-    d="M20 4L4 11l6 2 2 6 8-15z"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linejoin="round"/>
-  <path
-    d="M10 13l4-4"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linecap="round"/>
-</symbol>
-
-<symbol id="i-instagram" viewBox="0 0 24 24">
-  <rect
-    x="4"
-    y="4"
-    width="16"
-    height="16"
-    rx="4"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"/>
-  <circle
-    cx="12"
-    cy="12"
-    r="3.5"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"/>
-  <path
-    d="M17.2 6.8h.01"
-    stroke="currentColor"
-    stroke-width="2.4"
-    stroke-linecap="round"/>
-</symbol>
-
-<symbol id="i-phone" viewBox="0 0 24 24">
-  <path
-    d="M7 4l3 2-1.5 3.2a13 13 0 0 0 6.3 6.3L18 14l2 3c-1 2-3.2 3-5.1 2.4C9.5 17.8 6.2 14.5 4.6 9.1 4 7.2 5 5 7 4z"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linejoin="round"/>
-</symbol>
-
-<symbol id="i-home" viewBox="0 0 24 24">
-  <path
-    d="M4 11l8-7 8 7v8H5v-8"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"
-    stroke-linejoin="round"/>
-  <path
-    d="M9 19v-5h6v5"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="1.5"/>
-</symbol>
-
-</defs>
-</svg>
-
 <div class="app">
 
-<!-- =======================================================
-     HOME
-======================================================= -->
+  <!-- =====================================================
+       DRAWER
+  ====================================================== -->
 
-<section
-  id="page-home"
-  class="page active">
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer(event)">
 
-  <div class="home-hero">
+    <aside class="drawer" id="drawer">
 
-    <div class="header-controls">
+      <div class="drawer-head">
 
-      <button
-        class="glass-button"
-        onclick="openDrawer()"
-        aria-label="منو">
+        <div class="drawer-logo">
+          <img
+            src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
+            alt="کائنات‌چی">
+        </div>
 
-        <svg>
-          <use href="#i-menu"></use>
-        </svg>
+        <div class="drawer-brand">
+          <b>کائنات‌چی</b>
+          <span>شناخت · آرامش · رشد درونی</span>
+        </div>
 
-      </button>
+        <button
+          class="drawer-close"
+          onclick="closeDrawer()"
+          aria-label="بستن">
+          ×
+        </button>
 
-    </div>
+      </div>
 
+      <nav class="drawer-nav">
 
-    <!-- BOTANICAL LEFT -->
+        <button class="drawer-item" onclick="goHome()">
 
-    <svg
-      class="home-flower left"
-      viewBox="0 0 240 180">
+          <div class="drawer-chevron">›</div>
 
-      <path
-        d="M12 160C55 128 67 94 91 55c18-29 39-38 70-43"/>
+          <div class="drawer-item-icon">⌂</div>
 
-      <ellipse
-        cx="55"
-        cy="123"
-        rx="11"
-        ry="29"
-        transform="rotate(-48 55 123)"/>
+          <div class="drawer-item-text">
+            <b>خانه</b>
+            <span>صفحه اصلی کائنات‌چی</span>
+          </div>
 
-      <ellipse
-        cx="72"
-        cy="95"
-        rx="10"
-        ry="27"
-        transform="rotate(43 72 95)"/>
-
-      <ellipse
-        cx="91"
-        cy="68"
-        rx="10"
-        ry="27"
-        transform="rotate(-48 91 68)"/>
-
-      <ellipse
-        cx="117"
-        cy="43"
-        rx="9"
-        ry="25"
-        transform="rotate(45 117 43)"/>
-
-      <ellipse
-        class="flower"
-        cx="147"
-        cy="31"
-        rx="9"
-        ry="15"
-        transform="rotate(35 147 31)"/>
-
-      <ellipse
-        class="flower"
-        cx="161"
-        cy="25"
-        rx="8"
-        ry="13"
-        transform="rotate(-25 161 25)"/>
-
-    </svg>
+        </button>
 
 
-    <!-- BOTANICAL RIGHT -->
+        <button class="drawer-item" onclick="openPage('services')">
 
-    <svg
-      class="home-flower right"
-      viewBox="0 0 240 180">
+          <div class="drawer-chevron">›</div>
 
-      <path
-        d="M12 160C55 128 67 94 91 55c18-29 39-38 70-43"/>
+          <div class="drawer-item-icon">✦</div>
 
-      <ellipse
-        cx="55"
-        cy="123"
-        rx="11"
-        ry="29"
-        transform="rotate(-48 55 123)"/>
+          <div class="drawer-item-text">
+            <b>خدمات</b>
+            <span>مشاهده خدمات کائنات‌چی</span>
+          </div>
 
-      <ellipse
-        cx="72"
-        cy="95"
-        rx="10"
-        ry="27"
-        transform="rotate(43 72 95)"/>
-
-      <ellipse
-        cx="91"
-        cy="68"
-        rx="10"
-        ry="27"
-        transform="rotate(-48 91 68)"/>
-
-      <ellipse
-        cx="117"
-        cy="43"
-        rx="9"
-        ry="25"
-        transform="rotate(45 117 43)"/>
-
-      <ellipse
-        class="flower"
-        cx="147"
-        cy="31"
-        rx="9"
-        ry="15"
-        transform="rotate(35 147 31)"/>
-
-      <ellipse
-        class="flower"
-        cx="161"
-        cy="25"
-        rx="8"
-        ry="13"
-        transform="rotate(-25 161 25)"/>
-
-    </svg>
+        </button>
 
 
-    <div class="home-logo">
+        <button class="drawer-item" onclick="openPage('companions')">
 
-      <img
-        src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
-        alt="کائنات‌چی">
+          <div class="drawer-chevron">›</div>
 
-    </div>
+          <div class="drawer-item-icon">♕</div>
+
+          <div class="drawer-item-text">
+            <b>همراهان کائنات‌چی</b>
+            <span>ورود به پنل همراهان</span>
+          </div>
+
+        </button>
 
 
-    <div class="home-copy">
+        <button class="drawer-item" onclick="openPage('courses')">
 
-      <h1>
-        کائنات‌چی
-      </h1>
+          <div class="drawer-chevron">›</div>
 
-      <p class="tagline">
-        همراه شما در مسیر آرامش، شناخت و رشد درونی
-      </p>
+          <div class="drawer-item-icon">◇</div>
 
-      <p class="intro">
-        ✨ خدمات تخصصی برای شناخت بهتر خود، آرامش ذهن و تجربه‌ای متفاوت از دنیای درون
-      </p>
+          <div class="drawer-item-text">
+            <b>کلاس‌ها</b>
+            <span>دوره‌ها و آموزش‌ها</span>
+          </div>
 
-    </div>
+        </button>
 
+
+        <button class="drawer-item" onclick="openPage('events')">
+
+          <div class="drawer-chevron">›</div>
+
+          <div class="drawer-item-icon">✧</div>
+
+          <div class="drawer-item-text">
+            <b>ایونت‌ها</b>
+            <span>برنامه‌های ویژه</span>
+          </div>
+
+        </button>
+
+
+        <button class="drawer-item" onclick="openPage('faq')">
+
+          <div class="drawer-chevron">›</div>
+
+          <div class="drawer-item-icon">?</div>
+
+          <div class="drawer-item-text">
+            <b>سؤالات متداول</b>
+            <span>پاسخ پرسش‌های شما</span>
+          </div>
+
+        </button>
+
+
+        <button class="drawer-item" onclick="openPage('contact')">
+
+          <div class="drawer-chevron">›</div>
+
+          <div class="drawer-item-icon">♡</div>
+
+          <div class="drawer-item-text">
+            <b>راه‌های ارتباطی</b>
+            <span>ارتباط با کائنات‌چی</span>
+          </div>
+
+        </button>
+
+
+        <button class="drawer-item" onclick="openPage('hours')">
+
+          <div class="drawer-chevron">›</div>
+
+          <div class="drawer-item-icon">◷</div>
+
+          <div class="drawer-item-text">
+            <b>ساعات کاری</b>
+            <span>زمان پاسخ‌گویی</span>
+          </div>
+
+        </button>
+
+      </nav>
+
+    </aside>
   </div>
 
 
-  <div class="home-content">
+  <!-- =====================================================
+       HOME
+  ====================================================== -->
 
-    <div class="home-grid">
+  <section class="page active" id="page-home">
+
+    <header class="hero">
+
+      <div class="topbar">
+
+        <!-- LEFT HAMBURGER -->
+        <button
+          class="menu-button"
+          onclick="openDrawer()"
+          aria-label="منو">
+
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+
+        </button>
+
+      </div>
 
 
-      <!-- SERVICES -->
+      <!-- JAPANESE BRANCH -->
+      <svg
+        class="botanical branch-home"
+        viewBox="0 0 190 175"
+        aria-hidden="true">
 
-      <button
-        class="home-card glass"
-        onclick="showPage('page-services')">
+        <path
+          class="branch-path"
+          d="M185 158 C145 132 139 100 115 74 C94 51 62 40 28 16"/>
 
-        <div class="icon-glass">
+        <path
+          class="branch-path"
+          d="M128 90 C142 68 154 50 169 29"/>
 
-          <svg>
-            <use href="#i-lotus"></use>
-          </svg>
+        <path
+          class="branch-path"
+          d="M101 60 C89 45 80 28 77 8"/>
+
+        <ellipse class="leaf dark"
+          cx="157" cy="52" rx="13" ry="5"
+          transform="rotate(-35 157 52)"/>
+
+        <ellipse class="leaf"
+          cx="174" cy="29" rx="13" ry="5"
+          transform="rotate(20 174 29)"/>
+
+        <ellipse class="leaf"
+          cx="138" cy="74" rx="12" ry="5"
+          transform="rotate(28 138 74)"/>
+
+        <ellipse class="leaf dark"
+          cx="109" cy="42" rx="13" ry="5"
+          transform="rotate(-38 109 42)"/>
+
+        <ellipse class="leaf"
+          cx="83" cy="28" rx="12" ry="5"
+          transform="rotate(20 83 28)"/>
+
+        <ellipse class="leaf light"
+          cx="74" cy="9" rx="11" ry="5"
+          transform="rotate(-30 74 9)"/>
+
+        <ellipse class="leaf"
+          cx="49" cy="27" rx="13" ry="5"
+          transform="rotate(-12 49 27)"/>
+
+      </svg>
+
+
+      <div class="logo-wrap">
+
+        <img
+          class="logo-image"
+          src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
+          alt="لوگوی کائنات‌چی">
+
+      </div>
+
+
+      <div class="hero-content">
+
+        <h1 class="hero-title">کائنات‌چی</h1>
+
+        <div class="hero-subtitle">
+          همراه شما در مسیر آرامش، شناخت و رشد درونی
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <main class="content">
+
+      <div
+        class="action-card primary"
+        onclick="openAppointment()">
+
+        <div class="action-icon">⌑</div>
+
+        <div class="action-text">
+
+          <div class="action-title">
+            دریافت نوبت
+          </div>
+
+          <div class="action-sub">
+            انتخاب خدمت، روز و ساعت مناسب
+          </div>
 
         </div>
 
-        <h3>
-          خدمات
-        </h3>
+        <div class="chevron">›</div>
 
-        <p>
-          مشاهده خدمات تخصصی
+      </div>
+
+
+      <div class="section-title">
+        <span class="dot"></span>
+        <h2>کائنات‌چی</h2>
+      </div>
+
+
+      <div class="home-grid">
+
+        <div
+          class="home-card glass"
+          onclick="openPage('services')">
+
+          <div class="big-icon">✦</div>
+
+          <strong>خدمات</strong>
+
+          <span>
+            خدمات تخصصی کائنات‌چی
+          </span>
+
+        </div>
+
+
+        <div
+          class="home-card glass"
+          onclick="openPage('companions')">
+
+          <div class="big-icon">♕</div>
+
+          <strong>همراهان کائنات‌چی</strong>
+
+          <span>
+            ورود به پنل همراهان
+          </span>
+
+        </div>
+
+
+        <div
+          class="home-card glass"
+          onclick="openPage('courses')">
+
+          <div class="big-icon">◇</div>
+
+          <strong>کلاس‌ها</strong>
+
+          <span>
+            آموزش و دوره‌ها
+          </span>
+
+        </div>
+
+
+        <div
+          class="home-card glass"
+          onclick="openPage('events')">
+
+          <div class="big-icon">✧</div>
+
+          <strong>ایونت‌ها</strong>
+
+          <span>
+            برنامه‌های ویژه
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="home-card glass"
+        style="margin-top:13px; min-height:82px; flex-direction:row; gap:13px;"
+        onclick="openPage('faq')">
+
+        <div class="big-icon" style="margin:0; flex:0 0 55px;">
+          ?
+        </div>
+
+        <div style="text-align:right; flex:1;">
+          <strong>سؤالات متداول</strong>
+          <span style="display:block;">
+            پاسخ پرسش‌های شما درباره خدمات و نوبت
+          </span>
+        </div>
+
+        <div class="chevron">›</div>
+
+      </div>
+
+
+      <div class="home-grid" style="margin-top:13px;">
+
+        <div
+          class="home-card glass"
+          onclick="openPage('contact')">
+
+          <div class="big-icon">♡</div>
+
+          <strong>راه‌های ارتباطی</strong>
+
+          <span>
+            ارتباط با کائنات‌چی
+          </span>
+
+        </div>
+
+
+        <div
+          class="home-card glass"
+          onclick="openPage('hours')">
+
+          <div class="big-icon">◷</div>
+
+          <strong>ساعات کاری</strong>
+
+          <span>
+            زمان پاسخ‌گویی
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer">
+        © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
+        هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
+        ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
+      </div>
+
+    </main>
+
+  </section>
+
+
+  <!-- =====================================================
+       SERVICES
+  ====================================================== -->
+
+  <section class="page" id="page-services">
+
+    <header class="hero" style="height:270px;">
+
+      <div class="topbar">
+
+        <button
+          class="menu-button"
+          onclick="openDrawer()">
+
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+
+        </button>
+
+      </div>
+
+
+      <svg
+        class="botanical branch-internal"
+        viewBox="0 0 150 135">
+
+        <path
+          class="branch-path"
+          d="M145 120 C113 101 104 75 86 55 C69 36 43 29 15 12"/>
+
+        <path
+          class="branch-path"
+          d="M98 69 C110 52 120 38 133 20"/>
+
+        <ellipse class="leaf"
+          cx="120" cy="39" rx="11" ry="4"
+          transform="rotate(-35 120 39)"/>
+
+        <ellipse class="leaf"
+          cx="136" cy="19" rx="11" ry="4"
+          transform="rotate(20 136 19)"/>
+
+        <ellipse class="leaf"
+          cx="91" cy="48" rx="10" ry="4"
+          transform="rotate(25 91 48)"/>
+
+        <ellipse class="leaf light"
+          cx="64" cy="30" rx="10" ry="4"
+          transform="rotate(-30 64 30)"/>
+
+      </svg>
+
+
+      <div class="logo-wrap" style="width:116px;height:116px;top:45px;">
+
+        <img
+          class="logo-image"
+          style="width:78px;height:78px;"
+          src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
+          alt="کائنات‌چی">
+
+      </div>
+
+    </header>
+
+
+    <main class="content">
+
+      <div class="internal-head">
+
+        <h1 class="internal-title">
+          خدمات کائنات‌چی
+        </h1>
+
+        <p class="internal-description">
+          خدمات تخصصی برای شناخت بهتر خود،
+          آرامش ذهن و تجربه‌ای متفاوت از دنیای درون.
         </p>
 
+      </div>
+
+
+      <div id="servicesList" class="service-list"></div>
+
+
+      <div class="bottom-book">
+        <button
+          class="book-button"
+          onclick="openAppointment()">
+
+          <span class="book-icon">⌑</span>
+          <span>دریافت نوبت</span>
+          <span style="font-size:24px;">›</span>
+
+        </button>
+      </div>
+
+
+      <button
+        class="back-button"
+        onclick="goHome()">
+        ← بازگشت به خانه
       </button>
 
 
-      <!-- VIP -->
+      <div class="footer">
+        © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
+        هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
+        ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
+      </div>
+
+    </main>
+
+  </section>
+
+
+  <!-- =====================================================
+       SERVICE DETAIL
+  ====================================================== -->
+
+  <section class="page" id="page-service-detail">
+
+    <header class="hero" style="height:235px;">
+
+      <div class="topbar">
+
+        <button
+          class="menu-button"
+          onclick="openDrawer()">
+
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+
+        </button>
+
+      </div>
+
+
+      <div class="logo-wrap"
+           style="width:100px;height:100px;top:43px;">
+
+        <img
+          class="logo-image"
+          style="width:68px;height:68px;"
+          src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
+          alt="کائنات‌چی">
+
+      </div>
+
+    </header>
+
+
+    <main class="content">
+
+      <div id="serviceDetailContent"></div>
+
+      <div class="bottom-book">
+        <button
+          class="book-button"
+          onclick="openAppointment()">
+
+          <span class="book-icon">⌑</span>
+          <span>دریافت نوبت</span>
+          <span style="font-size:24px;">›</span>
+
+        </button>
+      </div>
+
 
       <button
-        class="home-card glass"
-        onclick="openVIP()">
+        class="back-button"
+        onclick="openPage('services')">
+        ← بازگشت به خدمات
+      </button>
 
-        <div class="icon-glass">
 
-          <svg>
-            <use href="#i-crown"></use>
-          </svg>
+      <div class="footer">
+        © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
+        هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
+        ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
+      </div>
 
+    </main>
+
+  </section>
+
+
+  <!-- =====================================================
+       COMPANIONS
+  ====================================================== -->
+
+  <section class="page" id="page-companions">
+
+    <header class="hero" style="height:260px;">
+
+      <div class="topbar">
+
+        <button
+          class="menu-button"
+          onclick="openDrawer()">
+
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+
+        </button>
+
+      </div>
+
+
+      <svg
+        class="botanical branch-internal"
+        viewBox="0 0 150 135">
+
+        <path
+          class="branch-path"
+          d="M145 120 C113 101 104 75 86 55 C69 36 43 29 15 12"/>
+
+        <ellipse class="leaf dark"
+          cx="117" cy="39" rx="11" ry="4"
+          transform="rotate(-35 117 39)"/>
+
+        <ellipse class="leaf"
+          cx="87" cy="48" rx="10" ry="4"
+          transform="rotate(25 87 48)"/>
+
+        <ellipse class="leaf"
+          cx="63" cy="30" rx="10" ry="4"
+          transform="rotate(-30 63 30)"/>
+
+      </svg>
+
+
+      <div class="logo-wrap"
+           style="width:120px;height:120px;top:43px;">
+
+        <img
+          class="logo-image"
+          style="width:82px;height:82px;"
+          src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
+          alt="کائنات‌چی">
+
+      </div>
+
+    </header>
+
+
+    <main class="content">
+
+      <div class="detail-card glass">
+
+        <h3>✨ همراهان کائنات‌چی</h3>
+
+        <div class="detail-text">
+          فضایی اختصاصی برای همراهان کائنات‌چی و دسترسی به امکانات و خدمات ویژه.
+
+          برای ورود به پنل همراهان، از دکمه زیر استفاده کنید.
         </div>
 
-        <h3>
-          همراهان کائنات‌چی
-        </h3>
+      </div>
 
-        <p>
-          ورود به بخش همراهان
+
+      <div class="bottom-book">
+
+        <button
+          class="book-button"
+          onclick="openVIP()">
+
+          <span class="book-icon">♕</span>
+          <span>ورود به پنل همراهان</span>
+          <span style="font-size:24px;">›</span>
+
+        </button>
+
+      </div>
+
+
+      <button
+        class="back-button"
+        onclick="goHome()">
+        ← بازگشت به خانه
+      </button>
+
+
+      <div class="footer">
+        © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
+        هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
+        ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
+      </div>
+
+    </main>
+
+  </section>
+
+
+  <!-- =====================================================
+       COURSES
+  ====================================================== -->
+
+  <section class="page" id="page-courses">
+
+    <header class="hero" style="height:260px;">
+
+      <div class="topbar">
+
+        <button
+          class="menu-button"
+          onclick="openDrawer()">
+
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+
+        </button>
+
+      </div>
+
+
+      <div class="logo-wrap"
+           style="width:112px;height:112px;top:43px;">
+
+        <img
+          class="logo-image"
+          style="width:76px;height:76px;"
+          src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
+          alt="کائنات‌چی">
+
+      </div>
+
+    </header>
+
+
+    <main class="content">
+
+      <div class="internal-head" style="min-height:125px;">
+
+        <h1 class="internal-title">
+          🎓 کلاس‌ها
+        </h1>
+
+        <p class="internal-description">
+          دوره‌ها و آموزش‌های کائنات‌چی
         </p>
 
+      </div>
+
+
+      <div class="filter-wrap">
+
+        <div class="filters" id="courseFilters"></div>
+
+      </div>
+
+
+      <div
+        class="item-list"
+        id="coursesList"></div>
+
+
+      <button
+        class="back-button"
+        onclick="goHome()">
+        ← بازگشت به خانه
       </button>
 
 
-      <!-- COURSES -->
+      <div class="footer">
+        © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
+        هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
+        ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
+      </div>
 
-      <button
-        class="home-card glass"
-        onclick="showPage('page-courses')">
+    </main>
 
-        <div class="icon-glass">
+  </section>
 
-          <svg>
-            <use href="#i-cap"></use>
-          </svg>
 
-        </div>
+  <!-- =====================================================
+       EVENTS
+  ====================================================== -->
 
-        <h3>
-          کلاس‌ها
-        </h3>
+  <section class="page" id="page-events">
 
-        <p>
-          دوره‌ها و آموزش‌ها
+    <header class="hero" style="height:260px;">
+
+      <div class="topbar">
+
+        <button
+          class="menu-button"
+          onclick="openDrawer()">
+
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+
+        </button>
+
+      </div>
+
+
+      <div class="logo-wrap"
+           style="width:112px;height:112px;top:43px;">
+
+        <img
+          class="logo-image"
+          style="width:76px;height:76px;"
+          src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
+          alt="کائنات‌چی">
+
+      </div>
+
+    </header>
+
+
+    <main class="content">
+
+      <div class="internal-head" style="min-height:125px;">
+
+        <h1 class="internal-title">
+          🎟️ ایونت‌ها
+        </h1>
+
+        <p class="internal-description">
+          برنامه‌های ویژه و رویدادهای کائنات‌چی
         </p>
 
-      </button>
+      </div>
 
 
-      <!-- EVENTS -->
+      <div class="filter-wrap">
 
-      <button
-        class="home-card glass"
-        onclick="showPage('page-events')">
+        <div class="filters">
 
-        <div class="icon-glass">
+          <button class="filter active">
+            همه
+          </button>
 
-          <svg>
-            <use href="#i-ticket"></use>
-          </svg>
+          <button class="filter">
+            برنامه‌های ویژه
+          </button>
 
         </div>
 
-        <h3>
-          ایونت‌ها
-        </h3>
+      </div>
 
-        <p>
-          برنامه‌های ویژه
+
+      <div
+        class="item-list"
+        id="eventsList"></div>
+
+
+      <button
+        class="back-button"
+        onclick="goHome()">
+        ← بازگشت به خانه
+      </button>
+
+
+      <div class="footer">
+        © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
+        هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
+        ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
+      </div>
+
+    </main>
+
+  </section>
+
+
+  <!-- =====================================================
+       FAQ
+  ====================================================== -->
+
+  <section class="page" id="page-faq">
+
+    <header class="hero" style="height:260px;">
+
+      <div class="topbar">
+
+        <button
+          class="menu-button"
+          onclick="openDrawer()">
+
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+
+        </button>
+
+      </div>
+
+
+      <div class="logo-wrap"
+           style="width:112px;height:112px;top:43px;">
+
+        <img
+          class="logo-image"
+          style="width:76px;height:76px;"
+          src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
+          alt="کائنات‌چی">
+
+      </div>
+
+    </header>
+
+
+    <main class="content">
+
+      <div class="internal-head" style="min-height:125px;">
+
+        <h1 class="internal-title">
+          ❓ سؤالات متداول
+        </h1>
+
+        <p class="internal-description">
+          پاسخ پرسش‌های پرتکرار شما
         </p>
 
+      </div>
+
+
+      <div
+        class="faq-categories"
+        id="faqCategories"></div>
+
+
+      <button
+        class="back-button"
+        onclick="goHome()">
+        ← بازگشت به خانه
       </button>
 
 
-      <!-- FAQ -->
+      <div class="footer">
+        © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
+        هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
+        ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
+      </div>
 
-      <button
-        class="home-card wide glass"
-        onclick="showPage('page-faq')">
+    </main>
 
-        <div class="icon-glass">
-
-          <svg>
-            <use href="#i-help"></use>
-          </svg>
-
-        </div>
-
-        <div class="card-copy">
-
-          <h3>
-            سؤالات متداول
-          </h3>
-
-          <p>
-            پاسخ پرسش‌های پرتکرار درباره خدمات و نوبت
-          </p>
-
-        </div>
-
-        <svg class="chevron">
-          <use href="#i-chevron"></use>
-        </svg>
-
-      </button>
+  </section>
 
 
-      <!-- CONTACT -->
+  <!-- =====================================================
+       CONTACT
+  ====================================================== -->
 
-      <button
-        class="home-card glass"
-        onclick="openContactSheet()">
+  <section class="page" id="page-contact">
 
-        <div class="icon-glass">
+    <header class="hero" style="height:260px;">
 
-          <svg>
-            <use href="#i-chat"></use>
-          </svg>
+      <div class="topbar">
 
-        </div>
+        <button
+          class="menu-button"
+          onclick="openDrawer()">
 
-        <h3>
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+
+        </button>
+
+      </div>
+
+
+      <div class="logo-wrap"
+           style="width:112px;height:112px;top:43px;">
+
+        <img
+          class="logo-image"
+          style="width:76px;height:76px;"
+          src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
+          alt="کائنات‌چی">
+
+      </div>
+
+    </header>
+
+
+    <main class="content">
+
+      <div class="internal-head" style="min-height:125px;">
+
+        <h1 class="internal-title">
+          💬 راه‌های ارتباطی
+        </h1>
+
+        <p class="internal-description">
           ارتباط با کائنات‌چی
-        </h3>
-
-        <p>
-          راه‌های ارتباطی
-        </p>
-
-      </button>
-
-
-      <!-- HOURS -->
-
-      <button
-        class="home-card glass"
-        onclick="showPage('page-hours')">
-
-        <div class="icon-glass">
-
-          <svg>
-            <use href="#i-clock"></use>
-          </svg>
-
-        </div>
-
-        <h3>
-          ساعات کاری
-        </h3>
-
-        <p>
-          زمان پاسخ‌گویی
-        </p>
-
-      </button>
-
-    </div>
-
-
-    <!-- APPOINTMENT -->
-
-    <button
-      class="home-appointment"
-      onclick="openAppointment()">
-
-      <div class="icon-glass">
-
-        <svg>
-          <use href="#i-calendar"></use>
-        </svg>
-
-      </div>
-
-      <div>
-
-        <h3>
-          دریافت نوبت
-        </h3>
-
-        <p>
-          ورود به سامانه دریافت نوبت کائنات‌چی
         </p>
 
       </div>
 
-      <span class="arrow">
-        ‹
-      </span>
 
-    </button>
+      <div class="info-list" id="contactList"></div>
 
-
-    <footer class="footer">
-
-      © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
-      هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
-      ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
-
-    </footer>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     SERVICES
-======================================================= -->
-
-<section
-  id="page-services"
-  class="page">
-
-  <header class="page-header">
-
-    <div class="header-controls">
 
       <button
-        class="glass-button"
-        onclick="openDrawer()">
-
-        <svg>
-          <use href="#i-menu"></use>
-        </svg>
-
-      </button>
-
-      <button
-        class="glass-button"
+        class="back-button"
         onclick="goHome()">
-
-        <svg>
-          <use href="#i-back"></use>
-        </svg>
-
+        ← بازگشت به خانه
       </button>
 
-    </div>
 
-
-    <div class="header-logo">
-
-      <img
-        src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
-        alt="کائنات‌چی">
-
-    </div>
-
-
-    <div class="page-brand">
-
-      <h1>
-        خدمات
-      </h1>
-
-      <p>
-        انتخاب خدمت موردنظر
-      </p>
-
-    </div>
-
-  </header>
-
-
-  <main class="content">
-
-    <div class="filter-wrap">
-
-      <div
-        class="filter-scroll"
-        id="serviceFilters">
+      <div class="footer">
+        © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
+        هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
+        ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
       </div>
 
-    </div>
+    </main>
+
+  </section>
 
 
-    <div id="servicesContent">
+  <!-- =====================================================
+       HOURS
+  ====================================================== -->
 
-      <div class="loading">
-        در حال دریافت خدمات...
+  <section class="page" id="page-hours">
+
+    <header class="hero" style="height:260px;">
+
+      <div class="topbar">
+
+        <button
+          class="menu-button"
+          onclick="openDrawer()">
+
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+          <span class="menu-line"></span>
+
+        </button>
+
       </div>
 
-    </div>
+
+      <div class="logo-wrap"
+           style="width:112px;height:112px;top:43px;">
+
+        <img
+          class="logo-image"
+          style="width:76px;height:76px;"
+          src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
+          alt="کائنات‌چی">
+
+      </div>
+
+    </header>
 
 
-    <button
-      class="bottom-action"
-      onclick="openAppointment()">
+    <main class="content">
 
-      <svg
-        width="25"
-        height="25">
+      <div class="internal-head" style="min-height:125px;">
 
-        <use href="#i-calendar"></use>
+        <h1 class="internal-title">
+          🕐 ساعات کاری
+        </h1>
 
-      </svg>
+        <p class="internal-description">
+          زمان پاسخ‌گویی و فعالیت کائنات‌چی
+        </p>
 
-      دریافت نوبت
-
-    </button>
-
-  </main>
+      </div>
 
 
-  <footer class="footer">
+      <div class="info-list" id="hoursList"></div>
 
-    © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
-    هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
-    ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
-
-  </footer>
-
-</section>
-
-
-<!-- =======================================================
-     SERVICE DETAIL
-======================================================= -->
-
-<section
-  id="page-service-detail"
-  class="page">
-
-  <header class="page-header small">
-
-    <div class="header-controls">
 
       <button
-        class="glass-button"
-        onclick="openDrawer()">
-
-        <svg>
-          <use href="#i-menu"></use>
-        </svg>
-
-      </button>
-
-      <button
-        class="glass-button"
-        onclick="showPage('page-services')">
-
-        <svg>
-          <use href="#i-back"></use>
-        </svg>
-
-      </button>
-
-    </div>
-
-
-    <div class="header-logo">
-
-      <img
-        src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
-        alt="کائنات‌چی">
-
-    </div>
-
-  </header>
-
-
-  <main class="content">
-
-    <div id="serviceDetailContent"></div>
-
-  </main>
-
-
-  <footer class="footer">
-
-    © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
-    هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
-    ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
-
-  </footer>
-
-</section>
-
-
-<!-- =======================================================
-     COURSES
-======================================================= -->
-
-<section
-  id="page-courses"
-  class="page">
-
-  <header class="page-header">
-
-    <div class="header-controls">
-
-      <button
-        class="glass-button"
-        onclick="openDrawer()">
-
-        <svg>
-          <use href="#i-menu"></use>
-        </svg>
-
-      </button>
-
-      <button
-        class="glass-button"
+        class="back-button"
         onclick="goHome()">
-
-        <svg>
-          <use href="#i-back"></use>
-        </svg>
-
+        ← بازگشت به خانه
       </button>
 
-    </div>
 
-
-    <div class="header-logo">
-
-      <img
-        src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
-        alt="کائنات‌چی">
-
-    </div>
-
-
-    <div class="page-brand">
-
-      <h1>
-        کلاس‌ها
-      </h1>
-
-      <p>
-        آموزش، آگاهی و رشد
-      </p>
-
-    </div>
-
-  </header>
-
-
-  <main class="content">
-
-    <div class="filter-wrap">
-
-      <div
-        class="filter-scroll"
-        id="courseFilters">
+      <div class="footer">
+        © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
+        هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
+        ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
       </div>
 
-    </div>
+    </main>
 
+  </section>
 
-    <div id="coursesContent">
 
-      <div class="loading">
-        در حال دریافت کلاس‌ها...
-      </div>
-
-    </div>
-
-  </main>
-
-
-  <footer class="footer">
-
-    © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
-    هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
-    ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
-
-  </footer>
-
-</section>
-
-
-<!-- =======================================================
-     EVENTS
-======================================================= -->
-
-<section
-  id="page-events"
-  class="page">
-
-  <header class="page-header">
-
-    <div class="header-controls">
-
-      <button
-        class="glass-button"
-        onclick="openDrawer()">
-
-        <svg>
-          <use href="#i-menu"></use>
-        </svg>
-
-      </button>
-
-      <button
-        class="glass-button"
-        onclick="goHome()">
-
-        <svg>
-          <use href="#i-back"></use>
-        </svg>
-
-      </button>
-
-    </div>
-
-
-    <div class="header-logo">
-
-      <img
-        src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
-        alt="کائنات‌چی">
-
-    </div>
-
-
-    <div class="page-brand">
-
-      <h1>
-        ایونت‌ها
-      </h1>
-
-      <p>
-        برنامه‌ها و رویدادهای ویژه
-      </p>
-
-    </div>
-
-  </header>
-
-
-  <main class="content">
-
-    <div class="filter-wrap">
-
-      <div
-        class="filter-scroll"
-        id="eventFilters">
-      </div>
-
-    </div>
-
-
-    <div id="eventsContent">
-
-      <div class="loading">
-        در حال دریافت ایونت‌ها...
-      </div>
-
-    </div>
-
-  </main>
-
-
-  <footer class="footer">
-
-    © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
-    هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
-    ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
-
-  </footer>
-
-</section>
-
-
-<!-- =======================================================
-     FAQ
-======================================================= -->
-
-<section
-  id="page-faq"
-  class="page">
-
-  <header class="page-header small">
-
-    <div class="header-controls">
-
-      <button
-        class="glass-button"
-        onclick="openDrawer()">
-
-        <svg>
-          <use href="#i-menu"></use>
-        </svg>
-
-      </button>
-
-      <button
-        class="glass-button"
-        onclick="goHome()">
-
-        <svg>
-          <use href="#i-back"></use>
-        </svg>
-
-      </button>
-
-    </div>
-
-
-    <div class="header-logo">
-
-      <img
-        src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
-        alt="کائنات‌چی">
-
-    </div>
-
-  </header>
-
-
-  <main class="content">
-
-    <div class="internal-title">
-
-      <h2>
-        سؤالات متداول
-      </h2>
-
-      <p>
-        دسته موردنظر را انتخاب کنید.
-      </p>
-
-    </div>
-
-
-    <div class="filter-wrap">
-
-      <div
-        class="filter-scroll"
-        id="faqFilters">
-      </div>
-
-    </div>
-
-
-    <div id="faqContent">
-
-      <div class="loading">
-        در حال دریافت پرسش‌ها...
-      </div>
-
-    </div>
-
-  </main>
-
-
-  <footer class="footer">
-
-    © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
-    هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
-    ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
-
-  </footer>
-
-</section>
-
-
-<!-- =======================================================
-     CONTACT
-======================================================= -->
-
-<section
-  id="page-contact"
-  class="page">
-
-  <header class="page-header small">
-
-    <div class="header-controls">
-
-      <button
-        class="glass-button"
-        onclick="openDrawer()">
-
-        <svg>
-          <use href="#i-menu"></use>
-        </svg>
-
-      </button>
-
-      <button
-        class="glass-button"
-        onclick="goHome()">
-
-        <svg>
-          <use href="#i-back"></use>
-        </svg>
-
-      </button>
-
-    </div>
-
-
-    <div class="header-logo">
-
-      <img
-        src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
-        alt="کائنات‌چی">
-
-    </div>
-
-  </header>
-
-
-  <main class="content">
-
-    <div class="internal-title">
-
-      <h2>
-        ارتباط با کائنات‌چی
-      </h2>
-
-      <p>
-        راه‌های ارتباطی کائنات‌چی
-      </p>
-
-    </div>
-
-
-    <div
-      class="info-card glass"
-      id="contactContent">
-    </div>
-
-  </main>
-
-
-  <footer class="footer">
-
-    © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
-    هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
-    ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
-
-  </footer>
-
-</section>
-
-
-<!-- =======================================================
-     HOURS
-======================================================= -->
-
-<section
-  id="page-hours"
-  class="page">
-
-  <header class="page-header small">
-
-    <div class="header-controls">
-
-      <button
-        class="glass-button"
-        onclick="openDrawer()">
-
-        <svg>
-          <use href="#i-menu"></use>
-        </svg>
-
-      </button>
-
-      <button
-        class="glass-button"
-        onclick="goHome()">
-
-        <svg>
-          <use href="#i-back"></use>
-        </svg>
-
-      </button>
-
-    </div>
-
-
-    <div class="header-logo">
-
-      <img
-        src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
-        alt="کائنات‌چی">
-
-    </div>
-
-  </header>
-
-
-  <main class="content">
-
-    <div class="internal-title">
-
-      <h2>
-        ساعات کاری
-      </h2>
-
-      <p>
-        زمان پاسخ‌گویی و ارائه خدمات
-      </p>
-
-    </div>
-
-
-    <div
-      class="detail-card glass"
-      id="hoursContent">
-    </div>
-
-  </main>
-
-
-  <footer class="footer">
-
-    © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
-    هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
-    ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
-
-  </footer>
-
-</section>
-
-</div>
-
-
-<!-- =======================================================
-     DRAWER
-======================================================= -->
-
-<div
-  class="drawer-overlay"
-  id="drawerOverlay"
-  onclick="closeDrawer()">
-</div>
-
-
-<aside
-  class="drawer"
-  id="drawer">
-
-  <div class="drawer-head">
-
-    <div class="drawer-brand">
-
-      <img
-        src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
-        alt="">
-
-      <span>
-        کائنات‌چی
-      </span>
-
-    </div>
-
-
-    <button
-      class="drawer-close"
-      onclick="closeDrawer()">
-
-      <svg
-        width="22"
-        height="22">
-
-        <use href="#i-close"></use>
-
-      </svg>
-
-    </button>
-
-  </div>
-
-
-  <nav class="drawer-nav">
-
-
-    <button
-      class="drawer-item"
-      onclick="goHome();closeDrawer()">
-
-      <svg>
-        <use href="#i-home"></use>
-      </svg>
-
-      <span>
-        خانه
-      </span>
-
-      <svg>
-        <use href="#i-chevron"></use>
-      </svg>
-
-    </button>
-
-
-    <button
-      class="drawer-item"
-      onclick="showPage('page-services');closeDrawer()">
-
-      <svg>
-        <use href="#i-lotus"></use>
-      </svg>
-
-      <span>
-        خدمات
-      </span>
-
-      <svg>
-        <use href="#i-chevron"></use>
-      </svg>
-
-    </button>
-
-
-    <button
-      class="drawer-item"
-      onclick="openVIP();closeDrawer()">
-
-      <svg>
-        <use href="#i-crown"></use>
-      </svg>
-
-      <span>
-        همراهان کائنات‌چی
-      </span>
-
-      <svg>
-        <use href="#i-chevron"></use>
-      </svg>
-
-    </button>
-
-
-    <button
-      class="drawer-item"
-      onclick="showPage('page-courses');closeDrawer()">
-
-      <svg>
-        <use href="#i-cap"></use>
-      </svg>
-
-      <span>
-        کلاس‌ها
-      </span>
-
-      <svg>
-        <use href="#i-chevron"></use>
-      </svg>
-
-    </button>
-
-
-    <button
-      class="drawer-item"
-      onclick="showPage('page-events');closeDrawer()">
-
-      <svg>
-        <use href="#i-ticket"></use>
-      </svg>
-
-      <span>
-        ایونت‌ها
-      </span>
-
-      <svg>
-        <use href="#i-chevron"></use>
-      </svg>
-
-    </button>
-
-
-    <button
-      class="drawer-item"
-      onclick="showPage('page-faq');closeDrawer()">
-
-      <svg>
-        <use href="#i-help"></use>
-      </svg>
-
-      <span>
-        سؤالات متداول
-      </span>
-
-      <svg>
-        <use href="#i-chevron"></use>
-      </svg>
-
-    </button>
-
-
-    <button
-      class="drawer-item"
-      onclick="showPage('page-contact');closeDrawer()">
-
-      <svg>
-        <use href="#i-chat"></use>
-      </svg>
-
-      <span>
-        ارتباط با کائنات‌چی
-      </span>
-
-      <svg>
-        <use href="#i-chevron"></use>
-      </svg>
-
-    </button>
-
-
-    <button
-      class="drawer-item"
-      onclick="showPage('page-hours');closeDrawer()">
-
-      <svg>
-        <use href="#i-clock"></use>
-      </svg>
-
-      <span>
-        ساعات کاری
-      </span>
-
-      <svg>
-        <use href="#i-chevron"></use>
-      </svg>
-
-    </button>
-
-
-    <button
-      class="drawer-item"
-      onclick="openAppointment();closeDrawer()">
-
-      <svg>
-        <use href="#i-calendar"></use>
-      </svg>
-
-      <span>
-        دریافت نوبت
-      </span>
-
-      <svg>
-        <use href="#i-chevron"></use>
-      </svg>
-
-    </button>
-
-  </nav>
-
-</aside>
-
-
-<!-- =======================================================
-     CONTACT SHEET
-======================================================= -->
-
-<div
-  class="sheet-overlay"
-  id="sheetOverlay"
-  onclick="closeContactSheet()">
-</div>
-
-
-<div
-  class="bottom-sheet"
-  id="contactSheet">
-
-  <div class="sheet-handle"></div>
-
-  <div class="sheet-title">
-    راه‌های ارتباطی
-  </div>
-
-  <div
-    class="sheet-list"
-    id="sheetLinks">
-  </div>
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
 
 </div>
 
 
 <script>
-
 /* =========================================================
-   TELEGRAM
-========================================================= */
-
-const tg =
-  window.Telegram &&
-  window.Telegram.WebApp
-    ? window.Telegram.WebApp
-    : null;
-
-if(tg){
-
-  tg.ready();
-
-  tg.expand();
-
-}
-
-
-/* =========================================================
-   LINKS — DO NOT CHANGE
+   CONFIG
 ========================================================= */
 
 const CMS_URL =
-'https://script.google.com/macros/s/AKfycbzgocb54x4FDoQl3C8-o2WnipZuQYkM1j1juV-ZZKHoieN7DbrybTj3WyXbJe5I2nMhXw/exec';
+  "https://script.google.com/macros/s/AKfycbzgocb54x4FDoQl3C8-o2WnipZuQYkM1j1juV-ZZKHoieN7DbrybTj3WyXbJe5I2nMhXw/exec";
 
-
+/*
+  مهم:
+  لینک واقعی صفحه نوبت‌دهی GitHub Pages است.
+*/
 const APPOINTMENT_URL =
-'https://kaenatchi.github.io/booking/';
-
+  "https://kaenatchi.github.io/booking/";
 
 const VIP_URL =
-'https://script.google.com/macros/s/AKfycbySl6RH5K7oTLBus2cjvBJuOv-ZTjIhX9OnIq93gifQng1IfMl7f2A3Bl-7pSx1nC1u/exec';
+  "https://script.google.com/macros/s/AKfycbySl6RH5K7oTLBus2cjvBJuOv-ZTjIhX9OnIq93gifQng1IfMl7f2A3Bl-7pSx1nC1u/exec";
 
-
-/* =========================================================
-   DATA
-========================================================= */
 
 let CMS = {
-
-  services:[],
-  courses:[],
-  events:[],
-  faq:[],
-  pages:[],
-  settings:[]
-
+  services: [],
+  courses: [],
+  events: [],
+  faq: [],
+  pages: [],
+  settings: []
 };
-
-
-let serviceFilter='همه';
-
-let courseFilter='همه';
-
-let eventFilter='همه';
-
-let faqFilter='همه';
-
-
-/* =========================================================
-   START
-========================================================= */
-
-document.addEventListener(
-  'DOMContentLoaded',
-  ()=>{
-
-    loadCMS();
-
-    initAllDraggableFilters();
-
-  }
-);
 
 
 /* =========================================================
@@ -3957,96 +2938,62 @@ document.addEventListener(
 
 function esc(value){
 
-  return String(value ?? '')
-    .replace(
-      /[&<>"']/g,
-      function(m){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
-        return {
+}
 
-          '&':'&amp;',
-          '<':'&lt;',
-          '>':'&gt;',
-          '"':'&quot;',
-          "'":'&#39;'
 
-        }[m];
+function firstEmoji(text, fallback){
 
-      }
+  const s = String(text || "").trim();
+
+  if(!s) return fallback;
+
+  /*
+    برای اینکه ظاهر گرافیکی کارت‌ها بزرگ بماند،
+    فقط اولین کاراکترهای emoji/نشانه را از نام می‌گیریم.
+  */
+
+  const match =
+    s.match(
+      /^(\p{Extended_Pictographic}(?:\uFE0F|\u200D\p{Extended_Pictographic})*)/u
     );
 
+  return match ? match[1] : fallback;
 }
 
 
-function clean(value){
+function stripLeadingEmoji(text){
 
-  return String(value ?? '').trim();
-
-}
-
-
-function parseMaybeJSON(raw){
-
-  try{
-
-    return JSON.parse(raw);
-
-  }catch(e){
-
-    try{
-
-      return JSON.parse(
-        JSON.parse(raw)
-      );
-
-    }catch(x){
-
-      return null;
-
-    }
-
-  }
+  return String(text || "")
+    .replace(
+      /^(\p{Extended_Pictographic}|\uFE0F|\u200D)+\s*/u,
+      ""
+    )
+    .trim();
 
 }
 
 
-function active(value){
+function setting(key, fallback=""){
 
-  return [
-    'بله',
-    'yes',
-    'true',
-    '1',
-    'فعال'
-  ].includes(
-    clean(value).toLowerCase()
+  const rows = Array.isArray(CMS.settings)
+    ? CMS.settings
+    : [];
+
+  const row = rows.find(
+    x =>
+      String(x["کلید"] || "").trim() === key
   );
 
-}
-
-
-function getSetting(
-  key,
-  fallback=''
-){
-
-  const row =
-    (CMS.settings || [])
-      .find(
-        x =>
-          clean(
-            x['کلید'] ||
-            x.key
-          ) === key
-      );
-
   return row
-    ? clean(
-        row['مقدار'] ??
-        row.value
-      )
+    ? String(row["مقدار"] || "").trim()
     : fallback;
-
 }
 
 
@@ -4054,27 +3001,33 @@ function getSetting(
    NAVIGATION
 ========================================================= */
 
-function showPage(id){
+function hideAllPages(){
 
   document
-    .querySelectorAll('.page')
-    .forEach(
-      page =>
-        page.classList.remove('active')
-    );
+    .querySelectorAll(".page")
+    .forEach(page => {
+      page.classList.remove("active");
+    });
+
+}
+
+
+function openPage(name){
+
+  closeDrawer();
+
+  hideAllPages();
 
   const page =
-    document.getElementById(id);
+    document.getElementById("page-" + name);
 
-  if(page){
+  if(!page) return;
 
-    page.classList.add('active');
-
-  }
+  page.classList.add("active");
 
   window.scrollTo({
     top:0,
-    behavior:'smooth'
+    behavior:"smooth"
   });
 
 }
@@ -4082,61 +3035,18 @@ function showPage(id){
 
 function goHome(){
 
-  showPage('page-home');
+  closeDrawer();
 
-}
+  hideAllPages();
 
+  document
+    .getElementById("page-home")
+    .classList.add("active");
 
-/* =========================================================
-   EXTERNAL
-========================================================= */
-
-function openExternal(url){
-
-  if(!url)return;
-
-  try{
-
-    if(
-      tg &&
-      tg.openLink
-    ){
-
-      tg.openLink(url);
-
-    }else{
-
-      window.open(
-        url,
-        '_blank',
-        'noopener'
-      );
-
-    }
-
-  }catch(e){
-
-    window.location.href=url;
-
-  }
-
-}
-
-
-function openAppointment(){
-
-  openExternal(
-    APPOINTMENT_URL
-  );
-
-}
-
-
-function openVIP(){
-
-  openExternal(
-    VIP_URL
-  );
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
@@ -4147,64 +3057,64 @@ function openVIP(){
 
 function openDrawer(){
 
-  document
-    .getElementById('drawer')
-    .classList.add('show');
+  const overlay =
+    document.getElementById("drawerOverlay");
 
-  document
-    .getElementById('drawerOverlay')
-    .classList.add('show');
+  overlay.classList.add("show");
+
+  document.body.style.overflow = "hidden";
 
 }
 
 
-function closeDrawer(){
+function closeDrawer(event){
 
-  document
-    .getElementById('drawer')
-    .classList.remove('show');
+  if(
+    event &&
+    event.target &&
+    event.target.id !== "drawerOverlay"
+  ){
+    return;
+  }
 
-  document
-    .getElementById('drawerOverlay')
-    .classList.remove('show');
+  const overlay =
+    document.getElementById("drawerOverlay");
+
+  overlay.classList.remove("show");
+
+  document.body.style.overflow = "";
 
 }
 
 
 /* =========================================================
-   CONTACT SHEET
+   LINKS
 ========================================================= */
 
-function openContactSheet(){
+function openAppointment(){
 
-  renderContactSheet();
-
-  document
-    .getElementById('contactSheet')
-    .classList.add('show');
-
-  document
-    .getElementById('sheetOverlay')
-    .classList.add('show');
+  window.open(
+    APPOINTMENT_URL,
+    "_blank",
+    "noopener,noreferrer"
+  );
 
 }
 
 
-function closeContactSheet(){
+function openVIP(){
 
-  document
-    .getElementById('contactSheet')
-    .classList.remove('show');
-
-  document
-    .getElementById('sheetOverlay')
-    .classList.remove('show');
+  window.open(
+    VIP_URL,
+    "_blank",
+    "noopener,noreferrer"
+  );
 
 }
 
 
 /* =========================================================
-   CMS
+   CMS FETCH
 ========================================================= */
 
 async function loadCMS(){
@@ -4214,95 +3124,68 @@ async function loadCMS(){
     const response =
       await fetch(
         CMS_URL +
-        '?action=getMiniAppData&t=' +
+        "?action=getMiniAppData&ts=" +
         Date.now(),
         {
-          cache:'no-store'
+          method:"GET",
+          cache:"no-store"
         }
       );
 
-    const raw =
-      await response.text();
-
     const data =
-      parseMaybeJSON(raw);
+      await response.json();
 
-    if(!data){
+    if(
+      data &&
+      data.success
+    ){
 
-      throw new Error(
-        'CMS response invalid'
-      );
-
-    }
-
-
-    CMS = {
-
-      services:
+      CMS.services =
         Array.isArray(data.services)
           ? data.services
-          : [],
+          : [];
 
-      courses:
+      CMS.courses =
         Array.isArray(data.courses)
           ? data.courses
-          : [],
+          : [];
 
-      events:
+      CMS.events =
         Array.isArray(data.events)
           ? data.events
-          : [],
+          : [];
 
-      faq:
+      CMS.faq =
         Array.isArray(data.faq)
           ? data.faq
-          : [],
+          : [];
 
-      pages:
+      CMS.pages =
         Array.isArray(data.pages)
           ? data.pages
-          : [],
+          : [];
 
-      settings:
+      CMS.settings =
         Array.isArray(data.settings)
           ? data.settings
-          : []
+          : [];
 
-    };
-
+    }
 
   }catch(error){
 
     console.error(
-      'CMS:',
+      "CMS load error:",
       error
+    );
+
+    showToast(
+      "اطلاعات محتوا در حال حاضر بارگذاری نشد."
     );
 
   }
 
-
   renderAll();
-
-}
-
-
-/* =========================================================
-   RENDER ALL
-========================================================= */
-
-function renderAll(){
-
-  renderServices();
-
-  renderCourses();
-
-  renderEvents();
-
-  renderFAQ();
-
-  renderHours();
-
-  renderContactSettings();
 
 }
 
@@ -4311,315 +3194,265 @@ function renderAll(){
    SERVICES
 ========================================================= */
 
-function serviceName(x){
-
-  return clean(
-    x['نام خدمت'] ||
-    x.name
-  );
-
-}
-
-
-function serviceShort(x){
-
-  return clean(
-    x['توضیح کوتاه'] ||
-    x.short
-  );
-
-}
-
-
-function serviceFull(x){
-
-  return clean(
-    x['توضیحات کامل'] ||
-    x.full
-  );
-
-}
-
-
-function servicePrice(x){
-
-  return clean(
-    x['قیمت'] ||
-    x.price
-  );
-
-}
-
-
-function serviceImage(x){
-
-  return clean(
-    x['تصویر'] ||
-    x.image
-  );
-
-}
-
-
-function serviceCategory(x){
-
-  return clean(
-    x['دسته'] ||
-    x.category
-  );
-
-}
-
-
-function serviceIcon(name){
-
-  const n =
-    name.toLowerCase();
-
-  if(
-    n.includes('شمع')
-  ){
-
-    return 'i-candle';
-
-  }
-
-  if(
-    n.includes('سایکو') ||
-    n.includes('ذهن')
-  ){
-
-    return 'i-brain';
-
-  }
-
-  return 'i-lotus';
-
-}
-
-
-/* =========================================================
-   SERVICE FILTERS
-========================================================= */
-
-function renderServiceFilters(){
+function renderServices(){
 
   const container =
-    document.getElementById(
-      'serviceFilters'
+    document.getElementById("servicesList");
+
+  if(!container) return;
+
+  const rows =
+    CMS.services
+      .filter(
+        x =>
+          String(x["فعال"] || "").trim() === "بله"
+      )
+      .sort(
+        (a,b) =>
+          Number(a["ترتیب"] || 999) -
+          Number(b["ترتیب"] || 999)
+      );
+
+  /*
+    دسته‌ها:
+    انرژی‌خوانی = 10 روش
+    شمع‌تراپی
+    سایکوتراپی
+
+    خود "انرژی‌خوانی" به عنوان روش نمایش داده نمی‌شود.
+  */
+
+  const energy =
+    rows.filter(
+      x =>
+        String(x["دسته"] || "").trim() === "انرژی‌خوانی" &&
+        String(x["نام خدمت"] || "").trim() !== "🔮 انرژی‌خوانی"
     );
 
-  if(!container)return;
+  const candle =
+    rows.filter(
+      x =>
+        String(x["دسته"] || "").trim() === "شمع‌تراپی"
+    );
+
+  const psycho =
+    rows.filter(
+      x =>
+        String(x["دسته"] || "").trim() === "سایکوتراپی"
+    );
+
+  let html = "";
 
 
-  const cats = [
+  if(energy.length){
 
-    'همه',
-    'انرژی‌خوانی',
-    'شمع‌تراپی',
-    'سایکوتراپی'
+    html += `
+      <div
+        class="service-card glass"
+        onclick="openEnergyServices()">
 
-  ];
+        <div class="service-icon">✦</div>
+
+        <div class="service-info">
+
+          <div class="service-name">
+            انرژی‌خوانی
+          </div>
+
+          <div class="service-short">
+            انتخاب از میان روش‌های مختلف انرژی‌خوانی
+          </div>
+
+        </div>
+
+        <div class="chevron">›</div>
+
+      </div>
+    `;
+
+  }
+
+
+  if(candle.length){
+
+    const item = candle[0];
+
+    html += serviceCardHTML(
+      item,
+      "🕯️",
+      true
+    );
+
+  }
+
+
+  if(psycho.length){
+
+    const item = psycho[0];
+
+    html += serviceCardHTML(
+      item,
+      "🧠",
+      true
+    );
+
+  }
 
 
   container.innerHTML =
-    cats
-      .map(
-        category => `
-
-          <button
-            class="filter-pill ${
-              serviceFilter===category
-                ? 'active'
-                : ''
-            }"
-            onclick="setServiceFilter('${esc(category)}')">
-
-            ${esc(category)}
-
-          </button>
-
-        `
-      )
-      .join('');
+    html ||
+    `
+      <div class="detail-card glass">
+        <div class="detail-text">
+          در حال آماده‌سازی اطلاعات خدمات...
+        </div>
+      </div>
+    `;
 
 }
 
 
-function setServiceFilter(category){
+function serviceCardHTML(
+  item,
+  fallbackIcon,
+  clickable
+){
 
-  serviceFilter=category;
+  const name =
+    String(item["نام خدمت"] || "");
 
-  renderServices();
+  const icon =
+    firstEmoji(name,fallbackIcon);
+
+  const cleanName =
+    stripLeadingEmoji(name);
+
+  const short =
+    String(item["توضیح کوتاه"] || "");
+
+  const action =
+    clickable
+      ? `onclick='openService(${JSON.stringify(item["نام خدمت"] || "")})'`
+      : "";
+
+  return `
+    <div
+      class="service-card glass"
+      ${action}>
+
+      <div class="service-icon">
+        ${esc(icon)}
+      </div>
+
+      <div class="service-info">
+
+        <div class="service-name">
+          ${esc(cleanName || name)}
+        </div>
+
+        <div class="service-short">
+          ${esc(short)}
+        </div>
+
+      </div>
+
+      <div class="chevron">
+        ›
+      </div>
+
+    </div>
+  `;
 
 }
 
 
 /* =========================================================
-   SERVICES LIST
+   ENERGY METHODS
 ========================================================= */
 
-function renderServices(){
+function openEnergyServices(){
 
-  renderServiceFilters();
-
-
-  const container =
-    document.getElementById(
-      'servicesContent'
-    );
-
-  if(!container)return;
-
-
-  let list =
-    (CMS.services || [])
+  const rows =
+    CMS.services
       .filter(
         x =>
-          active(
-            x['فعال'] ??
-            x.active
-          )
+          String(x["فعال"] || "").trim() === "بله" &&
+          String(x["دسته"] || "").trim() === "انرژی‌خوانی" &&
+          String(x["نام خدمت"] || "").trim() !== "🔮 انرژی‌خوانی"
+      )
+      .sort(
+        (a,b) =>
+          Number(a["ترتیب"] || 999) -
+          Number(b["ترتیب"] || 999)
       );
 
+  const page =
+    document.getElementById("page-service-detail");
 
-  list.sort(
-    (a,b)=>
-      Number(
-        a['ترتیب'] ||
-        a.order ||
-        999
-      )
-      -
-      Number(
-        b['ترتیب'] ||
-        b.order ||
-        999
-      )
-  );
+  const content =
+    document.getElementById("serviceDetailContent");
 
+  let html = `
 
-  if(
-    serviceFilter !==
-    'همه'
-  ){
+    <div class="detail-card glass">
 
-    list =
-      list.filter(
-        x =>
-          serviceCategory(x)
-          ===
-          serviceFilter
-      );
+      <h3>
+        ✦ انرژی‌خوانی
+      </h3>
 
-  }
-
-
-  if(!list.length){
-
-    container.innerHTML = `
-
-      <div class="empty glass">
-
-        هنوز خدمتی برای نمایش
-        ثبت نشده است.
-
+      <div class="detail-text">
+        ${esc(
+          "در این بخش می‌توانید روش مناسب خود را از میان روش‌های انرژی‌خوانی کائنات‌چی انتخاب کنید."
+        )}
       </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  container.innerHTML = `
-
-    <div class="glass-list">
-
-      ${
-        list
-          .map(
-            (x,index)=>{
-
-              const name =
-                serviceName(x);
-
-              const short =
-                serviceShort(x);
-
-              const price =
-                servicePrice(x);
-
-              return `
-
-                <button
-                  class="list-card glass"
-                  onclick="showServiceDetail(${index})">
-
-                  <div class="icon-glass">
-
-                    <svg>
-                      <use
-                        href="#${serviceIcon(name)}">
-                      </use>
-                    </svg>
-
-                  </div>
-
-
-                  <div class="list-copy">
-
-                    <h3>
-                      ${esc(name)}
-                    </h3>
-
-                    <p>
-                      ${esc(short)}
-                    </p>
-
-                    ${
-                      price
-                        ? `
-                          <div class="list-price">
-                            ${esc(price)}
-                          </div>
-                        `
-                        : ''
-                    }
-
-                  </div>
-
-
-                  <svg class="chevron">
-
-                    <use
-                      href="#i-chevron">
-                    </use>
-
-                  </svg>
-
-                </button>
-
-              `;
-
-            }
-          )
-          .join('')
-      }
 
     </div>
 
+    <div class="section-title">
+      <span class="dot"></span>
+      <h2>روش‌های انرژی‌خوانی</h2>
+    </div>
+
+    <div class="service-list">
   `;
 
 
-  container.dataset.list =
-    JSON.stringify(
-      list.map(
-        x =>
-          CMS.services.indexOf(x)
-      )
+  rows.forEach(item => {
+
+    html += serviceCardHTML(
+      item,
+      "✦",
+      true
     );
+
+  });
+
+
+  html += `
+    </div>
+
+    <div
+      class="detail-card glass"
+      style="margin-top:14px;">
+
+      <div class="detail-text">
+        توضیحات هر روش و مبلغ آن پس از انتخاب نمایش داده می‌شود.
+      </div>
+
+    </div>
+  `;
+
+
+  content.innerHTML = html;
+
+  hideAllPages();
+
+  page.classList.add("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
@@ -4628,195 +3461,94 @@ function renderServices(){
    SERVICE DETAIL
 ========================================================= */
 
-function showServiceDetail(index){
-
-  let list =
-    (CMS.services || [])
-      .filter(
-        x =>
-          active(
-            x['فعال'] ??
-            x.active
-          )
-      );
-
-
-  list.sort(
-    (a,b)=>
-      Number(
-        a['ترتیب'] ||
-        a.order ||
-        999
-      )
-      -
-      Number(
-        b['ترتیب'] ||
-        b.order ||
-        999
-      )
-  );
-
-
-  if(
-    serviceFilter !==
-    'همه'
-  ){
-
-    list =
-      list.filter(
-        x =>
-          serviceCategory(x)
-          ===
-          serviceFilter
-      );
-
-  }
-
+function openService(name){
 
   const item =
-    list[index];
+    CMS.services.find(
+      x =>
+        String(x["نام خدمت"] || "").trim() ===
+        String(name || "").trim()
+    );
 
-  if(!item)return;
+  if(!item) return;
 
+  const content =
+    document.getElementById("serviceDetailContent");
 
-  const name =
-    serviceName(item);
+  const rawName =
+    String(item["نام خدمت"] || "");
 
-  const short =
-    serviceShort(item);
+  const icon =
+    firstEmoji(rawName,"✦");
+
+  const cleanName =
+    stripLeadingEmoji(rawName);
 
   const full =
-    serviceFull(item);
+    String(
+      item["توضیحات کامل"] ||
+      item["توضیح کوتاه"] ||
+      ""
+    );
 
   const price =
-    servicePrice(item);
+    String(item["قیمت"] || "").trim();
 
-  const image =
-    serviceImage(item);
+  content.innerHTML = `
 
+    <div class="detail-card glass">
 
-  let art;
+      <div
+        style="
+          display:flex;
+          align-items:center;
+          gap:13px;
+          margin-bottom:15px;
+        ">
 
+        <div class="service-icon">
+          ${esc(icon)}
+        </div>
 
-  if(image){
+        <div>
 
-    art = `
-
-      <img
-        src="${esc(image)}"
-        alt="${esc(name)}"
-        onerror="this.style.display='none'">
-
-    `;
-
-  }else{
-
-    art = `
-
-      <div class="icon-glass">
-
-        <svg>
-
-          <use
-            href="#${serviceIcon(name)}">
-          </use>
-
-        </svg>
-
-      </div>
-
-    `;
-
-  }
-
-
-  document
-    .getElementById(
-      'serviceDetailContent'
-    )
-    .innerHTML = `
-
-      <div class="detail-card glass">
-
-        <div class="detail-art">
-
-          ${art}
+          <h3 style="margin:0;">
+            ${esc(cleanName || rawName)}
+          </h3>
 
         </div>
 
-
-        <h3>
-          ${esc(name)}
-        </h3>
-
-
-        ${
-          short
-            ? `
-              <p class="detail-short">
-                ${esc(short)}
-              </p>
-            `
-            : ''
-        }
-
-
-        ${
-          full
-            ? `
-              <div class="detail-full">
-                ${esc(full)}
-              </div>
-            `
-            : ''
-        }
-
-
-        ${
-          price
-            ? `
-              <div class="price-box">
-
-                <span>
-                  هزینه
-                </span>
-
-                <strong>
-                  ${esc(price)}
-                </strong>
-
-              </div>
-            `
-            : ''
-        }
-
-
-        <button
-          class="bottom-action"
-          onclick="openAppointment()">
-
-          <svg
-            width="24"
-            height="24">
-
-            <use
-              href="#i-calendar">
-            </use>
-
-          </svg>
-
-          دریافت نوبت
-
-        </button>
-
       </div>
 
-    `;
+
+      <div class="detail-text">
+        ${esc(full)}
+      </div>
+
+      ${
+        price
+          ? `
+            <div class="price">
+              ${esc(price)}
+            </div>
+          `
+          : ""
+      }
+
+    </div>
+  `;
 
 
-  showPage(
-    'page-service-detail'
-  );
+  hideAllPages();
+
+  document
+    .getElementById("page-service-detail")
+    .classList.add("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
@@ -4828,427 +3560,243 @@ function showServiceDetail(index){
 function courseCategory(name){
 
   const n =
-    name.toLowerCase();
-
-
-  if(
-    n.includes('تاروت') ||
-    n.includes('لنورماند') ||
-    n.includes('لِنورماند')
-  ){
-
-    return 'تاروت و لِنورماند';
-
-  }
-
+    String(name || "");
 
   if(
-    n.includes('تمرکز') ||
-    n.includes('مراقبه')
+    n.includes("تاروت") ||
+    n.includes("لِنورماند")
   ){
-
-    return 'تمرکز و مراقبه';
-
+    return "تاروت و لِنورماند";
   }
-
 
   if(
-    n.includes('خودشناسی')
+    n.includes("تمرکز") ||
+    n.includes("مراقبه")
   ){
-
-    return 'خودشناسی';
-
+    return "تمرکز و مراقبه";
   }
 
+  if(
+    n.includes("خودشناسی")
+  ){
+    return "خودشناسی";
+  }
 
-  return 'انرژی و آگاهی';
-
+  return "انرژی و آگاهی";
 }
 
 
-function renderCourseFilters(){
+function renderCoursesFilters(){
 
   const container =
-    document.getElementById(
-      'courseFilters'
-    );
+    document.getElementById("courseFilters");
 
-  if(!container)return;
-
+  if(!container) return;
 
   const categories = [
-
-    'همه',
-    'انرژی و آگاهی',
-    'تاروت و لِنورماند',
-    'تمرکز و مراقبه',
-    'خودشناسی'
-
+    "همه",
+    "انرژی و آگاهی",
+    "تاروت و لِنورماند",
+    "تمرکز و مراقبه",
+    "خودشناسی"
   ];
-
 
   container.innerHTML =
     categories
       .map(
-        category => `
-
+        (cat,index) => `
           <button
-            class="filter-pill ${
-              courseFilter===category
-                ? 'active'
-                : ''
-            }"
-            onclick="setCourseFilter('${esc(category)}')">
-
-            ${esc(category)}
-
+            class="filter ${index===0 ? "active":""}"
+            onclick="filterCourses('${esc(cat)}',this)">
+            ${esc(cat)}
           </button>
-
         `
       )
-      .join('');
+      .join("");
 
 }
 
 
-function setCourseFilter(category){
+function filterCourses(category, button){
 
-  courseFilter=category;
+  document
+    .querySelectorAll("#courseFilters .filter")
+    .forEach(
+      b => b.classList.remove("active")
+    );
 
-  renderCourses();
+  if(button){
+    button.classList.add("active");
+  }
+
+  const cards =
+    document.querySelectorAll(
+      "#coursesList .item-card"
+    );
+
+  cards.forEach(card => {
+
+    const c =
+      card.getAttribute("data-category");
+
+    card.style.display =
+      category === "همه" ||
+      c === category
+        ? ""
+        : "block";
+
+  });
 
 }
 
 
 function renderCourses(){
 
-  renderCourseFilters();
-
+  renderCoursesFilters();
 
   const container =
-    document.getElementById(
-      'coursesContent'
+    document.getElementById("coursesList");
+
+  if(!container) return;
+
+  const rows =
+    CMS.courses.filter(
+      x =>
+        String(x["فعال"] || "").trim() === "بله"
     );
-
-  if(!container)return;
-
-
-  let list =
-    (CMS.courses || [])
-      .filter(
-        x =>
-          active(
-            x['فعال'] ??
-            x.active
-          )
-      );
-
-
-  if(
-    courseFilter !==
-    'همه'
-  ){
-
-    list =
-      list.filter(
-        x =>
-          courseCategory(
-            clean(
-              x['نام دوره'] ||
-              x.name
-            )
-          )
-          ===
-          courseFilter
-      );
-
-  }
-
-
-  if(!list.length){
-
-    container.innerHTML = `
-
-      <div class="empty glass">
-
-        هنوز کلاسی برای نمایش
-        ثبت نشده است.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
 
   container.innerHTML =
-    list
+    rows
       .map(
-        (item,index)=>
-          renderProgram(
-            item,
-            'course',
-            index
-          )
+        (item,index) => {
+
+          const name =
+            String(item["نام دوره"] || "");
+
+          const icon =
+            index % 2 === 0
+              ? "◇"
+              : "✦";
+
+          const category =
+            courseCategory(name);
+
+          const short =
+            String(item["توضیح کوتاه"] || "");
+
+          const full =
+            String(item["توضیحات کامل"] || "");
+
+          const syllabus =
+            String(item["سرفصل‌ها"] || "");
+
+          const duration =
+            String(item["مدت"] || "");
+
+          const cost =
+            String(item["هزینه"] || "");
+
+          return `
+
+            <div
+              class="item-card glass"
+              data-category="${esc(category)}"
+              onclick="toggleItemCard(this)">
+
+              <div class="item-top">
+
+                <div class="item-icon">
+                  ${icon}
+                </div>
+
+                <div style="flex:1;">
+
+                  <div class="item-title">
+                    ${esc(name)}
+                  </div>
+
+                  <div class="item-short">
+                    ${esc(short)}
+                  </div>
+
+                </div>
+
+                <div class="chevron">
+                  ›
+                </div>
+
+              </div>
+
+
+              <div class="item-detail">
+
+                ${
+                  full
+                    ? `<div>${esc(full)}</div>`
+                    : ""
+                }
+
+                ${
+                  syllabus
+                    ? `
+                      <div style="margin-top:9px;">
+                        <b style="color:#3d614f;">
+                          سرفصل‌ها
+                        </b>
+
+                        <div style="white-space:pre-line;">
+                          ${esc(syllabus)}
+                        </div>
+                      </div>
+                    `
+                    : ""
+                }
+
+
+                <div class="item-meta">
+
+                  <div class="meta">
+                    <b>مدت</b>
+                    ${esc(duration || "در حال آماده‌سازی")}
+                  </div>
+
+                  <div class="meta">
+                    <b>هزینه</b>
+                    ${esc(cost || "فعلاً اعلام نشده")}
+                  </div>
+
+                </div>
+
+
+                <div
+                  style="
+                    margin-top:11px;
+                    color:#738279;
+                    font-size:10.5px;
+                  ">
+                  این دوره در حال آماده‌سازی است.
+                </div>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
       )
-      .join('');
-
-}
+      .join("");
 
 
-/* =========================================================
-   PROGRAM CARD
-========================================================= */
+  if(!rows.length){
 
-function renderProgram(
-  item,
-  type,
-  index
-){
-
-  const name =
-    clean(
-      item['نام دوره'] ||
-      item['نام ایونت'] ||
-      item.name
-    );
-
-
-  const short =
-    clean(
-      item['توضیح کوتاه'] ||
-      item.short
-    );
-
-
-  const full =
-    clean(
-      item['توضیحات کامل'] ||
-      item.full
-    );
-
-
-  const syllabus =
-    clean(
-      item['سرفصل‌ها'] ||
-      item.syllabus
-    );
-
-
-  const duration =
-    clean(
-      item['مدت'] ||
-      item.duration
-    );
-
-
-  const cost =
-    clean(
-      item['هزینه'] ||
-      item.cost ||
-      item['قیمت']
-    );
-
-
-  const date =
-    clean(
-      item['تاریخ'] ||
-      item.date
-    );
-
-
-  const time =
-    clean(
-      item['ساعت'] ||
-      item.time
-    );
-
-
-  const how =
-    clean(
-      item['نحوه برگزاری'] ||
-      item.how
-    );
-
-
-  const capacity =
-    clean(
-      item['ظرفیت'] ||
-      item.capacity
-    );
-
-
-  const id =
-    'program_' +
-    type +
-    '_' +
-    index;
-
-
-  return `
-
-    <div
-      class="program-card glass"
-      id="${id}">
-
-
-      <div
-        class="program-top"
-        onclick="toggleProgram('${id}')">
-
-
-        <div
-          class="icon-glass small">
-
-          <svg>
-
-            <use
-              href="#${
-                type === 'course'
-                  ? 'i-cap'
-                  : 'i-ticket'
-              }">
-
-            </use>
-
-          </svg>
-
+    container.innerHTML = `
+      <div class="detail-card glass">
+        <div class="detail-text">
+          دوره‌ها در حال آماده‌سازی هستند.
         </div>
-
-
-        <div class="program-copy">
-
-          <h3>
-            ${esc(name)}
-          </h3>
-
-          <p>
-            ${esc(short)}
-          </p>
-
-        </div>
-
-
-        <svg class="program-arrow">
-
-          <use
-            href="#i-chevron">
-          </use>
-
-        </svg>
-
       </div>
-
-
-      <div class="program-detail">
-
-        ${
-          full
-            ? esc(full) + '\n\n'
-            : ''
-        }
-
-
-        ${
-          syllabus
-            ? `
-              سرفصل‌ها
-              ${esc(syllabus)}
-              
-            `
-            : ''
-        }
-
-
-        ${
-          duration
-            ? `
-              مدت: ${esc(duration)}
-              
-            `
-            : ''
-        }
-
-
-        ${
-          date
-            ? `
-              تاریخ: ${esc(date)}
-              
-            `
-            : ''
-        }
-
-
-        ${
-          time
-            ? `
-              ساعت: ${esc(time)}
-              
-            `
-            : ''
-        }
-
-
-        ${
-          how
-            ? `
-              نحوه برگزاری: ${esc(how)}
-              
-            `
-            : ''
-        }
-
-
-        ${
-          capacity
-            ? `
-              ظرفیت: ${esc(capacity)}
-              
-            `
-            : ''
-        }
-
-
-        ${
-          cost
-            ? `
-              هزینه: ${esc(cost)}
-            `
-            : ''
-        }
-
-
-        <br>
-
-
-        <span class="status-chip">
-
-          در حال آماده‌سازی
-
-        </span>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-function toggleProgram(id){
-
-  const item =
-    document.getElementById(id);
-
-  if(item){
-
-    item.classList.toggle(
-      'open'
-    );
+    `;
 
   }
 
@@ -5261,91 +3809,154 @@ function toggleProgram(id){
 
 function renderEvents(){
 
-  const filters =
-    document.getElementById(
-      'eventFilters'
-    );
-
   const container =
-    document.getElementById(
-      'eventsContent'
+    document.getElementById("eventsList");
+
+  if(!container) return;
+
+  const rows =
+    CMS.events.filter(
+      x =>
+        String(x["فعال"] || "").trim() === "بله"
     );
-
-
-  if(
-    !filters ||
-    !container
-  )return;
-
-
-  const categories = [
-
-    'همه',
-    'برنامه‌های ویژه'
-
-  ];
-
-
-  filters.innerHTML =
-    categories
-      .map(
-        category => `
-
-          <button
-            class="filter-pill ${
-              eventFilter===category
-                ? 'active'
-                : ''
-            }"
-            onclick="
-              eventFilter='${esc(category)}';
-              renderEvents();
-            ">
-
-            ${esc(category)}
-
-          </button>
-
-        `
-      )
-      .join('');
-
-
-  const list =
-    (CMS.events || [])
-      .filter(
-        x =>
-          active(
-            x['فعال'] ??
-            x.active
-          )
-      );
-
 
   container.innerHTML =
-    list.length
+    rows
+      .map(
+        (item,index) => {
 
-      ? list
-          .map(
-            (item,index)=>
-              renderProgram(
-                item,
-                'event',
-                index
-              )
-          )
-          .join('')
+          const name =
+            String(item["نام ایونت"] || "");
 
-      : `
+          const short =
+            String(item["توضیح کوتاه"] || "");
 
-          <div class="empty glass">
+          const full =
+            String(item["توضیحات کامل"] || "");
 
-            ایونتی برای نمایش
-            ثبت نشده است.
+          const date =
+            String(item["تاریخ"] || "");
 
-          </div>
+          const time =
+            String(item["ساعت"] || "");
 
-        `;
+          const type =
+            String(item["نحوه برگزاری"] || "");
+
+          const capacity =
+            String(item["ظرفیت"] || "");
+
+          const cost =
+            String(item["هزینه"] || "");
+
+          return `
+
+            <div
+              class="item-card glass"
+              onclick="toggleItemCard(this)">
+
+              <div class="item-top">
+
+                <div class="item-icon">
+                  ✧
+                </div>
+
+                <div style="flex:1;">
+
+                  <div class="item-title">
+                    ${esc(name)}
+                  </div>
+
+                  <div class="item-short">
+                    ${esc(short)}
+                  </div>
+
+                </div>
+
+                <div class="chevron">
+                  ›
+                </div>
+
+              </div>
+
+
+              <div class="item-detail">
+
+                ${
+                  full
+                    ? `<div>${esc(full)}</div>`
+                    : ""
+                }
+
+
+                <div class="item-meta">
+
+                  <div class="meta">
+                    <b>تاریخ</b>
+                    ${esc(date || "به‌زودی")}
+                  </div>
+
+                  <div class="meta">
+                    <b>ساعت</b>
+                    ${esc(time || "به‌زودی")}
+                  </div>
+
+                  <div class="meta">
+                    <b>نحوه برگزاری</b>
+                    ${esc(type || "در حال آماده‌سازی")}
+                  </div>
+
+                  <div class="meta">
+                    <b>ظرفیت</b>
+                    ${esc(capacity || "به‌زودی")}
+                  </div>
+
+                  <div class="meta">
+                    <b>هزینه</b>
+                    ${esc(cost || "فعلاً اعلام نشده")}
+                  </div>
+
+                </div>
+
+
+                <div
+                  style="
+                    margin-top:11px;
+                    color:#738279;
+                    font-size:10.5px;
+                  ">
+                  اطلاعات ثبت‌نام پس از آماده‌شدن ایونت اعلام خواهد شد.
+                </div>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
+
+
+  if(!rows.length){
+
+    container.innerHTML = `
+      <div class="detail-card glass">
+        <div class="detail-text">
+          ایونت‌ها در حال آماده‌سازی هستند.
+        </div>
+      </div>
+    `;
+
+  }
+
+}
+
+
+function toggleItemCard(card){
+
+  card.classList.toggle("open");
 
 }
 
@@ -5354,806 +3965,420 @@ function renderEvents(){
    FAQ
 ========================================================= */
 
-const faqCats = [
+function faqIcon(category){
 
-  'همه',
-  'دریافت نوبت',
-  'پرداخت',
-  'خدمات',
-  'پشتیبانی',
-  'همراهان کائنات‌چی',
-  'عمومی'
+  const map = {
+    "دریافت نوبت":"⌑",
+    "پرداخت":"◈",
+    "خدمات":"✦",
+    "پشتیبانی":"♡",
+    "همراهان کائنات‌چی":"♕",
+    "عمومی":"i"
+  };
 
-];
+  return map[category] || "?";
+
+}
 
 
 function renderFAQ(){
 
-  const filters =
-    document.getElementById(
-      'faqFilters'
-    );
-
   const container =
-    document.getElementById(
-      'faqContent'
+    document.getElementById("faqCategories");
+
+  if(!container) return;
+
+  const rows =
+    CMS.faq.filter(
+      x =>
+        String(x["فعال"] || "").trim() === "بله"
     );
 
+  const categories = [];
 
-  if(
-    !filters ||
-    !container
-  )return;
+  rows.forEach(row => {
 
+    const category =
+      String(
+        row["دسته"] || "عمومی"
+      ).trim();
 
-  filters.innerHTML =
-    faqCats
-      .map(
-        category => `
-
-          <button
-            class="filter-pill ${
-              faqFilter===category
-                ? 'active'
-                : ''
-            }"
-            onclick="setFAQFilter('${esc(category)}')">
-
-            ${esc(category)}
-
-          </button>
-
-        `
-      )
-      .join('');
-
-
-  let rows =
-    (CMS.faq || [])
-      .filter(
-        x =>
-          active(
-            x['فعال'] ??
-            x.active
-          )
-      );
-
-
-  rows.sort(
-    (a,b)=>
-      Number(
-        a['ترتیب'] ||
-        a.order ||
-        999
-      )
-      -
-      Number(
-        b['ترتیب'] ||
-        b.order ||
-        999
-      )
-  );
-
-
-  if(
-    faqFilter !==
-    'همه'
-  ){
-
-    rows =
-      rows.filter(
-        x =>
-          clean(
-            x['دسته'] ||
-            x.category
-          )
-          ===
-          faqFilter
-      );
-
-  }
-
-
-  if(!rows.length){
-
-    container.innerHTML = `
-
-      <div class="empty glass">
-
-        سؤالی برای نمایش
-        ثبت نشده است.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  const groups={};
-
-
-  rows.forEach(
-    item => {
-
-      const category =
-        clean(
-          item['دسته'] ||
-          item.category
-        )
-        ||
-        'عمومی';
-
-
-      if(!groups[category]){
-
-        groups[category]=[];
-
-      }
-
-
-      groups[category]
-        .push(item);
-
+    if(!categories.includes(category)){
+      categories.push(category);
     }
-  );
+
+  });
 
 
   container.innerHTML =
-    Object
-      .entries(groups)
+    categories
       .map(
-        ([category,items])=>`
+        category => {
 
-          <div
-            class="faq-category glass">
+          const items =
+            rows.filter(
+              row =>
+                String(
+                  row["دسته"] || "عمومی"
+                ).trim() === category
+            )
+            .sort(
+              (a,b) =>
+                Number(a["ترتیب"] || 999) -
+                Number(b["ترتیب"] || 999)
+            );
 
 
-            <button
-              class="faq-head"
-              onclick="toggleFAQCategory(this)">
+          return `
 
+            <div
+              class="faq-category glass"
+              data-category="${esc(category)}">
 
-              <div class="icon-glass">
+              <div
+                class="faq-category-head"
+                onclick="toggleFAQCategory(this)">
 
-                <svg>
+                <div class="faq-category-icon">
+                  ${faqIcon(category)}
+                </div>
 
-                  <use
-                    href="#i-help">
-                  </use>
+                <div class="faq-category-name">
+                  ${esc(category)}
+                </div>
 
-                </svg>
+                <div class="faq-arrow">
+                  ›
+                </div>
 
               </div>
 
 
-              <strong>
+              <div class="faq-list">
 
-                ${esc(category)}
+                ${items.map(
+                  item => `
 
-              </strong>
+                    <div
+                      class="faq-question"
+                      onclick="toggleFAQQuestion(event,this)">
 
+                      <div class="faq-question-title">
 
-              <svg class="faq-chevron">
+                        <span class="qmark">
+                          ?
+                        </span>
 
-                <use
-                  href="#i-chevron">
-                </use>
-
-              </svg>
-
-            </button>
-
-
-            <div class="faq-list">
-
-              ${
-                items
-                  .map(
-                    item => `
-
-                      <div class="faq-item">
-
-
-                        <button
-                          class="faq-q"
-                          onclick="toggleFAQItem(this)">
-
-
-                          <span>
-
-                            ${esc(
-                              item['سؤال'] ||
-                              item.question ||
-                              ''
-                            )}
-
-                          </span>
-
-
-                          <svg>
-
-                            <use
-                              href="#i-chevron">
-                            </use>
-
-                          </svg>
-
-                        </button>
-
-
-                        <div class="faq-a">
-
-                          ${esc(
-                            item['پاسخ'] ||
-                            item.answer ||
-                            ''
-                          )}
-
-                        </div>
-
+                        <span>
+                          ${esc(item["سؤال"] || "")}
+                        </span>
 
                       </div>
 
-                    `
-                  )
-                  .join('')
-              }
+
+                      <div class="faq-answer">
+                        ${esc(item["پاسخ"] || "")}
+                      </div>
+
+                    </div>
+
+                  `
+                ).join("")}
+
+              </div>
 
             </div>
 
-          </div>
+          `;
 
-        `
+        }
       )
-      .join('');
+      .join("");
+
+
+  if(!categories.length){
+
+    container.innerHTML = `
+      <div class="detail-card glass">
+        <div class="detail-text">
+          سؤالات متداول در حال آماده‌سازی است.
+        </div>
+      </div>
+    `;
+
+  }
 
 }
 
 
-function setFAQFilter(category){
+function toggleFAQCategory(head){
 
-  faqFilter=category;
+  const category =
+    head.closest(".faq-category");
 
-  renderFAQ();
+  if(!category) return;
+
+  const wasOpen =
+    category.classList.contains("open");
+
+  document
+    .querySelectorAll(".faq-category")
+    .forEach(
+      c => c.classList.remove("open")
+    );
+
+  if(!wasOpen){
+
+    category.classList.add("open");
+
+    setTimeout(() => {
+
+      category.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+    },80);
+
+  }
+
+}
 
 
-  setTimeout(
-    ()=>{
+function toggleFAQQuestion(event,question){
 
-      const content =
-        document.getElementById(
-          'faqContent'
-        );
+  event.stopPropagation();
 
-      if(content){
+  const wasOpen =
+    question.classList.contains("open");
 
-        content.scrollIntoView({
-          behavior:'smooth',
-          block:'start'
+  question
+    .closest(".faq-list")
+    .querySelectorAll(".faq-question")
+    .forEach(
+      q => q.classList.remove("open")
+    );
+
+  if(!wasOpen){
+
+    question.classList.add("open");
+
+    setTimeout(() => {
+
+      const rect =
+        question.getBoundingClientRect();
+
+      if(
+        rect.bottom >
+        window.innerHeight - 30
+      ){
+
+        window.scrollBy({
+          top:
+            rect.bottom -
+            (window.innerHeight - 40),
+          behavior:"smooth"
         });
 
       }
 
-    },
-    80
-  );
+    },50);
 
-}
-
-
-function toggleFAQCategory(button){
-
-  const category =
-    button.parentElement;
-
-  category.classList.toggle(
-    'open'
-  );
-
-}
-
-
-function toggleFAQItem(button){
-
-  const item =
-    button.parentElement;
-
-  item.classList.toggle(
-    'open'
-  );
+  }
 
 }
 
 
 /* =========================================================
-   CONTACT SETTINGS
+   CONTACT
 ========================================================= */
 
-function renderContactSettings(){
+function renderContact(){
 
   const container =
-    document.getElementById(
-      'contactContent'
-    );
+    document.getElementById("contactList");
 
-  if(!container)return;
-
-
-  const telegram =
-    getSetting(
-      'telegram',
-      '@AD_Kaenatchi'
-    );
-
-
-  const instagram =
-    getSetting(
-      'instagram',
-      'Kaenatchi'
-    );
-
+  if(!container) return;
 
   const whatsapp =
-    getSetting(
-      'whatsapp',
-      '@Kaenatchi'
+    setting(
+      "واتساپ",
+      "@Kaenatchi"
     );
 
+  const telegram =
+    setting(
+      "تلگرام",
+      "@AD_Kaenatchi"
+    );
+
+  const instagram =
+    setting(
+      "اینستاگرام",
+      "Kaenatchi"
+    );
 
   const phone =
-    getSetting(
-      'phone',
-      ''
+    setting(
+      "تلفن",
+      ""
     );
 
 
-  container.innerHTML = `
+  let html = "";
 
 
-    <div
-      class="info-item"
-      onclick="openTelegram()">
+  if(whatsapp){
 
+    html += `
+      <div
+        class="info-row glass"
+        onclick="openExternal('https://wa.me/${cleanPhone(whatsapp)}')">
 
-      <div class="icon-glass">
+        <div class="info-icon">◌</div>
 
-        <svg>
-          <use href="#i-send"></use>
-        </svg>
-
-      </div>
-
-
-      <div class="info-text">
-
-        <strong>
-          Telegram
-        </strong>
-
-        <span>
-          ${esc(telegram)}
-        </span>
-
-      </div>
-
-
-      <svg class="chevron">
-
-        <use href="#i-chevron"></use>
-
-      </svg>
-
-
-    </div>
-
-
-    <div
-      class="info-item"
-      onclick="openInstagram()">
-
-
-      <div class="icon-glass">
-
-        <svg>
-          <use href="#i-instagram"></use>
-        </svg>
-
-      </div>
-
-
-      <div class="info-text">
-
-        <strong>
-          Instagram
-        </strong>
-
-        <span>
-          ${esc(instagram)}
-        </span>
-
-      </div>
-
-
-      <svg class="chevron">
-
-        <use href="#i-chevron"></use>
-
-      </svg>
-
-
-    </div>
-
-
-    <div
-      class="info-item"
-      onclick="openWhatsApp()">
-
-
-      <div class="icon-glass">
-
-        <svg>
-          <use href="#i-chat"></use>
-        </svg>
-
-      </div>
-
-
-      <div class="info-text">
-
-        <strong>
-          WhatsApp
-        </strong>
-
-        <span>
+        <div class="info-text">
+          <b>WhatsApp</b>
           ${esc(whatsapp)}
-        </span>
+        </div>
+
+        <div class="chevron">›</div>
 
       </div>
+    `;
+
+  }
 
 
-      <svg class="chevron">
+  if(telegram){
 
-        <use href="#i-chevron"></use>
+    html += `
+      <div
+        class="info-row glass"
+        onclick="openTelegram('${esc(telegram)}')">
 
-      </svg>
+        <div class="info-icon">✈</div>
 
+        <div class="info-text">
+          <b>Telegram</b>
+          ${esc(telegram)}
+        </div>
 
-    </div>
+        <div class="chevron">›</div>
 
+      </div>
+    `;
 
-    ${
-      phone
-        ? `
-
-          <div
-            class="info-item"
-            onclick="openPhone()">
-
-
-            <div class="icon-glass">
-
-              <svg>
-
-                <use
-                  href="#i-phone">
-                </use>
-
-              </svg>
-
-            </div>
+  }
 
 
-            <div class="info-text">
+  if(instagram){
 
-              <strong>
-                تماس تلفنی
-              </strong>
+    html += `
+      <div
+        class="info-row glass"
+        onclick="openInstagram('${esc(instagram)}')">
 
-              <span>
-                ${esc(phone)}
-              </span>
+        <div class="info-icon">◎</div>
 
-            </div>
+        <div class="info-text">
+          <b>Instagram</b>
+          ${esc(instagram)}
+        </div>
+
+        <div class="chevron">›</div>
+
+      </div>
+    `;
+
+  }
 
 
-            <svg class="chevron">
+  if(phone){
 
-              <use
-                href="#i-chevron">
-              </use>
+    html += `
+      <div
+        class="info-row glass"
+        onclick="window.location.href='tel:${esc(phone)}'">
 
-            </svg>
+        <div class="info-icon">⌕</div>
+
+        <div class="info-text">
+          <b>تماس تلفنی</b>
+          ${esc(phone)}
+        </div>
+
+        <div class="chevron">›</div>
+
+      </div>
+    `;
+
+  }
 
 
-          </div>
-
-        `
-        : ''
-    }
-
-  `;
+  container.innerHTML =
+    html ||
+    `
+      <div class="detail-card glass">
+        <div class="detail-text">
+          اطلاعات ارتباطی در حال تکمیل است.
+        </div>
+      </div>
+    `;
 
 }
 
 
-/* =========================================================
-   CONTACT SHEET
-========================================================= */
+function cleanPhone(value){
 
-function renderContactSheet(){
-
-  const container =
-    document.getElementById(
-      'sheetLinks'
-    );
-
-
-  const telegram =
-    getSetting(
-      'telegram',
-      '@AD_Kaenatchi'
-    );
-
-
-  const instagram =
-    getSetting(
-      'instagram',
-      'Kaenatchi'
-    );
-
-
-  const whatsapp =
-    getSetting(
-      'whatsapp',
-      '@Kaenatchi'
-    );
-
-
-  const phone =
-    getSetting(
-      'phone',
-      ''
-    );
-
-
-  container.innerHTML = `
-
-
-    <button
-      class="sheet-link"
-      onclick="
-        openTelegram();
-        closeContactSheet();
-      ">
-
-
-      <svg>
-
-        <use
-          href="#i-send">
-        </use>
-
-      </svg>
-
-
-      <span>
-
-        Telegram —
-        ${esc(telegram)}
-
-      </span>
-
-
-    </button>
-
-
-    <button
-      class="sheet-link"
-      onclick="
-        openInstagram();
-        closeContactSheet();
-      ">
-
-
-      <svg>
-
-        <use
-          href="#i-instagram">
-        </use>
-
-      </svg>
-
-
-      <span>
-
-        Instagram —
-        ${esc(instagram)}
-
-      </span>
-
-
-    </button>
-
-
-    <button
-      class="sheet-link"
-      onclick="
-        openWhatsApp();
-        closeContactSheet();
-      ">
-
-
-      <svg>
-
-        <use
-          href="#i-chat">
-        </use>
-
-      </svg>
-
-
-      <span>
-
-        WhatsApp —
-        ${esc(whatsapp)}
-
-      </span>
-
-
-    </button>
-
-
-    ${
-      phone
-        ? `
-
-          <button
-            class="sheet-link"
-            onclick="
-              openPhone();
-              closeContactSheet();
-            ">
-
-
-            <svg>
-
-              <use
-                href="#i-phone">
-              </use>
-
-            </svg>
-
-
-            <span>
-
-              تماس تلفنی —
-              ${esc(phone)}
-
-            </span>
-
-
-          </button>
-
-        `
-        : ''
-    }
-
-  `;
+  return String(value || "")
+    .replace(/[^\d+]/g,"")
+    .replace(/^\+/,"");
 
 }
 
 
-/* =========================================================
-   CONTACT ACTIONS
-========================================================= */
+function openExternal(url){
 
-function openTelegram(){
-
-  let value =
-    getSetting(
-      'telegram',
-      '@AD_Kaenatchi'
-    );
-
-
-  openExternal(
-
-    value.startsWith('http')
-
-      ? value
-
-      : 'https://t.me/' +
-        value.replace('@','')
-
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
   );
 
 }
 
 
-function openInstagram(){
+function openTelegram(value){
 
-  let value =
-    getSetting(
-      'instagram',
-      'Kaenatchi'
-    );
+  let username =
+    String(value || "").trim();
 
+  username =
+    username.replace(/^@/,"");
 
-  openExternal(
-
-    value.startsWith('http')
-
-      ? value
-
-      : 'https://instagram.com/' +
-        value.replace('@','')
-
+  window.open(
+    "https://t.me/" + username,
+    "_blank",
+    "noopener,noreferrer"
   );
 
 }
 
 
-function openWhatsApp(){
+function openInstagram(value){
 
-  let value =
-    getSetting(
-      'whatsapp',
-      '@Kaenatchi'
-    );
+  let username =
+    String(value || "").trim();
 
+  username =
+    username.replace(/^@/,"");
 
-  if(
-    value.startsWith('http')
-  ){
-
-    openExternal(value);
-
-    return;
-
-  }
-
-
-  const number =
-    value.replace(
-      /\D/g,
-      ''
-    );
-
-
-  if(number){
-
-    openExternal(
-      'https://wa.me/' +
-      number
-    );
-
-  }
-
-}
-
-
-function openPhone(){
-
-  const value =
-    getSetting(
-      'phone',
-      ''
-    );
-
-
-  if(value){
-
-    window.location.href =
-      'tel:' +
-      value.replace(
-        /[^\d+]/g,
-        ''
-      );
-
-  }
+  window.open(
+    "https://instagram.com/" + username,
+    "_blank",
+    "noopener,noreferrer"
+  );
 
 }
 
@@ -6165,62 +4390,63 @@ function openPhone(){
 function renderHours(){
 
   const container =
-    document.getElementById(
-      'hoursContent'
-    );
+    document.getElementById("hoursList");
 
-  if(!container)return;
-
+  if(!container) return;
 
   const hours =
-    getSetting(
-      'hours',
-      `شنبه تا چهارشنبه
-۱۱:۰۰ تا ۱۴:۰۰
-۱۵:۰۰ تا ۱۹:۰۰
+    setting(
+      "ساعات کاری",
+      "شنبه تا چهارشنبه: ۱۱ تا ۱۴ و ۱۵ تا ۱۹\nپنجشنبه: ۱۱ تا ۱۴\nجمعه: تعطیل"
+    );
 
-پنجشنبه
-۱۱:۰۰ تا ۱۴:۰۰
-
-جمعه و تعطیلات رسمی: تعطیل`
+  const notice =
+    setting(
+      "توضیحات ساعات کاری",
+      "در روزهای تعطیل رسمی نیز فعالیت مجموعه تعطیل است، مگر آنکه اطلاعیه ویژه‌ای اعلام شود."
     );
 
 
   container.innerHTML = `
 
+    <div class="info-row glass">
 
-    <div class="detail-art">
+      <div class="info-icon">
+        ◷
+      </div>
 
-      <div class="icon-glass">
+      <div class="info-text">
 
-        <svg>
+        <b>
+          ساعات فعالیت
+        </b>
 
-          <use
-            href="#i-clock">
-          </use>
-
-        </svg>
+        <div style="white-space:pre-line;">
+          ${esc(hours)}
+        </div>
 
       </div>
 
     </div>
 
 
-    <h3
-      style="
-        color:var(--green);
-        margin:0 0 12px;
-        font-size:18px;
-      ">
+    <div class="info-row glass">
 
-      ساعات پاسخ‌گویی و ارائه خدمات
+      <div class="info-icon">
+        i
+      </div>
 
-    </h3>
+      <div class="info-text">
 
+        <b>
+          توضیحات
+        </b>
 
-    <div class="detail-full">
+        <div>
+          ${esc(notice)}
+        </div>
 
-      ${esc(hours)}
+      </div>
 
     </div>
 
@@ -6230,105 +4456,144 @@ function renderHours(){
 
 
 /* =========================================================
-   HORIZONTAL DRAG / SWIPE
+   RENDER
 ========================================================= */
 
-function initAllDraggableFilters(){
+function renderAll(){
 
-  document
-    .querySelectorAll(
-      '.filter-scroll'
-    )
-    .forEach(
-      container => {
+  renderServices();
+  renderCourses();
+  renderEvents();
+  renderFAQ();
+  renderContact();
+  renderHours();
 
-        if(
-          container.dataset.dragReady
-        ){
-
-          return;
-
-        }
+}
 
 
-        container.dataset.dragReady='1';
+/* =========================================================
+   TOAST
+========================================================= */
 
+let toastTimer = null;
 
-        let down=false;
+function showToast(message){
 
-        let startX=0;
+  const toast =
+    document.getElementById("toast");
 
-        let startScroll=0;
+  if(!toast) return;
 
+  toast.textContent =
+    message;
 
-        container.addEventListener(
-          'pointerdown',
-          event => {
+  toast.classList.add("show");
 
-            down=true;
+  clearTimeout(toastTimer);
 
-            startX=
-              event.clientX;
-
-            startScroll=
-              container.scrollLeft;
-
-            container.classList.add(
-              'dragging'
-            );
-
-          }
-        );
-
-
-        container.addEventListener(
-          'pointermove',
-          event => {
-
-            if(!down)return;
-
-
-            const distance =
-              event.clientX -
-              startX;
-
-
-            container.scrollLeft =
-              startScroll -
-              distance;
-
-          }
-        );
-
-
-        [
-          'pointerup',
-          'pointercancel',
-          'pointerleave'
-        ]
-        .forEach(
-          eventName => {
-
-            container.addEventListener(
-              eventName,
-              ()=>{
-
-                down=false;
-
-                container.classList.remove(
-                  'dragging'
-                );
-
-              }
-            );
-
-          }
-        );
-
-      }
+  toastTimer =
+    setTimeout(
+      () =>
+        toast.classList.remove("show"),
+      3000
     );
 
 }
+
+
+/* =========================================================
+   FILTER DRAG / SWIPE
+========================================================= */
+
+function enableHorizontalDrag(){
+
+  document
+    .querySelectorAll(".filters")
+    .forEach(slider => {
+
+      let down = false;
+      let startX = 0;
+      let scrollLeft = 0;
+
+      slider.addEventListener(
+        "pointerdown",
+        e => {
+
+          down = true;
+
+          slider.setPointerCapture(
+            e.pointerId
+          );
+
+          startX = e.clientX;
+          scrollLeft = slider.scrollLeft;
+
+          slider.style.cursor = "grabbing";
+
+        }
+      );
+
+
+      slider.addEventListener(
+        "pointermove",
+        e => {
+
+          if(!down) return;
+
+          const dx =
+            e.clientX - startX;
+
+          slider.scrollLeft =
+            scrollLeft - dx;
+
+        }
+      );
+
+
+      slider.addEventListener(
+        "pointerup",
+        () => {
+
+          down = false;
+
+          slider.style.cursor =
+            "grab";
+
+        }
+      );
+
+
+      slider.addEventListener(
+        "pointercancel",
+        () => {
+
+          down = false;
+
+          slider.style.cursor =
+            "grab";
+
+        }
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    enableHorizontalDrag();
+
+    loadCMS();
+
+  }
+);
 
 </script>
 
