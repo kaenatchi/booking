@@ -1,3202 +1,4044 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-
-<meta name="theme-color" content="#f6f0e4">
-
-<title>کائنات‌چی</title>
-
-<style>
-/* =========================================================
-   KAENATCHI — SAFE VISUAL WRAPPER
-   Original Gist is loaded intact.
-   Only requested visual/navigation changes are applied.
-========================================================= */
-
-html,
-body{
-  margin:0;
-  width:100%;
-  min-height:100%;
-  background:#f6f0e4;
-}
-
-#kaen-loading{
-  position:fixed;
-  inset:0;
-  z-index:999999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:
-    radial-gradient(
-      circle at 50% 10%,
-      rgba(255,255,255,.95),
-      transparent 42%
-    ),
-    #f6f0e4;
-}
-
-#kaen-loading-card{
-  width:170px;
-  min-height:150px;
-  padding:20px;
-  border-radius:32px;
-
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:14px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.78),
-      rgba(255,255,255,.38)
-    );
-
-  border:1px solid rgba(255,255,255,.92);
-
-  box-shadow:
-    0 18px 42px rgba(35,77,58,.15),
-    0 5px 14px rgba(35,77,58,.08),
-    inset 0 1px 1px rgba(255,255,255,.96);
-
-  backdrop-filter:blur(28px) saturate(170%);
-  -webkit-backdrop-filter:blur(28px) saturate(170%);
-}
-
-#kaen-loading-logo{
-  width:72px;
-  height:72px;
-  border-radius:50%;
-  object-fit:contain;
-
-  background:rgba(255,255,255,.60);
-
-  border:1px solid rgba(255,255,255,.95);
-
-  box-shadow:
-    0 10px 25px rgba(35,77,58,.16),
-    inset 0 2px 3px rgba(255,255,255,.95);
-}
-
-#kaen-loading-text{
-  color:#234d3a;
-  font-size:12px;
-  font-weight:800;
-}
-
-
-/* =========================================================
-   UNIVERSAL GLASS
-========================================================= */
-
-:root{
-  --kaen-shadow:
-    0 12px 27px rgba(35,77,58,.12),
-    0 4px 9px rgba(35,77,58,.065),
-    inset 0 1px 1px rgba(255,255,255,.94);
-
-  --kaen-shadow-strong:
-    0 18px 38px rgba(35,77,58,.16),
-    0 6px 13px rgba(35,77,58,.085),
-    inset 0 1px 1px rgba(255,255,255,.97);
-
-  --kaen-glass:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.76),
-      rgba(255,255,255,.40)
-    );
-}
-
-button,
-a,
-.glass-card,
-.primary-booking,
-.companion-card,
-.list-item,
-.detail-card,
-.detail-booking,
-.faq-category,
-.faq-question,
-.contact-card,
-.hours-card,
-.info-pill,
-.syllabus,
-.status,
-.notice,
-.sheet-item,
-.sheet-close,
-.menu-button,
-.filter-pill,
-.kaen-top-back{
-  -webkit-tap-highlight-color:transparent;
-}
-
-
-/* =========================================================
-   EVERY OPTION HAS THE SAME SMALL GLASS SHADOW
-========================================================= */
-
-.glass-card,
-.companion-card,
-.list-item,
-.detail-card,
-.faq-category,
-.contact-card,
-.hours-card,
-.sheet-item,
-.filter-pill,
-.info-pill,
-.syllabus,
-.status,
-.notice{
-
-  background:var(--kaen-glass) !important;
-
-  border:1px solid rgba(255,255,255,.90) !important;
-
-  box-shadow:var(--kaen-shadow) !important;
-
-  backdrop-filter:blur(24px) saturate(165%) !important;
-  -webkit-backdrop-filter:blur(24px) saturate(165%) !important;
-}
-
-.primary-booking,
-.detail-booking,
-.sheet-close{
-
-  box-shadow:
-    0 14px 30px rgba(35,77,58,.20),
-    0 4px 9px rgba(35,77,58,.10),
-    inset 0 1px 1px rgba(255,255,255,.22) !important;
-}
-
-
-/* =========================================================
-   ICONS — BIGGER + SHADOW
-========================================================= */
-
-.icon-box,
-.list-icon,
-.crown,
-.category-icon{
-
-  box-shadow:
-    0 10px 23px rgba(35,77,58,.14),
-    0 3px 8px rgba(35,77,58,.08),
-    inset 0 1px 1px rgba(255,255,255,.96) !important;
-
-  border:1px solid rgba(255,255,255,.90) !important;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.90),
-      rgba(224,235,227,.56)
-    ) !important;
-
-  backdrop-filter:blur(20px) saturate(160%) !important;
-  -webkit-backdrop-filter:blur(20px) saturate(160%) !important;
-}
-
-.icon-box svg,
-.list-icon svg,
-.crown svg,
-.category-icon svg,
-.sheet-item svg{
-
-  filter:
-    drop-shadow(0 4px 5px rgba(35,77,58,.24))
-    drop-shadow(0 1px 1px rgba(255,255,255,.80)) !important;
-}
-
-
-/* =========================================================
-   CROWN STYLE APPLIED TO ALL MAIN CARDS
-========================================================= */
-
-.glass-card,
-.companion-card,
-.list-item,
-.detail-card,
-.faq-category,
-.contact-card,
-.hours-card{
-
-  position:relative;
-  overflow:hidden;
-}
-
-.glass-card::before,
-.companion-card::before,
-.list-item::before,
-.detail-card::before,
-.faq-category::before,
-.contact-card::before,
-.hours-card::before{
-
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  pointer-events:none;
-
-  background:
-    linear-gradient(
-      115deg,
-      rgba(255,255,255,.30),
-      transparent 34%,
-      transparent 70%,
-      rgba(255,255,255,.08)
-    );
-
-  opacity:.72;
-}
-
-
-/* =========================================================
-   LOGO — KEEP IMAGE INSIDE ITS FRAME
-========================================================= */
-
-.hero-logo-ring{
-
-  overflow:hidden !important;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.90),
-      rgba(232,241,235,.54)
-    ) !important;
-
-  border:1px solid rgba(255,255,255,.96) !important;
-
-  box-shadow:
-    0 17px 38px rgba(35,77,58,.16),
-    0 5px 12px rgba(35,77,58,.07),
-    inset 0 2px 3px rgba(255,255,255,.98) !important;
-}
-
-.hero-logo{
-
-  width:calc(100% - 18px) !important;
-  height:calc(100% - 18px) !important;
-
-  max-width:calc(100% - 18px) !important;
-  max-height:calc(100% - 18px) !important;
-
-  object-fit:contain !important;
-  object-position:center !important;
-
-  display:block !important;
-
-  border-radius:50% !important;
-}
-
-
-/* =========================================================
-   HOME LOGO DUPLICATION
-========================================================= */
-
-#homeView .mini-brand{
-  display:none !important;
-}
-
-#homeView .hero h1{
-
-  font-size:0 !important;
-  margin:0 !important;
-  line-height:1 !important;
-}
-
-#homeView .hero h1::after{
-
-  content:"به کائنات‌چی خوش اومدید";
-
-  display:block;
-
-  color:#234d3a;
-
-  font-size:22px;
-  line-height:1.65;
-
-  font-weight:900;
-  letter-spacing:-.3px;
-}
-
-
-/* =========================================================
-   HOME DESCRIPTION
-========================================================= */
-
-.hero-tagline{
-
-  margin-top:8px !important;
-
-  color:#52705f !important;
-
-  font-size:13.5px !important;
-
-  line-height:1.9 !important;
-
-  font-weight:650 !important;
-}
-
-.hero-description{
-
-  margin-top:8px !important;
-
-  color:#6a776f !important;
-
-  line-height:1.9 !important;
-}
-
-
-/* =========================================================
-   REMOVE ALL OLD BACK BUTTONS
-========================================================= */
-
-.back-button{
-  display:none !important;
-}
-
-
-/* =========================================================
-   TOP RIGHT > NAVIGATION
-========================================================= */
-
-.topbar{
-  position:relative !important;
-}
-
-.kaen-top-back{
-
-  position:absolute;
-
-  right:0;
-  top:7px;
-
-  width:47px;
-  height:47px;
-
-  z-index:20;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:17px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.82),
-      rgba(255,255,255,.40)
-    );
-
-  border:1px solid rgba(255,255,255,.90);
-
-  color:#234d3a;
-
-  font-size:25px;
-  font-weight:700;
-
-  box-shadow:
-    0 9px 22px rgba(35,77,58,.12),
-    0 3px 8px rgba(35,77,58,.06),
-    inset 0 1px 1px rgba(255,255,255,.96);
-
-  backdrop-filter:blur(22px);
-  -webkit-backdrop-filter:blur(22px);
-
-  transition:.22s cubic-bezier(.22,.8,.22,1);
-}
-
-.kaen-top-back:active{
-  transform:scale(.91);
-}
-
-
-/* =========================================================
-   FILTER ROW
-========================================================= */
-
-.kaen-filter-wrap{
-
-  margin:3px 0 15px;
-
-  width:100%;
-
-  overflow:hidden;
-}
-
-.kaen-filter-scroll{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:7px;
-
-  width:100%;
-
-  overflow-x:auto;
-  overflow-y:hidden;
-
-  padding:
-    5px
-    4px
-    10px;
-
-  scrollbar-width:none;
-
-  -webkit-overflow-scrolling:touch;
-
-  touch-action:pan-x;
-}
-
-.kaen-filter-scroll::-webkit-scrollbar{
-  display:none;
-}
-
-.filter-pill{
-
-  position:relative;
-
-  flex:0 0 auto;
-
-  min-height:42px;
-
-  padding:9px 16px;
-
-  border-radius:17px;
-
-  color:#315f49;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.78),
-      rgba(255,255,255,.39)
-    );
-
-  font-size:11px;
-
-  font-weight:850;
-
-  white-space:nowrap;
-
-  transition:.22s cubic-bezier(.22,.8,.22,1);
-}
-
-.filter-pill.active{
-
-  color:#fff;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(49,95,73,.97),
-      rgba(35,77,58,.92)
-    );
-
-  border-color:rgba(255,255,255,.25) !important;
-
-  box-shadow:
-    0 12px 25px rgba(35,77,58,.20),
-    0 3px 8px rgba(35,77,58,.10),
-    inset 0 1px 1px rgba(255,255,255,.18) !important;
-}
-
-.filter-separator{
-
-  flex:0 0 auto;
-
-  color:#52745f;
-
-  opacity:.58;
-
-  font-size:15px;
-
-  font-weight:800;
-}
-
-
-/* =========================================================
-   LIST ITEMS
-========================================================= */
-
-.list-item{
-
-  min-height:80px !important;
-
-  box-shadow:var(--kaen-shadow) !important;
-
-  transition:
-    transform .20s ease,
-    box-shadow .20s ease;
-}
-
-.list-item:active{
-
-  transform:scale(.982);
-
-  box-shadow:
-    0 7px 17px rgba(35,77,58,.11),
-    inset 0 1px 1px rgba(255,255,255,.90) !important;
-}
-
-.list-arrow{
-
-  color:#234d3a !important;
-
-  opacity:.58 !important;
-
-  font-size:21px !important;
-
-  font-weight:700 !important;
-}
-
-
-/* =========================================================
-   MENU — LEFT SLIDING VERTICAL DRAWER
-========================================================= */
-
-.menu-sheet{
-
-  left:0 !important;
-  right:auto !important;
-  bottom:0 !important;
-  top:0 !important;
-
-  width:min(88vw,360px) !important;
-  max-height:none !important;
-
-  transform:translateX(-105%) !important;
-
-  border-radius:
-    0
-    30px
-    30px
-    0 !important;
-
-  padding:
-    max(20px,env(safe-area-inset-top))
-    13px
-    max(20px,env(safe-area-inset-bottom))
-    13px !important;
-
-  overflow-y:auto !important;
-
-  box-shadow:
-    20px 0 55px rgba(35,77,58,.18),
-    5px 0 15px rgba(35,77,58,.08),
-    inset -1px 0 0 rgba(255,255,255,.78) !important;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.88),
-      rgba(239,233,221,.82)
-    ) !important;
-
-  backdrop-filter:
-    blur(32px)
-    saturate(170%) !important;
-
-  -webkit-backdrop-filter:
-    blur(32px)
-    saturate(170%) !important;
-}
-
-.menu-sheet.open{
-
-  transform:translateX(0) !important;
-}
-
-.sheet-handle{
-
-  margin:
-    3px
-    auto
-    18px !important;
-}
-
-.sheet-brand{
-  display:none !important;
-}
-
-.sheet-grid{
-
-  display:flex !important;
-
-  flex-direction:column !important;
-
-  gap:10px !important;
-}
-
-.sheet-item{
-
-  position:relative;
-
-  width:100% !important;
-
-  min-height:64px !important;
-
-  padding:
-    10px
-    43px
-    10px
-    13px !important;
-
-  border-radius:21px !important;
-
-  justify-content:flex-start !important;
-
-  text-align:right !important;
-
-  color:#234d3a !important;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.76),
-      rgba(255,255,255,.38)
-    ) !important;
-
-  border:1px solid rgba(255,255,255,.90) !important;
-
-  box-shadow:
-    0 10px 24px rgba(35,77,58,.11),
-    0 3px 8px rgba(35,77,58,.06),
-    inset 0 1px 1px rgba(255,255,255,.95) !important;
-
-  backdrop-filter:blur(22px);
-  -webkit-backdrop-filter:blur(22px);
-
-  direction:rtl;
-}
-
-.sheet-item::after{
-
-  content:">";
-
-  position:absolute;
-
-  right:14px;
-  top:50%;
-
-  transform:translateY(-50%);
-
-  color:#315f49;
-
-  font-size:18px;
-
-  font-weight:800;
-
-  pointer-events:none;
-}
-
-.sheet-item svg{
-
-  width:30px !important;
-  height:30px !important;
-
-  flex:0 0 30px !important;
-
-  filter:
-    drop-shadow(0 4px 5px rgba(35,77,58,.22)) !important;
-}
-
-.sheet-item:active{
-
-  transform:scale(.985);
-
-  box-shadow:
-    0 6px 15px rgba(35,77,58,.09),
-    inset 0 1px 1px rgba(255,255,255,.92) !important;
-}
-
-.sheet-close{
-
-  margin-top:13px !important;
-
-  min-height:53px !important;
-
-  border-radius:20px !important;
-}
-
-
-/* =========================================================
-   FILTERS SHOULD LOOK LIKE SAME CROWN GLASS
-========================================================= */
-
-.kaen-filter-wrap,
-.kaen-filter-scroll{
-  position:relative;
-  z-index:5;
-}
-
-
-/* =========================================================
-   FAQ OPTIONS
-========================================================= */
-
-.faq-category{
-
-  box-shadow:var(--kaen-shadow) !important;
-
-  border-radius:24px !important;
-}
-
-.faq-category-title{
-
-  min-height:64px !important;
-
-  box-shadow:
-    inset 0 1px 1px rgba(255,255,255,.65);
-}
-
-.faq-question{
-
-  box-shadow:
-    0 5px 12px rgba(35,77,58,.055),
-    inset 0 1px 0 rgba(255,255,255,.70);
-}
-
-
-/* =========================================================
-   DETAIL / PRICE / INFO
-========================================================= */
-
-.detail-card{
-
-  box-shadow:var(--kaen-shadow-strong) !important;
-}
-
-.price,
-.info-pill,
-.syllabus,
-.status{
-
-  box-shadow:
-    0 7px 17px rgba(35,77,58,.075),
-    inset 0 1px 1px rgba(255,255,255,.86) !important;
-}
-
-
-/* =========================================================
-   INTERNAL LOGO
-========================================================= */
-
-.internal-logo{
-
-  object-fit:contain !important;
-
-  background:rgba(255,255,255,.58);
-
-  box-shadow:
-    0 9px 22px rgba(35,77,58,.13),
-    0 3px 7px rgba(35,77,58,.06),
-    inset 0 1px 1px rgba(255,255,255,.94) !important;
-}
-
-
-/* =========================================================
-   ALL SVG ICONS HAVE DEPTH
-========================================================= */
-
-svg{
-  overflow:visible;
-}
-
-.icon-stroke{
-  filter:
-    drop-shadow(0 1.5px 1.5px rgba(35,77,58,.16));
-}
-
-
-/* =========================================================
-   NO BLUE LINKS / TEXT
-========================================================= */
-
-a,
-button{
-  color:inherit;
-}
-
-.sheet-item,
-.filter-pill,
-.kaen-top-back{
-  color:#234d3a !important;
-}
-
-.filter-pill.active{
-  color:#fff !important;
-}
-
-
-/* =========================================================
-   REMOVE OLD EMOJI VISUAL SPACE
-========================================================= */
-
-.action-title,
-.glass-label,
-.companion-title,
-.internal-head h2,
-.contact-name,
-.notice,
-.status,
-.price,
-.list-name{
-
-  text-rendering:optimizeLegibility;
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:390px){
-
-  .kaen-top-back{
-    width:44px;
-    height:44px;
-  }
-
-  .filter-pill{
-    min-height:40px;
-    padding-left:14px;
-    padding-right:14px;
-  }
-
-  .sheet-item{
-    min-height:61px !important;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#f5efe3">
+  <title>کائنات‌چی</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    :root{
+      --cream:#f5efe3;
+      --cream-2:#fbf7ef;
+      --cream-3:#eee5d5;
+
+      --green:#244d3b;
+      --green-deep:#17382b;
+      --green-mid:#35614d;
+      --green-soft:#7e9d8b;
+
+      --ink:#24352d;
+      --muted:#718078;
+
+      --glass:rgba(255,255,255,.43);
+      --glass-strong:rgba(255,255,255,.62);
+      --glass-clear:rgba(255,255,255,.24);
+
+      --line:rgba(255,255,255,.72);
+      --line-dark:rgba(36,77,59,.13);
+
+      --shadow:
+        0 20px 55px rgba(29,63,47,.12),
+        0 5px 18px rgba(29,63,47,.07);
+
+      --shadow-deep:
+        0 28px 70px rgba(23,56,43,.18),
+        0 10px 28px rgba(23,56,43,.10);
+
+      --radius-xl:38px;
+      --radius-lg:28px;
+      --radius-md:22px;
+      --radius-sm:17px;
+
+      --ease:cubic-bezier(.22,.8,.24,1);
+    }
+
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    html{
+      min-height:100%;
+      background:var(--cream);
+      scroll-behavior:smooth;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      background:
+        radial-gradient(circle at 50% -5%,rgba(255,255,255,.95),transparent 34%),
+        radial-gradient(circle at 0% 45%,rgba(113,150,127,.10),transparent 28%),
+        radial-gradient(circle at 100% 30%,rgba(111,145,122,.08),transparent 28%),
+        linear-gradient(180deg,var(--cream-2),var(--cream));
+      color:var(--ink);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Segoe UI",
+        Tahoma,
+        Arial,
+        sans-serif;
+      overflow-x:hidden;
+    }
+
+    button,
+    a,
+    input{
+      font:inherit;
+    }
+
+    button{
+      border:0;
+      cursor:pointer;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    img{
+      max-width:100%;
+      display:block;
+    }
+
+    /* =========================================================
+       BACKGROUND / BOTANICAL ATMOSPHERE
+    ========================================================= */
+
+    .ambient{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      overflow:hidden;
+    }
+
+    .ambient::before{
+      content:"";
+      position:absolute;
+      width:420px;
+      height:420px;
+      border-radius:50%;
+      right:-220px;
+      top:180px;
+      background:rgba(99,139,116,.11);
+      filter:blur(75px);
+    }
+
+    .ambient::after{
+      content:"";
+      position:absolute;
+      width:360px;
+      height:360px;
+      border-radius:50%;
+      left:-200px;
+      bottom:100px;
+      background:rgba(117,153,131,.09);
+      filter:blur(75px);
+    }
+
+    .branch{
+      position:absolute;
+      width:300px;
+      height:420px;
+      opacity:.50;
+      transition:
+        opacity .7s var(--ease),
+        filter .7s var(--ease),
+        transform .7s var(--ease);
+    }
+
+    .branch.left{
+      left:-75px;
+      top:115px;
+      transform:rotate(-5deg);
+    }
+
+    .branch.right{
+      right:-75px;
+      top:115px;
+      transform:scaleX(-1) rotate(-5deg);
+    }
+
+    .leaf{
+      position:absolute;
+      width:35px;
+      height:16px;
+      border-radius:100% 0 100% 0;
+      background:
+        linear-gradient(135deg,
+          rgba(42,87,65,.46),
+          rgba(109,145,122,.17));
+      transform:rotate(-30deg);
+      filter:blur(.2px);
+      box-shadow:
+        inset 2px 2px 4px rgba(255,255,255,.45),
+        4px 6px 12px rgba(32,73,53,.08);
+    }
+
+    .stem{
+      position:absolute;
+      width:2px;
+      height:360px;
+      background:linear-gradient(
+        180deg,
+        transparent,
+        rgba(42,87,65,.34),
+        rgba(42,87,65,.12),
+        transparent
+      );
+      border-radius:100%;
+      transform:rotate(24deg);
+      left:130px;
+      top:20px;
+    }
+
+    .leaf.l1{left:72px;top:82px;transform:rotate(-46deg)}
+    .leaf.l2{left:118px;top:115px;transform:rotate(20deg)}
+    .leaf.l3{left:48px;top:157px;transform:rotate(-35deg)}
+    .leaf.l4{left:123px;top:188px;transform:rotate(24deg)}
+    .leaf.l5{left:67px;top:229px;transform:rotate(-42deg)}
+    .leaf.l6{left:137px;top:264px;transform:rotate(23deg)}
+    .leaf.l7{left:80px;top:310px;transform:rotate(-35deg)}
+    .leaf.l8{left:150px;top:338px;transform:rotate(28deg)}
+
+    /* =========================================================
+       APP
+    ========================================================= */
+
+    #app{
+      position:relative;
+      z-index:1;
+      width:100%;
+      max-width:620px;
+      min-height:100vh;
+      margin:0 auto;
+      padding:
+        max(14px,env(safe-area-inset-top))
+        16px
+        max(34px,env(safe-area-inset-bottom));
+    }
+
+    .screen{
+      position:relative;
+      min-height:100vh;
+      padding-bottom:30px;
+    }
+
+    /* =========================================================
+       TOP NAV
+    ========================================================= */
+
+    .topbar{
+      position:fixed;
+      top:max(12px,env(safe-area-inset-top));
+      left:50%;
+      transform:translateX(-50%);
+      width:min(calc(100% - 28px),590px);
+      z-index:100;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      direction:ltr;
+      pointer-events:none;
+    }
+
+    .topbar>*{
+      pointer-events:auto;
+    }
+
+    .glass-control{
+      width:50px;
+      height:50px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      color:var(--green);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.78),
+          rgba(255,255,255,.32)
+        );
+      border:1px solid rgba(255,255,255,.86);
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.88),
+        inset -1px -2px 5px rgba(35,74,55,.08),
+        0 15px 30px rgba(25,59,43,.14);
+      backdrop-filter:blur(22px) saturate(150%);
+      -webkit-backdrop-filter:blur(22px) saturate(150%);
+      transition:
+        transform .22s var(--ease),
+        box-shadow .22s var(--ease);
+    }
+
+    .glass-control:active{
+      transform:scale(.91);
+      box-shadow:
+        inset 2px 2px 7px rgba(35,74,55,.12),
+        0 7px 16px rgba(25,59,43,.10);
+    }
+
+    .glass-control svg{
+      width:23px;
+      height:23px;
+    }
+
+    .menu-button{
+      position:relative;
+    }
+
+    .menu-button .hamburger{
+      width:21px;
+      height:15px;
+      position:relative;
+    }
+
+    .hamburger span{
+      position:absolute;
+      left:0;
+      width:21px;
+      height:1.7px;
+      border-radius:10px;
+      background:var(--green);
+      transition:.28s var(--ease);
+    }
+
+    .hamburger span:nth-child(1){top:0}
+    .hamburger span:nth-child(2){top:6.5px}
+    .hamburger span:nth-child(3){top:13px}
+
+    .back-button{
+      direction:ltr;
+      font-size:0;
+    }
+
+    .back-button svg{
+      transform:rotate(180deg);
+    }
+
+    .home-topbar .back-button{
+      visibility:hidden;
+      pointer-events:none;
+    }
+
+    /* =========================================================
+       HOME HERO
+    ========================================================= */
+
+    .home-hero{
+      position:relative;
+      min-height:465px;
+      margin:-16px -16px 0;
+      padding:
+        105px
+        34px
+        56px;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+    }
+
+    .hero-dome{
+      position:absolute;
+      top:55px;
+      left:50%;
+      transform:translateX(-50%);
+      width:calc(100% - 26px);
+      height:360px;
+      border-radius:50% 50% 31% 31% / 47% 47% 20% 20%;
+      background:
+        radial-gradient(
+          ellipse at 50% 18%,
+          rgba(255,255,255,.82),
+          rgba(255,255,255,.34) 45%,
+          rgba(255,255,255,.12) 100%
+        );
+      border:1px solid rgba(255,255,255,.83);
+      box-shadow:
+        inset 0 2px 0 rgba(255,255,255,.9),
+        inset 0 -25px 50px rgba(66,103,82,.06),
+        0 32px 70px rgba(38,76,57,.11);
+      backdrop-filter:blur(18px) saturate(145%);
+      -webkit-backdrop-filter:blur(18px) saturate(145%);
+    }
+
+    .hero-dome::before{
+      content:"";
+      position:absolute;
+      inset:7px;
+      border-radius:inherit;
+      border:1px solid rgba(255,255,255,.40);
+      pointer-events:none;
+    }
+
+    .hero-dome::after{
+      content:"";
+      position:absolute;
+      width:70%;
+      height:45%;
+      left:15%;
+      top:-18%;
+      border-radius:50%;
+      background:rgba(255,255,255,.48);
+      filter:blur(30px);
+    }
+
+    .hero-botanical{
+      position:absolute;
+      inset:40px 0 0;
+      pointer-events:none;
+      z-index:2;
+    }
+
+    .hero-branch{
+      position:absolute;
+      width:245px;
+      height:330px;
+      opacity:.78;
+    }
+
+    .hero-branch.left{
+      left:-28px;
+      top:16px;
+      transform:rotate(-7deg);
+    }
+
+    .hero-branch.right{
+      right:-28px;
+      top:16px;
+      transform:scaleX(-1) rotate(-7deg);
+    }
+
+    .hero-stem{
+      position:absolute;
+      width:2px;
+      height:310px;
+      left:122px;
+      top:0;
+      border-radius:50%;
+      background:linear-gradient(
+        180deg,
+        transparent,
+        rgba(38,83,61,.60),
+        rgba(70,112,87,.32),
+        transparent
+      );
+      transform:rotate(27deg);
+    }
+
+    .hero-leaf{
+      position:absolute;
+      width:45px;
+      height:21px;
+      border-radius:100% 0 100% 0;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(37,83,61,.68),
+          rgba(117,153,128,.28)
+        );
+      box-shadow:
+        inset 3px 3px 5px rgba(255,255,255,.48),
+        5px 8px 15px rgba(31,69,50,.11);
+    }
+
+    .hero-leaf::after{
+      content:"";
+      position:absolute;
+      left:8px;
+      top:9px;
+      width:28px;
+      height:1px;
+      background:rgba(255,255,255,.30);
+      transform:rotate(-13deg);
+    }
+
+    .hero-leaf.a{left:54px;top:67px;transform:rotate(-48deg)}
+    .hero-leaf.b{left:110px;top:102px;transform:rotate(16deg)}
+    .hero-leaf.c{left:30px;top:145px;transform:rotate(-38deg)}
+    .hero-leaf.d{left:112px;top:179px;transform:rotate(24deg)}
+    .hero-leaf.e{left:54px;top:223px;transform:rotate(-43deg)}
+    .hero-leaf.f{left:127px;top:256px;transform:rotate(22deg)}
+
+    .hero-content{
+      position:relative;
+      z-index:5;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+
+    .hero-logo{
+      width:108px;
+      height:108px;
+      border-radius:50%;
+      object-fit:cover;
+      object-position:center;
+      background:#fff;
+      border:4px solid rgba(255,255,255,.75);
+      box-shadow:
+        0 16px 38px rgba(25,62,44,.15),
+        inset 0 2px 5px rgba(255,255,255,.8);
+      margin-bottom:18px;
+    }
+
+    .hero-brand{
+      margin:0;
+      color:var(--green-deep);
+      font-size:27px;
+      font-weight:760;
+      letter-spacing:-.8px;
+    }
+
+    .hero-welcome{
+      margin:16px 0 8px;
+      color:var(--green);
+      font-size:24px;
+      font-weight:740;
+      letter-spacing:-.6px;
+    }
+
+    .hero-tagline{
+      max-width:300px;
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:2;
+      font-weight:520;
+    }
+
+    .hero-light{
+      position:absolute;
+      width:190px;
+      height:60px;
+      bottom:40px;
+      left:50%;
+      transform:translateX(-50%);
+      background:rgba(255,255,255,.45);
+      filter:blur(35px);
+      z-index:3;
+    }
+
+    /* =========================================================
+       GLASS ICONS
+    ========================================================= */
+
+    .icon-glass{
+      position:relative;
+      width:62px;
+      height:62px;
+      flex:0 0 62px;
+      border-radius:22px;
+      display:grid;
+      place-items:center;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.82),
+          rgba(255,255,255,.30)
+        );
+      border:1px solid rgba(255,255,255,.88);
+      box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,.88),
+        inset -3px -4px 9px rgba(37,77,57,.08),
+        0 14px 28px rgba(31,70,50,.13);
+      backdrop-filter:blur(18px) saturate(155%);
+      -webkit-backdrop-filter:blur(18px) saturate(155%);
+    }
+
+    .icon-glass::before{
+      content:"";
+      position:absolute;
+      width:60%;
+      height:28%;
+      top:5px;
+      left:20%;
+      border-radius:50%;
+      background:rgba(255,255,255,.40);
+      filter:blur(5px);
+    }
+
+    .icon-glass svg{
+      position:relative;
+      z-index:1;
+      width:31px;
+      height:31px;
+      color:var(--green);
+      stroke-width:1.55;
+    }
+
+    /* =========================================================
+       HOME ACTIONS
+    ========================================================= */
+
+    .home-content{
+      position:relative;
+      z-index:4;
+      padding-top:8px;
+    }
+
+    .primary-booking{
+      position:relative;
+      min-height:78px;
+      width:100%;
+      border-radius:28px;
+      padding:11px 15px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      text-align:right;
+      color:#fff;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(46,91,70,.96),
+          rgba(27,62,46,.96)
+        );
+      border:1px solid rgba(255,255,255,.27);
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.23),
+        inset -2px -4px 12px rgba(0,0,0,.10),
+        0 24px 45px rgba(30,72,52,.20);
+      overflow:hidden;
+      transition:.25s var(--ease);
+    }
+
+    .primary-booking::before{
+      content:"";
+      position:absolute;
+      width:180px;
+      height:70px;
+      left:-35px;
+      top:-35px;
+      border-radius:50%;
+      background:rgba(255,255,255,.12);
+      filter:blur(16px);
+    }
+
+    .primary-booking:active{
+      transform:scale(.975);
+    }
+
+    .primary-booking .icon-glass{
+      background:rgba(255,255,255,.14);
+      border-color:rgba(255,255,255,.24);
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.25),
+        0 9px 18px rgba(0,0,0,.12);
+    }
+
+    .primary-booking .icon-glass svg{
+      color:#fff;
+    }
+
+    .primary-booking-text{
+      position:relative;
+      z-index:1;
+      flex:1;
+    }
+
+    .primary-booking-title{
+      display:block;
+      font-size:17px;
+      font-weight:750;
+      margin-bottom:3px;
+    }
+
+    .primary-booking-sub{
+      display:block;
+      font-size:12px;
+      opacity:.72;
+    }
+
+    .primary-arrow{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.11);
+      border:1px solid rgba(255,255,255,.16);
+    }
+
+    .primary-arrow svg{
+      width:18px;
+      height:18px;
+      color:#fff;
+    }
+
+    .section-gap{
+      height:15px;
+    }
+
+    .section-title{
+      margin:27px 5px 12px;
+      color:var(--green-deep);
+      font-size:15px;
+      font-weight:740;
+      display:flex;
+      align-items:center;
+      gap:9px;
+    }
+
+    .section-title::before{
+      content:"";
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--green);
+      box-shadow:0 0 0 5px rgba(36,77,59,.08);
+    }
+
+    .glass-list{
+      display:flex;
+      flex-direction:column;
+      gap:11px;
+    }
+
+    .glass-card{
+      position:relative;
+      width:100%;
+      min-height:82px;
+      padding:10px;
+      border-radius:25px;
+      display:flex;
+      align-items:center;
+      gap:13px;
+      text-align:right;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.68),
+          rgba(255,255,255,.30)
+        );
+      border:1px solid rgba(255,255,255,.82);
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.82),
+        inset -2px -3px 8px rgba(38,76,57,.045),
+        var(--shadow);
+      backdrop-filter:blur(21px) saturate(145%);
+      -webkit-backdrop-filter:blur(21px) saturate(145%);
+      transition:.25s var(--ease);
+      overflow:hidden;
+    }
+
+    .glass-card::after{
+      content:"";
+      position:absolute;
+      width:80px;
+      height:80px;
+      left:-35px;
+      top:-45px;
+      border-radius:50%;
+      background:rgba(255,255,255,.34);
+      filter:blur(15px);
+    }
+
+    .glass-card:active{
+      transform:scale(.975);
+      box-shadow:
+        inset 2px 2px 7px rgba(37,77,57,.07),
+        0 9px 20px rgba(31,70,50,.09);
+    }
+
+    .card-copy{
+      flex:1;
+      min-width:0;
+      position:relative;
+      z-index:2;
+    }
+
+    .card-title{
+      color:var(--green-deep);
+      font-size:15px;
+      font-weight:730;
+      margin-bottom:5px;
+    }
+
+    .card-sub{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.8;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+    }
+
+    .chevron{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      flex:0 0 38px;
+      background:rgba(255,255,255,.35);
+      border:1px solid rgba(255,255,255,.66);
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.7),
+        0 7px 16px rgba(35,73,54,.08);
+      position:relative;
+      z-index:2;
+    }
+
+    .chevron svg{
+      width:17px;
+      height:17px;
+      color:var(--green);
+    }
+
+    /* =========================================================
+       TWO COLUMN CARDS
+    ========================================================= */
+
+    .two-column{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:11px;
+    }
+
+    .square-card{
+      min-height:146px;
+      padding:13px;
+      border-radius:27px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      align-items:flex-start;
+      text-align:right;
+    }
+
+    .square-card .icon-glass{
+      width:58px;
+      height:58px;
+      flex-basis:58px;
+      border-radius:20px;
+    }
+
+    .square-card .card-title{
+      margin-top:15px;
+      margin-bottom:0;
+    }
+
+    /* =========================================================
+       INNER PAGES
+    ========================================================= */
+
+    .inner-screen{
+      padding-top:82px;
+    }
+
+    .inner-head{
+      padding:14px 4px 20px;
+      text-align:right;
+    }
+
+    .inner-head .mini-logo{
+      width:58px;
+      height:58px;
+      border-radius:50%;
+      object-fit:cover;
+      border:2px solid rgba(255,255,255,.8);
+      box-shadow:
+        0 10px 24px rgba(28,65,47,.13),
+        inset 1px 1px 0 rgba(255,255,255,.8);
+      margin-bottom:14px;
+    }
+
+    .inner-title{
+      margin:0;
+      color:var(--green-deep);
+      font-size:25px;
+      font-weight:780;
+      letter-spacing:-.5px;
+    }
+
+    .inner-subtitle{
+      margin:7px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.9;
+    }
+
+    /* =========================================================
+       GLASS FILTER / SEGMENTED NAV
+    ========================================================= */
+
+    .filter-shell{
+      position:sticky;
+      top:75px;
+      z-index:50;
+      margin:0 0 16px;
+      padding:5px;
+      border-radius:22px;
+      background:rgba(255,255,255,.30);
+      border:1px solid rgba(255,255,255,.66);
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.68),
+        0 14px 30px rgba(30,69,50,.08);
+      backdrop-filter:blur(25px) saturate(155%);
+      -webkit-backdrop-filter:blur(25px) saturate(155%);
+      overflow-x:auto;
+      scrollbar-width:none;
+    }
+
+    .filter-shell::-webkit-scrollbar{
+      display:none;
+    }
+
+    .filter-row{
+      display:flex;
+      gap:5px;
+      min-width:max-content;
+    }
+
+    .filter-button{
+      position:relative;
+      min-height:44px;
+      padding:0 16px;
+      border-radius:17px;
+      color:var(--green-mid);
+      background:transparent;
+      white-space:nowrap;
+      font-size:12px;
+      font-weight:650;
+      transition:.25s var(--ease);
+    }
+
+    .filter-button.active{
+      color:#fff;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(49,96,73,.97),
+          rgba(29,66,49,.97)
+        );
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.22),
+        0 9px 20px rgba(30,70,50,.18);
+    }
+
+    /* =========================================================
+       SERVICE HERO IMAGE
+    ========================================================= */
+
+    .service-visual{
+      position:relative;
+      height:265px;
+      margin:4px 0 18px;
+      border-radius:36px;
+      overflow:hidden;
+      background:
+        radial-gradient(
+          circle at 50% 35%,
+          rgba(255,255,255,.90),
+          rgba(220,232,223,.82) 42%,
+          rgba(154,180,160,.58)
+        );
+      border:1px solid rgba(255,255,255,.85);
+      box-shadow:var(--shadow-deep);
+    }
+
+    .service-visual img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .service-visual::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.02) 15%,
+          rgba(23,56,43,.05) 55%,
+          rgba(23,56,43,.48) 100%
+        );
+    }
+
+    .service-visual-fallback{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+    }
+
+    .visual-orbit{
+      width:130px;
+      height:130px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.75);
+      background:rgba(255,255,255,.24);
+      box-shadow:
+        inset 3px 3px 12px rgba(255,255,255,.6),
+        inset -5px -7px 14px rgba(40,78,58,.08),
+        0 22px 45px rgba(32,73,52,.15);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      display:grid;
+      place-items:center;
+    }
+
+    .visual-orbit svg{
+      width:64px;
+      height:64px;
+      color:var(--green);
+      stroke-width:1.2;
+    }
+
+    .visual-label{
+      position:absolute;
+      z-index:3;
+      right:17px;
+      bottom:17px;
+      left:17px;
+      min-height:63px;
+      padding:11px 14px;
+      border-radius:22px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:#fff;
+      background:rgba(21,53,39,.43);
+      border:1px solid rgba(255,255,255,.25);
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.18),
+        0 15px 28px rgba(20,52,37,.18);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+    }
+
+    .visual-label strong{
+      font-size:16px;
+      font-weight:730;
+    }
+
+    /* =========================================================
+       DETAIL CONTENT
+    ========================================================= */
+
+    .content-glass{
+      padding:20px;
+      border-radius:29px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.62),
+          rgba(255,255,255,.28)
+        );
+      border:1px solid rgba(255,255,255,.78);
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.82),
+        var(--shadow);
+      backdrop-filter:blur(20px) saturate(140%);
+      -webkit-backdrop-filter:blur(20px) saturate(140%);
+    }
+
+    .content-glass h3{
+      color:var(--green-deep);
+      font-size:16px;
+      margin:0 0 10px;
+    }
+
+    .content-text{
+      white-space:pre-line;
+      color:#53635b;
+      font-size:13px;
+      line-height:2.15;
+    }
+
+    .price-row{
+      margin-top:16px;
+      padding:12px 14px;
+      border-radius:18px;
+      background:rgba(255,255,255,.36);
+      border:1px solid rgba(255,255,255,.64);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .price-label{
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .price-value{
+      color:var(--green-deep);
+      font-size:15px;
+      font-weight:760;
+    }
+
+    /* =========================================================
+       BOOKING BUTTON INTERNAL
+    ========================================================= */
+
+    .booking-area{
+      margin:17px 0;
+    }
+
+    .booking-glass{
+      position:relative;
+      width:100%;
+      min-height:68px;
+      padding:9px 11px;
+      border-radius:25px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      color:#fff;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(47,91,69,.96),
+          rgba(24,59,43,.98)
+        );
+      border:1px solid rgba(255,255,255,.27);
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.22),
+        0 20px 40px rgba(27,66,47,.18);
+      overflow:hidden;
+      transition:.25s var(--ease);
+    }
+
+    .booking-glass:active{
+      transform:scale(.975);
+    }
+
+    .booking-glass .icon-glass{
+      width:50px;
+      height:50px;
+      flex-basis:50px;
+      border-radius:18px;
+      background:rgba(255,255,255,.13);
+      border-color:rgba(255,255,255,.22);
+      box-shadow:inset 1px 1px 0 rgba(255,255,255,.22);
+    }
+
+    .booking-glass .icon-glass svg{
+      color:#fff;
+      width:26px;
+      height:26px;
+    }
+
+    .booking-glass strong{
+      flex:1;
+      text-align:right;
+      font-size:15px;
+      font-weight:730;
+    }
+
+    .booking-glass .arrow-white{
+      width:38px;
+      height:38px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:rgba(255,255,255,.11);
+    }
+
+    .arrow-white svg{
+      width:17px;
+      height:17px;
+      color:#fff;
+    }
+
+    /* =========================================================
+       FAQ
+    ========================================================= */
+
+    .faq-category{
+      overflow:hidden;
+    }
+
+    .faq-category-head{
+      min-height:76px;
+    }
+
+    .faq-category-head .icon-glass{
+      width:55px;
+      height:55px;
+      flex-basis:55px;
+      border-radius:19px;
+    }
+
+    .faq-category-body{
+      display:none;
+      padding:0 10px 10px;
+    }
+
+    .faq-category.open .faq-category-body{
+      display:block;
+      animation:fadeDown .28s var(--ease);
+    }
+
+    @keyframes fadeDown{
+      from{
+        opacity:0;
+        transform:translateY(-5px);
+      }
+      to{
+        opacity:1;
+        transform:none;
+      }
+    }
+
+    .faq-question{
+      margin-top:8px;
+      border-radius:19px;
+      background:rgba(255,255,255,.30);
+      border:1px solid rgba(255,255,255,.55);
+      overflow:hidden;
+    }
+
+    .faq-q{
+      width:100%;
+      min-height:57px;
+      padding:12px 13px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background:transparent;
+      color:var(--green-deep);
+      text-align:right;
+      font-size:12.5px;
+      font-weight:650;
+    }
+
+    .faq-q span:first-child{
+      flex:1;
+    }
+
+    .faq-q svg{
+      width:17px;
+      height:17px;
+      color:var(--green);
+      transition:.25s var(--ease);
+    }
+
+    .faq-question.open .faq-q svg{
+      transform:rotate(180deg);
+    }
+
+    .faq-answer{
+      display:none;
+      padding:0 13px 14px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:2;
+      white-space:pre-line;
+    }
+
+    .faq-question.open .faq-answer{
+      display:block;
+    }
+
+    /* =========================================================
+       COURSES / EVENTS
+    ========================================================= */
+
+    .status-pill{
+      display:inline-flex;
+      align-items:center;
+      min-height:27px;
+      padding:0 10px;
+      border-radius:100px;
+      color:var(--green);
+      background:rgba(126,157,139,.13);
+      border:1px solid rgba(126,157,139,.16);
+      font-size:10px;
+      font-weight:700;
+      margin-top:8px;
+    }
+
+    .bullet-list{
+      margin:10px 0 0;
+      padding:0 18px 0 0;
+      color:var(--muted);
+      line-height:2.05;
+      font-size:12.5px;
+    }
+
+    .meta-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+      margin-top:15px;
+    }
+
+    .meta-box{
+      padding:12px;
+      border-radius:18px;
+      background:rgba(255,255,255,.32);
+      border:1px solid rgba(255,255,255,.58);
+    }
+
+    .meta-label{
+      color:var(--muted);
+      font-size:10px;
+      margin-bottom:4px;
+    }
+
+    .meta-value{
+      color:var(--green-deep);
+      font-size:12px;
+      font-weight:680;
+      line-height:1.7;
+    }
+
+    /* =========================================================
+       CONTACT
+    ========================================================= */
+
+    .contact-card{
+      min-height:74px;
+    }
+
+    .contact-value{
+      color:var(--muted);
+      font-size:11px;
+      direction:ltr;
+      text-align:right;
+    }
+
+    /* =========================================================
+       DRAWER
+    ========================================================= */
+
+    .drawer-overlay{
+      position:fixed;
+      inset:0;
+      z-index:150;
+      background:rgba(23,49,37,.18);
+      opacity:0;
+      visibility:hidden;
+      transition:.32s var(--ease);
+      backdrop-filter:blur(2px);
+      -webkit-backdrop-filter:blur(2px);
+    }
+
+    .drawer-overlay.open{
+      opacity:1;
+      visibility:visible;
+    }
+
+    .drawer{
+      position:absolute;
+      top:0;
+      left:0;
+      bottom:0;
+      width:min(86vw,390px);
+      padding:
+        max(24px,env(safe-area-inset-top))
+        18px
+        max(25px,env(safe-area-inset-bottom));
+      background:
+        linear-gradient(
+          150deg,
+          rgba(255,255,255,.76),
+          rgba(247,241,229,.66)
+        );
+      border-right:1px solid rgba(255,255,255,.82);
+      border-radius:0 34px 34px 0;
+      box-shadow:
+        20px 0 70px rgba(22,58,41,.18),
+        inset -1px 0 rgba(255,255,255,.65);
+      backdrop-filter:blur(30px) saturate(155%);
+      -webkit-backdrop-filter:blur(30px) saturate(155%);
+      transform:translateX(-105%);
+      transition:.38s var(--ease);
+      overflow-y:auto;
+    }
+
+    .drawer-overlay.open .drawer{
+      transform:translateX(0);
+    }
+
+    .drawer-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:23px;
+    }
+
+    .drawer-logo{
+      width:55px;
+      height:55px;
+      object-fit:cover;
+      border-radius:50%;
+      border:2px solid rgba(255,255,255,.8);
+      box-shadow:0 10px 24px rgba(28,65,47,.13);
+    }
+
+    .drawer-close{
+      width:47px;
+      height:47px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.42);
+      border:1px solid rgba(255,255,255,.75);
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.8),
+        0 9px 20px rgba(29,67,48,.10);
+    }
+
+    .drawer-close svg{
+      width:20px;
+      height:20px;
+      color:var(--green);
+    }
+
+    .drawer-title{
+      color:var(--green-deep);
+      font-size:21px;
+      font-weight:760;
+      margin-bottom:5px;
+    }
+
+    .drawer-sub{
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.8;
+      margin-bottom:18px;
+    }
+
+    .drawer-item{
+      width:100%;
+      min-height:65px;
+      margin-bottom:8px;
+      padding:7px;
+      border-radius:22px;
+      display:flex;
+      align-items:center;
+      gap:11px;
+      background:rgba(255,255,255,.33);
+      border:1px solid rgba(255,255,255,.58);
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,.65),
+        0 8px 20px rgba(28,65,47,.055);
+      color:var(--green-deep);
+      text-align:right;
+    }
+
+    .drawer-item .icon-glass{
+      width:50px;
+      height:50px;
+      flex-basis:50px;
+      border-radius:17px;
+    }
+
+    .drawer-item span{
+      flex:1;
+      font-size:13px;
+      font-weight:680;
+    }
+
+    /* =========================================================
+       SHEET
+    ========================================================= */
+
+    .sheet-overlay{
+      position:fixed;
+      inset:0;
+      z-index:200;
+      background:rgba(17,42,30,.20);
+      opacity:0;
+      visibility:hidden;
+      transition:.3s var(--ease);
+      backdrop-filter:blur(4px);
+      -webkit-backdrop-filter:blur(4px);
+    }
+
+    .sheet-overlay.open{
+      opacity:1;
+      visibility:visible;
+    }
+
+    .sheet{
+      position:absolute;
+      left:8px;
+      right:8px;
+      bottom:8px;
+      max-height:82vh;
+      overflow-y:auto;
+      padding:10px 17px 22px;
+      border-radius:34px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.78),
+          rgba(248,243,232,.70)
+        );
+      border:1px solid rgba(255,255,255,.88);
+      box-shadow:
+        0 -15px 65px rgba(23,57,40,.20),
+        inset 1px 1px 0 rgba(255,255,255,.9);
+      backdrop-filter:blur(30px) saturate(150%);
+      -webkit-backdrop-filter:blur(30px) saturate(150%);
+      transform:translateY(110%);
+      transition:.42s var(--ease);
+    }
+
+    .sheet-overlay.open .sheet{
+      transform:translateY(0);
+    }
+
+    .sheet-handle{
+      width:42px;
+      height:5px;
+      border-radius:100px;
+      background:rgba(36,77,59,.18);
+      margin:3px auto 20px;
+    }
+
+    .sheet-title{
+      color:var(--green-deep);
+      font-size:19px;
+      font-weight:760;
+      margin-bottom:16px;
+    }
+
+    .sheet-list{
+      display:flex;
+      flex-direction:column;
+      gap:9px;
+    }
+
+    .sheet-item{
+      min-height:62px;
+      padding:8px 10px;
+      border-radius:21px;
+      display:flex;
+      align-items:center;
+      gap:11px;
+      background:rgba(255,255,255,.36);
+      border:1px solid rgba(255,255,255,.62);
+      box-shadow:inset 1px 1px 0 rgba(255,255,255,.7);
+    }
+
+    .sheet-item .icon-glass{
+      width:47px;
+      height:47px;
+      flex-basis:47px;
+      border-radius:16px;
+    }
+
+    .sheet-item strong{
+      color:var(--green-deep);
+      font-size:13px;
+    }
+
+    .sheet-item small{
+      display:block;
+      color:var(--muted);
+      font-size:10px;
+      margin-top:3px;
+    }
+
+    /* =========================================================
+       EMPTY / LOADING
+    ========================================================= */
+
+    .loading{
+      min-height:180px;
+      display:grid;
+      place-items:center;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .loader{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      border:2px solid rgba(36,77,59,.10);
+      border-top-color:var(--green);
+      animation:spin .8s linear infinite;
+      margin:0 auto 12px;
+    }
+
+    @keyframes spin{
+      to{transform:rotate(360deg)}
+    }
+
+    .empty{
+      padding:25px;
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      line-height:2;
+      border-radius:25px;
+      background:rgba(255,255,255,.28);
+      border:1px solid rgba(255,255,255,.54);
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    .footer{
+      position:relative;
+      z-index:4;
+      margin:42px 4px 4px;
+      padding:22px 15px 10px;
+      color:rgba(83,99,91,.72);
+      font-size:9.5px;
+      line-height:2;
+      text-align:center;
+    }
+
+    .footer-line{
+      width:42px;
+      height:1px;
+      background:rgba(36,77,59,.18);
+      margin:0 auto 13px;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media(max-width:380px){
+      #app{
+        padding-left:12px;
+        padding-right:12px;
+      }
+
+      .home-hero{
+        margin-left:-12px;
+        margin-right:-12px;
+      }
+
+      .hero-brand{
+        font-size:24px;
+      }
+
+      .hero-welcome{
+        font-size:21px;
+      }
+
+      .two-column{
+        gap:8px;
+      }
+
+      .filter-button{
+        padding:0 13px;
+      }
+    }
+
+    @media(min-width:621px){
+      body{
+        padding:0 20px;
+      }
+
+      #app{
+        box-shadow:
+          0 0 100px rgba(34,70,51,.06);
+      }
+    }
+
+    /* =========================================================
+       REDUCED MOTION
+    ========================================================= */
+
+    @media(prefers-reduced-motion:reduce){
+      *,
+      *::before,
+      *::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.01ms!important;
+        scroll-behavior:auto!important;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div id="kaen-loading">
-  <div id="kaen-loading-card">
-    <img
-      id="kaen-loading-logo"
-      src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
-      alt="">
-    <div id="kaen-loading-text">کائنات‌چی</div>
+  <div class="ambient">
+    <div class="branch left">
+      <div class="stem"></div>
+      <div class="leaf l1"></div>
+      <div class="leaf l2"></div>
+      <div class="leaf l3"></div>
+      <div class="leaf l4"></div>
+      <div class="leaf l5"></div>
+      <div class="leaf l6"></div>
+      <div class="leaf l7"></div>
+      <div class="leaf l8"></div>
+    </div>
+
+    <div class="branch right">
+      <div class="stem"></div>
+      <div class="leaf l1"></div>
+      <div class="leaf l2"></div>
+      <div class="leaf l3"></div>
+      <div class="leaf l4"></div>
+      <div class="leaf l5"></div>
+      <div class="leaf l6"></div>
+      <div class="leaf l7"></div>
+      <div class="leaf l8"></div>
+    </div>
   </div>
-</div>
 
-<script>
-/* =========================================================
-   ORIGINAL SOURCE
-   Exact Gist revision supplied by the user.
-========================================================= */
+  <div id="app"></div>
 
-const KAENATCHI_SOURCE =
-"https://gist.githubusercontent.com/kaenatchi/fd2d9fb44b947c21865cddb24b67da14/raw/37e2baeaeafb61806bc5308cbbbce2b74dcf2af3/gistfile1.txt";
+  <!-- DRAWER -->
+  <div class="drawer-overlay" id="drawerOverlay">
+    <aside class="drawer">
 
+      <div class="drawer-top">
+        <img
+          class="drawer-logo"
+          src="https://i.ibb.co/hRBG6R6f/IMG-3856.jpg"
+          alt="کائنات‌چی"
+        >
 
-/* =========================================================
-   LOAD ORIGINAL HOME.HTML WITHOUT REWRITING ITS LOGIC
-========================================================= */
+        <button
+          class="drawer-close"
+          type="button"
+          onclick="closeDrawer()"
+          aria-label="بستن"
+        >
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M6 6l12 12M18 6L6 18"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
 
-async function bootKaenatchi(){
+      <div class="drawer-title">کائنات‌چی</div>
+      <div class="drawer-sub">
+        آرامش، شناخت و رشد درونی
+      </div>
 
-  try{
+      <div id="drawerItems"></div>
 
-    const response =
-      await fetch(
-        KAENATCHI_SOURCE,
-        {
-          method:"GET",
-          cache:"no-store"
-        }
-      );
+    </aside>
+  </div>
 
-    if(!response.ok){
-      throw new Error(
-        "KaenatChi source could not be loaded."
-      );
+  <!-- SHEET -->
+  <div class="sheet-overlay" id="sheetOverlay" onclick="sheetBackdrop(event)">
+    <div class="sheet" id="sheet">
+      <div class="sheet-handle"></div>
+      <div id="sheetContent"></div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================
+       CONFIG
+    ========================================================= */
+
+    const LOGO_URL =
+      'https://i.ibb.co/hRBG6R6f/IMG-3856.jpg';
+
+    const CMS_URL =
+      'https://script.google.com/macros/s/AKfycbzgocb54x4FDoQl3C8-o2WnipZuQYkM1j1juV-ZZKHoieN7DbrybTj3WyXbJe5I2nMhXw/exec';
+
+    const APPOINTMENT_URL =
+      'https://kaenatchi.github.io/booking/';
+
+    const VIP_URL =
+      'https://script.google.com/macros/s/AKfycbySl6RH5K7oTLBus2cjvBJuOv-ZTjIhX9OnIq93gifQng1IfMl7f2A3Bl-7pSx1nC1u/exec';
+
+    let CMS = {
+      services: [],
+      courses: [],
+      events: [],
+      faq: [],
+      pages: [],
+      settings: []
+    };
+
+    let currentView = 'home';
+    let viewStack = [];
+
+    /* =========================================================
+       TELEGRAM
+    ========================================================= */
+
+    const tg =
+      window.Telegram &&
+      window.Telegram.WebApp
+        ? window.Telegram.WebApp
+        : null;
+
+    if(tg){
+      try{
+        tg.ready();
+        tg.expand();
+        tg.setHeaderColor('#f5efe3');
+        tg.setBackgroundColor('#f5efe3');
+      }catch(e){}
     }
 
-    const html =
-      await response.text();
+    /* =========================================================
+       SVG ICON SYSTEM
+    ========================================================= */
 
-    const parser =
-      new DOMParser();
+    const ICONS = {
 
-    const doc =
-      parser.parseFromString(
-        html,
-        "text/html"
-      );
+      arrow: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M8 5l7 7-7 7"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+        </svg>
+      `,
 
+      calendar: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect x="4" y="5.5" width="16" height="15"
+            rx="3.5"
+            stroke="currentColor"
+            stroke-width="1.5"/>
+          <path d="M8 3.5v4M16 3.5v4M4.5 10h15"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"/>
+          <path d="M8 14h.01M12 14h.01M16 14h.01M8 17.5h.01M12 17.5h.01"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"/>
+        </svg>
+      `,
 
-    /*
-      Collect every original script
-      before replacing the document.
-    */
+      lotus: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 20c-4.7 0-8.4-1.7-8.4-4.1 0-1.6 1.5-2.8 3.9-3.5"
+            stroke="currentColor"
+            stroke-width="1.35"
+            stroke-linecap="round"/>
+          <path d="M12 20c4.7 0 8.4-1.7 8.4-4.1 0-1.6-1.5-2.8-3.9-3.5"
+            stroke="currentColor"
+            stroke-width="1.35"
+            stroke-linecap="round"/>
+          <path d="M12 20c-3.3-2.5-4.5-5.5-3.1-8.3 1-1.9 2.5-3 3.1-3.5 0 0 2.1 1.7 3.1 3.5 1.4 2.8.2 5.8-3.1 8.3Z"
+            stroke="currentColor"
+            stroke-width="1.35"
+            stroke-linejoin="round"/>
+          <path d="M8.9 16.5c-3.3-.6-5.5-2.3-5.5-4.5 0-1.5 1-2.8 2.7-3.6 2.2 1.2 3.2 3.1 2.8 5.5M15.1 16.5c3.3-.6 5.5-2.3 5.5-4.5 0-1.5-1-2.8-2.7-3.6-2.2 1.2-3.2 3.1-2.8 5.5"
+            stroke="currentColor"
+            stroke-width="1.35"
+            stroke-linecap="round"/>
+        </svg>
+      `,
 
-    const originalScripts =
-      Array.from(
-        doc.querySelectorAll(
-          "script"
-        )
-      ).map(function(script){
+      crown: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4.5 8.2 8.2 11l3.8-6 3.8 6 3.7-2.8-1.6 9.2H6.1L4.5 8.2Z"
+            stroke="currentColor"
+            stroke-width="1.35"
+            stroke-linejoin="round"/>
+          <path d="M6.2 19.1h11.6"
+            stroke="currentColor"
+            stroke-width="1.35"
+            stroke-linecap="round"/>
+          <circle cx="4.5" cy="8.2" r="1.1"
+            fill="currentColor"/>
+          <circle cx="12" cy="5" r="1.1"
+            fill="currentColor"/>
+          <circle cx="19.5" cy="8.2" r="1.1"
+            fill="currentColor"/>
+        </svg>
+      `,
 
-        return {
-          src:script.src || "",
-          type:script.type || "",
-          text:script.textContent || ""
-        };
+      candle: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M9 10.5h6v9H9z"
+            stroke="currentColor"
+            stroke-width="1.4"/>
+          <path d="M8 19.5h8"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linecap="round"/>
+          <path d="M12 10c-1.4-1.3-.8-2.7.2-3.6.4-.4.6-1 .4-1.8 1.7 1.1 2.2 2.8 1.2 4.2-.4.6-1 .9-1.8 1.2Z"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linejoin="round"/>
+        </svg>
+      `,
 
-      });
+      mind: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M9.2 18.8c-2.1-.3-3.7-2.1-3.7-4.3 0-.5.1-1 .3-1.5-1.2-.7-2-2-2-3.5 0-2.2 1.8-4 4-4 .3-1.7 1.8-3 3.6-3 1.1 0 2.1.5 2.8 1.3.7-.8 1.7-1.3 2.8-1.3 1.8 0 3.3 1.3 3.6 3 2.2 0 4 1.8 4 4 0 1.5-.8 2.8-2 3.5.2.5.3 1 .3 1.5 0 2.2-1.6 4-3.7 4.3"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+          <path d="M12 6.8v12.5M8.3 10.2c1.2 0 2.1.7 2.4 1.7M15.7 10.2c-1.2 0-2.1.7-2.4 1.7M8.6 15.2c1.1-.2 2.1.3 2.5 1.3M15.4 15.2c-1.1-.2-2.1.3-2.5 1.3"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"/>
+        </svg>
+      `,
 
+      graduation: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="m3.5 9.2 8.5-4 8.5 4-8.5 4-8.5-4Z"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linejoin="round"/>
+          <path d="M7 11.3v4.1c0 1.6 2.2 3 5 3s5-1.4 5-3v-4.1"
+            stroke="currentColor"
+            stroke-width="1.4"/>
+          <path d="M20.5 9.2v5.4"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linecap="round"/>
+          <circle cx="20.5" cy="16.3" r="1"
+            fill="currentColor"/>
+        </svg>
+      `,
 
-    /*
-      Remove scripts from cloned document.
-      They will be executed manually
-      in their original order.
-    */
+      ticket: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 7.2A2.2 2.2 0 0 1 6.2 5h11.6A2.2 2.2 0 0 1 20 7.2v2.1a2.3 2.3 0 0 0 0 4.4v2.1a2.2 2.2 0 0 1-2.2 2.2H6.2A2.2 2.2 0 0 1 4 15.8v-2.1a2.3 2.3 0 0 0 0-4.4V7.2Z"
+            stroke="currentColor"
+            stroke-width="1.35"
+            stroke-linejoin="round"/>
+          <path d="M12 7.2v9.6"
+            stroke="currentColor"
+            stroke-width="1.35"
+            stroke-linecap="round"
+            stroke-dasharray="1.8 2"/>
+        </svg>
+      `,
 
-    doc
-      .querySelectorAll("script")
-      .forEach(function(script){
-        script.remove();
-      });
+      question: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="8.5"
+            stroke="currentColor"
+            stroke-width="1.45"/>
+          <path d="M9.6 9.2c.2-1.5 1.2-2.5 2.7-2.5 1.7 0 2.8 1 2.8 2.5 0 1.7-1.4 2.3-2.5 3.1-.6.4-.9.9-.9 1.6"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linecap="round"/>
+          <circle cx="11.7" cy="16.7" r=".8"
+            fill="currentColor"/>
+        </svg>
+      `,
 
+      chat: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M5.2 5.5h13.6A2.2 2.2 0 0 1 21 7.7v7.1a2.2 2.2 0 0 1-2.2 2.2h-7l-4.7 3v-3H5.2A2.2 2.2 0 0 1 3 14.8V7.7a2.2 2.2 0 0 1 2.2-2.2Z"
+            stroke="currentColor"
+            stroke-width="1.35"
+            stroke-linejoin="round"/>
+          <path d="M7.5 10.5h9M7.5 13.5h6"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linecap="round"/>
+        </svg>
+      `,
 
-    /*
-      Preserve original head and body.
-    */
+      clock: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="8.7"
+            stroke="currentColor"
+            stroke-width="1.4"/>
+          <path d="M12 7.3v5.1l3.2 2"
+            stroke="currentColor"
+            stroke-width="1.45"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+        </svg>
+      `,
 
-    document.head.innerHTML =
-      doc.head.innerHTML;
+      phone: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M7.1 4.5 9.2 4c.7-.2 1.3.2 1.5.9l.9 2.8c.2.6 0 .9-.4 1.3l-1.4 1.1c.9 1.8 2.3 3.2 4.1 4.1l1.1-1.4c.3-.4.7-.6 1.3-.4l2.8.9c.7.2 1.1.8.9 1.5l-.5 2.1c-.2.8-.9 1.4-1.7 1.4-7.1-.2-12.8-5.9-13-13 0-.8.6-1.5 1.4-1.7Z"
+            stroke="currentColor"
+            stroke-width="1.3"
+            stroke-linejoin="round"/>
+        </svg>
+      `,
 
-    document.body.innerHTML =
-      doc.body.innerHTML;
+      instagram: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect x="4" y="4" width="16" height="16" rx="4"
+            stroke="currentColor"
+            stroke-width="1.4"/>
+          <circle cx="12" cy="12" r="3.5"
+            stroke="currentColor"
+            stroke-width="1.4"/>
+          <circle cx="17.2" cy="6.9" r=".9"
+            fill="currentColor"/>
+        </svg>
+      `,
 
+      telegram: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="m20.2 5.2-3.1 14c-.2 1- .8 1.2-1.6.7l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.4-.1-.6-.6-.2L5.7 13.1 1.3 11.7c-1-.3-1-1 .2-1.5l17.3-6.7c.8-.3 1.6.2 1.4 1.7Z"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linejoin="round"/>
+        </svg>
+      `,
 
-    /*
-      Re-execute original scripts
-      in their original order.
-    */
+      whatsapp: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M20 11.5a8 8 0 0 1-11.9 7l-4.1 1.2 1.3-4A8 8 0 1 1 20 11.5Z"
+            stroke="currentColor"
+            stroke-width="1.35"
+            stroke-linejoin="round"/>
+          <path d="M9 8.7c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.5c.1.3.1.5-.1.7l-.6.7c.5.9 1.2 1.5 2.2 1.9l.7-.7c.2-.2.4-.2.7-.1l1.5.7c.3.1.4.3.4.5v.5c0 .3 0 .5-.4.7-.5.3-1.1.3-1.7.1-2.1-.7-4.5-2.7-5.4-4.8-.3-.7-.3-1.2-.1-1.7Z"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linejoin="round"/>
+        </svg>
+      `,
 
-    for(
-      const item of originalScripts
-    ){
+      chevronDown: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="m7 9 5 5 5-5"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+        </svg>
+      `,
 
-      await new Promise(function(resolve){
+      sparkle: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 3.5c.5 4.6 3 7 7.5 7.5-4.5.5-7 2.9-7.5 7.5-.5-4.6-3-7-7.5-7.5 4.5-.5 7-2.9 7.5-7.5Z"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linejoin="round"/>
+          <path d="M18.5 3.8c.2 1.8 1.1 2.7 2.8 2.9-1.7.2-2.6 1.1-2.8 2.8-.2-1.7-1.1-2.6-2.8-2.8 1.7-.2 2.6-1.1 2.8-2.9Z"
+            stroke="currentColor"
+            stroke-width="1.1"
+            stroke-linejoin="round"/>
+        </svg>
+      `,
 
-        const script =
-          document.createElement(
-            "script"
-          );
+      arrowBack: `
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M15 5 8 12l7 7"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+        </svg>
+      `
+    };
 
-        if(item.type){
-          script.type =
-            item.type;
-        }
+    /* =========================================================
+       HELPERS
+    ========================================================= */
 
-        if(item.src){
-
-          script.src =
-            item.src;
-
-          script.onload =
-            resolve;
-
-          script.onerror =
-            resolve;
-
-          document.body.appendChild(
-            script
-          );
-
-        }else{
-
-          script.textContent =
-            item.text;
-
-          document.body.appendChild(
-            script
-          );
-
-          resolve();
-
-        }
-
-      });
-
+    function esc(value){
+      return String(value ?? '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#039;');
     }
 
+    function field(row, keys){
+      for(const key of keys){
+        if(row && row[key] !== undefined && row[key] !== null){
+          return row[key];
+        }
+      }
+      return '';
+    }
 
-    /*
-      Original DOMContentLoaded has already happened,
-      so explicitly call the original CMS loader.
-    */
+    function active(row){
+      const value = String(
+        field(row,['فعال','active','Active'])
+      ).trim().toLowerCase();
 
-    setTimeout(function(){
+      return [
+        'بله',
+        'yes',
+        'true',
+        '1',
+        'فعال',
+        'active'
+      ].includes(value);
+    }
+
+    function settingsObject(){
+      const out = {};
+
+      (CMS.settings || []).forEach(row=>{
+        const key = String(
+          field(row,['کلید','key'])
+        ).trim();
+
+        const value = field(row,['مقدار','value']);
+
+        if(key){
+          out[key] = value;
+        }
+      });
+
+      return out;
+    }
+
+    function iconBox(icon){
+      return `<div class="icon-glass">${ICONS[icon] || ICONS.sparkle}</div>`;
+    }
+
+    function cardArrow(){
+      return `<div class="chevron">${ICONS.arrow}</div>`;
+    }
+
+    function openExternal(url){
+      if(!url) return;
+
+      try{
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }catch(e){
+        window.location.href = url;
+      }
+    }
+
+    function go(view, data){
+      if(currentView !== view){
+        viewStack.push({
+          view:currentView,
+          data:window.__viewData || null
+        });
+      }
+
+      currentView = view;
+      window.__viewData = data || null;
+
+      closeDrawer();
+      closeSheet();
+
+      render();
+      window.scrollTo({
+        top:0,
+        behavior:'smooth'
+      });
+    }
+
+    function back(){
+      if(viewStack.length){
+        const previous = viewStack.pop();
+
+        currentView = previous.view;
+        window.__viewData = previous.data || null;
+
+        render();
+
+        window.scrollTo({
+          top:0,
+          behavior:'smooth'
+        });
+
+        return;
+      }
+
+      goHome();
+    }
+
+    function goHome(){
+      currentView = 'home';
+      window.__viewData = null;
+      viewStack = [];
+
+      closeDrawer();
+      closeSheet();
+
+      render();
+
+      window.scrollTo({
+        top:0,
+        behavior:'smooth'
+      });
+    }
+
+    /* =========================================================
+       DRAWER
+    ========================================================= */
+
+    function openDrawer(){
+      document.getElementById('drawerOverlay')
+        .classList.add('open');
+    }
+
+    function closeDrawer(){
+      document.getElementById('drawerOverlay')
+        .classList.remove('open');
+    }
+
+    function buildDrawer(){
+
+      const items = [
+        ['home','خانه','sparkle'],
+        ['services','خدمات','lotus'],
+        ['vip','همراهان کائنات‌چی','crown'],
+        ['courses','کلاس‌ها','graduation'],
+        ['events','ایونت‌ها','ticket'],
+        ['faq','سؤالات متداول','question'],
+        ['contact','راه‌های ارتباطی','chat'],
+        ['hours','ساعات کاری','clock']
+      ];
+
+      document.getElementById('drawerItems').innerHTML =
+        items.map(item=>`
+          <button
+            class="drawer-item"
+            type="button"
+            onclick="go('${item[0]}')"
+          >
+            ${iconBox(item[2])}
+            <span>${esc(item[1])}</span>
+            ${cardArrow()}
+          </button>
+        `).join('');
+    }
+
+    /* =========================================================
+       SHEET
+    ========================================================= */
+
+    function openSheet(html){
+      document.getElementById('sheetContent').innerHTML = html;
+      document.getElementById('sheetOverlay')
+        .classList.add('open');
+    }
+
+    function closeSheet(){
+      document.getElementById('sheetOverlay')
+        .classList.remove('open');
+    }
+
+    function sheetBackdrop(event){
+      if(event.target.id === 'sheetOverlay'){
+        closeSheet();
+      }
+    }
+
+    function contactSheet(){
+      const settings = settingsObject();
+
+      const telegram =
+        settings.telegram ||
+        'https://t.me/AD_Kaenatchi';
+
+      const instagram =
+        settings.instagram ||
+        'https://instagram.com/Kaenatchi';
+
+      const whatsapp =
+        settings.whatsapp ||
+        '@Kaenatchi';
+
+      const phone =
+        settings.phone || '';
+
+      openSheet(`
+        <div class="sheet-title">
+          راه‌های ارتباطی
+        </div>
+
+        <div class="sheet-list">
+
+          <a
+            class="sheet-item"
+            href="${esc(telegram)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ${iconBox('telegram')}
+            <div>
+              <strong>Telegram</strong>
+              <small>@AD_Kaenatchi</small>
+            </div>
+          </a>
+
+          <a
+            class="sheet-item"
+            href="${esc(instagram)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ${iconBox('instagram')}
+            <div>
+              <strong>Instagram</strong>
+              <small>@Kaenatchi</small>
+            </div>
+          </a>
+
+          <div class="sheet-item">
+            ${iconBox('whatsapp')}
+            <div>
+              <strong>WhatsApp</strong>
+              <small>${esc(whatsapp)}</small>
+            </div>
+          </div>
+
+          ${
+            phone
+            ? `
+              <a
+                class="sheet-item"
+                href="tel:${esc(phone)}"
+              >
+                ${iconBox('phone')}
+                <div>
+                  <strong>تماس تلفنی</strong>
+                  <small>${esc(phone)}</small>
+                </div>
+              </a>
+            `
+            : ''
+          }
+
+        </div>
+      `);
+    }
+
+    function hoursSheet(){
+      const settings = settingsObject();
+
+      const hours =
+        settings.hours ||
+        `شنبه تا چهارشنبه: ۱۱ تا ۱۴ و ۱۵ تا ۱۹
+پنجشنبه: ۱۱ تا ۱۴
+جمعه: تعطیل
+
+در تعطیلات رسمی نیز تعطیل هستیم؛
+مگر در صورت اعلام قبلی برنامه ویژه.`;
+
+      openSheet(`
+        <div class="sheet-title">
+          ساعات کاری
+        </div>
+
+        <div class="content-glass">
+          <div class="content-text">
+            ${esc(hours)}
+          </div>
+        </div>
+      `);
+    }
+
+    function interestSheet(type,title){
+      openSheet(`
+        <div class="sheet-title">
+          ${esc(title)}
+        </div>
+
+        <div class="content-glass">
+          <div class="content-text">
+            ${
+              type === 'course'
+              ? 'این دوره در حال آماده‌سازی است. 🌿\\n\\nبرای اطلاع از زمان شروع و شرایط ثبت‌نام، می‌توانید از راه‌های ارتباطی کائنات‌چی پیام ارسال کنید.'
+              : 'این ایونت در حال آماده‌سازی است. 🌿\\n\\nبرای اطلاع از زمان برگزاری و شرایط شرکت، می‌توانید از راه‌های ارتباطی کائنات‌چی پیام ارسال کنید.'
+            }
+          </div>
+
+          <div class="booking-area">
+            <button
+              class="booking-glass"
+              type="button"
+              onclick="contactSheet()"
+            >
+              ${iconBox('chat')}
+              <strong>اعلام علاقه‌مندی</strong>
+              <span class="arrow-white">
+                ${ICONS.arrow}
+              </span>
+            </button>
+          </div>
+        </div>
+      `);
+    }
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
+    function topbar(){
+      const isHome = currentView === 'home';
+
+      return `
+        <div class="topbar ${isHome ? 'home-topbar' : ''}">
+
+          <button
+            class="glass-control back-button"
+            type="button"
+            onclick="back()"
+            aria-label="بازگشت"
+          >
+            ${ICONS.arrowBack}
+          </button>
+
+          <button
+            class="glass-control menu-button"
+            type="button"
+            onclick="openDrawer()"
+            aria-label="منو"
+          >
+            <span class="hamburger">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+
+        </div>
+      `;
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    function footer(){
+      return `
+        <footer class="footer">
+          <div class="footer-line"></div>
+          © کائنات‌چی — کلیه حقوق مادی و معنوی این محتوا محفوظ است.
+          هرگونه کپی، بازنشر، استفاده یا انتشار بدون اجازه کتبی،
+          ممنوع بوده و مشمول پیگیری قانونی خواهد بود.
+        </footer>
+      `;
+    }
+
+    /* =========================================================
+       HOME
+    ========================================================= */
+
+    function homeHero(){
+
+      return `
+        <section class="home-hero">
+
+          <div class="hero-dome"></div>
+
+          <div class="hero-botanical">
+
+            <div class="hero-branch left">
+              <div class="hero-stem"></div>
+              <div class="hero-leaf a"></div>
+              <div class="hero-leaf b"></div>
+              <div class="hero-leaf c"></div>
+              <div class="hero-leaf d"></div>
+              <div class="hero-leaf e"></div>
+              <div class="hero-leaf f"></div>
+            </div>
+
+            <div class="hero-branch right">
+              <div class="hero-stem"></div>
+              <div class="hero-leaf a"></div>
+              <div class="hero-leaf b"></div>
+              <div class="hero-leaf c"></div>
+              <div class="hero-leaf d"></div>
+              <div class="hero-leaf e"></div>
+              <div class="hero-leaf f"></div>
+            </div>
+
+          </div>
+
+          <div class="hero-content">
+
+            <img
+              class="hero-logo"
+              src="${LOGO_URL}"
+              alt="کائنات‌چی"
+            >
+
+            <h1 class="hero-brand">
+              کائنات‌چی
+            </h1>
+
+            <h2 class="hero-welcome">
+              به کائنات‌چی خوش آمدید
+            </h2>
+
+            <p class="hero-tagline">
+              همراه شما در مسیر آرامش، شناخت و رشد درونی
+            </p>
+
+          </div>
+
+          <div class="hero-light"></div>
+
+        </section>
+      `;
+    }
+
+    function homeContent(){
+
+      return `
+        <main class="home-content">
+
+          <button
+            class="primary-booking"
+            type="button"
+            onclick="openExternal(APPOINTMENT_URL)"
+          >
+            ${iconBox('calendar')}
+
+            <span class="primary-booking-text">
+              <span class="primary-booking-title">
+                دریافت نوبت
+              </span>
+              <span class="primary-booking-sub">
+                انتخاب خدمت، روز و ساعت
+              </span>
+            </span>
+
+            <span class="primary-arrow">
+              ${ICONS.arrow}
+            </span>
+          </button>
+
+          <div class="section-title">
+            خدمات
+          </div>
+
+          <div class="glass-list">
+
+            <button
+              class="glass-card"
+              type="button"
+              onclick="go('services')"
+            >
+              ${iconBox('lotus')}
+
+              <span class="card-copy">
+                <span class="card-title">
+                  مشاهده خدمات
+                </span>
+                <span class="card-sub">
+                  انرژی‌خوانی، شمع‌تراپی و سایکوتراپی
+                </span>
+              </span>
+
+              ${cardArrow()}
+            </button>
+
+          </div>
+
+          <div class="section-title">
+            همراهان
+          </div>
+
+          <button
+            class="glass-card"
+            type="button"
+            onclick="openExternal(VIP_URL)"
+          >
+            ${iconBox('crown')}
+
+            <span class="card-copy">
+              <span class="card-title">
+                همراهان کائنات‌چی
+              </span>
+              <span class="card-sub">
+                ورود به فضای ویژه همراهان کائنات‌چی
+              </span>
+            </span>
+
+            ${cardArrow()}
+          </button>
+
+          <div class="section-title">
+            برنامه‌ها
+          </div>
+
+          <div class="two-column">
+
+            <button
+              class="glass-card square-card"
+              type="button"
+              onclick="go('courses')"
+            >
+              ${iconBox('graduation')}
+
+              <span class="card-title">
+                کلاس‌ها
+              </span>
+            </button>
+
+            <button
+              class="glass-card square-card"
+              type="button"
+              onclick="go('events')"
+            >
+              ${iconBox('ticket')}
+
+              <span class="card-title">
+                ایونت‌ها
+              </span>
+            </button>
+
+          </div>
+
+          <div style="height:22px"></div>
+
+          <button
+            class="glass-card"
+            type="button"
+            onclick="go('faq')"
+          >
+            ${iconBox('question')}
+
+            <span class="card-copy">
+              <span class="card-title">
+                سؤالات متداول
+              </span>
+              <span class="card-sub">
+                پاسخ پرسش‌های رایج درباره خدمات و نوبت
+              </span>
+            </span>
+
+            ${cardArrow()}
+          </button>
+
+          <div style="height:12px"></div>
+
+          <div class="two-column">
+
+            <button
+              class="glass-card square-card"
+              type="button"
+              onclick="contactSheet()"
+            >
+              ${iconBox('chat')}
+
+              <span class="card-title">
+                راه‌های ارتباطی
+              </span>
+            </button>
+
+            <button
+              class="glass-card square-card"
+              type="button"
+              onclick="hoursSheet()"
+            >
+              ${iconBox('clock')}
+
+              <span class="card-title">
+                ساعات کاری
+              </span>
+            </button>
+
+          </div>
+
+        </main>
+      `;
+    }
+
+    function renderHome(){
+
+      return `
+        <div class="screen">
+
+          ${topbar()}
+
+          ${homeHero()}
+
+          ${homeContent()}
+
+          ${footer()}
+
+        </div>
+      `;
+    }
+
+    /* =========================================================
+       INNER HEADER
+    ========================================================= */
+
+    function innerHeader(title,subtitle=''){
+
+      return `
+        <div class="inner-head">
+
+          <img
+            class="mini-logo"
+            src="${LOGO_URL}"
+            alt="کائنات‌چی"
+          >
+
+          <h1 class="inner-title">
+            ${esc(title)}
+          </h1>
+
+          ${
+            subtitle
+            ? `
+              <p class="inner-subtitle">
+                ${esc(subtitle)}
+              </p>
+            `
+            : ''
+          }
+
+        </div>
+      `;
+    }
+
+    function innerShell(content){
+
+      return `
+        <div class="screen inner-screen">
+
+          ${topbar()}
+
+          ${content}
+
+          ${footer()}
+
+        </div>
+      `;
+    }
+
+    /* =========================================================
+       SERVICES
+    ========================================================= */
+
+    function serviceCategory(service){
+
+      const category = String(
+        field(service,['دسته','category'])
+      ).trim();
+
+      if(category === 'انرژی‌خوانی'){
+        return 'energy';
+      }
+
+      if(category === 'شمع‌تراپی'){
+        return 'candle';
+      }
+
+      if(category === 'سایکوتراپی'){
+        return 'mind';
+      }
+
+      return 'other';
+    }
+
+    function serviceIcon(service){
+
+      const category = serviceCategory(service);
+
+      if(category === 'energy'){
+        return 'lotus';
+      }
+
+      if(category === 'candle'){
+        return 'candle';
+      }
+
+      if(category === 'mind'){
+        return 'mind';
+      }
+
+      return 'sparkle';
+    }
+
+    function serviceName(service){
+      return field(service,['نام خدمت','name']);
+    }
+
+    function serviceShort(service){
+      return field(service,['توضیح کوتاه','shortDescription']);
+    }
+
+    function serviceFull(service){
+      return field(service,['توضیحات کامل','fullDescription']) ||
+             serviceShort(service);
+    }
+
+    function servicePrice(service){
+      return field(service,['قیمت','price']);
+    }
+
+    function serviceImage(service){
+      return field(service,['تصویر','image']);
+    }
+
+    function serviceList(){
+
+      return (CMS.services || [])
+        .filter(active)
+        .sort((a,b)=>{
+          const aa = Number(field(a,['ترتیب','order'])) || 999;
+          const bb = Number(field(b,['ترتیب','order'])) || 999;
+          return aa-bb;
+        });
+    }
+
+    function filterTabs(selected){
+
+      const tabs = [
+        ['all','همه'],
+        ['energy','انرژی‌خوانی'],
+        ['candle','شمع‌تراپی'],
+        ['mind','سایکوتراپی']
+      ];
+
+      return `
+        <div class="filter-shell">
+          <div class="filter-row">
+
+            ${tabs.map(tab=>`
+              <button
+                class="filter-button ${selected===tab[0]?'active':''}"
+                type="button"
+                onclick="filterServices('${tab[0]}')"
+              >
+                ${esc(tab[1])}
+              </button>
+            `).join('')}
+
+          </div>
+        </div>
+      `;
+    }
+
+    let selectedServiceFilter = 'all';
+
+    function filterServices(category){
+      selectedServiceFilter = category;
+      renderServices();
+      window.scrollTo({
+        top:0,
+        behavior:'smooth'
+      });
+    }
+
+    function renderServices(){
+
+      const list = serviceList();
+
+      const filtered =
+        selectedServiceFilter === 'all'
+        ? list
+        : list.filter(
+            service =>
+              serviceCategory(service) === selectedServiceFilter
+          );
+
+      const html = `
+
+        <div class="screen inner-screen">
+
+          ${topbar()}
+
+          ${innerHeader(
+            'خدمات',
+            'خدمات کائنات‌چی را بر اساس زمینه موردنظر انتخاب کنید.'
+          )}
+
+          ${filterTabs(selectedServiceFilter)}
+
+          <div class="booking-area">
+            <button
+              class="booking-glass"
+              type="button"
+              onclick="openExternal(APPOINTMENT_URL)"
+            >
+              ${iconBox('calendar')}
+
+              <strong>
+                دریافت نوبت
+              </strong>
+
+              <span class="arrow-white">
+                ${ICONS.arrow}
+              </span>
+            </button>
+          </div>
+
+          <div class="glass-list">
+
+            ${
+              filtered.length
+              ? filtered.map(service=>`
+
+                <button
+                  class="glass-card"
+                  type="button"
+                  onclick="openService(${list.indexOf(service)})"
+                >
+
+                  ${iconBox(serviceIcon(service))}
+
+                  <span class="card-copy">
+
+                    <span class="card-title">
+                      ${esc(serviceName(service))}
+                    </span>
+
+                    <span class="card-sub">
+                      ${esc(serviceShort(service))}
+                    </span>
+
+                  </span>
+
+                  ${cardArrow()}
+
+                </button>
+
+              `).join('')
+              : `
+                <div class="empty">
+                  در این بخش هنوز خدمتی ثبت نشده است.
+                </div>
+              `
+            }
+
+          </div>
+
+          <div class="booking-area" style="margin-top:24px">
+            <button
+              class="booking-glass"
+              type="button"
+              onclick="openExternal(APPOINTMENT_URL)"
+            >
+              ${iconBox('calendar')}
+
+              <strong>
+                دریافت نوبت
+              </strong>
+
+              <span class="arrow-white">
+                ${ICONS.arrow}
+              </span>
+            </button>
+          </div>
+
+          ${footer()}
+
+        </div>
+      `;
+
+      document.getElementById('app').innerHTML = html;
+    }
+
+    function openService(index){
+
+      const list = serviceList();
+      const service = list[index];
+
+      if(!service) return;
+
+      go('serviceDetail',{
+        service
+      });
+    }
+
+    /* =========================================================
+       SERVICE DETAIL
+    ========================================================= */
+
+    function fallbackIcon(service){
+      return serviceIcon(service);
+    }
+
+    function serviceDetail(service){
+
+      const image = serviceImage(service);
+      const icon = fallbackIcon(service);
+
+      return innerShell(`
+
+        ${innerHeader(
+          serviceName(service),
+          serviceShort(service)
+        )}
+
+        <div class="service-visual">
+
+          ${
+            image
+            ? `
+              <img
+                src="${esc(image)}"
+                alt="${esc(serviceName(service))}"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"
+              >
+            `
+            : ''
+          }
+
+          <div
+            class="service-visual-fallback"
+            style="${image?'display:none':''}"
+          >
+            <div class="visual-orbit">
+              ${ICONS[icon]}
+            </div>
+          </div>
+
+          <div class="visual-label">
+            <strong>
+              ${esc(serviceName(service))}
+            </strong>
+          </div>
+
+        </div>
+
+        <div class="booking-area">
+          <button
+            class="booking-glass"
+            type="button"
+            onclick="openExternal(APPOINTMENT_URL)"
+          >
+            ${iconBox('calendar')}
+
+            <strong>
+              دریافت نوبت
+            </strong>
+
+            <span class="arrow-white">
+              ${ICONS.arrow}
+            </span>
+          </button>
+        </div>
+
+        <div class="content-glass">
+
+          <h3>
+            درباره این خدمت
+          </h3>
+
+          <div class="content-text">
+            ${esc(serviceFull(service))}
+          </div>
+
+          ${
+            servicePrice(service)
+            ? `
+              <div class="price-row">
+                <span class="price-label">
+                  هزینه
+                </span>
+
+                <span class="price-value">
+                  ${esc(servicePrice(service))}
+                </span>
+              </div>
+            `
+            : ''
+          }
+
+        </div>
+
+        <div class="booking-area" style="margin-top:18px">
+          <button
+            class="booking-glass"
+            type="button"
+            onclick="openExternal(APPOINTMENT_URL)"
+          >
+            ${iconBox('calendar')}
+
+            <strong>
+              دریافت نوبت
+            </strong>
+
+            <span class="arrow-white">
+              ${ICONS.arrow}
+            </span>
+          </button>
+        </div>
+
+      `);
+    }
+
+    /* =========================================================
+       COURSES
+    ========================================================= */
+
+    function courseName(item){
+      return field(item,['نام دوره','name']);
+    }
+
+    function courseShort(item){
+      return field(item,['توضیح کوتاه','shortDescription']);
+    }
+
+    function courseFull(item){
+      return field(item,['توضیحات کامل','fullDescription']);
+    }
+
+    function courseSyllabus(item){
+      return field(item,['سرفصل‌ها','syllabus']);
+    }
+
+    function renderCourses(){
+
+      const list = (CMS.courses || []).filter(active);
+
+      document.getElementById('app').innerHTML =
+        innerShell(`
+
+          ${innerHeader(
+            'کلاس‌ها',
+            'دوره‌های آموزشی کائنات‌چی'
+          )}
+
+          <div class="glass-list">
+
+            ${
+              list.length
+              ? list.map((item,index)=>`
+
+                <button
+                  class="glass-card"
+                  type="button"
+                  onclick="openCourse(${index})"
+                >
+
+                  ${iconBox('graduation')}
+
+                  <span class="card-copy">
+
+                    <span class="card-title">
+                      ${esc(courseName(item))}
+                    </span>
+
+                    <span class="card-sub">
+                      ${esc(courseShort(item))}
+                    </span>
+
+                    <span class="status-pill">
+                      در حال آماده‌سازی
+                    </span>
+
+                  </span>
+
+                  ${cardArrow()}
+
+                </button>
+
+              `).join('')
+              : `
+                <div class="empty">
+                  هنوز دوره‌ای در این بخش ثبت نشده است.
+                </div>
+              `
+            }
+
+          </div>
+
+        `);
+    }
+
+    function openCourse(index){
+
+      const list = (CMS.courses || []).filter(active);
+      const item = list[index];
+
+      if(!item) return;
+
+      go('courseDetail',{item});
+    }
+
+    function courseDetail(item){
+
+      const syllabus =
+        String(courseSyllabus(item) || '')
+          .split(/\r?\n/)
+          .map(x=>x.trim())
+          .filter(Boolean);
+
+      return innerShell(`
+
+        ${innerHeader(
+          courseName(item),
+          courseShort(item)
+        )}
+
+        <div class="content-glass">
+
+          <div class="status-pill">
+            در حال آماده‌سازی
+          </div>
+
+          ${
+            courseFull(item)
+            ? `
+              <div class="content-text" style="margin-top:15px">
+                ${esc(courseFull(item))}
+              </div>
+            `
+            : ''
+          }
+
+          ${
+            syllabus.length
+            ? `
+              <h3 style="margin-top:21px">
+                سرفصل‌ها
+              </h3>
+
+              <ul class="bullet-list">
+                ${syllabus.map(x=>`
+                  <li>${esc(x)}</li>
+                `).join('')}
+              </ul>
+            `
+            : ''
+          }
+
+          <div class="meta-grid">
+
+            <div class="meta-box">
+              <div class="meta-label">
+                مدت
+              </div>
+              <div class="meta-value">
+                ${esc(field(item,['مدت','duration']) || 'در حال آماده‌سازی')}
+              </div>
+            </div>
+
+            <div class="meta-box">
+              <div class="meta-label">
+                هزینه
+              </div>
+              <div class="meta-value">
+                ${esc(field(item,['هزینه','cost']) || 'فعلاً اعلام نشده')}
+              </div>
+            </div>
+
+          </div>
+
+          <div class="booking-area">
+            <button
+              class="booking-glass"
+              type="button"
+              onclick="interestSheet('course','${esc(courseName(item))}')"
+            >
+              ${iconBox('chat')}
+
+              <strong>
+                اعلام علاقه‌مندی
+              </strong>
+
+              <span class="arrow-white">
+                ${ICONS.arrow}
+              </span>
+            </button>
+          </div>
+
+        </div>
+
+      `);
+    }
+
+    /* =========================================================
+       EVENTS
+    ========================================================= */
+
+    function eventName(item){
+      return field(item,['نام ایونت','name']);
+    }
+
+    function eventShort(item){
+      return field(item,['توضیح کوتاه','shortDescription']);
+    }
+
+    function renderEvents(){
+
+      const list = (CMS.events || []).filter(active);
+
+      document.getElementById('app').innerHTML =
+        innerShell(`
+
+          ${innerHeader(
+            'ایونت‌ها',
+            'برنامه‌ها و رویدادهای ویژه کائنات‌چی'
+          )}
+
+          <div class="glass-list">
+
+            ${
+              list.length
+              ? list.map((item,index)=>`
+
+                <button
+                  class="glass-card"
+                  type="button"
+                  onclick="openEvent(${index})"
+                >
+
+                  ${iconBox('ticket')}
+
+                  <span class="card-copy">
+
+                    <span class="card-title">
+                      ${esc(eventName(item))}
+                    </span>
+
+                    <span class="card-sub">
+                      ${esc(eventShort(item))}
+                    </span>
+
+                    <span class="status-pill">
+                      در حال آماده‌سازی
+                    </span>
+
+                  </span>
+
+                  ${cardArrow()}
+
+                </button>
+
+              `).join('')
+              : `
+                <div class="empty">
+                  هنوز ایونتی در این بخش ثبت نشده است.
+                </div>
+              `
+            }
+
+          </div>
+
+        `);
+    }
+
+    function openEvent(index){
+
+      const list = (CMS.events || []).filter(active);
+      const item = list[index];
+
+      if(!item) return;
+
+      go('eventDetail',{item});
+    }
+
+    function eventDetail(item){
+
+      return innerShell(`
+
+        ${innerHeader(
+          eventName(item),
+          eventShort(item)
+        )}
+
+        <div class="content-glass">
+
+          <div class="status-pill">
+            در حال آماده‌سازی
+          </div>
+
+          ${
+            field(item,['توضیحات کامل','fullDescription'])
+            ? `
+              <div class="content-text" style="margin-top:15px">
+                ${esc(field(item,['توضیحات کامل','fullDescription']))}
+              </div>
+            `
+            : ''
+          }
+
+          <div class="meta-grid">
+
+            <div class="meta-box">
+              <div class="meta-label">
+                تاریخ
+              </div>
+              <div class="meta-value">
+                ${esc(field(item,['تاریخ','date']) || 'به‌زودی')}
+              </div>
+            </div>
+
+            <div class="meta-box">
+              <div class="meta-label">
+                ساعت
+              </div>
+              <div class="meta-value">
+                ${esc(field(item,['ساعت','time']) || 'به‌زودی')}
+              </div>
+            </div>
+
+            <div class="meta-box">
+              <div class="meta-label">
+                نحوه برگزاری
+              </div>
+              <div class="meta-value">
+                ${esc(field(item,['نحوه برگزاری','howHeld']) || 'در حال آماده‌سازی')}
+              </div>
+            </div>
+
+            <div class="meta-box">
+              <div class="meta-label">
+                ظرفیت
+              </div>
+              <div class="meta-value">
+                ${esc(field(item,['ظرفیت','capacity']) || 'به‌زودی')}
+              </div>
+            </div>
+
+            <div class="meta-box">
+              <div class="meta-label">
+                هزینه
+              </div>
+              <div class="meta-value">
+                ${esc(field(item,['هزینه','cost']) || 'فعلاً اعلام نشده')}
+              </div>
+            </div>
+
+          </div>
+
+          <div class="booking-area">
+            <button
+              class="booking-glass"
+              type="button"
+              onclick="interestSheet('event','${esc(eventName(item))}')"
+            >
+              ${iconBox('chat')}
+
+              <strong>
+                اعلام علاقه‌مندی
+              </strong>
+
+              <span class="arrow-white">
+                ${ICONS.arrow}
+              </span>
+            </button>
+          </div>
+
+        </div>
+
+      `);
+    }
+
+    /* =========================================================
+       FAQ
+    ========================================================= */
+
+    const FAQ_ICON_MAP = {
+      'دریافت نوبت':'calendar',
+      'پرداخت':'sparkle',
+      'خدمات':'lotus',
+      'پشتیبانی':'chat',
+      'همراهان کائنات‌چی':'crown',
+      'عمومی':'question'
+    };
+
+    function faqCategoryName(item){
+      return String(
+        field(item,['دسته','category']) || 'عمومی'
+      ).trim();
+    }
+
+    function renderFAQ(){
+
+      const rows = (CMS.faq || []).filter(active);
+
+      const groups = {};
+
+      rows.forEach(row=>{
+        const category = faqCategoryName(row);
+
+        if(!groups[category]){
+          groups[category] = [];
+        }
+
+        groups[category].push(row);
+      });
+
+      const preferredOrder = [
+        'دریافت نوبت',
+        'پرداخت',
+        'خدمات',
+        'پشتیبانی',
+        'همراهان کائنات‌چی',
+        'عمومی'
+      ];
+
+      const categories = Object.keys(groups).sort((a,b)=>{
+        const aa = preferredOrder.indexOf(a);
+        const bb = preferredOrder.indexOf(b);
+
+        if(aa === -1 && bb === -1) return a.localeCompare(b,'fa');
+        if(aa === -1) return 1;
+        if(bb === -1) return -1;
+
+        return aa-bb;
+      });
+
+      document.getElementById('app').innerHTML =
+        innerShell(`
+
+          ${innerHeader(
+            'سؤالات متداول',
+            'موضوع موردنظر را انتخاب کنید و پاسخ پرسش‌ها را ببینید.'
+          )}
+
+          <div class="filter-shell">
+            <div class="filter-row">
+
+              <button
+                class="filter-button active"
+                type="button"
+                onclick="faqScrollTo('all')"
+              >
+                همه
+              </button>
+
+              ${categories.map(category=>`
+                <button
+                  class="filter-button"
+                  type="button"
+                  onclick="faqScrollTo('${encodeURIComponent(category)}')"
+                >
+                  ${esc(category)}
+                </button>
+              `).join('')}
+
+            </div>
+          </div>
+
+          <div class="glass-list">
+
+            ${
+              categories.length
+              ? categories.map(category=>{
+
+                  const questions =
+                    groups[category];
+
+                  const icon =
+                    FAQ_ICON_MAP[category] || 'question';
+
+                  return `
+
+                    <section
+                      class="glass-card faq-category"
+                      id="faq-${encodeURIComponent(category)}"
+                    >
+
+                      <button
+                        class="glass-card faq-category-head"
+                        type="button"
+                        onclick="toggleFaqCategory(this)"
+                      >
+
+                        ${iconBox(icon)}
+
+                        <span class="card-copy">
+                          <span class="card-title">
+                            ${esc(category)}
+                          </span>
+                          <span class="card-sub">
+                            ${questions.length} پرسش
+                          </span>
+                        </span>
+
+                        <div class="chevron">
+                          ${ICONS.chevronDown}
+                        </div>
+
+                      </button>
+
+                      <div class="faq-category-body">
+
+                        ${questions.map((q,index)=>`
+
+                          <div
+                            class="faq-question"
+                            data-faq="${index}"
+                          >
+
+                            <button
+                              class="faq-q"
+                              type="button"
+                              onclick="toggleFaqQuestion(this)"
+                            >
+
+                              <span>
+                                ${esc(field(q,['سؤال','question']))}
+                              </span>
+
+                              ${ICONS.chevronDown}
+
+                            </button>
+
+                            <div class="faq-answer">
+                              ${esc(field(q,['پاسخ','answer']))}
+                            </div>
+
+                          </div>
+
+                        `).join('')}
+
+                      </div>
+
+                    </section>
+
+                  `;
+                }).join('')
+              : `
+                <div class="empty">
+                  هنوز پرسشی در این بخش ثبت نشده است.
+                </div>
+              `
+            }
+
+          </div>
+
+        `);
+    }
+
+    function toggleFaqCategory(button){
+
+      const category =
+        button.closest('.faq-category');
+
+      category.classList.toggle('open');
+    }
+
+    function toggleFaqQuestion(button){
+
+      const question =
+        button.closest('.faq-question');
+
+      question.classList.toggle('open');
+    }
+
+    function faqScrollTo(category){
+
+      if(category === 'all'){
+        window.scrollTo({
+          top:0,
+          behavior:'smooth'
+        });
+        return;
+      }
+
+      const id =
+        'faq-' + category;
+
+      const el =
+        document.getElementById(id);
+
+      if(el){
+        el.classList.add('open');
+
+        el.scrollIntoView({
+          behavior:'smooth',
+          block:'start'
+        });
+      }
+    }
+
+    /* =========================================================
+       CONTACT PAGE
+    ========================================================= */
+
+    function renderContact(){
+
+      const settings = settingsObject();
+
+      const telegram =
+        settings.telegram ||
+        'https://t.me/AD_Kaenatchi';
+
+      const instagram =
+        settings.instagram ||
+        'https://instagram.com/Kaenatchi';
+
+      const whatsapp =
+        settings.whatsapp ||
+        '@Kaenatchi';
+
+      const phone =
+        settings.phone || '';
+
+      document.getElementById('app').innerHTML =
+        innerShell(`
+
+          ${innerHeader(
+            'راه‌های ارتباطی',
+            'برای ارتباط با کائنات‌چی می‌توانید از راه‌های زیر استفاده کنید.'
+          )}
+
+          <div class="glass-list">
+
+            <a
+              class="glass-card contact-card"
+              href="${esc(telegram)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ${iconBox('telegram')}
+
+              <span class="card-copy">
+                <span class="card-title">
+                  Telegram
+                </span>
+                <span class="contact-value">
+                  @AD_Kaenatchi
+                </span>
+              </span>
+
+              ${cardArrow()}
+            </a>
+
+            <a
+              class="glass-card contact-card"
+              href="${esc(instagram)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ${iconBox('instagram')}
+
+              <span class="card-copy">
+                <span class="card-title">
+                  Instagram
+                </span>
+                <span class="contact-value">
+                  @Kaenatchi
+                </span>
+              </span>
+
+              ${cardArrow()}
+            </a>
+
+            <div class="glass-card contact-card">
+              ${iconBox('whatsapp')}
+
+              <span class="card-copy">
+                <span class="card-title">
+                  WhatsApp
+                </span>
+                <span class="contact-value">
+                  ${esc(whatsapp)}
+                </span>
+              </span>
+            </div>
+
+            ${
+              phone
+              ? `
+                <a
+                  class="glass-card contact-card"
+                  href="tel:${esc(phone)}"
+                >
+                  ${iconBox('phone')}
+
+                  <span class="card-copy">
+                    <span class="card-title">
+                      تماس تلفنی
+                    </span>
+                    <span class="contact-value">
+                      ${esc(phone)}
+                    </span>
+                  </span>
+
+                  ${cardArrow()}
+                </a>
+              `
+              : ''
+            }
+
+          </div>
+
+        `);
+    }
+
+    /* =========================================================
+       HOURS PAGE
+    ========================================================= */
+
+    function renderHours(){
+
+      const settings = settingsObject();
+
+      const hours =
+        settings.hours ||
+        `شنبه تا چهارشنبه: ۱۱ تا ۱۴ و ۱۵ تا ۱۹
+پنجشنبه: ۱۱ تا ۱۴
+جمعه: تعطیل
+
+در تعطیلات رسمی نیز تعطیل هستیم؛
+مگر در صورت اعلام قبلی برنامه ویژه.
+
+پیام‌ها خارج از ساعات کاری نیز قابل ارسال هستند
+و در ساعات کاری پاسخ داده می‌شوند.`;
+
+      document.getElementById('app').innerHTML =
+        innerShell(`
+
+          ${innerHeader(
+            'ساعات کاری',
+            'زمان پاسخ‌گویی و فعالیت کائنات‌چی'
+          )}
+
+          <div class="content-glass">
+
+            <div class="content-text">
+              ${esc(hours)}
+            </div>
+
+          </div>
+
+        `);
+    }
+
+    /* =========================================================
+       VIP
+    ========================================================= */
+
+    function renderVIP(){
+
+      document.getElementById('app').innerHTML =
+        innerShell(`
+
+          ${innerHeader(
+            'همراهان کائنات‌چی',
+            'ورود به فضای ویژه همراهان کائنات‌چی'
+          )}
+
+          <div
+            class="service-visual"
+            style="height:300px"
+          >
+
+            <div class="service-visual-fallback">
+              <div class="visual-orbit">
+                ${ICONS.crown}
+              </div>
+            </div>
+
+            <div class="visual-label">
+              <strong>
+                همراهان کائنات‌چی
+              </strong>
+            </div>
+
+          </div>
+
+          <div class="content-glass">
+
+            <div class="content-text">
+              فضای همراهان کائنات‌چی برای مشتریانی طراحی شده است
+              که از مزایا و خدمات ویژه این بخش استفاده می‌کنند.
+
+              برای ورود، از اطلاعات اختصاصی خود استفاده کنید.
+            </div>
+
+            <div class="booking-area">
+              <button
+                class="booking-glass"
+                type="button"
+                onclick="openExternal(VIP_URL)"
+              >
+                ${iconBox('crown')}
+
+                <strong>
+                  ورود به همراهان کائنات‌چی
+                </strong>
+
+                <span class="arrow-white">
+                  ${ICONS.arrow}
+                </span>
+              </button>
+            </div>
+
+          </div>
+
+        `);
+    }
+
+    /* =========================================================
+       MAIN RENDER
+    ========================================================= */
+
+    function render(){
+
+      if(currentView === 'home'){
+        document.getElementById('app').innerHTML =
+          renderHome();
+        return;
+      }
+
+      if(currentView === 'services'){
+        renderServices();
+        return;
+      }
+
+      if(currentView === 'serviceDetail'){
+        const data = window.__viewData || {};
+        document.getElementById('app').innerHTML =
+          serviceDetail(data.service);
+        return;
+      }
+
+      if(currentView === 'courses'){
+        renderCourses();
+        return;
+      }
+
+      if(currentView === 'courseDetail'){
+        const data = window.__viewData || {};
+        document.getElementById('app').innerHTML =
+          courseDetail(data.item);
+        return;
+      }
+
+      if(currentView === 'events'){
+        renderEvents();
+        return;
+      }
+
+      if(currentView === 'eventDetail'){
+        const data = window.__viewData || {};
+        document.getElementById('app').innerHTML =
+          eventDetail(data.item);
+        return;
+      }
+
+      if(currentView === 'faq'){
+        renderFAQ();
+        return;
+      }
+
+      if(currentView === 'contact'){
+        renderContact();
+        return;
+      }
+
+      if(currentView === 'hours'){
+        renderHours();
+        return;
+      }
+
+      if(currentView === 'vip'){
+        renderVIP();
+        return;
+      }
+
+      goHome();
+    }
+
+    /* =========================================================
+       CMS
+    ========================================================= */
+
+    async function loadCMS(){
 
       try{
 
-        if(
-          typeof window.loadCMS ===
-          "function"
-        ){
+        const response =
+          await fetch(
+            CMS_URL + '?action=getMiniAppData&t=' + Date.now(),
+            {
+              method:'GET',
+              cache:'no-store'
+            }
+          );
 
-          window.loadCMS();
+        let data =
+          await response.json();
 
+        /*
+          بعضی نسخه‌های Apps Script ممکن است JSON
+          را به‌صورت string داخل JSON برگردانند.
+        */
+
+        if(typeof data === 'string'){
+          try{
+            data = JSON.parse(data);
+          }catch(e){}
         }
+
+        if(data && data.success === false){
+          throw new Error(
+            data.message || 'CMS error'
+          );
+        }
+
+        CMS = {
+          services:
+            Array.isArray(data.services)
+              ? data.services
+              : [],
+
+          courses:
+            Array.isArray(data.courses)
+              ? data.courses
+              : [],
+
+          events:
+            Array.isArray(data.events)
+              ? data.events
+              : [],
+
+          faq:
+            Array.isArray(data.faq)
+              ? data.faq
+              : [],
+
+          pages:
+            Array.isArray(data.pages)
+              ? data.pages
+              : [],
+
+          settings:
+            Array.isArray(data.settings)
+              ? data.settings
+              : []
+        };
+
+        buildDrawer();
+        render();
 
       }catch(error){
 
         console.error(
-          "CMS startup:",
+          'CMS loading error:',
           error
         );
 
+        CMS = {
+          services:[],
+          courses:[],
+          events:[],
+          faq:[],
+          pages:[],
+          settings:[]
+        };
+
+        buildDrawer();
+        render();
+
       }
-
-    },80);
-
-
-    /*
-      Apply requested visual layer
-      after original DOM exists.
-    */
-
-    setTimeout(
-      applyKaenatchiChanges,
-      180
-    );
-
-
-    /*
-      CMS renders dynamically.
-      Apply the visual layer again after
-      dynamic content appears.
-    */
-
-    const observer =
-      new MutationObserver(
-        function(){
-
-          applyKaenatchiChanges();
-
-        }
-      );
-
-    observer.observe(
-      document.body,
-      {
-        childList:true,
-        subtree:true
-      }
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "KaenatChi boot error:",
-      error
-    );
-
-    document.body.innerHTML = `
-      <div style="
-        min-height:100vh;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        padding:25px;
-        background:#f6f0e4;
-        direction:rtl;
-        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-      ">
-        <div style="
-          width:min(100%,340px);
-          padding:28px;
-          text-align:center;
-          border-radius:30px;
-          background:rgba(255,255,255,.72);
-          border:1px solid rgba(255,255,255,.92);
-          box-shadow:
-            0 18px 42px rgba(35,77,58,.15),
-            inset 0 1px 1px rgba(255,255,255,.95);
-          color:#234d3a;
-        ">
-          دریافت سامانه با خطا مواجه شد.
-        </div>
-      </div>
-    `;
-
-  }
-
-}
-
-
-/* =========================================================
-   EMOJI REMOVAL
-========================================================= */
-
-function removeKaenatchiEmoji(){
-
-  const emojiRegex =
-    /(?:\p{Extended_Pictographic}|\uFE0F|\u200D|\u20E3)/gu;
-
-  const walker =
-    document.createTreeWalker(
-      document.body,
-      NodeFilter.SHOW_TEXT
-    );
-
-  const nodes = [];
-
-  let node;
-
-  while(
-    node = walker.nextNode()
-  ){
-
-    if(
-      node.parentElement &&
-      !node.parentElement.closest(
-        "#kaen-loading"
-      ) &&
-      !node.parentElement.closest(
-        "script"
-      ) &&
-      !node.parentElement.closest(
-        "style"
-      )
-    ){
-
-      nodes.push(node);
-
     }
 
-  }
-
-  nodes.forEach(function(textNode){
-
-    textNode.nodeValue =
-      textNode.nodeValue.replace(
-        emojiRegex,
-        ""
-      );
-
-  });
-
-
-  /*
-    Also clean visible attributes.
-  */
-
-  document
-    .querySelectorAll(
-      "[aria-label],[title]"
-    )
-    .forEach(function(element){
-
-      ["aria-label","title"]
-        .forEach(function(attribute){
-
-          if(
-            element.hasAttribute(
-              attribute
-            )
-          ){
-
-            element.setAttribute(
-              attribute,
-              element
-                .getAttribute(attribute)
-                .replace(
-                  emojiRegex,
-                  ""
-                )
-                .trim()
-            );
-
-          }
-
-        });
-
-    });
-
-}
-
-
-/* =========================================================
-   HOME TEXT
-========================================================= */
-
-function fixHomeBrand(){
-
-  const home =
-    document.getElementById(
-      "homeView"
-    );
-
-  if(!home) return;
-
-
-  const miniBrand =
-    home.querySelector(
-      ".mini-brand"
-    );
-
-  if(miniBrand){
-
-    miniBrand.style.display =
-      "none";
-
-  }
-
-
-  const title =
-    home.querySelector(
-      ".hero h1"
-    );
-
-  if(title){
-
-    title.textContent =
-      "به کائنات‌چی خوش اومدید";
-
-  }
-
-
-  const description =
-    home.querySelector(
-      ".hero-description"
-    );
-
-  if(description){
-
-    description.textContent =
-      "خدمات تخصصی برای شناخت بهتر خود، آرامش ذهن و تجربه‌ای متفاوت از دنیای درون";
-
-  }
-
-}
-
-
-/* =========================================================
-   TOP RIGHT >
-========================================================= */
-
-let kaenHistory = [];
-
-let kaenCurrentView =
-  "homeView";
-
-
-function installKaenViewHistory(){
-
-  if(
-    window.__kaenViewHistoryInstalled
-  ){
-
-    return;
-
-  }
-
-  window.__kaenViewHistoryInstalled =
-    true;
-
-
-  if(
-    typeof window.showView !==
-    "function"
-  ){
-
-    return;
-
-  }
-
-
-  const originalShowView =
-    window.showView;
-
-
-  window.showView =
-    function(id){
-
-      if(
-        id &&
-        id !== kaenCurrentView
-      ){
-
-        kaenHistory.push(
-          kaenCurrentView
-        );
-
-        if(
-          kaenHistory.length > 12
-        ){
-
-          kaenHistory.shift();
-
-        }
-
-      }
-
-      kaenCurrentView =
-        id || kaenCurrentView;
-
-
-      originalShowView.apply(
-        this,
-        arguments
-      );
-
-
-      setTimeout(
-        updateKaenTopBack,
-        20
-      );
-
-    };
-
-
-  window.__kaenOriginalShowView =
-    originalShowView;
-
-}
-
-
-function kaenGoPrevious(){
-
-  const previous =
-    kaenHistory.pop();
-
-
-  if(previous){
-
-    kaenCurrentView =
-      previous;
-
-    if(
-      typeof window.__kaenOriginalShowView ===
-      "function"
-    ){
-
-      window.__kaenOriginalShowView(
-        previous
-      );
-
-    }else{
-
-      const target =
-        document.getElementById(
-          previous
-        );
-
-      if(target){
-
-        document
-          .querySelectorAll(".view")
-          .forEach(function(view){
-
-            view.classList.remove(
-              "active"
-            );
-
-          });
-
-        target.classList.add(
-          "active"
-        );
-
-      }
-
-    }
-
-  }else{
-
-    if(
-      typeof window.goHome ===
-      "function"
-    ){
-
-      window.goHome();
-
-    }
-
-  }
-
-
-  setTimeout(
-    updateKaenTopBack,
-    20
-  );
-
-}
-
-
-function updateKaenTopBack(){
-
-  document
-    .querySelectorAll(".topbar")
-    .forEach(function(topbar){
-
-      let button =
-        topbar.querySelector(
-          ".kaen-top-back"
-        );
-
-
-      if(!button){
-
-        button =
-          document.createElement(
-            "button"
-          );
-
-        button.type =
-          "button";
-
-        button.className =
-          "kaen-top-back";
-
-        button.textContent =
-          ">";
-
-        button.setAttribute(
-          "aria-label",
-          "بازگشت"
-        );
-
-        button.addEventListener(
-          "click",
-          function(event){
-
-            event.preventDefault();
-            event.stopPropagation();
-
-            kaenGoPrevious();
-
-          }
-        );
-
-        topbar.appendChild(
-          button
-        );
-
-      }
-
-
-      const active =
-        topbar.closest(
-          ".view.active"
-        );
-
-      if(active){
-
-        button.style.display =
-          active.id === "homeView"
-            ? "none"
-            : "flex";
-
-      }
-
-    });
-
-}
-
-
-/* =========================================================
-   FILTER HELPER
-========================================================= */
-
-function createKaenFilters(
-  viewId,
-  listId,
-  items,
-  onSelect
-){
-
-  const view =
-    document.getElementById(
-      viewId
-    );
-
-  const list =
-    document.getElementById(
-      listId
-    );
-
-  if(!view || !list){
-
-    return;
-
-  }
-
-
-  let wrap =
-    view.querySelector(
-      ".kaen-filter-wrap"
-    );
-
-
-  if(!wrap){
-
-    wrap =
-      document.createElement(
-        "div"
-      );
-
-    wrap.className =
-      "kaen-filter-wrap";
-
-    list.parentNode.insertBefore(
-      wrap,
-      list
-    );
-
-  }
-
-
-  const scroll =
-    document.createElement(
-      "div"
-    );
-
-  scroll.className =
-    "kaen-filter-scroll";
-
-
-  items.forEach(
-    function(item,index){
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-      button.type =
-        "button";
-
-      button.className =
-        "filter-pill" +
-        (
-          index === 0
-            ? " active"
-            : ""
-        );
-
-      button.textContent =
-        item;
-
-      button.dataset.filter =
-        item;
-
-      button.addEventListener(
-        "click",
-        function(){
-
-          scroll
-            .querySelectorAll(
-              ".filter-pill"
-            )
-            .forEach(
-              function(pill){
-
-                pill.classList.remove(
-                  "active"
-                );
-
-              }
-            );
-
-          button.classList.add(
-            "active"
-          );
-
-          onSelect(
-            item
-          );
-
-        }
-      );
-
-
-      scroll.appendChild(
-        button
-      );
-
-
-      if(
-        index <
-        items.length - 1
-      ){
-
-        const separator =
-          document.createElement(
-            "span"
-          );
-
-        separator.className =
-          "filter-separator";
-
-        separator.textContent =
-          ">";
-
-        scroll.appendChild(
-          separator
-        );
-
-      }
-
-    }
-  );
-
-
-  wrap.innerHTML =
-    "";
-
-  wrap.appendChild(
-    scroll
-  );
-
-}
-
-
-/* =========================================================
-   SERVICES FILTER
-========================================================= */
-
-let kaenServiceFilter =
-  "همه";
-
-
-function getServiceCategory(
-  row
-){
-
-  const category =
-    value(
-      row,
-      "دسته"
-    );
-
-  if(category){
-
-    return category
-      .replace(
-        /^[^\p{L}\p{N}]+/gu,
-        ""
-      )
-      .trim();
-
-  }
-
-
-  const name =
-    value(
-      row,
-      "نام خدمت"
-    );
-
-  return name
-    .replace(
-      /^[^\p{L}\p{N}]+/gu,
-      ""
-    )
-    .trim();
-
-}
-
-
-function renderKaenServices(){
-
-  if(
-    typeof activeRows !==
-    "function" ||
-    typeof value !==
-    "function" ||
-    typeof sortRows !==
-    "function" ||
-    typeof iconFor !==
-    "function" ||
-    typeof esc !==
-    "function"
-  ){
-
-    return;
-
-  }
-
-
-  const container =
-    document.getElementById(
-      "servicesList"
-    );
-
-  if(!container) return;
-
-
-  let rows =
-    sortRows(
-      activeRows(
-        CMS.services
-      )
-    );
-
-
-  const energyParent =
-    rows.filter(function(row){
-
-      const name =
-        value(
-          row,
-          "نام خدمت"
-        )
-        .replace(
-          /^[^\p{L}\p{N}]+/gu,
-          ""
-        )
-        .trim();
-
-      return (
-        name === "انرژی‌خوانی" ||
-        name === "انرژی خوانی"
-      );
-
-    });
-
-
-  if(
-    kaenServiceFilter !==
-    "همه"
-  ){
-
-    rows =
-      rows.filter(function(row){
-
-        const category =
-          getServiceCategory(
-            row
-          );
-
-        return (
-          category ===
-          kaenServiceFilter
-        );
-
-      });
-
-  }else{
-
-    rows =
-      rows.filter(function(row){
-
-        const name =
-          value(
-            row,
-            "نام خدمت"
-          )
-          .replace(
-            /^[^\p{L}\p{N}]+/gu,
-            ""
-          )
-          .trim();
-
-        return !(
-          name === "انرژی‌خوانی" ||
-          name === "انرژی خوانی"
-        );
-
-      });
-
-  }
-
-
-  if(!rows.length){
-
-    container.innerHTML =
-      `<div class="empty">
-        هنوز خدمتی در این بخش ثبت نشده است.
-       </div>`;
-
-    window._serviceRows =
-      [];
-
-    return;
-
-  }
-
-
-  window._serviceRows =
-    rows;
-
-
-  container.innerHTML =
-    rows.map(
-      function(row,index){
-
-        const name =
-          value(
-            row,
-            "نام خدمت"
-          );
-
-        const description =
-          value(
-            row,
-            "توضیح کوتاه"
-          );
-
-
-        return `
-          <button
-            type="button"
-            class="list-item"
-            onclick="openServiceRow(${index})">
-
-            <div class="list-icon">
-              ${iconFor(name)}
-            </div>
-
-            <div class="list-copy">
-
-              <div class="list-name">
-                ${esc(name)}
-              </div>
-
-              <div class="list-description">
-                ${esc(description)}
-              </div>
-
-            </div>
-
-            <div class="list-arrow">
-              >
-            </div>
-
-          </button>
-        `;
-
-      }
-    ).join("");
-
-}
-
-
-/* =========================================================
-   SERVICES FILTER INSTALL
-========================================================= */
-
-function installServicesFilters(){
-
-  if(
-    !window.CMS ||
-    !Array.isArray(
-      CMS.services
-    )
-  ){
-
-    return;
-
-  }
-
-
-  const rows =
-    activeRows(
-      CMS.services
-    );
-
-
-  const categories =
-    [];
-
-
-  rows.forEach(
-    function(row){
-
-      const category =
-        getServiceCategory(
-          row
-        );
-
-      if(
-        category &&
-        !categories.includes(
-          category
-        )
-      ){
-
-        categories.push(
-          category
-        );
-
-      }
-
-    }
-  );
-
-
-  /*
-    Ensure the requested main categories
-    remain available when CMS contains them.
-  */
-
-  [
-    "انرژی‌خوانی",
-    "شمع‌تراپی",
-    "سایکوتراپی"
-  ].forEach(
-    function(name){
-
-      if(
-        rows.some(
-          function(row){
-
-            return (
-              getServiceCategory(
-                row
-              ) === name ||
-              value(
-                row,
-                "نام خدمت"
-              )
-              .includes(name)
-            );
-
-          }
-        ) &&
-        !categories.includes(
-          name
-        )
-      ){
-
-        categories.push(
-          name
-        );
-
-      }
-
-    }
-  );
-
-
-  createKaenFilters(
-    "servicesView",
-    "servicesList",
-    ["همه"].concat(
-      categories
-    ),
-    function(filter){
-
-      kaenServiceFilter =
-        filter;
-
-      renderKaenServices();
-
-    }
-  );
-
-
-  renderKaenServices();
-
-}
-
-
-/* =========================================================
-   COURSES
-========================================================= */
-
-let kaenCourseFilter =
-  "همه";
-
-
-function courseCategory(
-  row
-){
-
-  const name =
-    value(
-      row,
-      "نام دوره"
-    ).toLowerCase();
-
-
-  if(
-    name.includes("انرژی") ||
-    name.includes("آگاهی")
-  ){
-
-    return "انرژی و آگاهی";
-
-  }
-
-
-  if(
-    name.includes("تاروت") ||
-    name.includes("لِنورماند") ||
-    name.includes("لنورماند")
-  ){
-
-    return "تاروت و لِنورماند";
-
-  }
-
-
-  if(
-    name.includes("تمرکز") ||
-    name.includes("مراقبه")
-  ){
-
-    return "تمرکز و مراقبه";
-
-  }
-
-
-  if(
-    name.includes("خودشناسی")
-  ){
-
-    return "خودشناسی";
-
-  }
-
-
-  return "سایر";
-
-}
-
-
-function renderKaenCourses(){
-
-  const container =
-    document.getElementById(
-      "coursesList"
-    );
-
-  if(!container) return;
-
-
-  let rows =
-    activeRows(
-      CMS.courses
-    );
-
-
-  if(
-    kaenCourseFilter !==
-    "همه"
-  ){
-
-    rows =
-      rows.filter(
-        function(row){
-
-          return (
-            courseCategory(
-              row
-            ) ===
-            kaenCourseFilter
-          );
-
-        }
-      );
-
-  }
-
-
-  window._courseRows =
-    rows;
-
-
-  if(!rows.length){
-
-    container.innerHTML =
-      `<div class="empty">
-        هنوز دوره‌ای در این بخش ثبت نشده است.
-       </div>`;
-
-    return;
-
-  }
-
-
-  container.innerHTML =
-    rows.map(
-      function(row,index){
-
-        return `
-          <button
-            type="button"
-            class="list-item"
-            onclick="openCourse(${index})">
-
-            <div class="list-icon">
-              <svg viewBox="0 0 48 48">
-                <path class="icon-soft"
-                  d="M7 19l17-9 17 9-17 9L7 19z"/>
-                <path class="icon-stroke"
-                  d="M7 19l17-9 17 9-17 9L7 19z"/>
-                <path class="icon-stroke"
-                  d="M13 23v8c6 6 16 6 22 0v-8"/>
-              </svg>
-            </div>
-
-            <div class="list-copy">
-
-              <div class="list-name">
-                ${esc(value(row,"نام دوره"))}
-              </div>
-
-              <div class="list-description">
-                ${esc(value(row,"توضیح کوتاه"))}
-              </div>
-
-            </div>
-
-            <div class="list-arrow">
-              >
-            </div>
-
-          </button>
-        `;
-
-      }
-    ).join("");
-
-}
-
-
-function installCoursesFilters(){
-
-  if(
-    !window.CMS ||
-    !Array.isArray(
-      CMS.courses
-    )
-  ){
-
-    return;
-
-  }
-
-
-  const rows =
-    activeRows(
-      CMS.courses
-    );
-
-
-  const categories = [
-    "انرژی و آگاهی",
-    "تاروت و لِنورماند",
-    "تمرکز و مراقبه",
-    "خودشناسی",
-    "سایر"
-  ];
-
-
-  const existing =
-    categories.filter(
-      function(category){
-
-        return rows.some(
-          function(row){
-
-            return (
-              courseCategory(
-                row
-              ) ===
-              category
-            );
-
-          }
-        );
-
-      }
-    );
-
-
-  createKaenFilters(
-    "coursesView",
-    "coursesList",
-    ["همه"].concat(
-      existing
-    ),
-    function(filter){
-
-      kaenCourseFilter =
-        filter;
-
-      renderKaenCourses();
-
-    }
-  );
-
-
-  renderKaenCourses();
-
-}
-
-
-/* =========================================================
-   EVENTS
-========================================================= */
-
-let kaenEventFilter =
-  "همه";
-
-
-function eventCategory(
-  row
-){
-
-  const category =
-    value(
-      row,
-      "دسته"
-    );
-
-  return (
-    category ||
-    "برنامه‌های ویژه"
-  );
-
-}
-
-
-function renderKaenEvents(){
-
-  const container =
-    document.getElementById(
-      "eventsList"
-    );
-
-  if(!container) return;
-
-
-  let rows =
-    activeRows(
-      CMS.events
-    );
-
-
-  if(
-    kaenEventFilter !==
-    "همه"
-  ){
-
-    rows =
-      rows.filter(
-        function(row){
-
-          return (
-            eventCategory(
-              row
-            ) ===
-            kaenEventFilter
-          );
-
-        }
-      );
-
-  }
-
-
-  window._eventRows =
-    rows;
-
-
-  if(!rows.length){
-
-    container.innerHTML =
-      `<div class="empty">
-        هنوز ایونتی در این بخش ثبت نشده است.
-       </div>`;
-
-    return;
-
-  }
-
-
-  container.innerHTML =
-    rows.map(
-      function(row,index){
-
-        return `
-          <button
-            type="button"
-            class="list-item"
-            onclick="openEvent(${index})">
-
-            <div class="list-icon">
-              <svg viewBox="0 0 48 48">
-
-                <path
-                  class="icon-soft"
-                  d="M8 15a5 5 0 005-5h22a5 5 0 005 5v18a5 5 0 01-5 5H13a5 5 0 01-5-5V15z"/>
-
-                <path
-                  class="icon-stroke"
-                  d="M8 15a5 5 0 005-5h22a5 5 0 005 5v18a5 5 0 01-5 5H13a5 5 0 01-5-5V15z"/>
-
-                <path
-                  class="icon-stroke"
-                  d="M24 15v18"/>
-
-              </svg>
-            </div>
-
-            <div class="list-copy">
-
-              <div class="list-name">
-                ${esc(value(row,"نام ایونت"))}
-              </div>
-
-              <div class="list-description">
-                ${esc(value(row,"توضیح کوتاه"))}
-              </div>
-
-            </div>
-
-            <div class="list-arrow">
-              >
-            </div>
-
-          </button>
-        `;
-
-      }
-    ).join("");
-
-}
-
-
-function installEventsFilters(){
-
-  if(
-    !window.CMS ||
-    !Array.isArray(
-      CMS.events
-    )
-  ){
-
-    return;
-
-  }
-
-
-  const rows =
-    activeRows(
-      CMS.events
-    );
-
-
-  const categories = [];
-
-
-  rows.forEach(
-    function(row){
-
-      const category =
-        eventCategory(
-          row
-        );
-
-      if(
-        !categories.includes(
-          category
-        )
-      ){
-
-        categories.push(
-          category
-        );
-
-      }
-
-    }
-  );
-
-
-  createKaenFilters(
-    "eventsView",
-    "eventsList",
-    ["همه"].concat(
-      categories
-    ),
-    function(filter){
-
-      kaenEventFilter =
-        filter;
-
-      renderKaenEvents();
-
-    }
-  );
-
-
-  renderKaenEvents();
-
-}
-
-
-/* =========================================================
-   FAQ
-========================================================= */
-
-let kaenFaqFilter =
-  "همه";
-
-
-function faqIconSVG(
-  category
-){
-
-  const n =
-    String(
-      category || ""
-    );
-
-
-  if(
-    n.includes("نوبت")
-  ){
-
-    return `
-      <svg viewBox="0 0 48 48">
-        <rect
-          class="icon-soft"
-          x="9" y="11"
-          width="30"
-          height="29"
-          rx="7"/>
-        <rect
-          class="icon-stroke"
-          x="9" y="11"
-          width="30"
-          height="29"
-          rx="7"/>
-        <path
-          class="icon-stroke"
-          d="M15 8v8M33 8v8M9 20h30"/>
-        <path
-          class="icon-stroke"
-          d="M16 27h4M24 27h4M16 34h4M24 34h4"/>
-      </svg>
-    `;
-
-  }
-
-
-  if(
-    n.includes("پرداخت")
-  ){
-
-    return `
-      <svg viewBox="0 0 48 48">
-        <rect
-          class="icon-soft"
-          x="7" y="12"
-          width="34"
-          height="25"
-          rx="6"/>
-        <rect
-          class="icon-stroke"
-          x="7" y="12"
-          width="34"
-          height="25"
-          rx="6"/>
-        <path
-          class="icon-stroke"
-          d="M7 20h34"/>
-        <path
-          class="icon-stroke"
-          d="M14 29h9"/>
-      </svg>
-    `;
-
-  }
-
-
-  if(
-    n.includes("پشتیبانی")
-  ){
-
-    return `
-      <svg viewBox="0 0 48 48">
-        <path
-          class="icon-soft"
-          d="M8 11h32v24H23l-9 7v-7H8V11z"/>
-        <path
-          class="icon-stroke"
-          d="M8 11h32v24H23l-9 7v-7H8V11z"/>
-      </svg>
-    `;
-
-  }
-
-
-  if(
-    n.includes("همراهان")
-  ){
-
-    return `
-      <svg viewBox="0 0 48 48">
-        <path
-          class="icon-soft"
-          d="M7 15l9 7 8-13 8 13 9-7-5 23H12L7 15z"/>
-        <path
-          class="icon-stroke"
-          d="M7 15l9 7 8-13 8 13 9-7-5 23H12L7 15z"/>
-        <path
-          class="icon-stroke"
-          d="M12 31h24"/>
-      </svg>
-    `;
-
-  }
-
-
-  if(
-    n.includes("خدمات")
-  ){
-
-    return `
-      <svg viewBox="0 0 48 48">
-        <path
-          class="icon-stroke"
-          d="M12 17h24M12 24h24M12 31h16"/>
-        <circle
-          class="icon-soft"
-          cx="8" cy="17" r="2"/>
-        <circle
-          class="icon-soft"
-          cx="8" cy="24" r="2"/>
-        <circle
-          class="icon-soft"
-          cx="8" cy="31" r="2"/>
-      </svg>
-    `;
-
-  }
-
-
-  return `
-    <svg viewBox="0 0 48 48">
-      <path
-        class="icon-soft"
-        d="M10 11h28v23H20l-8 7v-7h-2V11z"/>
-      <path
-        class="icon-stroke"
-        d="M10 11h28v23H20l-8 7v-7h-2V11z"/>
-      <path
-        class="icon-stroke"
-        d="M19 20a5 5 0 019-2c0 4-4 4-4 7"/>
-      <circle
-        cx="24"
-        cy="30"
-        r="1.4"
-        fill="#234d3a"/>
-    </svg>
-  `;
-
-}
-
-
-function renderKaenFAQ(){
-
-  const container =
-    document.getElementById(
-      "faqList"
-    );
-
-  if(!container) return;
-
-
-  const rows =
-    activeRows(
-      CMS.faq
-    );
-
-
-  const categories = {};
-
-
-  rows.forEach(
-    function(row){
-
-      const category =
-        value(
-          row,
-          "دسته"
-        ) ||
-        "عمومی";
-
-
-      if(
-        !categories[category]
-      ){
-
-        categories[category] =
-          [];
-
-      }
-
-
-      categories[category]
-        .push(row);
-
-    }
-  );
-
-
-  let visibleCategories =
-    Object.keys(
-      categories
-    );
-
-
-  if(
-    kaenFaqFilter !==
-    "همه"
-  ){
-
-    visibleCategories =
-      visibleCategories.filter(
-        function(category){
-
-          return (
-            category ===
-            kaenFaqFilter
-          );
-
-        }
-      );
-
-  }
-
-
-  if(!visibleCategories.length){
-
-    container.innerHTML =
-      `<div class="empty">
-        موردی برای نمایش وجود ندارد.
-       </div>`;
-
-    return;
-
-  }
-
-
-  container.innerHTML =
-    visibleCategories.map(
-      function(category){
-
-        const items =
-          categories[
-            category
-          ].slice().sort(
-            function(a,b){
-
-              return (
-                (parseInt(
-                  value(
-                    a,
-                    "ترتیب"
-                  )
-                ) || 9999)
-                -
-                (parseInt(
-                  value(
-                    b,
-                    "ترتیب"
-                  )
-                ) || 9999)
-              );
-
-            }
-          );
-
-
-        return `
-          <div class="faq-category">
-
-            <button
-              type="button"
-              class="faq-category-title"
-              onclick="toggleFAQCategory(this)">
-
-              <span
-                class="category-icon">
-
-                ${faqIconSVG(
-                  category
-                )}
-
-              </span>
-
-              <span>
-                ${esc(category)}
-              </span>
-
-              <span
-                class="faq-chevron">
-                >
-              </span>
-
-            </button>
-
-            <div class="faq-questions">
-
-              ${
-                items.map(
-                  function(item){
-
-                    return `
-                      <div
-                        class="faq-question">
-
-                        <button
-                          type="button"
-                          class="faq-question-button"
-                          onclick="toggleFAQQuestion(this)">
-
-                          <span
-                            class="faq-q-dot">
-                          </span>
-
-                          <span>
-                            ${esc(
-                              value(
-                                item,
-                                "سؤال"
-                              )
-                            )}
-                          </span>
-
-                        </button>
-
-                        <div
-                          class="faq-answer">
-
-                          ${esc(
-                            value(
-                              item,
-                              "پاسخ"
-                            )
-                          )}
-
-                        </div>
-
-                      </div>
-                    `;
-
-                  }
-                ).join("")
-              }
-
-            </div>
-
-          </div>
-        `;
-
-      }
-    ).join("");
-
-}
-
-
-/* =========================================================
-   FAQ FILTER INSTALL
-========================================================= */
-
-function installFAQFilters(){
-
-  if(
-    !window.CMS ||
-    !Array.isArray(
-      CMS.faq
-    )
-  ){
-
-    return;
-
-  }
-
-
-  const rows =
-    activeRows(
-      CMS.faq
-    );
-
-
-  const categories = [];
-
-
-  rows.forEach(
-    function(row){
-
-      const category =
-        value(
-          row,
-          "دسته"
-        ) ||
-        "عمومی";
-
-
-      if(
-        !categories.includes(
-          category
-        )
-      ){
-
-        categories.push(
-          category
-        );
-
-      }
-
-    }
-  );
-
-
-  createKaenFilters(
-    "faqView",
-    "faqList",
-    ["همه"].concat(
-      categories
-    ),
-    function(filter){
-
-      kaenFaqFilter =
-        filter;
-
-      renderKaenFAQ();
-
-    }
-  );
-
-
-  renderKaenFAQ();
-
-}
-
-
-/* =========================================================
-   UNIVERSAL MENU
-========================================================= */
-
-function fixKaenMenu(){
-
-  const menu =
-    document.getElementById(
-      "menuSheet"
-    );
-
-  if(!menu) return;
-
-
-  const grid =
-    menu.querySelector(
-      ".sheet-grid"
-    );
-
-  if(!grid) return;
-
-
-  /*
-    Make every row a single vertical option.
-    Existing onclick actions remain untouched.
-  */
-
-  grid
-    .querySelectorAll(
-      ".sheet-item"
-    )
-    .forEach(
-      function(item){
-
-        item.style.position =
-          "relative";
-
-        item.style.width =
-          "100%";
-
-        item.style.cursor =
-          "pointer";
-
-      }
-    );
-
-}
-
-
-/* =========================================================
-   UNIVERSAL VISUAL FIX
-========================================================= */
-
-function applyUniversalKaenVisual(){
-
-  /*
-    Remove old back buttons completely.
-  */
-
-  document
-    .querySelectorAll(
-      ".back-button"
-    )
-    .forEach(
-      function(button){
-
-        button.remove();
-
-      }
-    );
-
-
-  /*
-    Change old chevrons to >
-  */
-
-  document
-    .querySelectorAll(
-      ".list-arrow,.action-arrow,.chevron"
-    )
-    .forEach(
-      function(element){
-
-        element.textContent =
-          ">";
-
-      }
-    );
-
-
-  /*
-    Remove emoji from visible text.
-  */
-
-  removeKaenatchiEmoji();
-
-
-  /*
-    Ensure every interactive card has shadow.
-  */
-
-  document
-    .querySelectorAll(
-      "button,a,.glass-card,.list-item,.companion-card,.faq-category,.detail-card"
-    )
-    .forEach(
-      function(element){
-
-        if(
-          !element.classList.contains(
-            "primary-booking"
-          )
-        ){
-
-          element.style.boxShadow =
-            getComputedStyle(
-              element
-            ).boxShadow === "none"
-              ? "var(--kaen-shadow)"
-              : "";
-
-        }
-
-      }
-    );
-
-
-  fixHomeBrand();
-
-  fixKaenMenu();
-
-  updateKaenTopBack();
-
-}
-
-
-/* =========================================================
-   INSTALL EVERYTHING
-========================================================= */
-
-let kaenFiltersInstalled =
-  false;
-
-
-function applyKaenatchiChanges(){
-
-  installKaenViewHistory();
-
-  applyUniversalKaenVisual();
-
-
-  /*
-    Filters are installed only after CMS
-    has returned data.
-  */
-
-  if(
-    window.CMS &&
-    Array.isArray(
-      CMS.services
-    )
-  ){
-
-    if(
-      !document.querySelector(
-        "#servicesView .kaen-filter-wrap"
-      )
-    ){
-
-      installServicesFilters();
-
-    }
-
-  }
-
-
-  if(
-    window.CMS &&
-    Array.isArray(
-      CMS.courses
-    )
-  ){
-
-    if(
-      !document.querySelector(
-        "#coursesView .kaen-filter-wrap"
-      )
-    ){
-
-      installCoursesFilters();
-
-    }
-
-  }
-
-
-  if(
-    window.CMS &&
-    Array.isArray(
-      CMS.events
-    )
-  ){
-
-    if(
-      !document.querySelector(
-        "#eventsView .kaen-filter-wrap"
-      )
-    ){
-
-      installEventsFilters();
-
-    }
-
-  }
-
-
-  if(
-    window.CMS &&
-    Array.isArray(
-      CMS.faq
-    )
-  ){
-
-    if(
-      !document.querySelector(
-        "#faqView .kaen-filter-wrap"
-      )
-    ){
-
-      installFAQFilters();
-
-    }
-
-  }
-
-
-  /*
-    Keep filters synchronized after navigation.
-  */
-
-  if(
-    window.CMS
-  ){
-
-    const active =
-      document.querySelector(
-        ".view.active"
-      );
-
-    if(active){
-
-      if(
-        active.id ===
-        "servicesView"
-      ){
-
-        renderKaenServices();
-
-      }
-
-      if(
-        active.id ===
-        "coursesView"
-      ){
-
-        renderKaenCourses();
-
-      }
-
-      if(
-        active.id ===
-        "eventsView"
-      ){
-
-        renderKaenEvents();
-
-      }
-
-      if(
-        active.id ===
-        "faqView"
-      ){
-
-        renderKaenFAQ();
-
-      }
-
-    }
-
-  }
-
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-bootKaenatchi();
-
-</script>
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    buildDrawer();
+    render();
+    loadCMS();
+
+  </script>
 
 </body>
 </html>
