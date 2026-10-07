@@ -1395,6 +1395,154 @@ if(
 const ENDPOINT =
 "https://script.google.com/macros/s/AKfycbyn9j5NvtVI5QaOuSMqajD3VGnFhlhnzvpbS6Hs67P6I-gx0kr71l6ZajGFJp5AO7f0zg/exec";
 
+const BOOKING_TRANSPORT_ENDPOINT =
+  "https://kaenatchi-booking-transport.mayanaz-oriflame.workers.dev/";
+
+function bookingGet(action, params = {}){
+
+  return new Promise((resolve,reject) => {
+
+    const frame = document.createElement("iframe");
+    const url = new URL(BOOKING_TRANSPORT_ENDPOINT);
+
+    url.searchParams.set("action", action);
+    url.searchParams.set("bridge", "iframe");
+
+    Object.entries(params).forEach(([key,value]) => {
+      url.searchParams.set(key, String(value));
+    });
+
+    url.searchParams.set("_", Date.now().toString());
+
+    let settled = false;
+    let timeoutId = 0;
+
+    const cleanup = () => {
+      window.clearTimeout(timeoutId);
+      window.removeEventListener("message", onMessage);
+      frame.remove();
+    };
+
+    const finish = fn => {
+      if(settled) return;
+      settled = true;
+      cleanup();
+      fn();
+    };
+
+    const onMessage = event => {
+      const payload = event?.data;
+
+      if(
+        !payload ||
+        payload.source !== "kaenatchi-booking-bridge" ||
+        !payload.data
+      ) return;
+
+      finish(() => {
+        if(payload.data?.ok === false){
+          reject(
+            new Error(
+              payload.data?.message ||
+              "سامانه رزرو خطا برگرداند."
+            )
+          );
+          return;
+        }
+
+        resolve(payload.data);
+      });
+    };
+
+    window.addEventListener("message", onMessage);
+
+    frame.setAttribute("aria-hidden","true");
+    frame.tabIndex = -1;
+    frame.style.cssText =
+      "position:fixed;width:1px;height:1px;" +
+      "left:-10000px;top:-10000px;border:0;" +
+      "opacity:0;pointer-events:none;";
+
+    frame.onerror = () => {
+      finish(() =>
+        reject(
+          new Error("IFRAME_BRIDGE_LOAD_FAILED")
+        )
+      );
+    };
+
+    timeoutId = window.setTimeout(() => {
+      finish(() =>
+        reject(
+          new Error("IFRAME_BRIDGE_TIMEOUT")
+        )
+      );
+    },15000);
+
+    frame.src = url.toString();
+    document.body.appendChild(frame);
+
+  });
+
+}
+
+async function bookingGetJson(action, params = {}){
+
+  try{
+
+    return await bookingGet(action, params);
+
+  }catch(bridgeError){
+
+    console.warn(
+      "Booking iframe bridge failed:",
+      action,
+      bridgeError
+    );
+
+    const url = new URL(BOOKING_TRANSPORT_ENDPOINT);
+
+    url.searchParams.set("action", action);
+
+    Object.entries(params).forEach(([key,value]) => {
+      url.searchParams.set(key, String(value));
+    });
+
+    url.searchParams.set("_", Date.now().toString());
+
+    const response = await fetch(
+      url.toString(),
+      {
+        method:"GET",
+        mode:"cors",
+        credentials:"omit",
+        cache:"no-store",
+        redirect:"follow",
+        headers:{
+          Accept:"application/json,text/plain,*/*"
+        }
+      }
+    );
+
+    if(!response.ok){
+      throw new Error("HTTP_" + response.status);
+    }
+
+    const data = await response.json();
+
+    if(data?.ok === false){
+      throw new Error(
+        data?.message ||
+        "BOOKING_SERVER_ERROR"
+      );
+    }
+
+    return data;
+
+  }
+
+}
+
 
 /* =========================================================
    GLOBAL DATA
@@ -3184,17 +3332,7 @@ async function checkDiscount(){
 
   try{
 
-    const response =
-      await fetch(
-        ENDPOINT +
-        "?action=validateDiscount&code=" +
-        encodeURIComponent(code) +
-        "&_=" +
-        Date.now()
-      );
-
-    const data =
-      await response.json();
+    const data = await bookingGetJson("validateDiscount", { code });
 
     if(
       data?.ok &&
@@ -3597,19 +3735,7 @@ async function waitForBookingStatus(
 
     try{
 
-      const response =
-        await fetch(
-          ENDPOINT +
-          "?action=bookingStatus&requestId=" +
-          encodeURIComponent(
-            requestId
-          ) +
-          "&_=" +
-          Date.now()
-        );
-
-      const data =
-        await response.json();
+      const data = await bookingGetJson("bookingStatus", { requestId });
 
       if(
         data?.ok &&
@@ -4091,15 +4217,7 @@ async function loadConfig(){
 
   try{
 
-    const response =
-      await fetch(
-        ENDPOINT +
-        "?action=getConfig&_=" +
-        Date.now()
-      );
-
-    const data =
-      await response.json();
+    const data = await bookingGetJson("getConfig");
 
     if(!data?.ok){
 
@@ -4188,15 +4306,7 @@ async function refreshBookedSlots(){
     const selectedTime =
       timeSelect.value;
 
-    const response =
-      await fetch(
-        ENDPOINT +
-        "?action=getBookedSlots&_=" +
-        Date.now()
-      );
-
-    const data =
-      await response.json();
+    const data = await bookingGetJson("getBookedSlots");
 
     if(
       data?.ok &&
